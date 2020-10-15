@@ -1,13 +1,18 @@
 Javafx
 
 How to install JavaFX
+
 -https://www.youtube.com/watch?v=oVn6_2KuYbM
 -vjv vec imate jdk instaliran, ali ako nemate skinite i to kao šta je skinuo ovaj lik
--plus ako dobijete error kad pokreæete javafx project: "Colud not find or load main class application" https://stackoverflow.com/questions/56622327/error-could-not-find-or-load-main-class-application-main-javafx
+-plus ako dobijete error kad pokreæete javafx project: "Could not find or load main class application" https://stackoverflow.com/questions/56622327/error-could-not-find-or-load-main-class-application-main-javafx
+-eclipse plugin
+-drag and drop plugin - Pane je neki objekt TextBox
+-stavi objekt na Dimension(100, 200) - jer je u javi ishodiste gore lijevo
 
 
 Model igre
 
+-mskrabic, DrFlare, ja, mehg
 -ne smije biti dodira s nikakvim tim objektima
 -ulaz u tunel i onda neka raketa se pojavljuje i ide dio kao flappy bird u "zraku"
 -attemptsi se broje do retrya
@@ -18,14 +23,17 @@ Model igre
 -kad se izgubi -  - opcionalno moguc povratak na izbor levela, ili samo restart, prikaz koliko posto levela smo napravili
 -continue igrice omogucit ako je to nekako moguce s obzirom da je to samo jar 
 -nakon klika kocka se okrene kao za 180 stupnjeva, a kad samo negdje sklizne onda se samo malo podigne i tjt.
--razmislit obavezno o lokalizaciji igrice(prijevod)
+-razmislit obavezno o lokalizaciji igrice(prijevod) -game menu npr. postavke vs. settings
 -ikona za zvuk npr.
 
 
 Vizualizacija podataka(skinut igru) == ZAHTJEVNO, prouèavat jer tu nije sve sve popisano, neæemo kompletnu igricu napravit 100%
 -od svega je prvo cilj setupirat da se to krece i skok da to bude normalno(super mario example da nije nesto)
--game menu - po meni dobra ideja da se proba napravit da bude što sliènija jer to je ono šta identificira igru
--settings
+-game menu - po meni dobra ideja da se proba napravit da bude što sliènija jer to je ono šta identificira igru - postoji tutorial na ytu - BaboTrojka, mfrandolic, xxSeriousHamxx, anabagic
+-settings-puno opcija za AI
+-select izgled
+-izguglat neku sliku npr. background i stavi da se krece
+-player .dodaj image
 -postavke za zvuk - ikone etc.
 -help
 -mozda loading screen na pocetku-
@@ -35,8 +43,8 @@ Vizualizacija podataka(skinut igru) == ZAHTJEVNO, prouèavat jer tu nije sve sve 
 -slicice figura
 -progress bar levela
 -history-best score
--jumps
--attempts
+-jumps-broj
+-attempts-broj-check opcije pod options da li da to bude
 -ic na options(auto retry, show restart button etc. pogledat i sami)
 -rotiranje kocke
 -jedan dio levela je raketa
@@ -47,12 +55,17 @@ Vizualizacija podataka(skinut igru) == ZAHTJEVNO, prouèavat jer tu nije sve sve 
 -jedan je crven pa su i špicevi crveni
 
 
-Objekti na koje se nesmije kao "past"
+Objekti na koje se nesmije "past"
 -trokut špic
 -jedan manji jedan veæi špic
 -kad je izmeðu dva zida
 -špic na ploèi
 -viseæi špicevi
+-zidovi
+- interface ili abstract class - obstacle i onda da svi specificni ga nasljeduju
+-cim dode do sudara da se izgubi
+-
+
 
 Objekti na koje se smije
 -kocke pravokutnici ili štagod veæ
@@ -65,7 +78,7 @@ Naucit kako implementirat dinamicku pozadinu da se krece(kako uopce level zavrsa
 Opæenito o programiranju
 -jako pazit da nam je sve modularno(scene, objekti, štagod) -- da bude reusable
 -vizualizacija odmah kreæe i to velik dio tima radi
--model ja mislim da je dosta dvojica da nas radi- dakle to je setup koji se tièe fps-a, tick-a, infinite loop u kojem ce se vrtit game
+-model ja mislim da je dosta dvojica da nas radi - dakle to je setup koji se tièe fps-a, tick-a, infinite loop u kojem ce se vrtit game
 -vizualizacija neka si svatko uzme nešto(tražite te objekte, dodajte u projekt kao resource)
 -dakle npr. game menu æe biti jedna scena to se implementira i impl. dalje
 -najprije javafx instalirat
