@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
+import hr.fer.zemris.project.geometry.dash.model.settings.Settings;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,13 +17,10 @@ import javafx.util.Duration;
  */
 public class GameEngine {
 	
-	// ja bi tu jos pododavao svakakve druge opcije, koje se ticu same igrice
-	
-	
 	/**
 	 * Frames per second, default value is 60
 	 */
-	private int fps = 60;
+	private int fps;
 	
 	/**
 	 * Game's title
@@ -48,6 +46,11 @@ public class GameEngine {
 	 * Specifies action on every update
 	 */
 	private EventHandler<ActionEvent> gameLoopEventHandler;
+	
+	/**
+	 * {@linkplain Settings}
+	 */
+	private Settings settings;
 	
 	/**
 	 * @return the fps
@@ -113,26 +116,17 @@ public class GameEngine {
 	}
 
 	/**
-	 * Basic constructor that sets fps property and game's title
-	 * @param fps Frames per second
-	 * @param title Game's title
-	 */
-	public GameEngine(int fps, String title, int width, int height) {
-		this(title, width, height);
-		this.fps = fps;
-		createGameLoop();
-	}
-	
-	/**
 	 * Basic constructor that sets game's title
 	 * Creates game loop and event handler
 	 * @param title Game's title
 	 */
-	public GameEngine(String title, int width, int height) {
+	public GameEngine(int fps, String title, int width, int height) {
 		this.title = title;
 		this.width = width;
 		this.height = height;
+		this.fps = fps;
 		gameLoopEventHandler = new GameLoopEventHandler();
+		settings = new Settings();
 		createGameLoop();
 	}
 

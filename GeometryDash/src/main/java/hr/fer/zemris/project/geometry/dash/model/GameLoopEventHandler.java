@@ -7,9 +7,9 @@ public class GameLoopEventHandler implements EventHandler<ActionEvent>{
 
 	@Override
 	public void handle(ActionEvent event) {
-		//calculate
+		//calculate new position od objekta, postavljaj obstacle
 		//update gui
-		//delete
+		//delete - izasli iz kadra
 		//maybe as separate object
 	}
 

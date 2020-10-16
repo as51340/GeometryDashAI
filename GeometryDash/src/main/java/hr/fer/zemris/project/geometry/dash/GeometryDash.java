@@ -12,7 +12,7 @@ import javafx.fxml.FXMLLoader;
 
 public class GeometryDash extends Application {
 	
-	private GameEngine gameEngine = new GameEngine("Geometry Dash", 1280, 720);
+	private GameEngine gameEngine = new GameEngine(60, "Geometry Dash", 1280, 720);
 	//private GameWorld u kojem ce biti pravila definirana
 	
 
