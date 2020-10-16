@@ -23,7 +23,7 @@ class StatsTest {
 	}
 	
 	@Test
-	public void testAddingOfAllProperties() {
+	public void testPropertyIncrementing() {
 		Stats stats = new Stats();
 		stats.setCollectedDiamonds();
 		stats.setCollectedStars();

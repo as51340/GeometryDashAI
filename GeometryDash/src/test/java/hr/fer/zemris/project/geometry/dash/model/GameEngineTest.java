@@ -13,7 +13,7 @@ class GameEngineTest {
 	
 	@Test
 	public void ConstructorTestTitle() {
-		GameEngine engine = new GameEngine("Geometry Dash", 720, 480);
+		GameEngine engine = new GameEngine(120, "Geometry Dash", 720, 480);
 	}
 	
 

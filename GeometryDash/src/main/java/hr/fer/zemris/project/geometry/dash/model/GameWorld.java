@@ -2,7 +2,8 @@ package hr.fer.zemris.project.geometry.dash.model;
 
 import java.util.List;
 
-import hr.fer.zemris.project.geometry.dash.model.settings.CharactersSelector;
+import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
+import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 
 /**
  * Manages with all current objects on scene, imports level 
