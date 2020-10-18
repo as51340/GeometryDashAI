@@ -2,10 +2,15 @@ package hr.fer.zemris.project.geometry.dash.model.level;
 
 /**
  * Game level with its stats etc.
- * @author Korisnik
+ * @author Andi Škrgat
  *
  */
 public class Level {
+	
+	/**
+	 * Level name
+	 */
+	private String levelName;
 	
 	/**
 	 * Total attempts on level

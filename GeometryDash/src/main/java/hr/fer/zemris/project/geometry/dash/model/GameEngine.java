@@ -131,6 +131,20 @@ public class GameEngine {
 	}
 
 	/**
+	 * @return the gameLoopEventHandler
+	 */
+	public EventHandler<ActionEvent> getGameLoopEventHandler() {
+		return gameLoopEventHandler;
+	}
+
+	/**
+	 * @return the settings
+	 */
+	public Settings getSettings() {
+		return settings;
+	}
+
+	/**
 	 * Starts game loop
 	 */
 	public void start() {

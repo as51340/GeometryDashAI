@@ -18,4 +18,6 @@ public class LevelManager {
 	 * Currently selected level
 	 */
 	private Level currentLevel;
+	
+	//TODO initialize all levels
 }

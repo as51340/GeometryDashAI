@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.NoSuchElementException;
 
+import hr.fer.zemris.project.geometry.dash.model.Utils;
 import javafx.scene.image.Image;
 
 
@@ -35,12 +36,12 @@ public class Character {
 	}
 	
 	/**
-	 * Loads icon with the help of {@linkplain Utils_Icon} class
+	 * Loads icon with the help of {@linkplain Utils} class
 	 * @param uri path to the icon
 	 * @return loaded icon
 	 */
 	private Image loadIcon(String uri) {
-		return Utils_Icon.loadIcon(uri);
+		return Utils.loadIcon(uri);
 	}
 	
 	/**

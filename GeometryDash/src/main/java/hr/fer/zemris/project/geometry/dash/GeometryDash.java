@@ -1,18 +1,13 @@
 package hr.fer.zemris.project.geometry.dash;
-import java.io.IOException;
-
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
+import hr.fer.zemris.project.geometry.dash.model.settings.music.BackgroundMusicPlayer;
 import javafx.application.Application;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
 
 public class GeometryDash extends Application {
 	
 	private GameEngine gameEngine = new GameEngine(60, "Geometry Dash", 1280, 720);
+	
 	//private GameWorld u kojem ce biti pravila definirana
 	
 
@@ -28,6 +23,14 @@ public class GeometryDash extends Application {
 //		}
         gameEngine.createStageFromData(stage);
         gameEngine.start();
+//    	tester
+//		Media media = new Media(getClass().getResource(GameConstants.pathToSongs + "BlahBlahBlah.mp3").toExternalForm());
+//		MediaPlayer mediaPlayer = new MediaPlayer(media);
+//		mediaPlayer.setVolume(1);
+//		mediaPlayer.play();
+//        Utils.createMediaPlayer("BlahBlahBlah.mp3").play();
+//        System.out.println("Printaj odmah poslije");
+        
         stage.show();
     }
 

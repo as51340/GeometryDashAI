@@ -2,12 +2,24 @@ package hr.fer.zemris.project.geometry.dash.model.settings;
 
 public class Account {
 
+	/**
+	 * Usernmae
+	 */
 	private String username;
 	
+	/**
+	 * Password
+	 */
 	private String password;
 	
+	/**
+	 * User's first name
+	 */
 	private String firstName;
 	
+	/**
+	 * User's last name
+	 */
 	private String lastName;
 
 	/**
