@@ -38,12 +38,19 @@ public class Driver extends Application{
 		
 	}
 	
+	/**
+	 * creates context for root scene
+	 * @return
+	 */
 	private Parent createContext() {
 		addTitle();
 		
 		return root;
 	}
 	
+	/**
+	 * adds title to root scene
+	 */
 	private void addTitle() {
 		GeometryDashTitle title = new GeometryDashTitle("GEOMETRY DASH");
 		
