@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
+import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.Settings;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -40,7 +41,12 @@ public class GameEngine {
 	/**
 	 * Reference to game loop 
 	 */
-	private Timeline gameLoop;	
+	private Timeline gameLoop;
+
+	/**
+	 * Reference to player
+	 */
+	private Player player; // nisam siguran ide li ovo ovdje ili ne, ah fak
 	
 	/**
 	 * Specifies action on every update
@@ -152,7 +158,7 @@ public class GameEngine {
 	}
 	
 	/**
-	 * @returns {@linkplain KeyFrame} - sets fps and directly update time + event handler
+	 * @return {@linkplain KeyFrame} - sets fps and directly update time + event handler
 	 */
 	private KeyFrame createKeyFrame() {
 		Duration frameTime = Duration.millis(1000/getFps()); //for 60 FPS and that is usually standard
