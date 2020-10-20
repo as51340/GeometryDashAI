@@ -2,7 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model.level;
 
 /**
  * Game level with its stats etc.
- * @author Andi Škrgat
+ * @author Andi ï¿½krgat
  *
  */
 public class Level {
@@ -59,7 +59,7 @@ public class Level {
 	}
 
 	/**
-	 * @param increments totalAttempts
+	 * increments totalAttempts
 	 */
 	public void setTotalAttempts() {
 		this.totalAttempts++;
@@ -73,7 +73,7 @@ public class Level {
 	}
 
 	/**
-	 * @param increments totalJumps
+	 * increments totalJumps
 	 */
 	public void setTotalJumps() {
 		this.totalJumps++;
@@ -87,7 +87,7 @@ public class Level {
 	}
 
 	/**
-	 * @param increments levelPercentagePassNormalMode
+	 *  increments levelPercentagePassNormalMode
 	 */
 	public void setLevelPercentagePassNormalMode() {
 		this.levelPercentagePassNormalMode++;
@@ -101,7 +101,7 @@ public class Level {
 	}
 
 	/**
-	 * @param increments levelPercentagePassPracticeMode
+	 * increments levelPercentagePassPracticeMode
 	 */
 	public void setLevelPercentagePassPracticeMode() {
 		this.levelPercentagePassPracticeMode++;

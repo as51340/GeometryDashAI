@@ -2,12 +2,13 @@ package hr.fer.zemris.project.geometry.dash.model;
 
 import java.util.List;
 
+import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 
 /**
  * Manages with all current objects on scene, imports level 
- * @author Andi Škrgat
+ * @author Andi ï¿½krgat
  *
  */
 public class GameWorld {

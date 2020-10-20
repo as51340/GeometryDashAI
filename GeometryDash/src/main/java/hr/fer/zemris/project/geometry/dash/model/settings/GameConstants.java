@@ -21,6 +21,11 @@ public class GameConstants {
 	 * Path to game's songs
 	 */
 	public static final String pathToSongs = "/hr/fer/zemris/project/geom/dash/settings/songs/";
+
+	/**
+	 * Sets time between updates
+	 */
+	public static final double timeBetweenUpdates = 0.01667;
 	
 	
 }
