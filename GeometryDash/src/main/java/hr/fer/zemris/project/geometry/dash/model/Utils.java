@@ -1,13 +1,10 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.NoSuchElementException;
 
-import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
-import hr.fer.zemris.project.geometry.dash.model.settings.music.MusicSettings;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -25,7 +22,7 @@ public class Utils {
 		if(is == null) {
 			throw new NoSuchElementException("No such icon in the resource directory");
 		} 
-		Image icon = new Image(is,GameConstants.iconWidht, GameConstants.iconHeight, false, true);
+		Image icon = new Image(is,GameConstants.iconWidth, GameConstants.iconHeight, false, true);
 		try {
 			is.close();
 		} catch(IOException e) {
