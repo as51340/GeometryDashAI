@@ -15,7 +15,7 @@ public class GeometryDash extends Application {
     private static final int HEIGHT = 720;
 	
 	
-	private GameEngine gameEngine = new GameEngine(60, "Geometry Dash", 1280, 720);
+	private GameEngine gameEngine = new GameEngine(60, "Geometry Dash", WIDTH, HEIGHT);
 	
 	//private GameWorld u kojem ce biti pravila definirana
 	

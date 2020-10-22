@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
+import hr.fer.zemris.project.geometry.dash.model.drawables.Point;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.Settings;
 import javafx.animation.Animation;
@@ -131,6 +132,7 @@ public class GameEngine {
 		this.width = width;
 		this.height = height;
 		this.fps = fps;
+		this.player = new Player(new Point(height/2, width/3));
 		gameLoopEventHandler = new GameLoopEventHandler();
 		settings = new Settings();
 		createGameLoop();
@@ -161,7 +163,7 @@ public class GameEngine {
 	 * @return {@linkplain KeyFrame} - sets fps and directly update time + event handler
 	 */
 	private KeyFrame createKeyFrame() {
-		Duration frameTime = Duration.millis(1000/getFps()); //for 60 FPS and that is usually standard
+		Duration frameTime = Duration.millis(1000.0/getFps()); //for 60 FPS and that is usually standard
 		//time between update will be approx. 16.67ms, for 10ms we have to provide 100 fps as value
         KeyFrame keyFrame = new KeyFrame(frameTime, gameLoopEventHandler);
         return keyFrame;

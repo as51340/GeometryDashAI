@@ -12,9 +12,6 @@ public class GameConstants {
 	 */
 	public static final short iconHeight = 30; 	// Mislim da bi ovo trebalo maknuti jer
 												// ne želimo pravokutnike nego kvadrate
-
-	public static final short gravity = 10; 	//placeholder
-
 	/**
 	 * Path to the character's icons
 	 */
