@@ -1,6 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.player;
 
 import hr.fer.zemris.project.geometry.dash.model.drawables.Point;
+import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
 
 import java.util.Vector;
 
@@ -31,8 +32,27 @@ public class Player {
      * Used to prevent multiple jumps in one tick
      */
     private boolean jumpIntent = false;
-
+    
     /**
+     * Character
+     */
+    private CharacterObject character;
+    
+    /**
+	 * @return the character
+	 */
+	public CharacterObject getCharacter() {
+		return character;
+	}
+
+	/**
+	 * @param character the character to set
+	 */
+	public void setCharacter(CharacterObject character) {
+		this.character = character;
+	}
+
+	/**
      * Constructs a <code>Player</code>
      * @param position
      */

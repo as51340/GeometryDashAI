@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.model.settings.character;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -14,17 +15,18 @@ public class CharactersSelector {
 	/**
 	 * Currently selected character for playing
 	 */
-	private Character selectedCharacter;
+	private CharacterObject selectedCharacter;
 	
 	/**
 	 * All characters 
 	 */
-	private List<Character> allCharacters;
+	private List<CharacterObject> allCharacters;
 	
 	/**
 	 * Constructor that loads all characters
 	 */
 	public CharactersSelector() {
+		allCharacters = new ArrayList<CharacterObject>();
 		loadAllCharacters(allCharacters);
 	}
 	
@@ -33,29 +35,29 @@ public class CharactersSelector {
 	 * @param allCharacters
 	 * @return list of loaded characters 
 	 */
-	private void loadAllCharacters(List<Character> allCharacters) {
-		Character char1 = new Character("geom-dash-130-coins-icon.jpg", false);
-		Character char2 = new Character("geom-dash-3000-stars-icon.jpg", false);
-		Character char4 = new Character("geom-dash-9000-coins-icon.jpg", false);
-		Character char5 = new Character("geom-dash-angry-icon.png", true);
-		Character char6 = new Character("geom-dash-blue-green-icon.jpg", true);
-		Character char7 = new Character("geom-dash-catch-them-all-icon.jpg", true);
-		Character char8 = new Character("geom-dash-cod3breaker-icon.jpg", true);
-		Character char9 = new Character("geom-dash-crying-icon.jpg", true);
-		Character char10 = new Character("geom-dash-cube-icon.jpg", true);
-		Character char11 = new Character("geom-dash-demons-icon.jpg", true);
-		Character char12 = new Character("geom-dash-graphic-icon.jpg", true);
-		Character char13 = new Character("geom-dash-orange-icon.png", true);
-		Character char14 = new Character("geom-dash-sad-icon.jpg", true);
-		Character char15 = new Character("geom-dash-shuriken-icon.jpg", true);
-		Character char16 = new Character("geom-dash-shy-guy-icon.jpg", true);
-		Character char17 = new Character("geom-dash-special-icon.jpg", true);
-		Character char18 = new Character("geom-dash-very-angry-icon.jpg", true);
-		Character char19 = new Character("geom-dash-yellow-icon.png", true);
-		Character char20 = new Character("geom-dash-gatekeeper-query-icon.jpg", true);
-		Character char21 = new Character("one.png", true);
-		Character char22 = new Character("two.png", true);
-		Character char23 = new Character("three.png", true);
+	private void loadAllCharacters(List<CharacterObject> allCharacters) {
+		CharacterObject char1 = new CharacterObject("geom-dash-130-coins-icon.jpg", false);
+		CharacterObject char2 = new CharacterObject("geom-dash-3000-stars-icon.jpg", false);
+		CharacterObject char4 = new CharacterObject("geom-dash-9000-coins-icon.jpg", false);
+		CharacterObject char5 = new CharacterObject("geom-dash-angry-icon.png", true);
+		CharacterObject char6 = new CharacterObject("geom-dash-blue-green-icon.jpg", true);
+		CharacterObject char7 = new CharacterObject("geom-dash-catch-them-all-icon.jpg", true);
+		CharacterObject char8 = new CharacterObject("geom-dash-cod3breaker-icon.jpg", true);
+		CharacterObject char9 = new CharacterObject("geom-dash-crying-icon.jpg", true);
+		CharacterObject char10 = new CharacterObject("geom-dash-cube-icon.jpg", true);
+		CharacterObject char11 = new CharacterObject("geom-dash-demons-icon.jpg", true);
+		CharacterObject char12 = new CharacterObject("geom-dash-graphic-icon.jpg", true);
+		CharacterObject char13 = new CharacterObject("geom-dash-orange-icon.png", true);
+		CharacterObject char14 = new CharacterObject("geom-dash-sad-icon.jpg", true);
+		CharacterObject char15 = new CharacterObject("geom-dash-shuriken-icon.jpg", true);
+		CharacterObject char16 = new CharacterObject("geom-dash-shy-guy-icon.jpg", true);
+		CharacterObject char17 = new CharacterObject("geom-dash-special-icon.jpg", true);
+		CharacterObject char18 = new CharacterObject("geom-dash-very-angry-icon.jpg", true);
+		CharacterObject char19 = new CharacterObject("geom-dash-yellow-icon.png", true);
+		CharacterObject char20 = new CharacterObject("geom-dash-gatekeeper-query-icon.jpg", true);
+		CharacterObject char21 = new CharacterObject("one.png", true);
+		CharacterObject char22 = new CharacterObject("two.png", true);
+		CharacterObject char23 = new CharacterObject("three.png", true);
 		allCharacters.add(char1);
 		allCharacters.add(char2);
 		allCharacters.add(char4);
@@ -78,12 +80,13 @@ public class CharactersSelector {
 		allCharacters.add(char21);
 		allCharacters.add(char22);
 		allCharacters.add(char23);
+		selectedCharacter = allCharacters.get((int) Math.random() * 23);
 	}
 	
 	/**
 	 * @return all game characters
 	 */
-	public List<Character> getAllCharacters() {
+	public List<CharacterObject> getAllCharacters() {
 		return allCharacters;
 	}
 	
@@ -91,7 +94,7 @@ public class CharactersSelector {
 	/**
 	 * @return currently selected character
 	 */
-	public Character getSelectedCharacter() {
+	public CharacterObject getSelectedCharacter() {
 		return this.selectedCharacter;
 		
 	}

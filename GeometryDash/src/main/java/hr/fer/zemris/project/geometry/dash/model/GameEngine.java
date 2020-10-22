@@ -43,11 +43,6 @@ public class GameEngine {
 	 * Reference to game loop 
 	 */
 	private Timeline gameLoop;
-
-	/**
-	 * Reference to player
-	 */
-	private Player player; // nisam siguran ide li ovo ovdje ili ne, ah fak
 	
 	/**
 	 * Specifies action on every update
@@ -132,7 +127,6 @@ public class GameEngine {
 		this.width = width;
 		this.height = height;
 		this.fps = fps;
-		this.player = new Player(new Point(height/2, width/3));
 		gameLoopEventHandler = new GameLoopEventHandler();
 		settings = new Settings();
 		createGameLoop();

@@ -27,5 +27,20 @@ public class GameConstants {
 	 */
 	public static final double timeBetweenUpdates = 0.01667;
 	
+	/**
+	 * Path to game's scenes
+	 */
+	public static final String pathToVisualization = "/hr/fer/zemris/project/geom/dash/visualization/";
+	
+	/**
+	 * Width
+	 */
+	public static final int WIDTH = 1280;
+	
+	/**
+	 * Height
+	 */
+    public static final int HEIGHT = 720;
+	
 	
 }

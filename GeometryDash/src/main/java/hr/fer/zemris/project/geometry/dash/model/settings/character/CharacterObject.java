@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
  * @author Andi Škrgat
  *
  */
-public class Character {
+public class CharacterObject {
 	
 	/**
 	 * {@linkplain ImageIcon}
@@ -30,7 +30,7 @@ public class Character {
 	 * @param uri Uri for loading icon
 	 * @param locked Not all characters are unlocked from the start of the game
 	 */
-	public Character(String uri, boolean locked) {
+	public CharacterObject(String uri, boolean locked) {
 		this.icon = loadIcon(uri);
 		this.locked = locked;
 	}
