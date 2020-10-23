@@ -12,9 +12,6 @@ public class GameConstants {
 	 */
 	public static final short iconHeight = 30; 	// Mislim da bi ovo trebalo maknuti jer
 												// ne želimo pravokutnike nego kvadrate
-
-	public static final short gravity = 10; 	//placeholder
-
 	/**
 	 * Path to the character's icons
 	 */
@@ -29,6 +26,21 @@ public class GameConstants {
 	 * Sets time between updates
 	 */
 	public static final double timeBetweenUpdates = 0.01667;
+	
+	/**
+	 * Path to game's scenes
+	 */
+	public static final String pathToVisualization = "/hr/fer/zemris/project/geom/dash/visualization/";
+	
+	/**
+	 * Width
+	 */
+	public static final int WIDTH = 1280;
+	
+	/**
+	 * Height
+	 */
+    public static final int HEIGHT = 720;
 	
 	
 }

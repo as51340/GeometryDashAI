@@ -102,13 +102,13 @@ public class BackgroundMusicPlayer {
 					first = false;
 					musicSettings.setCurrMediaPlayer(player);
 					player.setStartTime(Duration.minutes(2));
-					player.play();
+					//player.play();
 				}
 				player.setOnEndOfMedia(() -> {
 					musicSettings.setCurrMediaPlayer(nextPlayer);
 					nextPlayer.setStartTime(Duration.minutes(2));
 					nextPlayer.seek(Duration.ZERO);
-					nextPlayer.play();
+					//nextPlayer.play();
 				});
 			}
 		}).start();
