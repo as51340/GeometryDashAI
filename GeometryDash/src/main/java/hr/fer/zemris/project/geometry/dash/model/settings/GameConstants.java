@@ -41,6 +41,25 @@ public class GameConstants {
 	 * Height
 	 */
     public static final int HEIGHT = 720;
+    
+    /**
+     * X position of player
+     */
+    public static final int playerPosition_X = 225;
+    
+    /**
+     * Y position of player
+     */
+    public static final int playerPosition_Y = 400;
 	
+    /**
+     * Floor position
+     */
+    public static final int floorPosition_Y = 450;
+    
+    /**
+     * Camera offset to player
+     */
+    public static final int cameraPlayerOffset = 400;
 	
 }

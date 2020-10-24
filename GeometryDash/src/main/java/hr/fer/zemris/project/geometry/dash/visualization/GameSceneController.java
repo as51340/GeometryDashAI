@@ -18,10 +18,10 @@ public class GameSceneController {
 	 * Reference to the game engine
 	 */
 	private GameEngine gameEngine;
+	
 
 	public void setGameEngine(GameEngine gameEngine) {
 		this.gameEngine = gameEngine;
 		gameEngine.getGameWorld().setGraphics(canvas.getGraphicsContext2D());
 	}
-	
 }

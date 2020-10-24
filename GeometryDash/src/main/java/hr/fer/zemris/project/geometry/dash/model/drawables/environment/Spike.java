@@ -5,8 +5,8 @@ import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Spike extends Obstacle {
-    public Spike(int positionX, int positionY) {
-        super(positionX, positionY);
+    public Spike(Vector2D position) {
+        super(position);
     }
     
     
@@ -29,17 +29,12 @@ public class Spike extends Obstacle {
         return false;
     }
 
+
 	@Override
-	public void drawImage(GraphicsContext graphics) {
-		// TODO Auto-generated method stub
+	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
 		
 	}
 
-	@Override
-	public void calucalateNewPosition(Vector2D oldPosition) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 

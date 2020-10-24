@@ -39,5 +39,13 @@ public class Camera {
 	public void moveCamera(Vector2D direction) {
 		position.translate(direction);
 	}
+	
+	/**
+	 * Sets new position
+	 * @param position new position of camera
+	 */
+	public void setPosition(Vector2D position) {
+		this.position = position;
+	}
 
 }

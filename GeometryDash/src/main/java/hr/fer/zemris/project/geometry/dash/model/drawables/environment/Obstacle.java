@@ -6,16 +6,15 @@ import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.image.Image;
 
 public abstract class Obstacle extends GameObject{
+	
     private int height;
     private int width;
-    private int positionX;
-    private int positionY;
+    private Vector2D position;
     private int velocityX;
     private Image icon;
 
-    public Obstacle(int positionX, int positionY) {
-        this.positionX = positionX;
-        this.positionY = positionY;
+    public Obstacle(Vector2D position) {
+        this.position = position;
     }
     
     /**
@@ -29,7 +28,7 @@ public abstract class Obstacle extends GameObject{
      * @return new reference Vector2D
      */
     public Vector2D getPosition() {
-        return new Vector2D(positionX,positionY);
+        return this.position;
     }
 
     public abstract boolean contains(Vector2D p);
@@ -50,21 +49,15 @@ public abstract class Obstacle extends GameObject{
         this.width = width;
     }
 
-    public int getPositionX() {
-        return positionX;
+    public double getPositionX() {
+        return this.position.getX();
     }
 
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
+
+    public double getPositionY() {
+        return this.position.getY();
     }
 
-    public int getPositionY() {
-        return positionY;
-    }
-
-    public void setPositionY(int positionY) {
-        this.positionY = positionY;
-    }
 
     public Image getIcon() {
         return icon;

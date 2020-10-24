@@ -33,7 +33,6 @@ public class GeometryDash extends Application {
 //    	Parent root1 = FXMLLoader.load(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
 //    	Scene scene = new Scene(root1);
 		//
-    	
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "GameScene.fxml"));
     	Parent root1 = fxmlLoader.load();
     	GameSceneController controller = fxmlLoader.<GameSceneController>getController();

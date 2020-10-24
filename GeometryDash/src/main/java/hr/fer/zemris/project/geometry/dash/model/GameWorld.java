@@ -3,9 +3,11 @@ package hr.fer.zemris.project.geometry.dash.model;
 import java.util.ArrayList;
 import java.util.List;
 import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Floor;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
+import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -39,6 +41,11 @@ public class GameWorld {
 	private GraphicsContext graphics;
 	
 	/**
+	 * We need to keep reference on the player for camera moving
+	 */
+	private GameObject player;
+	
+	/**
 	 * Reference to the camera
 	 */
 	private Camera camera;
@@ -62,14 +69,16 @@ public class GameWorld {
 	 */
 	public GameWorld() {
 		charactersSelector = new CharactersSelector();
-		camera = new Camera();
-		loadPlayerAndObstaclesOnTheScene();
+		camera = new Camera();		
+		createScene();
 	}
 	
-	private void loadPlayerAndObstaclesOnTheScene() {
+	private void createScene() {
 		gameObjects = new ArrayList<>();
-		GameObject player = new Player(new Vector2D(300, 400));
+		player = new Player(new Vector2D(GameConstants.playerPosition_X, GameConstants.playerPosition_Y));
+		GameObject floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y));
 		gameObjects.add(player);
+		gameObjects.add(floor);
 	}
 		
 	/**
@@ -83,9 +92,17 @@ public class GameWorld {
 	 * Updates GUI
 	 */
 	public void UpdateGUI() {
+		graphics.clearRect(0, 0, GameConstants.WIDTH, GameConstants.HEIGHT); // za ocistit ekran
+		if(((Player) player).getPosition().getX() - camera.getPosition().getX() > GameConstants.playerPosition_X) {
+			camera.getPosition().setPos(((Player) player).getPosition().getX() - GameConstants.playerPosition_X, camera.getPosition().getY());
+		}
+		//ovo osigurava da su player i kamera uvijek jednako udaljeni
+		if(((Player) player).getPosition().getY() - camera.getPosition().getY() > GameConstants.playerPosition_Y) {
+			camera.getPosition().setPos(camera.getPosition().getX(), ((Player) player).getPosition().getY() - GameConstants.playerPosition_Y);
+		}
+		// nakon treceg skoka
 		for(GameObject gameObject: gameObjects) {
 			gameObject.update(graphics, camera.getPosition());
-			
 		}
 	}
 	

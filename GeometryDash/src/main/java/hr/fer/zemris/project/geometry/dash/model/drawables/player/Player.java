@@ -2,6 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.player;
 
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 import javafx.scene.canvas.GraphicsContext;
@@ -101,11 +102,10 @@ public class Player extends GameObject{
 	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
 //		System.out.println("Pozvano nacrtaj novi objekt");
 		//System.out.println(this.getCharacter().getIcon().getHeight());
-		Vector2D oldPosition = this.position;	
-		Vector2D newPosition = this.position.translated(cameraPosition.scaled(-1)); //subtracking
 		graphics.clearRect(0, 0, graphics.getCanvas().getWidth(), graphics.getCanvas().getHeight());
-		graphics.drawImage(this.character.getIcon(), newPosition.getX(), newPosition.getY());
-		this.position = oldPosition;
+		//graphics.drawImage(this.character.getIcon(), newPosition.getX(), newPosition.getY());
+		graphics.drawImage(this.character.getIcon(), position.getX() - cameraPosition.getX(), position.getY() - cameraPosition.getY());
+		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 50f, -GameConstants.timeBetweenUpdates * 50f));
 	}
 	
 	public void rotate() {

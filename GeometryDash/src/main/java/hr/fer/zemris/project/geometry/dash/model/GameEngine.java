@@ -162,15 +162,13 @@ public class GameEngine {
 	private KeyFrame createKeyFrame() {
 		Duration frameTime = Duration.millis(1000.0/getFps()); //for 60 FPS and that is usually standard
 		Vector2D camDir = new Vector2D(1,0);
-        camDir.scale(0.005 * 50f);
+        camDir.scale(GameConstants.timeBetweenUpdates * 50f);
 		//time between update will be approx. 16.67ms, for 10ms we have to provide 100 fps as value
         KeyFrame keyFrame = new KeyFrame(frameTime, new EventHandler<ActionEvent>() {
    
-        
 			@Override
 			public void handle(ActionEvent event) {
 				gameWorld.UpdateGUI();
-				gameWorld.getCamera().moveCamera(camDir);
 			}
         	
         });

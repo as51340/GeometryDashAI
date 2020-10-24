@@ -172,9 +172,9 @@ public class Vector2D {
      * Sets both coordinates of the point to the given values
      * @param coords array with two items - x and y coordinate
      */
-    public void setPos(double[] coords) {
-        this.x = coords[0];
-        this.y = coords[1];
+    public void setPos(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 
     /**
