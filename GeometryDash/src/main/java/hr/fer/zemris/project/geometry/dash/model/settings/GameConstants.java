@@ -60,6 +60,6 @@ public class GameConstants {
     /**
      * Camera offset to player
      */
-    public static final int cameraPlayerOffset = 400;
+    public static final int cameraPlayerOffset_Y = 300;
 	
 }

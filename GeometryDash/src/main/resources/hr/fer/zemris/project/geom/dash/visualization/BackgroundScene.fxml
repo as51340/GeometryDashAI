@@ -7,9 +7,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
+<<<<<<< HEAD
 <StackPane maxHeight="720.0" maxWidth="1280.0"
 	minHeight="720.0" minWidth="1280.0" prefHeight="720.0"
 	prefWidth="1280.0" stylesheets="@../styles/style.css"
@@ -71,4 +70,78 @@
 			</children>
 		</AnchorPane>
 	</children>
+=======
+<StackPane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.BackgroundSceneController">
+   <children>
+      <Pane>
+         <children>
+            <ImageView fx:id="background1" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../static/dash_background_bw.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="background2" pickOnBounds="true" preserveRatio="true" x="800">
+               <image>
+                  <Image url="@../static/dash_background_bw.jpg" />
+               </image>
+            </ImageView>
+			<ImageView fx:id="background3" pickOnBounds="true" preserveRatio="true" x="1600">
+               <image>
+                  <Image url="@../static/dash_background_bw.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Rectangle fx:id="rectangle" blendMode="OVERLAY" fill="WHITE" height="760.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="2400.0" StackPane.alignment="TOP_LEFT" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView fitWidth="900.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="190.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="50.0">
+               <image>
+                  <Image url="@../static/title.png" />
+               </image>
+            </ImageView>
+            <ImageView fitWidth="200.0" layoutX="541.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../static/play_btn.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fitWidth="150.0" layoutX="348.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../static/characters_btn.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fitWidth="100.0" layoutX="467.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="49.0">
+               <image>
+                  <Image url="@../static/achievements_btn.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fitWidth="100.0" layoutX="590.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="49.0">
+               <image>
+                  <Image url="@../static/settings_btn.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <ImageView fitWidth="100.0" layoutX="715.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="49.0">
+               <image>
+                  <Image url="@../static/stats_btn.png" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+>>>>>>> 9073c1cd8dc7c96e74e7ead64ed70f4e79c39202
 </StackPane>
