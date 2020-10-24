@@ -3,6 +3,34 @@
     src: url('../fonts/OXYGENE1.TTF');
 }
 
+@font-face {
+    font-family: 'Pusab';
+    src: url('../fonts/PUSAB.otf');
+}
+
 .title {
     -fx-font-family: 'Oxygene 1';
+}
+
+.textField {
+	-fx-font-family: 'Pusab';
+	-fx-font-size: 4em;
+	-fx-text-fill: white;
+}
+
+.textFieldOption {
+	-fx-font-family: 'Pusab';
+	-fx-font-size: 1.5em;
+	-fx-text-fill: orange;
+	-fx-border-width: 3px;
+	-fx-border-style: solid;
+	-fx-border-color: darkgreen;
+	-fx-border-radius: 7px;
+
+}
+
+.slider {
+	-fx-font-family: 'Pusab';
+	-fx-font-size: 2.5em;
+	-fx-text-fill: white
 }

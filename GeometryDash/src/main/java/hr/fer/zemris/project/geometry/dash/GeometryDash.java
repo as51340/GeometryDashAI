@@ -21,16 +21,11 @@ import javafx.stage.Stage;
 public class GeometryDash extends Application {
 
 	private GameEngine gameEngine = new GameEngine(100, "Geometry Dash", GameConstants.WIDTH, GameConstants.HEIGHT);
-
-	
-	//ovo ti netreba
-	private Pane root = new Pane();
-	
 	
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "GameScene.fxml"));
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "Settings.fxml"));
     	Parent root1 = fxmlLoader.load();
     	GameSceneController controller = fxmlLoader.<GameSceneController>getController();
     	controller.setGameEngine(gameEngine);

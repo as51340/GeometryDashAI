@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ProgressBar?>
@@ -12,21 +17,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <SplitPane dividerPositions="0.14824120603015076" layoutX="213.0" layoutY="25.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <BorderPane prefHeight="55.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <center>
-                        <TextField alignment="CENTER" prefHeight="55.0" prefWidth="598.0" style="-fx-background-color: chartreuse;" text="Settings" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </TextField>
-                     </center>
+                  <BorderPane prefHeight="55.0" prefWidth="598.0" style="-fx-background-color: chartreuse;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <left>
                         <Pane prefHeight="55.0" prefWidth="50.0" style="-fx-background-color: lightblue;" BorderPane.alignment="CENTER">
                            <opaqueInsets>
@@ -37,10 +34,13 @@
                      <right>
                         <Pane prefHeight="55.0" prefWidth="50.0" style="-fx-background-color: lightblue;" BorderPane.alignment="CENTER" />
                      </right>
+                     <center>
+                        <Label style="-fx-background-color: chartreuse;" styleClass="textField" text="Settings" BorderPane.alignment="CENTER" />
+                     </center>
                   </BorderPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: darkseagreen;">
                <children>
                   <BorderPane prefHeight="335.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <bottom>
@@ -69,45 +69,48 @@
                      <center>
                         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Pane prefHeight="200.0" prefWidth="200.0">
+                              <Pane prefHeight="182.0" prefWidth="568.0">
                                  <children>
-                                    <Button layoutX="323.0" layoutY="6.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="180.0" style="-fx-background-color: chartreuse;" text="HOW TO PLAY">
+                                    <Button layoutX="686.0" layoutY="52.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="221.0" style="-fx-background-color: chartreuse; -fx-font-family: Pusab;" styleClass="textFieldOption" text="HOW TO PLAY">
                                        <font>
                                           <Font size="22.0" />
                                        </font>
                                     </Button>
-                                    <Button layoutX="72.0" layoutY="6.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="180.0" style="-fx-background-color: chartreuse;" text="ACCOUNT">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                    </Button>
-                                 </children>
-                              </Pane>
-                              <HBox spacing="50.0">
-                                 <children>
-                                    <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: chartreuse;" text="RATE">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" style="-fx-background-color: chartreuse;" text="SONGS">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                    </Button>
-                                    <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: chartreuse;" text="HELP">
+                                    <Button layoutX="365.0" layoutY="52.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="221.0" style="-fx-background-color: chartreuse;" styleClass="textFieldOption" text="ACCOUNT">
                                        <font>
                                           <Font size="22.0" />
                                        </font>
                                     </Button>
                                  </children>
                                  <padding>
-                                    <Insets left="80.0" right="80.0" />
+                                    <Insets right="600.0" />
+                                 </padding>
+                              </Pane>
+                              <HBox prefHeight="80.0" prefWidth="568.0" spacing="50.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: chartreuse;" styleClass="textFieldOption" text="RATE">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                    </Button>
+                                    <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" style="-fx-background-color: chartreuse;" styleClass="textFieldOption" text="SONGS">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                    </Button>
+                                    <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: chartreuse;" styleClass="textFieldOption" text="HELP">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                                 <padding>
+                                    <Insets left="425.0" right="80.0" />
                                  </padding>
                               </HBox>
-                              <Pane prefHeight="200.0" prefWidth="200.0">
+                              <Pane prefHeight="110.0" prefWidth="1248.0">
                                  <children>
-                                    <Button layoutX="134.0" layoutY="9.0" mnemonicParsing="false" prefWidth="300.0" style="-fx-background-color: chartreuse;" text="OPTIONS">
+                                    <Button layoutX="467.0" layoutY="40.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="300.0" style="-fx-background-color: chartreuse;" styleClass="textFieldOption" text="OPTIONS">
                                        <font>
                                           <Font size="22.0" />
                                        </font>
@@ -116,12 +119,14 @@
                               </Pane>
                               <Pane prefHeight="200.0" prefWidth="200.0">
                                  <children>
-                                    <ProgressBar layoutX="184.0" layoutY="21.0" prefWidth="200.0" progress="0.0" />
+                                    <Slider layoutX="405.0" layoutY="84.0" prefWidth="415.0" />
+                                    <Label layoutX="558.0" layoutY="44.0" styleClass="slider" text="Music" />
                                  </children>
                               </Pane>
-                              <Pane prefHeight="200.0" prefWidth="200.0">
+                              <Pane prefHeight="175.0" prefWidth="200.0">
                                  <children>
-                                    <ProgressBar layoutX="184.0" layoutY="21.0" prefWidth="200.0" progress="0.0" />
+                                    <Slider layoutX="406.0" layoutY="53.0" prefHeight="17.0" prefWidth="415.0" />
+                                    <Label layoutX="576.0" styleClass="slider" text="SFX" />
                                  </children>
                               </Pane>
                            </children>
