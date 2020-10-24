@@ -1,3 +1,8 @@
-.anchor {
-    -fx-background-image:url('dash_background.jpg');
+@font-face {
+    font-family: 'Oxygene 1';
+    src: url('../fonts/OXYGENE1.TTF');
+}
+
+.title {
+    -fx-font-family: 'Oxygene 1';
 }
