@@ -1,7 +1,10 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
-import hr.fer.zemris.project.geometry.dash.model.drawables.Point;
+import java.util.ArrayList;
+
+import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
+import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Settings;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -45,10 +48,17 @@ public class GameEngine {
 	private Timeline gameLoop;
 	
 	/**
-	 * Specifies action on every update
+	 * Game world
 	 */
-	private EventHandler<ActionEvent> gameLoopEventHandler;
+	private GameWorld gameWorld;
 	
+	/**
+	 * @return the gameWorld
+	 */
+	public GameWorld getGameWorld() {
+		return gameWorld;
+	}
+
 	/**
 	 * {@linkplain Settings}
 	 */
@@ -126,17 +136,10 @@ public class GameEngine {
 		this.title = title;
 		this.width = width;
 		this.height = height;
-		this.fps = fps;
-		gameLoopEventHandler = new GameLoopEventHandler();
+		this.fps = fps;;
 		settings = new Settings();
+		gameWorld = new GameWorld(); //for now list of obstacles is empty, not focus on that currently
 		createGameLoop();
-	}
-
-	/**
-	 * @return the gameLoopEventHandler
-	 */
-	public EventHandler<ActionEvent> getGameLoopEventHandler() {
-		return gameLoopEventHandler;
 	}
 
 	/**
@@ -158,8 +161,19 @@ public class GameEngine {
 	 */
 	private KeyFrame createKeyFrame() {
 		Duration frameTime = Duration.millis(1000.0/getFps()); //for 60 FPS and that is usually standard
+		Vector2D camDir = new Vector2D(1,0);
+        camDir.scale(0.005 * 50f);
 		//time between update will be approx. 16.67ms, for 10ms we have to provide 100 fps as value
-        KeyFrame keyFrame = new KeyFrame(frameTime, gameLoopEventHandler);
+        KeyFrame keyFrame = new KeyFrame(frameTime, new EventHandler<ActionEvent>() {
+   
+        
+			@Override
+			public void handle(ActionEvent event) {
+				gameWorld.UpdateGUI();
+				gameWorld.getCamera().moveCamera(camDir);
+			}
+        	
+        });
         return keyFrame;
 	}
 	

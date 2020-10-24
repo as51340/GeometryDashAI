@@ -5,12 +5,12 @@ public class GameConstants {
 	/**
 	 * Sets icon's width
 	 */
-	public static final short iconWidth = 30;
+	public static final short iconWidth = 45;
 	
 	/**
 	 * Sets icon's height
 	 */
-	public static final short iconHeight = 30; 	// Mislim da bi ovo trebalo maknuti jer
+	public static final short iconHeight = 45; 	// Mislim da bi ovo trebalo maknuti jer
 												// ne želimo pravokutnike nego kvadrate
 	/**
 	 * Path to the character's icons

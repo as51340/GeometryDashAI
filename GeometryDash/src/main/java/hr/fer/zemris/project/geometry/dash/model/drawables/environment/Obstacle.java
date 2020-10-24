@@ -1,10 +1,11 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
-import hr.fer.zemris.project.geometry.dash.model.drawables.Point;
+import hr.fer.zemris.project.geometry.dash.model.GameObject;
+import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.image.Image;
 
-public abstract class Obstacle {
+public abstract class Obstacle extends GameObject{
     private int height;
     private int width;
     private int positionX;
@@ -16,20 +17,7 @@ public abstract class Obstacle {
         this.positionX = positionX;
         this.positionY = positionY;
     }
-
-    /**
-     * Moves obstacles to the left at a steady pace
-     * Should be called at each update
-     */
-    public void calculateNewPosition(){
-        this.positionX= (int) (positionX - velocityX * GameConstants.timeBetweenUpdates);
-    }
-
-    /**
-     * Draws the position of the obstacle
-     */
-    public abstract void drawTheirPosition();
-
+    
     /**
      * Checks if obstacle hitbox is touching player
      * @return true if it is, otherwise false
@@ -37,14 +25,14 @@ public abstract class Obstacle {
     public abstract boolean checkCollisions();
 
     /**
-     * Returns some reference point for object from which the hitbox will be calculated
-     * @return new reference point
+     * Returns some reference Vector2D for object from which the hitbox will be calculated
+     * @return new reference Vector2D
      */
-    public Point getPosition() {
-        return new Point(positionX,positionY);
+    public Vector2D getPosition() {
+        return new Vector2D(positionX,positionY);
     }
 
-    public abstract boolean contains(Point p);
+    public abstract boolean contains(Vector2D p);
 
     public int getHeight() {
         return height;

@@ -1,7 +1,12 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.player;
 
-import hr.fer.zemris.project.geometry.dash.model.drawables.Point;
+import hr.fer.zemris.project.geometry.dash.model.GameObject;
+import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
+import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 
 import java.util.Vector;
 
@@ -9,7 +14,7 @@ import java.util.Vector;
  * The main player class, logics and engine behind the "protagonist" of <strong>Geometry Dash</strong>
  * @author Damjan
  */
-public class Player {
+public class Player extends GameObject{
     //dimenzije lika su zadane u model.settings GameConstants (default 30x03px)
 
     /**
@@ -25,7 +30,12 @@ public class Player {
     /**
      * Where the player is positioned, (stationary) x and (movable) y coordinate
      */
-    private Point position;
+    private Vector2D position;
+    
+    /**
+     * Rotation angle in degrees
+     */
+    private double rotation = 45;
 
     /**
      * Flag that signifies the player wants to jump
@@ -56,15 +66,16 @@ public class Player {
      * Constructs a <code>Player</code>
      * @param position
      */
-    public Player(Point position) {
+    public Player(Vector2D position) {
         this.position = position;
+        this.character = CharactersSelector.selectedCharacter;
     }
 
     /**
      * Returns the coordinates of the upper left corner of the player's hurtbox
      * @return <code>Point</code> object containing the player's position
      */
-    public Point getPosition() {
+    public Vector2D getPosition() {
         return position;
     }
 
@@ -85,4 +96,18 @@ public class Player {
 
         }
     }
+
+	@Override
+	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
+//		System.out.println("Pozvano nacrtaj novi objekt");
+		//System.out.println(this.getCharacter().getIcon().getHeight());
+		Vector2D oldPosition = this.position;	
+		Vector2D newPosition = this.position.translated(cameraPosition.scaled(-1)); //subtracking
+		graphics.clearRect(0, 0, graphics.getCanvas().getWidth(), graphics.getCanvas().getHeight());
+		graphics.drawImage(this.character.getIcon(), newPosition.getX(), newPosition.getY());
+		this.position = oldPosition;
+	}
+	
+	public void rotate() {
+	}
 }

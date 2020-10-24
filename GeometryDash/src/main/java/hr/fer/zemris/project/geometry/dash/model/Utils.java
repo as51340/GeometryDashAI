@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.NoSuchElementException;
 
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -23,7 +24,7 @@ public class Utils {
 	 */
 	public static Image loadIcon(String uri){
 		String path = GameConstants.pathToIcons + uri;
-		InputStream is = Character.class.getResourceAsStream(path);
+		InputStream is = CharacterObject.class.getResourceAsStream(path);
 		if(is == null) {
 			throw new NoSuchElementException("No such icon in the resource directory");
 		} 

@@ -7,20 +7,22 @@ import javax.swing.ImageIcon;
 
 /**
  * Keeps all characters loaded from resources
- * @author Korisnik
+ * @author Andi Škrgat
  *
  */
 public class CharactersSelector {
 	
 	/**
-	 * Currently selected character for playing
+	 * Currently selected character for playing, is this the smartest way
 	 */
-	private CharacterObject selectedCharacter;
+	public static CharacterObject selectedCharacter;
 	
 	/**
 	 * All characters 
 	 */
 	private List<CharacterObject> allCharacters;
+	
+	
 	
 	/**
 	 * Constructor that loads all characters
@@ -80,7 +82,7 @@ public class CharactersSelector {
 		allCharacters.add(char21);
 		allCharacters.add(char22);
 		allCharacters.add(char23);
-		selectedCharacter = allCharacters.get((int) Math.random() * 23);
+		selectedCharacter = char6;
 	}
 	
 	/**
