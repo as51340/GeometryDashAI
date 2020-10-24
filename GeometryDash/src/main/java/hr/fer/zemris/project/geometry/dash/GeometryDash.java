@@ -24,7 +24,7 @@ public class GeometryDash extends Application {
         double origW = GameConstants.WIDTH;
         double origH = GameConstants.HEIGHT;
         
-        // Place the Group in a StackPane, which will keep it centered
+        // Place the Parent in a StackPane, which will keep it centered
         StackPane rootPane = new StackPane();
         rootPane.getChildren().add(root);
         
@@ -36,8 +36,9 @@ public class GeometryDash extends Application {
         root.scaleYProperty().bind(scene.heightProperty().divide(origH));
         
         // Preserve aspect ratio when resizing
-        primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(0.5));
-        primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(0.5));
+        double ratio = (double) GameConstants.HEIGHT / GameConstants.WIDTH;
+        primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(ratio));
+        primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(ratio));
 
         gameEngine.createStageFromData(primaryStage);
         gameEngine.start();
