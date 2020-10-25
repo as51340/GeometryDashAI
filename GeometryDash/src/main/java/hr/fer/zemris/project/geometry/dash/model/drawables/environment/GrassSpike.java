@@ -31,15 +31,15 @@ public class GrassSpike extends Obstacle{
 
     @Override
     public boolean contains(Vector2D p){
-        if(p.getY() <= (this.getPositionY()+getHeight()) && p.getY() >= this.getPositionY()){
-            return p.getX() <= (this.getPositionX() + getWidth()) && p.getX() >= this.getPositionX();
+        if(p.getY() <= (this.getPosition().getY()+getHeight()) && p.getY() >= this.getPosition().getY()){
+            return p.getX() <= (this.getPosition().getX() + getWidth()) && p.getX() >= this.getPosition().getX();
         }
         return false;
     }
 
     @Override
     public void update(GraphicsContext graphics, Vector2D cameraPosition) {
-        graphics.fillRect(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
+        graphics.fillRect(this.getPosition().getX(), this.getPosition().getY(), this.getWidth(), this.getHeight());
         this.translate();
     }
 }

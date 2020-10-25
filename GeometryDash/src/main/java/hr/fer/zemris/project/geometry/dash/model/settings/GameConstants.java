@@ -47,7 +47,7 @@ public class GameConstants {
     /**
      * X position of player
      */
-    public static final int playerPosition_X = 300;
+    public static final int playerPosition_X = 225;
     
     /**
      * Y position of player
@@ -62,7 +62,7 @@ public class GameConstants {
     /**
      * Camera offset to player
      */	
-    public static final int cameraPlayerOffset_Y = 300;
+    public static final int cameraPlayerOffset_Y = 500;
 
     /**
      * Path to block image

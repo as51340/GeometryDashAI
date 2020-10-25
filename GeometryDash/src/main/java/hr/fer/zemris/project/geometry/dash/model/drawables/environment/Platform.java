@@ -27,13 +27,13 @@ public class Platform extends Obstacle{
 
     @Override
     public boolean contains(Vector2D p) {
-        return (p.getX() >= this.getPositionX() && p.getX() <= this.getPositionX()+this.getWidth()
-        		&& p.getY() >= this.getPositionY() && p.getY() <= this.getPositionY()+this.getHeight());
+        return (p.getX() >= this.getPosition().getX() && p.getX() <= this.getPosition().getX()+this.getWidth()
+        		&& p.getY() >= this.getPosition().getY() && p.getY() <= this.getPosition().getY()+this.getHeight());
     }
     
 	@Override
 	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
-		graphics.drawImage(this.getImage(), this.getPositionX(), this.getPositionY());
+		graphics.drawImage(this.getImage(), this.getPosition().getX(), this.getPosition().getY());
 		this.getPosition().translate(new Vector2D(-GameConstants.timeBetweenUpdates * 50f, 0));
 		
 	}

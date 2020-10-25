@@ -85,7 +85,7 @@ public class GameWorld {
 	private void createScene() {
 		gameObjects = new ArrayList<>();
 		GrassSpike travica = new GrassSpike(new Vector2D(500, GameConstants.playerPosition_Y));
-		// isprobavao postavljanje blokova i platformi
+//		 isprobavao postavljanje blokova i platformi
 		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));
 		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.blockImage));
 		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-3*GameConstants.iconHeight), GameConstants.blockImage));
@@ -93,7 +93,7 @@ public class GameWorld {
 		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+4*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.blockImage));
 		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+3*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));	
 		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+10*GameConstants.iconHeight, GameConstants.floorPosition_Y-5*GameConstants.iconHeight), GameConstants.iconWidth * 5, GameConstants.platformImage));
-		player = new Player(new Vector2D(GameConstants.playerPosition_X, 100), new Vector2D(30, 30));
+		player = new Player(new Vector2D(GameConstants.playerPosition_X, 100), new Vector2D(0, 30));
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y));
 		gameObjects.add(player);
 		gameObjects.add(floor);
