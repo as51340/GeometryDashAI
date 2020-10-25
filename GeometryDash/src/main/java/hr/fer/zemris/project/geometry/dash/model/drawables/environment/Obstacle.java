@@ -2,6 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.image.Image;
 
@@ -10,7 +11,7 @@ public abstract class Obstacle extends GameObject{
     private int height;
     private int width;
     private Vector2D position;
-    private int velocityX;
+    private final int velocityX = 50;
     private Image icon;
 
     public Obstacle(Vector2D position) {
@@ -21,7 +22,7 @@ public abstract class Obstacle extends GameObject{
      * Checks if obstacle hitbox is touching player
      * @return true if it is, otherwise false
      */
-    public abstract boolean checkCollisions();
+    public abstract boolean checkCollisions(Player player);
 
     /**
      * Returns some reference Vector2D for object from which the hitbox will be calculated
@@ -66,4 +67,9 @@ public abstract class Obstacle extends GameObject{
     public void setIcon(Image icon) {
         this.icon = icon;
     }
+
+    public void translate(){
+        this.position.translate(new Vector2D(-GameConstants.timeBetweenUpdates * velocityX, 0));
+    }
+
 }
