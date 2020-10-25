@@ -17,7 +17,7 @@ public class Floor extends Obstacle{
     public boolean checkCollisions(Player player) {
         return false;
     }
-
+   
     @Override
     public boolean contains(Vector2D p) {
         return false;
@@ -25,10 +25,12 @@ public class Floor extends Obstacle{
     
 	@Override
 	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
+//		graphics.clearRect(0, 0, 1280, 720);
 //		graphics.moveTo(0, GameConstants.floorPosition_Y);
 //		graphics.lineTo(GameConstants.WIDTH - cameraPosition.getX(), GameConstants.floorPosition_Y);
 //	    graphics.stroke();
 //	    System.out.println(GameConstants.WIDTH - cameraPosition.getX());
+		graphics.setFill(Color.CHOCOLATE);
 		graphics.fillRect(0, GameConstants.floorPosition_Y, GameConstants.WIDTH - cameraPosition.getX(), GameConstants.HEIGHT - GameConstants.floorPosition_Y);
 	}
 

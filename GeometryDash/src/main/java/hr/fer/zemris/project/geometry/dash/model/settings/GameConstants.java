@@ -47,12 +47,12 @@ public class GameConstants {
     /**
      * X position of player
      */
-    public static final int playerPosition_X = 225;
+    public static final int playerPosition_X = 300;
     
     /**
      * Y position of player
      */
-    public static final int playerPosition_Y = 400;
+    public static final int playerPosition_Y = 440;
 	
     /**
      * Floor position
@@ -61,17 +61,32 @@ public class GameConstants {
     
     /**
      * Camera offset to player
-     */
+     */	
     public static final int cameraPlayerOffset_Y = 300;
 
     /**
      * Path to block image
      */
-	public static final String blockImage = "/hr/fer/zemris/project/geom/dash/obstacles/block/placeholder-block-icon.jpg";
+    public static final String blockImage = "/hr/fer/zemris/project/geom/dash/obstacles/block/placeholder-block-icon.jpg";
+
+    /**
+     * 	Path to platform image
+     */
+    public static final String platformImage = "/hr/fer/zemris/project/geom/dash/obstacles/platform/placeholder-platform-icon.jpg";
+    
+    /**
+     * Offset camera to ground
+     */
+    public static final int cameraGroundOffset_Y = 150;
+    
+    /**
+     * Gravity constant
+     */
+    public static final int GRAVITY = 50;
 	
-	/**
-	 * Path to platform image
-	 */
-	public static final String platformImage = "/hr/fer/zemris/project/geom/dash/obstacles/platform/placeholder-platform-icon.jpg";
-	
+    /**
+     * Offset player to ground
+     */
+    public static final int playerGroundOffset_Y = 45;
+    
 }

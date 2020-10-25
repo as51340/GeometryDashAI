@@ -176,6 +176,22 @@ public class Vector2D {
         this.x = x;
         this.y = y;
     }
+    
+    /**
+     * Sets x coordinate
+     * @param x x coordinate
+     */
+    public void setX(double x) {
+    	this.x = x;
+    }
+    
+    /**
+     * Sets y coordinate
+     * @param y y coordinate
+     */
+    public void setY(double y) {
+    	this.y = y;
+    }
 
     /**
      * Returns both coordinates of the point

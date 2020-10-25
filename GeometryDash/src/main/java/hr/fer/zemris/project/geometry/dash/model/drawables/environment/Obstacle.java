@@ -50,16 +50,6 @@ public abstract class Obstacle extends GameObject{
         this.width = width;
     }
 
-    public double getPositionX() {
-        return this.position.getX();
-    }
-
-
-    public double getPositionY() {
-        return this.position.getY();
-    }
-
-
     public Image getIcon() {
         return icon;
     }
