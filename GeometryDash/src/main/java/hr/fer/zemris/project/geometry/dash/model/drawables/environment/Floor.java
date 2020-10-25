@@ -1,6 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -13,7 +14,7 @@ public class Floor extends Obstacle{
     }
     
     @Override
-    public boolean checkCollisions() {
+    public boolean checkCollisions(Player player) {
         return false;
     }
 

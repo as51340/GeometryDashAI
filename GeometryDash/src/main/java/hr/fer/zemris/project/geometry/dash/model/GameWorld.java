@@ -5,6 +5,7 @@ import java.util.List;
 import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Block;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Floor;
+import hr.fer.zemris.project.geometry.dash.model.drawables.environment.GrassSpike;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Platform;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
@@ -18,7 +19,7 @@ import javafx.stage.Stage;
 
 /**
  * Manages all current objects on scene. It also encapsulates behaving of renderer. 
- * @author Andi Škrgat
+ * @author Andi ï¿½krgat
  *
  */
 public class GameWorld {
@@ -78,6 +79,7 @@ public class GameWorld {
 	
 	private void createScene() {
 		gameObjects = new ArrayList<>();
+		GrassSpike travica = new GrassSpike(new Vector2D(500, GameConstants.playerPosition_Y));
 		player = new Player(new Vector2D(GameConstants.playerPosition_X, GameConstants.playerPosition_Y));
 		// isprobavao postavljanje blokova i platformi
 		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));
@@ -90,6 +92,7 @@ public class GameWorld {
 		GameObject floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y));
 		gameObjects.add(player);
 		gameObjects.add(floor);
+		gameObjects.add(travica);
 	}
 		
 	/**
@@ -113,8 +116,16 @@ public class GameWorld {
 		}
 		// nakon treceg skoka
 		for(GameObject gameObject: gameObjects) {
+			if(gameObject instanceof Obstacle){
+				if(((Obstacle) gameObject).checkCollisions((Player) player)){
+					((Obstacle) gameObject).setWidth(GameConstants.iconHeight);
+
+				}
+			}
 			gameObject.update(graphics, camera.getPosition());
 		}
+
+
 	}
 	
 	/**

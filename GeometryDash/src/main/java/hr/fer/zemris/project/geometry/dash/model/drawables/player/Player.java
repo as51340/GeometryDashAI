@@ -105,7 +105,7 @@ public class Player extends GameObject{
 		//graphics.clearRect(0, 0, graphics.getCanvas().getWidth(), graphics.getCanvas().getHeight());
 		//graphics.drawImage(this.character.getIcon(), newPosition.getX(), newPosition.getY());
 		graphics.drawImage(this.character.getIcon(), position.getX() - cameraPosition.getX(), position.getY() - cameraPosition.getY());
-		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 50f, GameConstants.timeBetweenUpdates * 50f));
+		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 50f, 0));
 	}
 	
 	public void rotate() {
