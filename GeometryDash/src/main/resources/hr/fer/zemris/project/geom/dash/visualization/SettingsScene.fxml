@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Rectangle height="720.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" StackPane.alignment="CENTER" />
+      <Rectangle height="531.0" opacity="0.8" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="861.0" />
+      <ImageView fitHeight="664.0" fitWidth="933.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+         <image>
+            <Image url="@../static/frame.png" />
+         </image>
+      </ImageView>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Text fill="WHITE" layoutX="527.0" layoutY="82.0" stroke="BLACK" strokeWidth="2.0" styleClass="text-font" text="Settings">
+               <font>
+                  <Font size="50.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView fitHeight="67.0" fitWidth="57.0" layoutX="48.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" styleClass="menu-button">
+               <image>
+                  <Image url="@../static/back_btn.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
