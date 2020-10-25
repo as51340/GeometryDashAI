@@ -1,5 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.settings;
 
+import javafx.scene.image.Image;
+
 public class GameConstants {
 
 	/**
@@ -61,5 +63,15 @@ public class GameConstants {
      * Camera offset to player
      */
     public static final int cameraPlayerOffset_Y = 300;
+
+    /**
+     * Path to block image
+     */
+	public static final String blockImage = "/hr/fer/zemris/project/geom/dash/obstacles/block/placeholder-block-icon.jpg";
+	
+	/**
+	 * Path to platform image
+	 */
+	public static final String platformImage = "/hr/fer/zemris/project/geom/dash/obstacles/platform/placeholder-platform-icon.jpg";
 	
 }

@@ -3,15 +3,18 @@ package hr.fer.zemris.project.geometry.dash.model;
 import java.util.ArrayList;
 import java.util.List;
 import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Block;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Floor;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.GrassSpike;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
+import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Platform;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -78,6 +81,14 @@ public class GameWorld {
 		gameObjects = new ArrayList<>();
 		GrassSpike travica = new GrassSpike(new Vector2D(500, GameConstants.playerPosition_Y));
 		player = new Player(new Vector2D(GameConstants.playerPosition_X, GameConstants.playerPosition_Y));
+		// isprobavao postavljanje blokova i platformi
+		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));
+		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.blockImage));
+		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-3*GameConstants.iconHeight), GameConstants.blockImage));
+		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+4*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));
+		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+4*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.blockImage));
+		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+3*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));	
+		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+10*GameConstants.iconHeight, GameConstants.floorPosition_Y-5*GameConstants.iconHeight), GameConstants.iconWidth * 5, GameConstants.platformImage));
 		GameObject floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y));
 		gameObjects.add(player);
 		gameObjects.add(floor);
