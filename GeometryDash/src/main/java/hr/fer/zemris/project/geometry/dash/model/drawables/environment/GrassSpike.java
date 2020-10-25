@@ -8,10 +8,10 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 
-public class GrassSpike extends Obstacle{
+public class GrassSpike extends Obstacle {
     public GrassSpike(Vector2D position) {
         super(position);
-        this.setWidth(2*GameConstants.iconHeight);
+        this.setWidth(2 * GameConstants.iconHeight);
         this.setHeight(GameConstants.iconHeight);
     }
 
@@ -22,19 +22,23 @@ public class GrassSpike extends Obstacle{
 
     @Override
     public boolean checkCollisions(Player player) {
-        Vector2D playerDL = new Vector2D(player.getPosition().getX(), player.getPosition().getY()+GameConstants.iconHeight);
-        Vector2D playerDR = new Vector2D(player.getPosition().getX()+GameConstants.iconHeight, player.getPosition().getY()+GameConstants.iconHeight);
-
+        Vector2D playerDL = new Vector2D(GameConstants.playerPosition_X, player.getPosition().getY() + GameConstants.iconHeight);
+        Vector2D playerDR = new Vector2D(GameConstants.playerPosition_X + GameConstants.iconHeight, player.getPosition().getY() + GameConstants.iconHeight);
 
         return this.contains(playerDR) || this.contains(playerDL);
     }
 
     @Override
-    public boolean contains(Vector2D p){
+    public boolean contains(Vector2D p) {
+        return p.getX() >= this.getPositionX()
+                && p.getX() <= (this.getPositionX()+ this.getWidth())
+                && p.getY() <= (this.getPositionY()+ this.getHeight())
+                && p.getY() >= (this.getPositionY()) ;
+        /*
         if(p.getY() <= (this.getPositionY()+getHeight()) && p.getY() >= this.getPositionY()){
             return p.getX() <= (this.getPositionX() + getWidth()) && p.getX() >= this.getPositionX();
         }
-        return false;
+        return false;*/
     }
 
     @Override
