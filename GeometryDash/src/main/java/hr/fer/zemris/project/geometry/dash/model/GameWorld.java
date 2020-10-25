@@ -46,6 +46,11 @@ public class GameWorld {
 	private GameObject player;
 	
 	/**
+	 * Reference on the floor
+	 */
+	private GameObject floor;
+	
+	/**
 	 * Reference to the camera
 	 */
 	private Camera camera;
@@ -75,8 +80,8 @@ public class GameWorld {
 	
 	private void createScene() {
 		gameObjects = new ArrayList<>();
-		player = new Player(new Vector2D(GameConstants.playerPosition_X, GameConstants.playerPosition_Y));
-		GameObject floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y));
+		player = new Player(new Vector2D(GameConstants.playerPosition_X, 100), new Vector2D(30, 30));
+		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y));
 		gameObjects.add(player);
 		gameObjects.add(floor);
 	}
@@ -93,16 +98,52 @@ public class GameWorld {
 	 */
 	public void UpdateGUI() {
 		graphics.clearRect(0, 0, GameConstants.WIDTH, GameConstants.HEIGHT); // za ocistit ekran
-		if(((Player) player).getPosition().getX() - camera.getPosition().getX() > GameConstants.playerPosition_X) {
-			camera.getPosition().setPos(((Player) player).getPosition().getX() - GameConstants.playerPosition_X, camera.getPosition().getY());
-		}
-		//ovo osigurava da su player i kamera uvijek jednako udaljeni
-		if(((Player) player).getPosition().getY() - camera.getPosition().getY() > GameConstants.playerPosition_Y) {
-			camera.getPosition().setPos(camera.getPosition().getX(), ((Player) player).getPosition().getY() - GameConstants.playerPosition_Y);
-		}
-		// nakon treceg skoka
+		checkPlayerGround();
+		checkPlayerCamera_X();
+		checkPlayerCamera_Y();
+//		checkCameraGround_Y();
 		for(GameObject gameObject: gameObjects) {
 			gameObject.update(graphics, camera.getPosition());
+		}	
+	}
+	
+	private void checkCameraGround_Y() {
+		double cameraPos_Y = camera.getPosition().getY();
+		if(cameraPos_Y > GameConstants.cameraGroundOffset_Y ) {
+			camera.getPosition().setY(GameConstants.cameraGroundOffset_Y);
+		}
+	}
+	
+	/**
+	 * Distance player to camera - y coordinate
+	 */
+	private void checkPlayerCamera_Y() {
+		double playerPos_Y =((Player) player).getPosition().getY();
+		double cameraPos_Y = camera.getPosition().getY();
+		if(playerPos_Y - cameraPos_Y > GameConstants.cameraPlayerOffset_Y) {
+			camera.getPosition().setY(playerPos_Y- cameraPos_Y);
+		}
+	}
+	
+	/**
+	 * Distance player to camera - x coordinate
+	 */
+	private void checkPlayerCamera_X() {
+		double playerPos_X =((Player) player).getPosition().getX();
+		double cameraPos_X = camera.getPosition().getX();
+		if(playerPos_X - cameraPos_X > GameConstants.playerPosition_X) {
+			camera.getPosition().setX(playerPos_X - cameraPos_X);
+		}
+	}
+	
+	/**
+	 * Checks relation between player and ground
+	 */
+	private void checkPlayerGround() {
+		double playerPos_Y = ((Player) player).getPosition().getY();
+		double floorPos_Y = ((Obstacle) floor).getPosition().getY();
+		if(playerPos_Y + GameConstants.playerGroundOffset_Y > floorPos_Y) {
+			((Player) player).getPosition().setY(floorPos_Y - GameConstants.playerGroundOffset_Y);
 		}
 	}
 	

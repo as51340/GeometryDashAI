@@ -19,20 +19,10 @@ public class Player extends GameObject{
     //dimenzije lika su zadane u model.settings GameConstants (default 30x03px)
 
     /**
-     * Constant used in position calculation - pushes player down
-     */
-    private final double gravity = 0.3;  //placeholder
-
-    /**
-     * The sum of (vertical) forces on the player -> jump - gravity
-     */
-    private double force = -gravity;
-
-    /**
      * Where the player is positioned, (stationary) x and (movable) y coordinate
      */
     private Vector2D position;
-    
+        
     /**
      * Rotation angle in degrees
      */
@@ -43,6 +33,11 @@ public class Player extends GameObject{
      * Used to prevent multiple jumps in one tick
      */
     private boolean jumpIntent = false;
+    
+    /**
+     * Player speed
+     */
+    private Vector2D speed;
     
     /**
      * Character
@@ -67,9 +62,10 @@ public class Player extends GameObject{
      * Constructs a <code>Player</code>
      * @param position
      */
-    public Player(Vector2D position) {
+    public Player(Vector2D position, Vector2D speed) {
         this.position = position;
         this.character = CharactersSelector.selectedCharacter;
+        this.speed = speed; 
     }
 
     /**
@@ -105,7 +101,15 @@ public class Player extends GameObject{
 		graphics.clearRect(0, 0, graphics.getCanvas().getWidth(), graphics.getCanvas().getHeight());
 		//graphics.drawImage(this.character.getIcon(), newPosition.getX(), newPosition.getY());
 		graphics.drawImage(this.character.getIcon(), position.getX() - cameraPosition.getX(), position.getY() - cameraPosition.getY());
-		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 50f, -GameConstants.timeBetweenUpdates * 50f));
+//		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 10f, GameConstants.timeBetweenUpdates * 50f));
+//		this.position.translate(new Vector2D(0, GameConstants.timeBetweenUpdates * 40f));
+//		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 40f, 0));
+		calculatePlayerPhysics();
+	}
+	
+	private void calculatePlayerPhysics() {
+		this.position.translate(new Vector2D(this.speed.getX() * GameConstants.timeBetweenUpdates,  this.speed.getY() * GameConstants.timeBetweenUpdates));
+		this.speed.translate(new Vector2D(0,  GameConstants.GRAVITY * GameConstants.timeBetweenUpdates));
 	}
 	
 	public void rotate() {

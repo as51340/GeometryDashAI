@@ -12,8 +12,8 @@ public class Spike extends Obstacle {
     
     @Override
     public boolean checkCollisions() {
-        Vector2D obstacleUL = new Vector2D(getPositionX(), getPositionY());
-        Vector2D obstacleDR = new Vector2D(getPositionX()+getWidth(), getPositionY()+getHeight());
+//        Vector2D obstacleUL = new Vector2D((Obstacle).getPosition().getX(), this.getPosition().getY());
+//        Vector2D obstacleDR = new Vector2D(this.getPosition().getX() +getWidth(), this.getPosition().getY()+getHeight());
         //Vector2D player = Player.getPosition(); //TODO Player.getPosition()
         Vector2D playerDL = new Vector2D(0, 0); //TODO fix position
         Vector2D playerDR = new Vector2D(0, 0); //TODO fix position

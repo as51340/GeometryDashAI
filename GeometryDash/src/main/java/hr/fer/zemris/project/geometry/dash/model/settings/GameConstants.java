@@ -45,12 +45,12 @@ public class GameConstants {
     /**
      * X position of player
      */
-    public static final int playerPosition_X = 225;
+    public static final int playerPosition_X = 300;
     
     /**
      * Y position of player
      */
-    public static final int playerPosition_Y = 400;
+    public static final int playerPosition_Y = 440;
 	
     /**
      * Floor position
@@ -60,6 +60,21 @@ public class GameConstants {
     /**
      * Camera offset to player
      */
-    public static final int cameraPlayerOffset_Y = 300;
+    public static final int cameraPlayerOffset_Y = 9000;
+    
+    /**
+     * Offset camera to ground
+     */
+    public static final int cameraGroundOffset_Y = 150;
+    
+    /**
+     * Gravity constant
+     */
+    public static final int GRAVITY = 50;
 	
+    /**
+     * Offset player to ground
+     */
+    public static final int playerGroundOffset_Y = 45;
+    
 }
