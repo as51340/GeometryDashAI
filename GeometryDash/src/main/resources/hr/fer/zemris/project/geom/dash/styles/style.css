@@ -30,25 +30,25 @@
 	-fx-scale-y: 0.98;
 }
 
-.textField {
+.textFieldOption Button {
 	-fx-font-family: 'Pusab';
-	-fx-font-size: 4em;
-	-fx-text-fill: white;
-}
-
-.textFieldOption {
-	-fx-font-family: 'Pusab';
-	-fx-font-size: 1.5em;
-	-fx-text-fill: orange;
+	-fx-font-size: 32px;
+	-fx-text-fill: #ffb900;
 	-fx-border-width: 3px;
 	-fx-border-style: solid;
-	-fx-border-color: darkgreen;
-	-fx-border-radius: 7px;
-
+	-fx-border-color: white;
+	-fx-border-radius: 5px;
+	-fx-background-radius: 5px;
+	-fx-background-color: #5aa620;
 }
 
-.slider {
+.textFieldOption LabeledText {
+    -fx-fill: #ffb900;
+    -fx-effect: dropshadow(gaussian, #000000, 0, 0, 2, 2);
+}
+
+.slider LabeledText {
 	-fx-font-family: 'Pusab';
-	-fx-font-size: 2.5em;
-	-fx-text-fill: white
+	-fx-font-size: 30px;
+	-fx-fill: white;
 }

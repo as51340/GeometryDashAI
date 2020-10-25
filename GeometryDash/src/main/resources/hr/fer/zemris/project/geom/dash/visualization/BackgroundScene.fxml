@@ -53,7 +53,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="achievementsButton" fitWidth="100.0" layoutX="467.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.bottomAnchor="49.0">
+            <ImageView fx:id="achievementsButton" fitWidth="100.0" layoutX="467.0" layoutY="571.0" onMouseClicked="#achievementsButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.bottomAnchor="49.0">
                <image>
                   <Image url="@../static/achievements_btn.png" />
                </image>
@@ -69,7 +69,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="statsButton" fitWidth="100.0" layoutX="715.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.bottomAnchor="49.0">
+            <ImageView fx:id="statsButton" fitWidth="100.0" layoutX="715.0" layoutY="571.0" onMouseClicked="#statsButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.bottomAnchor="49.0">
                <image>
                   <Image url="@../static/stats_btn.png" />
                </image>

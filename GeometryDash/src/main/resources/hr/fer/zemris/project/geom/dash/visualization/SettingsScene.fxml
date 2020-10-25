@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -9,34 +13,67 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.SettingsSceneController">
    <children>
-      <Rectangle height="720.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" StackPane.alignment="CENTER" />
+      <Rectangle fx:id="overlay" height="1440.0" stroke="BLACK" strokeWidth="0.0" width="1280.0" StackPane.alignment="TOP_CENTER" />
       <Rectangle height="531.0" opacity="0.8" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="861.0" />
       <ImageView fitHeight="664.0" fitWidth="933.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
          <image>
             <Image url="@../static/frame.png" />
          </image>
       </ImageView>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <Text fill="WHITE" stroke="BLACK" strokeWidth="2.0" styleClass="text-font" text="Settings" StackPane.alignment="TOP_CENTER">
+         <font>
+            <Font size="50.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+         <StackPane.margin>
+            <Insets top="53.0" />
+         </StackPane.margin>
+      </Text>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="textFieldOption">
          <children>
-            <Text fill="WHITE" layoutX="527.0" layoutY="82.0" stroke="BLACK" strokeWidth="2.0" styleClass="text-font" text="Settings">
-               <font>
-                  <Font size="50.0" />
-               </font>
-               <effect>
-                  <DropShadow />
-               </effect>
-            </Text>
-         </children>
-      </AnchorPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
-         <children>
-            <ImageView fitHeight="67.0" fitWidth="57.0" layoutX="48.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" styleClass="menu-button">
+            <ImageView fx:id="backButton" fitHeight="67.0" fitWidth="57.0" onMouseClicked="#backButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="35.0">
                <image>
                   <Image url="@../static/back_btn.png" />
                </image>
             </ImageView>
+         	<Button layoutX="353.0" layoutY="129.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="275.0" styleClass="menu-button" text="Account">
+	            <font>
+               		<Font size="22.0" />
+	            </font>
+	         </Button>
+	         <Button layoutX="654.0" layoutY="129.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="275.0" styleClass="menu-button" text="How To Play">
+	            <font>
+	               <Font size="22.0" />
+	            </font>
+	         </Button>
+             <Button layoutX="353.0" layoutY="230.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" styleClass="menu-button" text="Rate">
+                <font>
+                   <Font size="22.0" />
+                </font>
+             </Button>
+             <Button layoutX="555.0" layoutY="230.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" styleClass="menu-button" text="Songs">
+                <font>
+                   <Font size="22.0" />
+                </font>
+             </Button>
+             <Button layoutX="754.0" layoutY="230.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" styleClass="menu-button" text="Help">
+                <font>
+                   <Font size="22.0" />
+                </font>
+             </Button>
+	         <Button layoutX="490.0" layoutY="335.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0" styleClass="menu-button" text="Options">
+	            <font>
+	               <Font size="22.0" />
+	            </font>
+	         </Button>
+	         <Label layoutX="592.0" layoutY="422.0" styleClass="slider" text="Music" />
+	         <Slider layoutX="433.0" layoutY="472.0" styleClass="slid" prefWidth="415.0" />
+	         <Label layoutX="607.0" layoutY="518.0" styleClass="slider" text="SFX" />
+	         <Slider layoutX="433.0" layoutY="565.0" styleClass="slid" prefHeight="17.0" prefWidth="415.0" />
          </children>
       </AnchorPane>
    </children>
