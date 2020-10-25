@@ -102,10 +102,10 @@ public class Player extends GameObject{
 	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
 //		System.out.println("Pozvano nacrtaj novi objekt");
 		//System.out.println(this.getCharacter().getIcon().getHeight());
-		graphics.clearRect(0, 0, graphics.getCanvas().getWidth(), graphics.getCanvas().getHeight());
+		//graphics.clearRect(0, 0, graphics.getCanvas().getWidth(), graphics.getCanvas().getHeight());
 		//graphics.drawImage(this.character.getIcon(), newPosition.getX(), newPosition.getY());
 		graphics.drawImage(this.character.getIcon(), position.getX() - cameraPosition.getX(), position.getY() - cameraPosition.getY());
-		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 50f, -GameConstants.timeBetweenUpdates * 50f));
+		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 50f, GameConstants.timeBetweenUpdates * 50f));
 	}
 	
 	public void rotate() {
