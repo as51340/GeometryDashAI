@@ -3,11 +3,7 @@ package hr.fer.zemris.project.geometry.dash.model;
 import java.util.ArrayList;
 import java.util.List;
 import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
-import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Block;
-import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Floor;
-import hr.fer.zemris.project.geometry.dash.model.drawables.environment.GrassSpike;
-import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
-import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Platform;
+import hr.fer.zemris.project.geometry.dash.model.drawables.environment.*;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
@@ -79,7 +75,8 @@ public class GameWorld {
 	
 	private void createScene() {
 		gameObjects = new ArrayList<>();
-		GrassSpike travica = new GrassSpike(new Vector2D(500, GameConstants.playerPosition_Y));
+		GrassSpike travica = new GrassSpike(new Vector2D(500, GameConstants.floorPosition_Y-GameConstants.iconHeight));
+		Spike spike = new Spike(new Vector2D(600, GameConstants.floorPosition_Y-GameConstants.iconHeight));
 		player = new Player(new Vector2D(GameConstants.playerPosition_X, GameConstants.playerPosition_Y));
 		// isprobavao postavljanje blokova i platformi
 		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));
@@ -93,6 +90,7 @@ public class GameWorld {
 		gameObjects.add(player);
 		gameObjects.add(floor);
 		gameObjects.add(travica);
+		gameObjects.add(spike);
 	}
 		
 	/**
