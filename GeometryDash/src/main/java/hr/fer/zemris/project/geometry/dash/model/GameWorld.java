@@ -118,7 +118,7 @@ public class GameWorld {
 		for(GameObject gameObject: gameObjects) {
 			if(gameObject instanceof Obstacle){
 				if(((Obstacle) gameObject).checkCollisions((Player) player)){
-					((Obstacle) gameObject).setWidth(GameConstants.iconHeight);
+					//kill player
 				}
 			}
 			gameObject.update(graphics, camera.getPosition());

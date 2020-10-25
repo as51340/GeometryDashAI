@@ -4,6 +4,7 @@ import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
@@ -13,6 +14,7 @@ public class GrassSpike extends Obstacle {
         super(position);
         this.setWidth(2 * GameConstants.iconHeight);
         this.setHeight(GameConstants.iconHeight);
+        this.setIcon(new Image("/hr/fer/zemris/project/geom/dash/obstacles/grassspike/placeholder-grassspike-icon.png", getWidth(), getHeight(), false, false));
     }
 
 //    @Override
@@ -31,9 +33,9 @@ public class GrassSpike extends Obstacle {
     @Override
     public boolean contains(Vector2D p) {
         return p.getX() >= this.getPositionX()
-                && p.getX() <= (this.getPositionX()+ this.getWidth())
-                && p.getY() <= (this.getPositionY()+ this.getHeight())
-                && p.getY() >= (this.getPositionY()) ;
+                && p.getX() <= (this.getPositionX() + this.getWidth())
+                && p.getY() <= (this.getPositionY() + this.getHeight())
+                && p.getY() >= (this.getPositionY());
         /*
         if(p.getY() <= (this.getPositionY()+getHeight()) && p.getY() >= this.getPositionY()){
             return p.getX() <= (this.getPositionX() + getWidth()) && p.getX() >= this.getPositionX();
@@ -43,7 +45,7 @@ public class GrassSpike extends Obstacle {
 
     @Override
     public void update(GraphicsContext graphics, Vector2D cameraPosition) {
-        graphics.fillRect(this.getPositionX(), this.getPositionY(), this.getWidth(), this.getHeight());
+        graphics.drawImage(this.getIcon(), this.getPositionX(), this.getPositionY());
         this.translate();
     }
 }
