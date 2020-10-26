@@ -89,4 +89,9 @@ public class GameConstants {
      */
     public static final int playerGroundOffset_Y = 45;
     
+    /**
+     * Jumping offset
+     */
+    public static final int playerJumpingOffset = -75;
+    
 }

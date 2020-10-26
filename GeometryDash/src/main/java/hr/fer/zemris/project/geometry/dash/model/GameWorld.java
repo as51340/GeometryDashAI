@@ -39,6 +39,10 @@ public class GameWorld {
 	 */
 	private CharactersSelector charactersSelector;
 	
+	public GameObject getPlayer() {
+		return player;
+	}
+
 	/**
 	 * Graphics context TODO documentation
 	 */
@@ -163,6 +167,7 @@ public class GameWorld {
 		double playerPos_Y = ((Player) player).getPosition().getY();
 		double floorPos_Y = ((Obstacle) floor).getPosition().getY();
 		if(playerPos_Y + GameConstants.playerGroundOffset_Y > floorPos_Y) {
+			((Player) player).touchesGround();
 			((Player) player).getPosition().setY(floorPos_Y - GameConstants.playerGroundOffset_Y);
 		}
 

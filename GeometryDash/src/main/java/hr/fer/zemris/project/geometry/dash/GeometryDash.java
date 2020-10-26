@@ -4,6 +4,7 @@ import java.io.IOException;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.GameWorld;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
+import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.BackgroundMusicPlayer;
 import hr.fer.zemris.project.geometry.dash.visualization.GameSceneController;
@@ -13,6 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
@@ -60,6 +63,18 @@ public class GeometryDash extends Application {
     	GameSceneController controller = fxmlLoader.<GameSceneController>getController();
     	controller.setGameEngine(gameEngine);
     	Scene scene = new Scene(root1);
+    	scene.setOnKeyPressed((e) -> {
+    		if(e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W) {
+    			Player player = (Player) gameEngine.getGameWorld().getPlayer();
+        		player.jump();	
+    		}
+    	});
+    	scene.setOnMouseClicked((e) -> {
+    		if(e.getButton() == MouseButton.PRIMARY) {
+    			Player player = (Player) gameEngine.getGameWorld().getPlayer();
+        		player.jump();	
+    		}
+    	});
     	gameEngine.createStageFromData(primaryStage);
     	gameEngine.start();
     	primaryStage.setTitle("Geometry Dash");

@@ -6,6 +6,8 @@ import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Region;
+import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 
@@ -16,6 +18,7 @@ import java.util.Vector;
  * @author Damjan
  */
 public class Player extends GameObject{
+	
     //dimenzije lika su zadane u model.settings GameConstants (default 30x03px)
 
     /**
@@ -33,6 +36,11 @@ public class Player extends GameObject{
      * Used to prevent multiple jumps in one tick
      */
     private boolean jumpIntent = false;
+    
+    /**
+     * Is touching ground
+     */
+    private boolean isTouchingGround = false;
     
     /**
      * Player speed
@@ -80,22 +88,18 @@ public class Player extends GameObject{
      * Makes the player character "jump" - adds upward force
      */
     public void jump() {
-        jumpIntent = true;
-    }
-
-    public boolean touchingGround() {
-
-        return false;
-    }
-
-    public void tick(){
-        if (jumpIntent && touchingGround()) {
-
-        }
+    	if(isTouchingGround == true) {
+    		jumpIntent = true;	
+    	}
     }
 
 	@Override
 	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
+		if(jumpIntent == true) {
+			this.position.translate(new Vector2D(0, GameConstants.playerJumpingOffset));
+			jumpIntent = false;
+			isTouchingGround = false;
+		}
 //		System.out.println("Pozvano nacrtaj novi objekt");
 		//System.out.println(this.getCharacter().getIcon().getHeight());
 		//graphics.clearRect(0, 0, graphics.getCanvas().getWidth(), graphics.getCanvas().getHeight());
@@ -108,11 +112,22 @@ public class Player extends GameObject{
 		calculatePlayerPhysics();
 	}
 	
+	/**
+	 * Calculates player physcics - gravity, speed and position
+	 */
 	private void calculatePlayerPhysics() {
 		this.position.translate(new Vector2D(this.speed.getX() * GameConstants.timeBetweenUpdates,  this.speed.getY() * GameConstants.timeBetweenUpdates));
 		this.speed.translate(new Vector2D(0,  GameConstants.GRAVITY * GameConstants.timeBetweenUpdates));
+		if(this.speed.getY() >= 100) {
+			this.speed.setY(100);
+		}
 	}
 	
-	public void rotate() {
+	/**
+	 * Sets isTouchingGround to true
+	 */
+	public void touchesGround() {
+		isTouchingGround = true;
 	}
+	
 }
