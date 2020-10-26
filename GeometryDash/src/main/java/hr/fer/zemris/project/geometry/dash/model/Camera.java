@@ -18,7 +18,7 @@ public class Camera {
 	 * Initialization constructor
 	 */
 	public Camera() {
-		position = new Vector2D(0, 0);
+		this.position = new Vector2D(0, 0);
 	}
 	
 	/**

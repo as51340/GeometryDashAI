@@ -8,6 +8,7 @@ import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.BackgroundMusicPlayer;
 import hr.fer.zemris.project.geometry.dash.visualization.GameSceneController;
+import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditorSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 public class GeometryDash extends Application {
 
 	private GameEngine gameEngine = new GameEngine(100, "Geometry Dash", GameConstants.WIDTH, GameConstants.HEIGHT);
+	
 	
 	
 	private void loadGameMenu(Stage primaryStage) throws IOException {
@@ -57,6 +59,18 @@ public class GeometryDash extends Application {
 		    primaryStage.show();
 	}
 	
+	private void loadLevelEditor(Stage primaryStage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "level/LevelEditorScene.fxml"));
+    	Parent root1 = fxmlLoader.load();
+    	LevelEditorSceneController controller = fxmlLoader.<LevelEditorSceneController>getController();
+    	Scene scene = new Scene(root1);
+    	controller.setListener();
+    	primaryStage.setResizable(true);
+    	primaryStage.setTitle("Geometry Dash");
+		primaryStage.setScene(scene);
+	    primaryStage.show();
+	}
+	
 	private void loadMain(Stage primaryStage) throws IOException {
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "GameScene.fxml"));
     	Parent root1 = fxmlLoader.load();
@@ -75,8 +89,12 @@ public class GeometryDash extends Application {
         		player.jump();	
     		}
     	});
+    	double ratio = (double) GameConstants.HEIGHT / GameConstants.WIDTH;
+        primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(ratio));
+        primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(ratio));
     	gameEngine.createStageFromData(primaryStage);
     	gameEngine.start();
+    	primaryStage.setResizable(true);
     	primaryStage.setTitle("Geometry Dash");
 		primaryStage.setScene(scene);
 	    primaryStage.show();
@@ -85,8 +103,9 @@ public class GeometryDash extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
+    	loadLevelEditor(primaryStage);
 //        loadGameMenu(primaryStage);
-    	loadMain(primaryStage);
+//    	loadMain(primaryStage);
 //    	tester
 //		Media media = new Media(getClass().getResource(GameConstants.pathToSongs + "BlahBlahBlah.mp3").toExternalForm());
 //		MediaPlayer mediaPlayer = new MediaPlayer(media);

@@ -3,6 +3,8 @@ package hr.fer.zemris.project.geometry.dash.visualization;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sun.glass.ui.Window;
+
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -30,4 +32,6 @@ public class GameSceneController {
 		this.gameEngine = gameEngine;
 		gameEngine.getGameWorld().setGraphics(canvas.getGraphicsContext2D());
 	}
+	
+	
 }

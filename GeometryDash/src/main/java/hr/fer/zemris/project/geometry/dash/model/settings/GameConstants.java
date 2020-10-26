@@ -57,7 +57,7 @@ public class GameConstants {
     /**
      * Floor position
      */
-    public static final int floorPosition_Y = 450;
+    public static final int floorPosition_Y = 630;
     
     /**
      * Camera offset to player
@@ -94,4 +94,25 @@ public class GameConstants {
      */
     public static final int playerJumpingOffset = -75;
     
+    /**
+     * Cell width for level editor
+     */
+    public static final int cell_width = 45;
+    
+    /**
+     * Cell height for level editor
+     */
+    public static final int cell_height = 45;
+    
+    /**
+     * Number of y lines on screen
+     */
+    public static final int linesLevelEditor_Y = 30;
+    
+    /**
+     * Number of x lines on the screen
+     */
+    public static final int linesLevelEditor_X = 15;
+    
+   
 }

@@ -6,6 +6,7 @@ import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 
 public class Floor extends Obstacle{
 	
@@ -25,13 +26,13 @@ public class Floor extends Obstacle{
     
 	@Override
 	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
-//		graphics.clearRect(0, 0, 1280, 720);
+//		graphics.clearRect(0, 0, 1920, 720);
 //		graphics.moveTo(0, GameConstants.floorPosition_Y);
 //		graphics.lineTo(GameConstants.WIDTH - cameraPosition.getX(), GameConstants.floorPosition_Y);
 //	    graphics.stroke();
 //	    System.out.println(GameConstants.WIDTH - cameraPosition.getX());
 		graphics.setFill(Color.CHOCOLATE);
-		graphics.fillRect(0, GameConstants.floorPosition_Y, GameConstants.WIDTH - cameraPosition.getX(), GameConstants.HEIGHT - GameConstants.floorPosition_Y);
+		graphics.fillRect(0, GameConstants.floorPosition_Y, 1920, 1080);
 	}
 
     
