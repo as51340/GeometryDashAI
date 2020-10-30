@@ -6,6 +6,7 @@ import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Settings;
+import hr.fer.zemris.project.geometry.dash.model.settings.music.SoundSystem;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -20,7 +21,7 @@ import javafx.util.Duration;
  * @author Andi Škrgat
  *
  */
-public class GameEngine {
+public class GameEngine implements SoundSystem{
 	
 	/**
 	 * Frames per second, default value is 60
@@ -53,16 +54,31 @@ public class GameEngine {
 	private GameWorld gameWorld;
 	
 	/**
+	 * {@linkplain Settings}
+	 */
+	private Settings settings;
+	
+	/**
+	 * Basic constructor that sets game's title
+	 * Creates game loop and event handler
+	 * @param title Game's title
+	 */
+	public GameEngine(int fps, String title, int width, int height) {
+		this.title = title;
+		this.width = width;
+		this.height = height;
+		this.fps = fps;;
+		settings = new Settings();
+		gameWorld = new GameWorld(); //for now list of obstacles is empty, not focus on that currently
+		createGameLoop();
+	}
+
+	/**
 	 * @return the gameWorld
 	 */
 	public GameWorld getGameWorld() {
 		return gameWorld;
 	}
-
-	/**
-	 * {@linkplain Settings}
-	 */
-	private Settings settings;
 	
 	/**
 	 * @return the fps
@@ -126,22 +142,7 @@ public class GameEngine {
 	public Timeline getGameLoop() {
 		return gameLoop;
 	}
-
-	/**
-	 * Basic constructor that sets game's title
-	 * Creates game loop and event handler
-	 * @param title Game's title
-	 */
-	public GameEngine(int fps, String title, int width, int height) {
-		this.title = title;
-		this.width = width;
-		this.height = height;
-		this.fps = fps;;
-		settings = new Settings();
-		gameWorld = new GameWorld(); //for now list of obstacles is empty, not focus on that currently
-		createGameLoop();
-	}
-
+	
 	/**
 	 * @return the settings
 	 */
@@ -192,6 +193,11 @@ public class GameEngine {
 		stage.setTitle(this.title);
 		stage.setWidth(this.width);
 		stage.setHeight(this.height);
+	}
+
+	@Override
+	public void playKillSound() {
+		//TODO
 	}
 	
 }
