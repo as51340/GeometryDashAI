@@ -1,4 +1,4 @@
-package hr.fer.zemris.project.geometry.dash.model.drawables;
+package hr.fer.zemris.project.geometry.dash.model.math;
 
 /**
  * Represents a position on the screen, using the x and y coordinates

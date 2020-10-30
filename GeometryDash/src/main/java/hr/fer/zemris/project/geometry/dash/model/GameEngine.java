@@ -2,7 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model;
 
 import java.util.ArrayList;
 
-import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Settings;

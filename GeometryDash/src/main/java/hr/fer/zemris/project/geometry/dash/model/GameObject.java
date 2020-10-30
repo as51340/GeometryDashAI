@@ -1,6 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
-import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class GameObject{

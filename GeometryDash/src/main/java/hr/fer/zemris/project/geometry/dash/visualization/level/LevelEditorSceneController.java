@@ -1,6 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.visualization.level;
 
-import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -27,6 +27,8 @@ public class LevelEditorSceneController {
 
 	@FXML
 	private Button addGrassButtton;
+	
+	private double currTime = System.currentTimeMillis();
 
 	@FXML
 	public void initialize() {
@@ -68,51 +70,20 @@ public class LevelEditorSceneController {
 		}
 	}
 
-//    public void setListener() {
-//       	grid.getScene().setOnMousePressed((e) -> {
-//    		if(e.getButton() == MouseButton.PRIMARY) {
-//    			dragCameraControls.setPressed(e);
-//    		}
-//    	});
-//       	grid.getScene().setOnMouseReleased((e) -> {
-//       		grid.getGraphicsContext2D().clearRect(0, 0, grid.getWidth(), grid.getHeight());
-//			grid.getGraphicsContext2D().beginPath();
-//       		if(e.getButton() == MouseButton.PRIMARY) {
-//       			dragCameraControls.updateCameraPosition(e.getScreenX(), e.getScreenY());
-//    			drawYLines();
-//    			drawXLines();
-//       		}
-//       	});
-//    }
-
 	public void setListener() {
-//		grid.getScene().setOnDragDetected((e) -> {
-//
-//			
-///			
-//			if (e.getButton() == MouseButton.PRIMARY) {
-//				System.out.println("dragging started");
-//				dragCameraControls.setPressed(e);
-////       			dragCameraControls.updateCameraPosition();
-////    			drawYLines();
-////    			drawXLines();
-//			}
-//		});
-//		grid.getScene().setOnDragDropped((e) -> {
-//			System.out.println("done");
-//			grid.getGraphicsContext2D().clearRect(0, 0, grid.getWidth(), grid.getHeight());
-//			grid.getGraphicsContext2D().beginPath();
-//			dragCameraControls.updateCameraPosition(e.getScreenX(), e.getScreenY());
-//			drawYLines();
-//			drawXLines();
-//		});
-
-	grid.getScene().setOnMouseDragged((e) -> {
-		grid.getGraphicsContext2D().clearRect(0, 0, grid.getWidth(), grid.getHeight());
-		grid.getGraphicsContext2D().beginPath();
-		dragCameraControls.updateCamera(new Vector2D(-e.getScreenX(), -e.getScreenY()));
-		drawYLines();
-		drawXLines();
-	});
+		
+	
+		
+		grid.getScene().setOnMouseDragged((e) -> {
+			double newTime = System.currentTimeMillis();
+			if(newTime - currTime >= 15) {
+				grid.getGraphicsContext2D().clearRect(0, 0, grid.getWidth(), grid.getHeight());
+				grid.getGraphicsContext2D().beginPath();
+				dragCameraControls.updateCamera(new Vector2D(-e.getScreenX(), -e.getScreenY()));
+				drawYLines();
+				drawXLines();
+				currTime = System.currentTimeMillis();
+			}
+		});
 	}
 }

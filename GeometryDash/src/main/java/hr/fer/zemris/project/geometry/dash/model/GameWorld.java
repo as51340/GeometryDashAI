@@ -2,7 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Block;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Floor;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.GrassSpike;

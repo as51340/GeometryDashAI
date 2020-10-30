@@ -1,7 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.player;
 
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
-import hr.fer.zemris.project.geometry.dash.model.drawables.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
