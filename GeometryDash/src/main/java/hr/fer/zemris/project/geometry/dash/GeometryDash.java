@@ -108,8 +108,8 @@ public class GeometryDash extends Application {
     public void start(Stage primaryStage) throws IOException {
 
 //    	loadLevelEditor(primaryStage);
-        loadGameMenu(primaryStage);
-//    	loadMain(primaryStage);
+//        loadGameMenu(primaryStage);
+    	loadMain(primaryStage);
 //    	tester
 //		Media media = new Media(getClass().getResource(GameConstants.pathToSongs + "BlahBlahBlah.mp3").toExternalForm());
 //		MediaPlayer mediaPlayer = new MediaPlayer(media);
