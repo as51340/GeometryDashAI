@@ -43,7 +43,7 @@
 }
 
 .textFieldOption LabeledText {
-    -fx-fill: #ffb900;
+	-fx-fill: #ffb900;
     -fx-effect: dropshadow(gaussian, #000000, 0, 0, 2, 2);
 }
 
@@ -51,4 +51,10 @@
 	-fx-font-family: 'Pusab';
 	-fx-font-size: 30px;
 	-fx-fill: white;
+}
+
+.label {
+	-fx-font-family: 'Pusab';
+	-fx-font-size: 64px;
+	-fx-text-fill: #ffb900;	
 }
