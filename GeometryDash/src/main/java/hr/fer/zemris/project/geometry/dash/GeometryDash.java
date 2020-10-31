@@ -23,11 +23,12 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
+/**
+ * From where application starts
+ */
 public class GeometryDash extends Application {
 
 	private GameEngine gameEngine = new GameEngine(100, "Geometry Dash", GameConstants.WIDTH, GameConstants.HEIGHT);
-	
-	
 	
 	private void loadGameMenu(Stage primaryStage) throws IOException {
 		Parent root = FXMLLoader.load(
@@ -64,7 +65,10 @@ public class GeometryDash extends Application {
     	Parent root1 = fxmlLoader.load();
     	LevelEditorSceneController controller = fxmlLoader.<LevelEditorSceneController>getController();
     	Scene scene = new Scene(root1);
-    	controller.setListener();
+    	controller.setListeners();
+    	gameEngine.getGameStateListener().levelEditorModeEntered(controller.getGraphicsContext());
+    	gameEngine.createStageFromData(primaryStage);
+    	gameEngine.start();
     	primaryStage.setResizable(true);
     	primaryStage.setTitle("Geometry Dash");
 		primaryStage.setScene(scene);
@@ -96,6 +100,7 @@ public class GeometryDash extends Application {
     	double ratio = (double) GameConstants.HEIGHT / GameConstants.WIDTH;
         primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(ratio));
         primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(ratio));
+        gameEngine.getGameStateListener().normalModePlayingStarted();
     	gameEngine.createStageFromData(primaryStage);
     	gameEngine.start();
     	primaryStage.setResizable(true);
@@ -107,9 +112,9 @@ public class GeometryDash extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-//    	loadLevelEditor(primaryStage);
+    	loadLevelEditor(primaryStage);
 //        loadGameMenu(primaryStage);
-    	loadMain(primaryStage);
+//    	loadMain(primaryStage);
 //    	tester
 //		Media media = new Media(getClass().getResource(GameConstants.pathToSongs + "BlahBlahBlah.mp3").toExternalForm());
 //		MediaPlayer mediaPlayer = new MediaPlayer(media);

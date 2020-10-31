@@ -32,11 +32,6 @@ public class Spike extends Obstacle {
 		return false;
 	}
 
-//	@Override
-//	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
-
-//	}
-
 	@Override
 	public void draw(GraphicsContext graphicsContext) {
 		// TODO Auto-generated method stub

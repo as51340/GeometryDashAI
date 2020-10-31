@@ -9,9 +9,8 @@ import javafx.scene.image.Image;
 
 
 /**
- * Represents character in game
+ * Represents character in game. Every character in game has icon and can be locked or unlocked from the beginning of the game
  * @author Andi Škrgat
- *
  */
 public class CharacterObject {
 	

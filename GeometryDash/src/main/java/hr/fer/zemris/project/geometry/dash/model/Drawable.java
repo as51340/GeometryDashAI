@@ -9,6 +9,10 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public interface Drawable {
 
+	/**
+	 * Method for drawing objects
+	 * @param graphicsContext tool for drawing
+	 */
 	void draw(GraphicsContext graphicsContext);
 	
 }

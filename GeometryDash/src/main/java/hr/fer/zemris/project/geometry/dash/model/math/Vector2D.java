@@ -11,6 +11,11 @@ public class Vector2D {
      */
     private double x, y;
 
+    /**
+     * Inits position
+     * @param x x coordinate
+     * @param y y coordinate
+     */
     public Vector2D(double x, double y) {
         this.x = x;
         this.y = y;
@@ -56,12 +61,8 @@ public class Vector2D {
 			} else if(y == 0 && x < 0) {
 				a1 += Math.PI;
 			}
-			
 		}
-		
-		
 		double a2 = a1 + angle;
-		//System.out.println(a2);
 		if(a2 > 2  * Math.PI) {
 			while(a2 > 2 * Math.PI) {
 				a2 -= 2 * Math.PI;
@@ -102,7 +103,6 @@ public class Vector2D {
 					y2 *= -1;
 				}
 			}
-			
 			this.x = x2;
 			this.y = y2;
 		}

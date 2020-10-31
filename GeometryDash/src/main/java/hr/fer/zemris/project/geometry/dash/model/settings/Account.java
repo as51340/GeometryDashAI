@@ -1,5 +1,10 @@
 package hr.fer.zemris.project.geometry.dash.model.settings;
 
+/**
+ * Account in game. This will enable us to remembers user data
+ * @author Andi Škrgat
+ *
+ */
 public class Account {
 
 	/**
@@ -77,10 +82,4 @@ public class Account {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
-	//pitat da li cemo tu handlat history
-	
-	
-	
-	
 }

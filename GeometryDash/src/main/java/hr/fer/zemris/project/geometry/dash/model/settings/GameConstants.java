@@ -2,6 +2,11 @@ package hr.fer.zemris.project.geometry.dash.model.settings;
 
 import javafx.scene.image.Image;
 
+/**
+ * All constants used in game
+ * @author Andi Škrgat
+ *
+ */
 public class GameConstants {
 
 	/**
@@ -114,7 +119,7 @@ public class GameConstants {
     /**
      * Number of x lines on the screen
      */
-    public static final int linesLevelEditor_X = 15;
+    public static final int linesLevelEditor_X = 14;
     
     /**
      * Obstacles speed

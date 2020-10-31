@@ -9,7 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 /**
  * The main player class, logics and engine behind the "protagonist" of <strong>Geometry Dash</strong>
- * @author Damjan
+ * @author Damjan, Andi
  */
 public class Player extends GameObject{
 	    
@@ -80,6 +80,7 @@ public class Player extends GameObject{
 	
 	/**
 	 * Sets isTouchingGround to true
+	 * TODO change that listener changes this propery
 	 */
 	public void touchesGround() {
 		isTouchingGround = true;

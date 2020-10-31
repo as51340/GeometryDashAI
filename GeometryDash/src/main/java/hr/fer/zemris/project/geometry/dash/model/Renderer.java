@@ -13,39 +13,70 @@ import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
- * Class whose job is to render objects on the scene. It has reference to the {@linkplain Camera}
+ * Class whose job is to render objects on the scene in regards to camera
  * @author Andi Škrgat
- *
+
  */
 public class Renderer {
 	
+	/**
+	 * Camera
+	 */
 	private Camera camera;
 	
+	/**
+	 * Game objects
+	 */
 	private List<GameObject> gameObjects;
 	
+	/**
+	 * Graphics context
+	 */
 	private GraphicsContext graphicsContext;
 	
+	/**
+	 * Gets game objects and inits camera
+	 * @param gameObjects game objects
+	 */
 	public Renderer(List<GameObject> gameObjects) {
 		this.camera = new Camera();
 		this.gameObjects = gameObjects;
 	}
 	
+	/**
+	 * @return camera
+	 */
 	public Camera getCamera() {
 		return camera;
 	}
 
+	/**
+	 * Sets camera
+	 * @param camera camera
+	 */
 	public void setCamera(Camera camera) {
 		this.camera = camera;
 	}
 
+	/**
+	 * @return game objects
+	 */
 	public List<GameObject> getGameObjects() {
 		return gameObjects;
 	}
 
+	/**
+	 * Set game objects
+	 * @param gameObjects
+	 */
 	public void setGameObjects(List<GameObject> gameObjects) {
 		this.gameObjects = gameObjects;
 	}
 	
+	/**
+	 * Sets tool for drawing objects
+	 * @param graphicsContext graphics context
+	 */
 	public void setGraphicsContext(GraphicsContext graphicsContext) {
 		this.graphicsContext = graphicsContext;
 	}
@@ -63,7 +94,7 @@ public class Renderer {
 	 * @param graphicsContext
 	 */
 	public void render() {
-		graphicsContext.clearRect(0, 0, GameConstants.WIDTH, GameConstants.HEIGHT); // za ocistit ekran
+		graphicsContext.clearRect(0, 0, GameConstants.WIDTH, GameConstants.HEIGHT); //clear screen from last drawing
 		for(GameObject gameObject: gameObjects) {
 //			gameObject.update(graphicsContext, this.camera.getPosition());
 			gameObject.getCurrentPosition().setX(gameObject.getCurrentPosition().getX() - camera.getPosition().getX());

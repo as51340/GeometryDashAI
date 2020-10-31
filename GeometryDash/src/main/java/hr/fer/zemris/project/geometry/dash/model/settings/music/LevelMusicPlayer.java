@@ -9,6 +9,11 @@ import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+/**
+ * Music that will be player on specific level
+ * @author Andi Škrgat
+ *
+ */
 public class LevelMusicPlayer {
 
 	/**

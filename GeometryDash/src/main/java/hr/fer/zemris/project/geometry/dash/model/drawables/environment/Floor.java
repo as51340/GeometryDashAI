@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 public class Floor extends Obstacle{
 	
-	
 	/**
 	 * Ground has to stay with camera, it must not finish
 	 */

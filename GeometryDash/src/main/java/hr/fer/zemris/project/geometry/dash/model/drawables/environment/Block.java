@@ -33,22 +33,12 @@ public class Block extends Obstacle {
 
 	/**
 	 * Returns the image of the block.
-	 * 
 	 * @return image of the block.
 	 */
 	public Image getImage() {
 		return this.image;
 	}
 	
-	/**
-	 * Updates the block's position by translating it left after every tick.
-	 */
-//	@Override
-//	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
-//		graphics.drawImage(getImage(), getCurrentPosition().getX(), getCurrentPosition().getY());
-//		getCurrentPosition().translate(new Vector2D(-GameConstants.timeBetweenUpdates * GameConstants.obstaclesSpeed, 0));
-//	}
-
 	@Override
 	public boolean contains(Vector2D p) {
 		return (p.getX() >= getCurrentPosition().getX() && p.getX() <= getCurrentPosition().getX()+ getWidth()

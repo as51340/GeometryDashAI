@@ -4,21 +4,24 @@ import java.util.ArrayList;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
+import hr.fer.zemris.project.geometry.dash.model.listeners.GameStateListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Settings;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.SoundSystem;
+import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditor;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 /**
  * Engine that will be used in implementation of game <strong>Geometry dash</strong>
  * It defines only properties that are connected directly with running game, it doesn't have any specific
  * connection with geometry dash, so it means on this "platform" can also be other games played
- * @author Andi �krgat
+ * @author Andi Škrgat
  *
  */
 public class GameEngine implements SoundSystem{
@@ -54,9 +57,24 @@ public class GameEngine implements SoundSystem{
 	private GameWorld gameWorld;
 	
 	/**
+	 * Reference to the level editor
+	 */
+	private LevelEditor levelEditor;
+	
+	/**
 	 * {@linkplain Settings}
 	 */
 	private Settings settings;
+	
+	/**
+	 * Game state listener
+	 */
+	private GameStateListener gameStateListener;
+	
+	/**
+	 * Game state
+	 */
+	private GameState gameState;
 	
 	/**
 	 * Basic constructor that sets game's title
@@ -70,6 +88,8 @@ public class GameEngine implements SoundSystem{
 		this.fps = fps;;
 		settings = new Settings();
 		gameWorld = new GameWorld(); //for now list of obstacles is empty, not focus on that currently
+		levelEditor = new LevelEditor();
+		gameStateListener = new DefaultGameStateListener();
 		createGameLoop();
 	}
 
@@ -149,6 +169,21 @@ public class GameEngine implements SoundSystem{
 	public Settings getSettings() {
 		return settings;
 	}
+	
+
+	/**
+	 * @return the gameState
+	 */
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	/**
+	 * @param gameState the gameState to set
+	 */
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
+	}
 
 	/**
 	 * Starts game loop
@@ -158,7 +193,8 @@ public class GameEngine implements SoundSystem{
 	}
 	
 	/**
-	 * @return {@linkplain KeyFrame} - sets fps and directly update time + event handler
+	 * Updates game world or level editor
+	 * @return {@linkplain KeyFrame}
 	 */
 	private KeyFrame createKeyFrame() {
 		Duration frameTime = Duration.millis(1000.0/getFps()); //for 60 FPS and that is usually standard
@@ -169,9 +205,12 @@ public class GameEngine implements SoundSystem{
    
 			@Override
 			public void handle(ActionEvent event) {
-				gameWorld.update();
+				if(gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.PRACTISE_MODE_PLAYING) {
+					gameWorld.update();	
+				} else if(gameState == GameState.LEVEL_EDITOR_MODE) {
+					levelEditor.update();
+				}
 			}
-        	
         });
         return keyFrame;
 	}
@@ -185,6 +224,20 @@ public class GameEngine implements SoundSystem{
 		gameLoop.getKeyFrames().add(createKeyFrame());
 	}
 	
+	/**
+	 * @return the levelEditor
+	 */
+	public LevelEditor getLevelEditor() {
+		return levelEditor;
+	}
+
+	/**
+	 * @return the gameStateListener
+	 */
+	public GameStateListener getGameStateListener() {
+		return gameStateListener;
+	}
+
 	/**
 	 * Initializes stage from game-engine data
 	 * @param stage {@linkplain Stage}
@@ -200,4 +253,57 @@ public class GameEngine implements SoundSystem{
 		//TODO
 	}
 	
+	/**
+	 * Implementation of {@linkplain GameStateListener}
+	 * @author Andi Škrgat
+	 */
+	public class DefaultGameStateListener implements GameStateListener{
+
+		@Override
+		public void levelEditorModeEntered(GraphicsContext graphicsContext) {
+			levelEditor.setGraphicsContext(graphicsContext);
+			gameState = GameState.LEVEL_EDITOR_MODE;
+			System.out.println("Entered level editor mode");
+		}
+
+		@Override
+		public void levelEditorModeExited() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void characterSelectorModeEntered() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void characterSelectorModeExited() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void practiseModePlayingEntered() {
+			gameState = GameState.PRACTISE_MODE_PLAYING;
+		}
+
+		@Override
+		public void practiseModePlayingExited() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void normalModePlayingStarted() {
+			gameState = GameState.NORMAL_MODE_PLAYING;
+		}
+
+		@Override
+		public void normalModePlayingExited() {
+			// TODO Auto-generated method stub
+			
+		}
+	}
 }

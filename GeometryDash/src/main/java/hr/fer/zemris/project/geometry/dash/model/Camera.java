@@ -3,9 +3,8 @@ package hr.fer.zemris.project.geometry.dash.model;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 
 /**
- * Game camera
+ * Camera object, stores position, used for rendering objects on the scene and for dragging on level editor
  * @author Andi Škrgat
- *
  */
 public class Camera {
 	
@@ -36,10 +35,6 @@ public class Camera {
 		return this.position;
 	}
 	
-	public void moveCamera(Vector2D direction) {
-		position.translate(direction);
-	}
-	
 	/**
 	 * Sets new position
 	 * @param position new position of camera
@@ -48,4 +43,11 @@ public class Camera {
 		this.position = position;
 	}
 
+	/**
+	 * Moves camera in specified direction
+	 * @param direction
+	 */
+	public void moveCamera(Vector2D direction) {
+		position.translate(direction);
+	}
 }

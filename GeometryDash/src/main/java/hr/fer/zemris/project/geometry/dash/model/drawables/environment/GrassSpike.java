@@ -37,11 +37,6 @@ public class GrassSpike extends Obstacle{
         return false;
     }
 
-//    @Override
-//    public void update(GraphicsContext graphics, Vector2D cameraPosition) {
-//        graphics.fillRect(getCurrentPosition().getX(), getCurrentPosition().getY(), getWidth(), getHeight());
-//    }
-
 	@Override
 	public void draw(GraphicsContext graphicsContext) {
 		//graphicsContext.drawImage(this.image,  getCurrentPosition().getX(), getCurrentPosition().getY());

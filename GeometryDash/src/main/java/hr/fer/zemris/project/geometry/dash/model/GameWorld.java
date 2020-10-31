@@ -18,12 +18,15 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- * Manages all current objects on scene. It also encapsulates behaving of renderer. 
+ * Manages all current objects on the scene. 
  * @author Andi Škrgat
  *
  */
 public class GameWorld {
 	
+	/**
+	 * List of all game objet+cts
+	 */
 	private List<GameObject> gameObjects;
 	
 	/**
@@ -36,10 +39,6 @@ public class GameWorld {
 	 */
 	private CharactersSelector charactersSelector;
 	
-	public GameObject getPlayer() {
-		return player;
-	}
-
 	/**
 	 * Graphics context TODO documentation
 	 */
@@ -74,34 +73,58 @@ public class GameWorld {
 		this.graphics = graphics;
 	}
 
+	/**
+	 * @return game objects
+	 */
 	public List<GameObject> getGameObjects() {
 		return gameObjects;
 	}
-
+	
+	/**
+	 * @return level manager
+	 */
 	public LevelManager getLevelManager() {
 		return levelManager;
 	}
 
+	/**
+	 * @return characters selector
+	 */
 	public CharactersSelector getCharactersSelector() {
 		return charactersSelector;
 	}
 
+	/**
+	 * @return get floor
+	 */
 	public GameObject getFloor() {
 		return floor;
 	}
 
+	/**
+	 * @return renderer
+	 */
 	public Renderer getRenderer() {
 		return renderer;
 	}
 
 	/**
-	 * @param obstacles ili ce ih primit u konstruktoru ili ce ih nekako citat iz level managera
+	 * @return player
+	 */
+	public GameObject getPlayer() {
+		return player;
+	}
+	/**
+	 * Initializes characters selector and creates scene for playing. Temporary for testing collisions and jumping on platforms
 	 */
 	public GameWorld() {
 		charactersSelector = new CharactersSelector();
 		createScene();
 	}
 	
+	/**
+	 * Creates temporary scene
+	 */
 	private void createScene() {
 		gameObjects = new ArrayList<>();
 //		GrassSpike travica = new GrassSpike(new Vector2D(500, GameConstants.playerPosition_Y));
@@ -123,7 +146,7 @@ public class GameWorld {
 	}
 
 	/**
-	 * Updates GUI
+	 * Checks for relations between camera, player and ground
 	 */
 	public void update() {
 		checkPlayerGround();
@@ -178,21 +201,4 @@ public class GameWorld {
 
 
 	}
-	
-	/**
-	 * Checks if some object is out of the scene and deletes him if neccessary
-	 */
-	public void CleanObjectsFromScene() {
-		
-	}
-	
-	/**
-	 * Adds game object to the list of game objects
-	 * @param gameObject game object
-	 */
-	public void addGameObject(GameObject gameObject) {
-		this.gameObjects.add(gameObject);
-	}
-	
-
 }

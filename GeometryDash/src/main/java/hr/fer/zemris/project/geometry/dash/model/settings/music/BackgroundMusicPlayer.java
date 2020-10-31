@@ -10,6 +10,11 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
+/**
+ * Background music player, this music will only be player on the game menu
+ * @author Andi Škrgat
+ *
+ */
 public class BackgroundMusicPlayer {
 
 	/**
@@ -41,6 +46,9 @@ public class BackgroundMusicPlayer {
 		loadBackgroundMusicPlayers();
 	}
 
+	/**
+	 * Loads songs
+	 */
 	private void loadBackgroundMusicPlayers() {
 		mediaPlayers.add(Utils.createMediaPlayer("InMyMind.mp3"));
 		mediaPlayers.add(Utils.createMediaPlayer("BlahBlahBlah.mp3"));
