@@ -47,23 +47,19 @@ public class GameConstants {
     /**
      * X position of player
      */
-    public static final int playerPosition_X = 225;
+    public static final int playerPosition_X = 300	;
     
     /**
      * Y position of player
      */
-    public static final int playerPosition_Y = 440;
+    public static final int playerPosition_Y = 560;
 	
     /**
      * Floor position
      */
-    public static final int floorPosition_Y = 550;
+    public static final int floorPosition_Y = 580;
     
-    /**
-     * Camera offset to player
-     */	
-    public static final int cameraPlayerOffset_Y = 500;
-
+   
     /**
      * Path to block image
      */
@@ -77,13 +73,19 @@ public class GameConstants {
     /**
      * Offset camera to ground
      */
-    public static final int cameraGroundOffset_Y = 150;
+    public static final int cameraGroundOffset_Y = 450;
     
     /**
      * Gravity constant
      */
-    public static final int GRAVITY = 50;
-	
+    public static final int gravity_Y = 200;
+    
+    /**
+     * Accelaration in x direction
+     */
+    public static final int acceleration_X = 100;
+    
+
     /**
      * Offset player to ground
      */
@@ -92,7 +94,7 @@ public class GameConstants {
     /**
      * Jumping offset
      */
-    public static final int playerJumpingOffset = -75;
+    public static final int playerJumpingOffset = -175;
     
     /**
      * Cell width for level editor
@@ -120,8 +122,17 @@ public class GameConstants {
     public static final int obstaclesSpeed = 50;
     
     /**
-     * Player speed
+     * Player speed X
      */
-    public static final int playerSpeed = 50;
+    public static final int playerSpeed_X = 50;
+    
+    /**
+     * Player speed Y
+     */
+    public static final int playerSpeed_Y = 50;
    
+    /**
+     * Player's final speed
+     */
+    public static final int playerFinalSpeed_Y=400;
 }

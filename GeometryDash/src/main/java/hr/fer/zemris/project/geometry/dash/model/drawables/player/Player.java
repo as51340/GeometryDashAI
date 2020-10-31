@@ -66,34 +66,15 @@ public class Player extends GameObject{
     		jumpIntent = true;	
     	}
     }
-
-//	@Override
-//	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
-//		if(jumpIntent == true) {
-//			getCurrentPosition().translate(new Vector2D(0, GameConstants.playerJumpingOffset));
-//			jumpIntent = false;
-//			isTouchingGround = false;
-//		}
-////		System.out.println("Pozvano nacrtaj novi objekt");
-//		//System.out.println(this.getCharacter().getIcon().getHeight());
-//		//graphics.clearRect(0, 0, graphics.getCanvas().getWidth(), graphics.getCanvas().getHeight());
-//		//graphics.drawImage(this.character.getIcon(), newPosition.getX(), newPosition.getY());
-//		graphics.drawImage(this.character.getIcon(), getCurrentPosition().getX() - cameraPosition.getX(), getCurrentPosition().getY() - cameraPosition.getY());
-////		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 50f, 0));
-////		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 10f, GameConstants.timeBetweenUpdates * 50f));
-////		this.position.translate(new Vector2D(0, GameConstants.timeBetweenUpdates * 40f));
-////		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 40f, 0));
-//		calculatePlayerPhysics();
-//	}
 	
 	/**
 	 * Calculates player physcics - gravity, speed and position
 	 */
 	private void calculatePlayerPhysics() {
 		getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates,  getSpeed().getY() * GameConstants.timeBetweenUpdates));
-		getSpeed().translate(new Vector2D(0,  GameConstants.GRAVITY * GameConstants.timeBetweenUpdates));
-		if(getSpeed().getY() >= 100) {
-			getSpeed().setY(100);
+		getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates,  GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
+		if(getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
+			getSpeed().setY(GameConstants.playerFinalSpeed_Y);
 		}
 	}
 	
@@ -106,6 +87,11 @@ public class Player extends GameObject{
 
 	@Override
 	public void draw(GraphicsContext graphicsContext) {
+		if(jumpIntent == true) {
+			getCurrentPosition().translate(new Vector2D(0, GameConstants.playerJumpingOffset)); //change so listeners are listening for that
+			jumpIntent = false;
+			isTouchingGround = false;
+		}
 		graphicsContext.drawImage(this.character.getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
 		calculatePlayerPhysics();
 	}

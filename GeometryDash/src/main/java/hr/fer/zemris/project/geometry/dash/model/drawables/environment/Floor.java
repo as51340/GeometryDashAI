@@ -1,6 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.Camera;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
@@ -9,6 +10,12 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 public class Floor extends Obstacle{
+	
+	
+	/**
+	 * Ground has to stay with camera, it must not finish
+	 */
+	private Camera camera;
 	
     public Floor(Vector2D position) {
         setCurrentPosition(position);
@@ -24,23 +31,23 @@ public class Floor extends Obstacle{
         return false;
     }
     
-//	@Override
-//	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
-////		graphics.clearRect(0, 0, 1920, 720);
-////		graphics.moveTo(0, GameConstants.floorPosition_Y);
-////		graphics.lineTo(GameConstants.WIDTH - cameraPosition.getX(), GameConstants.floorPosition_Y);
-////	    graphics.stroke();
-////	    System.out.println(GameConstants.WIDTH - cameraPosition.getX());
-//		graphics.setFill(Color.CHOCOLATE);
-//		graphics.fillRect(0, GameConstants.floorPosition_Y, 1920, 1080);
-//	}
-
 	@Override
 	public void draw(GraphicsContext graphicsContext) {
 		graphicsContext.setLineWidth(2);
+		if(camera != null) { //and it should be
+			setCurrentPosition(new Vector2D(camera.getPosition().getX(), getCurrentPosition().getY()));	
+		}
 		graphicsContext.strokeLine(getCurrentPosition().getX(), getCurrentPosition().getY(), GameConstants.WIDTH + getCurrentPosition().getX(),
 		getCurrentPosition().getY());
 	}
-
+	
+	/**
+	 * Sets camera
+	 * @param camera
+	 */
+	public void setCamera(Camera camera) {
+		this.camera = camera;
+	}
+	
     
 }

@@ -74,6 +74,26 @@ public class GameWorld {
 		this.graphics = graphics;
 	}
 
+	public List<GameObject> getGameObjects() {
+		return gameObjects;
+	}
+
+	public LevelManager getLevelManager() {
+		return levelManager;
+	}
+
+	public CharactersSelector getCharactersSelector() {
+		return charactersSelector;
+	}
+
+	public GameObject getFloor() {
+		return floor;
+	}
+
+	public Renderer getRenderer() {
+		return renderer;
+	}
+
 	/**
 	 * @param obstacles ili ce ih primit u konstruktoru ili ce ih nekako citat iz level managera
 	 */
@@ -93,41 +113,29 @@ public class GameWorld {
 //		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+4*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.blockImage));
 //		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+3*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));	
 //		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+10*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth * 5, GameConstants.platformImage));
-		player = new Player(new Vector2D(0, GameConstants.floorPosition_Y), new Vector2D(GameConstants.playerSpeed, 0));
+		player = new Player(new Vector2D(0,GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y));
 		gameObjects.add(player);
 		gameObjects.add(floor);
 //		gameObjects.add(travica);
 		renderer = new Renderer(gameObjects);
+		((Floor) floor).setCamera(renderer.getCamera());
 	}
 
 	/**
 	 * Updates GUI
 	 */
 	public void update() {
-//		checkPlayerGround();
+		checkPlayerGround();
 		checkPlayerCamera_X();
-//		checkPlayerCamera_Y();
-//		checkCameraGround_Y();
+		checkPlayerCamera_Y();
+		checkCameraGround_Y();
 		renderer.render();
 	}
 	
-	public List<GameObject> getGameObjects() {
-		return gameObjects;
-	}
-
-	public CharactersSelector getCharactersSelector() {
-		return charactersSelector;
-	}
-
-	public GameObject getFloor() {
-		return floor;
-	}
-
-	public Renderer getRenderer() {
-		return renderer;
-	}
-
+	/**
+	 * Camera's final y position. Tweak values!!
+	 */
 	private void checkCameraGround_Y() {
 		double cameraPos_Y = renderer.getCamera().getPosition().getY();
 		if(cameraPos_Y > GameConstants.cameraGroundOffset_Y ) {
@@ -139,11 +147,11 @@ public class GameWorld {
 	 * Distance player to camera - y coordinate
 	 */
 	private void checkPlayerCamera_Y() {
-//		double playerPos_Y =((Player) player).getPosition().getY();
-//		double cameraPos_Y = camera.getPosition().getY();
-//		if(playerPos_Y - cameraPos_Y > GameConstants.cameraPlayerOffset_Y) {
-//			camera.getPosition().setY(playerPos_Y- cameraPos_Y);
-//		}
+		double playerPos_Y = player.getCurrentPosition().getY();
+		double cameraPos_Y = renderer.getCamera().getPosition().getY();
+		if(playerPos_Y - cameraPos_Y > GameConstants.playerPosition_Y) {
+			renderer.getCamera().getPosition().setY(playerPos_Y- GameConstants.playerPosition_Y);
+		}
 	}
 	
 	/**
