@@ -29,7 +29,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Rectangle fx:id="overlay" blendMode="OVERLAY" fill="WHITE" height="760.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="2400.0" StackPane.alignment="TOP_LEFT" />
+      <Rectangle fx:id="overlay" blendMode="OVERLAY" fill="WHITE" height="760.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" StackPane.alignment="TOP_LEFT" />
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
             <ImageView fitWidth="900.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="190.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="50.0">
