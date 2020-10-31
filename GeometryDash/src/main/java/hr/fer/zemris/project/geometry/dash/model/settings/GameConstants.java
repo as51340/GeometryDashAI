@@ -57,7 +57,7 @@ public class GameConstants {
     /**
      * Floor position
      */
-    public static final int floorPosition_Y = 630;
+    public static final int floorPosition_Y = 550;
     
     /**
      * Camera offset to player
