@@ -19,15 +19,12 @@ import javafx.stage.Stage;
 
 /**
  * Manages all current objects on scene. It also encapsulates behaving of renderer. 
- * @author Andi �krgat
+ * @author Andi Škrgat
  *
  */
 public class GameWorld {
 	
-	/**
-	 * Reference to the all existing obstacles on the scene(player + obstacles)
-	 */
-	private List<GameObject> gameObjects; 
+	private List<GameObject> gameObjects;
 	
 	/**
 	 * Reference to the {@linkplain LevelManager}
@@ -59,9 +56,9 @@ public class GameWorld {
 	private GameObject floor;
 	
 	/**
-	 * Reference to the camera
+	 * Renderer
 	 */
-	private Camera camera;
+	private Renderer renderer;
 	
 	/**
 	 * @return the graphics
@@ -82,7 +79,6 @@ public class GameWorld {
 	 */
 	public GameWorld() {
 		charactersSelector = new CharactersSelector();
-		camera = new Camera();		
 		createScene();
 	}
 	
@@ -97,18 +93,12 @@ public class GameWorld {
 		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+4*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.blockImage));
 		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+3*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));	
 		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+10*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth * 5, GameConstants.platformImage));
-		player = new Player(new Vector2D(0, 300), new Vector2D(0, 30));
+		player = new Player(new Vector2D(0, GameConstants.floorPosition_Y), new Vector2D(50, 0));
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y));
 		gameObjects.add(player);
 		gameObjects.add(floor);
 		gameObjects.add(travica);
-	}
-		
-	/**
-	 * @return the camera
-	 */
-	public Camera getCamera() {
-		return camera;
+		renderer = new Renderer(gameObjects);
 	}
 
 	/**
@@ -127,14 +117,30 @@ public class GameWorld {
 
 				}
 			}
-			gameObject.update(graphics, camera.getPosition());
-		}	
+//			gameObject.update(graphics, renderer.getCamera().getPosition());
+		}
 	}
 	
+	public List<GameObject> getGameObjects() {
+		return gameObjects;
+	}
+
+	public CharactersSelector getCharactersSelector() {
+		return charactersSelector;
+	}
+
+	public GameObject getFloor() {
+		return floor;
+	}
+
+	public Renderer getRenderer() {
+		return renderer;
+	}
+
 	private void checkCameraGround_Y() {
-		double cameraPos_Y = camera.getPosition().getY();
+		double cameraPos_Y = renderer.getCamera().getPosition().getY();
 		if(cameraPos_Y > GameConstants.cameraGroundOffset_Y ) {
-			camera.getPosition().setY(GameConstants.cameraGroundOffset_Y);
+			renderer.getCamera().getPosition().setY(GameConstants.cameraGroundOffset_Y);
 		}
 	}
 	
@@ -142,21 +148,21 @@ public class GameWorld {
 	 * Distance player to camera - y coordinate
 	 */
 	private void checkPlayerCamera_Y() {
-		double playerPos_Y =((Player) player).getPosition().getY();
-		double cameraPos_Y = camera.getPosition().getY();
-		if(playerPos_Y - cameraPos_Y > GameConstants.cameraPlayerOffset_Y) {
-			camera.getPosition().setY(playerPos_Y- cameraPos_Y);
-		}
+//		double playerPos_Y =((Player) player).getPosition().getY();
+//		double cameraPos_Y = camera.getPosition().getY();
+//		if(playerPos_Y - cameraPos_Y > GameConstants.cameraPlayerOffset_Y) {
+//			camera.getPosition().setY(playerPos_Y- cameraPos_Y);
+//		}
 	}
 	
 	/**
 	 * Distance player to camera - x coordinate
 	 */
 	private void checkPlayerCamera_X() {
-		double playerPos_X =((Player) player).getPosition().getX();
-		double cameraPos_X = camera.getPosition().getX();
+		double playerPos_X = player.getCurrentPosition().getX();
+		double cameraPos_X = renderer.getCamera().getPosition().getX();
 		if(playerPos_X - cameraPos_X > GameConstants.playerPosition_X) {
-			camera.getPosition().setX(playerPos_X - cameraPos_X);
+			renderer.getCamera().getPosition().setX(playerPos_X - cameraPos_X);
 		}
 	}
 	
@@ -164,11 +170,11 @@ public class GameWorld {
 	 * Checks relation between player and ground
 	 */
 	private void checkPlayerGround() {
-		double playerPos_Y = ((Player) player).getPosition().getY();
-		double floorPos_Y = ((Obstacle) floor).getPosition().getY();
+		double playerPos_Y = player.getCurrentPosition().getY();
+		double floorPos_Y = floor.getCurrentPosition().getY();
 		if(playerPos_Y + GameConstants.playerGroundOffset_Y > floorPos_Y) {
 			((Player) player).touchesGround();
-			((Player) player).getPosition().setY(floorPos_Y - GameConstants.playerGroundOffset_Y);
+			player.getCurrentPosition().setY(floorPos_Y - GameConstants.playerGroundOffset_Y);
 		}
 
 

@@ -8,7 +8,7 @@ import javafx.scene.media.*;
 
 /**
  * Stores information about current media player, volume... Implemented Singleton design pattern
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public class MusicSettings {

@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 /**
  * Keeps all characters loaded from resources
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public class CharactersSelector {

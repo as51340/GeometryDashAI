@@ -18,7 +18,7 @@ import javafx.util.Duration;
  * Engine that will be used in implementation of game <strong>Geometry dash</strong>
  * It defines only properties that are connected directly with running game, it doesn't have any specific
  * connection with geometry dash, so it means on this "platform" can also be other games played
- * @author Andi Škrgat
+ * @author Andi ï¿½krgat
  *
  */
 public class GameEngine implements SoundSystem{
@@ -169,7 +169,7 @@ public class GameEngine implements SoundSystem{
    
 			@Override
 			public void handle(ActionEvent event) {
-				gameWorld.UpdateGUI();
+				gameWorld.getRenderer().render();
 			}
         	
         });

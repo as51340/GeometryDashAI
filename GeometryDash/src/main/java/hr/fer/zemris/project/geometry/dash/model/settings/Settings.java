@@ -6,7 +6,7 @@ import hr.fer.zemris.project.geometry.dash.model.settings.music.MusicSettings;
 
 /**
  * Game settings
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public class Settings {

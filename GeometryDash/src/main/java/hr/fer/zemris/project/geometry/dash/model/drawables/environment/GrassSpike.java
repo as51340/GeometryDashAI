@@ -10,9 +10,9 @@ import javafx.scene.shape.Rectangle;
 
 public class GrassSpike extends Obstacle{
     public GrassSpike(Vector2D position) {
-        super(position);
-        this.setWidth(2*GameConstants.iconHeight);
-        this.setHeight(GameConstants.iconHeight);
+        setCurrentPosition(position);
+        setWidth(2*GameConstants.iconHeight);
+        setHeight(GameConstants.iconHeight);
     }
 
 //    @Override
@@ -22,8 +22,8 @@ public class GrassSpike extends Obstacle{
 
     @Override
     public boolean checkCollisions(Player player) {
-        Vector2D playerDL = new Vector2D(player.getPosition().getX(), player.getPosition().getY()+GameConstants.iconHeight);
-        Vector2D playerDR = new Vector2D(player.getPosition().getX()+GameConstants.iconHeight, player.getPosition().getY()+GameConstants.iconHeight);
+        Vector2D playerDL = new Vector2D(player.getCurrentPosition().getX(), player.getCurrentPosition().getY()+GameConstants.iconHeight);
+        Vector2D playerDR = new Vector2D(player.getCurrentPosition().getX()+GameConstants.iconHeight, player.getCurrentPosition().getY()+GameConstants.iconHeight);
 
 
         return this.contains(playerDR) || this.contains(playerDL);
@@ -31,15 +31,20 @@ public class GrassSpike extends Obstacle{
 
     @Override
     public boolean contains(Vector2D p){
-        if(p.getY() <= (this.getPosition().getY()+getHeight()) && p.getY() >= this.getPosition().getY()){
-            return p.getX() <= (this.getPosition().getX() + getWidth()) && p.getX() >= this.getPosition().getX();
+        if(p.getY() <= (getCurrentPosition().getY()+getHeight()) && p.getY() >= getCurrentPosition().getY()){
+            return p.getX() <= (getCurrentPosition()).getX() + getWidth() && p.getX() >= getCurrentPosition().getX();
         }
         return false;
     }
 
-    @Override
-    public void update(GraphicsContext graphics, Vector2D cameraPosition) {
-        graphics.fillRect(this.getPosition().getX(), this.getPosition().getY(), this.getWidth(), this.getHeight());
-        this.translate();
-    }
+//    @Override
+//    public void update(GraphicsContext graphics, Vector2D cameraPosition) {
+//        graphics.fillRect(getCurrentPosition().getX(), getCurrentPosition().getY(), getWidth(), getHeight());
+//    }
+
+	@Override
+	public void draw(GraphicsContext graphicsContext) {
+		//graphicsContext.drawImage(this.image,  getCurrentPosition().getX(), getCurrentPosition().getY());
+		//here it should be image
+	}
 }

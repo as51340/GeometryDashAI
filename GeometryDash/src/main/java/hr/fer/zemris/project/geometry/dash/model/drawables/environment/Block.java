@@ -25,7 +25,7 @@ public class Block extends Obstacle {
 	 * @param image image of the block.
 	 */
 	public Block(Vector2D position, String image) {
-		super(position);
+		setCurrentPosition(position);
 		setHeight(GameConstants.iconHeight);
 		setWidth(GameConstants.iconHeight);
 		this.image = new Image(image, getWidth(), getHeight(), false, false);	
@@ -43,16 +43,16 @@ public class Block extends Obstacle {
 	/**
 	 * Updates the block's position by translating it left after every tick.
 	 */
-	@Override
-	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
-		graphics.drawImage(this.getImage(), this.getPosition().getX(), this.getPosition().getY());
-		this.getPosition().translate(new Vector2D(-GameConstants.timeBetweenUpdates * 50f, 0));
-	}
+//	@Override
+//	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
+//		graphics.drawImage(getImage(), getCurrentPosition().getX(), getCurrentPosition().getY());
+//		getCurrentPosition().translate(new Vector2D(-GameConstants.timeBetweenUpdates * GameConstants.obstaclesSpeed, 0));
+//	}
 
 	@Override
 	public boolean contains(Vector2D p) {
-		return (p.getX() >= this.getPosition().getX() && p.getX() <= this.getPosition().getX()+this.getWidth()
-					&& 	p.getY() >= this.getPosition().getY() && p.getY() <= this.getPosition().getY()+this.getHeight());
+		return (p.getX() >= getCurrentPosition().getX() && p.getX() <= getCurrentPosition().getX()+ getWidth()
+					&& 	p.getY() >= getCurrentPosition().getY() && p.getY() <= getCurrentPosition().getY()+ getHeight());
 			
 	}
 
@@ -60,5 +60,10 @@ public class Block extends Obstacle {
 	public boolean checkCollisions(Player player) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void draw(GraphicsContext graphicsContext) {
+		graphicsContext.drawImage(this.image,  getCurrentPosition().getX(), getCurrentPosition().getY());
 	}
 }

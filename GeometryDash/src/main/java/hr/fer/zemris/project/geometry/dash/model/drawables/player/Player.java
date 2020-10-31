@@ -6,26 +6,13 @@ import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Region;
-import javafx.scene.transform.Affine;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
-
-import java.util.Vector;
 
 /**
  * The main player class, logics and engine behind the "protagonist" of <strong>Geometry Dash</strong>
  * @author Damjan
  */
 public class Player extends GameObject{
-	
-    //dimenzije lika su zadane u model.settings GameConstants (default 30x03px)
-
-    /**
-     * Where the player is positioned, (stationary) x and (movable) y coordinate
-     */
-    private Vector2D position;
-        
+	    
     /**
      * Rotation angle in degrees
      */
@@ -41,12 +28,7 @@ public class Player extends GameObject{
      * Is touching ground
      */
     private boolean isTouchingGround = false;
-    
-    /**
-     * Player speed
-     */
-    private Vector2D speed;
-    
+   
     /**
      * Character
      */
@@ -71,17 +53,9 @@ public class Player extends GameObject{
      * @param position
      */
     public Player(Vector2D position, Vector2D speed) {
-        this.position = position;
+        setCurrentPosition(position);
         this.character = CharactersSelector.selectedCharacter;
-        this.speed = speed; 
-    }
-
-    /**
-     * Returns the coordinates of the upper left corner of the player's hurtbox
-     * @return <code>Point</code> object containing the player's position
-     */
-    public Vector2D getPosition() {
-        return position;
+        setSpeed(speed);
     }
 
     /**
@@ -93,33 +67,33 @@ public class Player extends GameObject{
     	}
     }
 
-	@Override
-	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
-		if(jumpIntent == true) {
-			this.position.translate(new Vector2D(0, GameConstants.playerJumpingOffset));
-			jumpIntent = false;
-			isTouchingGround = false;
-		}
-//		System.out.println("Pozvano nacrtaj novi objekt");
-		//System.out.println(this.getCharacter().getIcon().getHeight());
-		//graphics.clearRect(0, 0, graphics.getCanvas().getWidth(), graphics.getCanvas().getHeight());
-		//graphics.drawImage(this.character.getIcon(), newPosition.getX(), newPosition.getY());
-		graphics.drawImage(this.character.getIcon(), position.getX() - cameraPosition.getX(), position.getY() - cameraPosition.getY());
-//		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 50f, 0));
-//		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 10f, GameConstants.timeBetweenUpdates * 50f));
-//		this.position.translate(new Vector2D(0, GameConstants.timeBetweenUpdates * 40f));
-//		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 40f, 0));
-		calculatePlayerPhysics();
-	}
+//	@Override
+//	public void update(GraphicsContext graphics, Vector2D cameraPosition) {
+//		if(jumpIntent == true) {
+//			getCurrentPosition().translate(new Vector2D(0, GameConstants.playerJumpingOffset));
+//			jumpIntent = false;
+//			isTouchingGround = false;
+//		}
+////		System.out.println("Pozvano nacrtaj novi objekt");
+//		//System.out.println(this.getCharacter().getIcon().getHeight());
+//		//graphics.clearRect(0, 0, graphics.getCanvas().getWidth(), graphics.getCanvas().getHeight());
+//		//graphics.drawImage(this.character.getIcon(), newPosition.getX(), newPosition.getY());
+//		graphics.drawImage(this.character.getIcon(), getCurrentPosition().getX() - cameraPosition.getX(), getCurrentPosition().getY() - cameraPosition.getY());
+////		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 50f, 0));
+////		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 10f, GameConstants.timeBetweenUpdates * 50f));
+////		this.position.translate(new Vector2D(0, GameConstants.timeBetweenUpdates * 40f));
+////		this.position.translate(new Vector2D(GameConstants.timeBetweenUpdates * 40f, 0));
+//		calculatePlayerPhysics();
+//	}
 	
 	/**
 	 * Calculates player physcics - gravity, speed and position
 	 */
 	private void calculatePlayerPhysics() {
-		this.position.translate(new Vector2D(this.speed.getX() * GameConstants.timeBetweenUpdates,  this.speed.getY() * GameConstants.timeBetweenUpdates));
-		this.speed.translate(new Vector2D(0,  GameConstants.GRAVITY * GameConstants.timeBetweenUpdates));
-		if(this.speed.getY() >= 100) {
-			this.speed.setY(100);
+		getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates,  getSpeed().getY() * GameConstants.timeBetweenUpdates));
+		getSpeed().translate(new Vector2D(0,  GameConstants.GRAVITY * GameConstants.timeBetweenUpdates));
+		if(getSpeed().getY() >= 100) {
+			getSpeed().setY(100);
 		}
 	}
 	
@@ -128,6 +102,11 @@ public class Player extends GameObject{
 	 */
 	public void touchesGround() {
 		isTouchingGround = true;
+	}
+
+	@Override
+	public void draw(GraphicsContext graphicsContext) {
+		graphicsContext.drawImage(this.character.getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
 	}
 	
 }

@@ -30,7 +30,7 @@ public class GameSceneController {
 
 	public void setGameEngine(GameEngine gameEngine) {
 		this.gameEngine = gameEngine;
-		gameEngine.getGameWorld().setGraphics(canvas.getGraphicsContext2D());
+		gameEngine.getGameWorld().getRenderer().setGraphicsContext(canvas.getGraphicsContext2D());
 	}
 	
 	

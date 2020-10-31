@@ -12,7 +12,7 @@ import javafx.scene.media.MediaPlayer;
 
 /**
  * Loads icon and media player from memory
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public class Utils {

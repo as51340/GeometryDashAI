@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
 
 /**
  * Represents character in game
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public class CharacterObject {

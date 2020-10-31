@@ -118,7 +118,7 @@ public class BackgroundMusicPlayer {
 	/**
 	 * Thread factory for creating daemon threads
 	 * 
-	 * @author Andi Škrgat
+	 * @author Andi Å krgat
 	 *
 	 */
 	private class BackgroundThreadFactory implements ThreadFactory {

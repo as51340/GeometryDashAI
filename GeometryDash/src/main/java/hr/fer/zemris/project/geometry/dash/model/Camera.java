@@ -4,7 +4,7 @@ import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 
 /**
  * Game camera
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public class Camera {

@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Somehow will read data from xml or some other type and create objects on that positions
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public class LevelManager {

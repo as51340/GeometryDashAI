@@ -2,7 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model.stats;
 
 /**
  * Handles all statistic from game
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public class Stats {

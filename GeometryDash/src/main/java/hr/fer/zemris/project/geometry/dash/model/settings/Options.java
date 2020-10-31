@@ -2,7 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model.settings;
 
 /**
  * Specifies all options user can manage
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public class Options {

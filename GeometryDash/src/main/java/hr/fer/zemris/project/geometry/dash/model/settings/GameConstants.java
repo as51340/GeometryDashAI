@@ -114,5 +114,10 @@ public class GameConstants {
      */
     public static final int linesLevelEditor_X = 15;
     
+    /**
+     * Obstacles speed
+     */
+    public static final int obstaclesSpeed = 50;
+    
    
 }
