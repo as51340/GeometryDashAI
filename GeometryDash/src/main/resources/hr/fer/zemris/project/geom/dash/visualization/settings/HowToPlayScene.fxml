@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.paint.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.settings.controllers.HowToPlaySceneController">
+   <children>
+      <Rectangle fx:id="overlay" height="1440.0" stroke="BLACK" strokeWidth="0.0" width="1280.0" StackPane.alignment="TOP_CENTER" />
+      <Rectangle height="531.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="861.0" />
+      <ImageView fitHeight="664.0" fitWidth="933.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+         <image>
+            <Image url="@../../static/frame.png" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" stroke="BLACK" strokeWidth="2.0" styleClass="text-font" text="How to play?" StackPane.alignment="TOP_CENTER">
+         <font>
+            <Font size="50.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+         <StackPane.margin>
+            <Insets top="53.0" />
+         </StackPane.margin>
+      </Text>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Region layoutX="401.0" layoutY="283.0" prefHeight="280.0" prefWidth="478.0" styleClass="image" stylesheets="@../../styles/style.css" />
+            <ImageView fx:id="backButton" fitHeight="67.0" fitWidth="57.0" onMouseClicked="#backButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="35.0">
+               <image>
+                  <Image url="@../../static/back_btn.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="327.0" layoutY="196.0" style="-fx-font-size: 40px;" styleClass="slider" text="Click or press Space to Jump">
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="BLACK" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

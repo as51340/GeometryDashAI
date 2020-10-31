@@ -43,7 +43,7 @@
 }
 
 .textFieldOption LabeledText {
-    -fx-fill: #ffb900;
+	-fx-fill: #ffb900;
     -fx-effect: dropshadow(gaussian, #000000, 0, 0, 2, 2);
 }
 
@@ -51,4 +51,25 @@
 	-fx-font-family: 'Pusab';
 	-fx-font-size: 30px;
 	-fx-fill: white;
+}
+
+.label {
+	-fx-font-family: 'Pusab';
+	-fx-font-size: 64px;
+	-fx-text-fill: #ffb900;	
+}
+
+CheckBox {
+	-fx-font-family: 'Pusab';
+	-fx-text-fill: #ffb900;	
+	-fx-font-size: 30px;
+}
+
+.image {
+	-fx-background-image: url('../static/how_to_play.jpg');
+	-fx-border-width: 5px;
+	-fx-border-style: solid;
+	-fx-border-color: white;
+	-fx-border-radius: 5px;
+	-fx-background-radius: 5px;
 }
