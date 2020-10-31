@@ -16,6 +16,7 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -60,7 +61,7 @@ public class GameSceneController {
 
 	public void setGameEngine(GameEngine gameEngine) {
 		this.gameEngine = gameEngine;
-		//gameEngine.getGameWorld().getRenderer().setGraphicsContext(canvas.getGraphicsContext2D());
+		gameEngine.getGameWorld().getRenderer().setGraphicsContext(canvas.getGraphicsContext2D());
 	}
 	
 	@FXML

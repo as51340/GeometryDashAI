@@ -96,8 +96,8 @@ public class GeometryDash extends Application {
     	root1.scaleXProperty().bind(scene.widthProperty().divide(origW));
         root1.scaleYProperty().bind(scene.heightProperty().divide(origH));
     	double ratio = (double) GameConstants.HEIGHT / GameConstants.WIDTH;
-        primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(ratio));
-        primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(ratio));
+        //primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(ratio));
+        //primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(ratio));
     	//gameEngine.createStageFromData(primaryStage);
     	//gameEngine.start();
     	primaryStage.setResizable(true);
