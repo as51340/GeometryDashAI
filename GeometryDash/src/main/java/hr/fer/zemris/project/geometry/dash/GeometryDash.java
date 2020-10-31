@@ -80,6 +80,7 @@ public class GeometryDash extends Application {
     	Parent root1 = fxmlLoader.load();
     	GameSceneController controller = fxmlLoader.<GameSceneController>getController();
     	controller.setGameEngine(gameEngine);
+    	
     	Scene scene = new Scene(root1);
     	scene.setOnKeyPressed((e) -> {
     		if(e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W) {
@@ -93,6 +94,7 @@ public class GeometryDash extends Application {
         		player.jump();	
     		}
     	});
+    	
         double origW = GameConstants.WIDTH;
         double origH = GameConstants.HEIGHT;
     	root1.scaleXProperty().bind(scene.widthProperty().divide(origW));
@@ -112,9 +114,10 @@ public class GeometryDash extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-    	loadLevelEditor(primaryStage);
+//    	loadLevelEditor(primaryStage);
 //        loadGameMenu(primaryStage);
-//    	loadMain(primaryStage);
+    	loadMain(primaryStage);
+
 //    	tester
 //		Media media = new Media(getClass().getResource(GameConstants.pathToSongs + "BlahBlahBlah.mp3").toExternalForm());
 //		MediaPlayer mediaPlayer = new MediaPlayer(media);
