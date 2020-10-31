@@ -119,5 +119,9 @@ public class GameConstants {
      */
     public static final int obstaclesSpeed = 50;
     
+    /**
+     * Player speed
+     */
+    public static final int playerSpeed = 50;
    
 }

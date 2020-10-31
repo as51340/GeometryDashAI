@@ -169,7 +169,7 @@ public class GameEngine implements SoundSystem{
    
 			@Override
 			public void handle(ActionEvent event) {
-				gameWorld.getRenderer().render();
+				gameWorld.update();
 			}
         	
         });

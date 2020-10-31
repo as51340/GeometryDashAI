@@ -37,8 +37,9 @@ public class Floor extends Obstacle{
 
 	@Override
 	public void draw(GraphicsContext graphicsContext) {
-		// TODO Auto-generated method stub
-		
+		graphicsContext.setLineWidth(2);
+		graphicsContext.strokeLine(getCurrentPosition().getX(), getCurrentPosition().getY(), GameConstants.WIDTH + getCurrentPosition().getX(),
+		getCurrentPosition().getY());
 	}
 
     

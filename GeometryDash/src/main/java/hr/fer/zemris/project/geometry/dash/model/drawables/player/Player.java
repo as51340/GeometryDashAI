@@ -107,6 +107,7 @@ public class Player extends GameObject{
 	@Override
 	public void draw(GraphicsContext graphicsContext) {
 		graphicsContext.drawImage(this.character.getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
+		calculatePlayerPhysics();
 	}
 	
 }

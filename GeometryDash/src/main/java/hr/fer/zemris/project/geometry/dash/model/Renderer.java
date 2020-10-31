@@ -63,13 +63,12 @@ public class Renderer {
 	 * @param graphicsContext
 	 */
 	public void render() {
+		graphicsContext.clearRect(0, 0, GameConstants.WIDTH, GameConstants.HEIGHT); // za ocistit ekran
 		for(GameObject gameObject: gameObjects) {
 //			gameObject.update(graphicsContext, this.camera.getPosition());
-			Vector2D gameObjectOldPosition = gameObject.getCurrentPosition();
 			gameObject.getCurrentPosition().setX(gameObject.getCurrentPosition().getX() - camera.getPosition().getX());
 			gameObject.getCurrentPosition().setY(gameObject.getCurrentPosition().getY() - camera.getPosition().getY());
 			gameObject.draw(graphicsContext);
-			gameObject.setCurrentPosition(gameObjectOldPosition);
 		}
 	}
 
