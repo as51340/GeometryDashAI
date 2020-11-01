@@ -8,6 +8,7 @@ import hr.fer.zemris.project.geometry.dash.model.listeners.GameStateListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Settings;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.SoundSystem;
+import hr.fer.zemris.project.geometry.dash.visualization.level.GridAttaching;
 import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditor;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -209,6 +210,7 @@ public class GameEngine implements SoundSystem{
 					gameWorld.update();	
 				} else if(gameState == GameState.LEVEL_EDITOR_MODE) {
 					levelEditor.update();
+					levelEditor.draw();
 				}
 			}
         });
@@ -255,7 +257,7 @@ public class GameEngine implements SoundSystem{
 	
 	/**
 	 * Implementation of {@linkplain GameStateListener}
-	 * @author Andi Å krgat
+	 * @author Andi Škrgat
 	 */
 	public class DefaultGameStateListener implements GameStateListener{
 
@@ -263,7 +265,6 @@ public class GameEngine implements SoundSystem{
 		public void levelEditorModeEntered(GraphicsContext graphicsContext) {
 			levelEditor.setGraphicsContext(graphicsContext);
 			gameState = GameState.LEVEL_EDITOR_MODE;
-			System.out.println("Entered level editor mode");
 		}
 
 		@Override

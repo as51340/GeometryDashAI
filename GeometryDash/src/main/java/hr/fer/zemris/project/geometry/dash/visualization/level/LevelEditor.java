@@ -1,94 +1,101 @@
 package hr.fer.zemris.project.geometry.dash.visualization.level;
 
 import hr.fer.zemris.project.geometry.dash.model.Camera;
+import hr.fer.zemris.project.geometry.dash.model.Changeable;
+import hr.fer.zemris.project.geometry.dash.model.Drawable;
+import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.level.mouse.MouseHandler;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 /**
  * Full featured level editor
- * @author Andi Å krgat
+ * @author Andi Škrgat
  *
  */
-public class LevelEditor {
+public class LevelEditor implements Drawable, Changeable{
 
-	private Vector2D lastMousePosition;
-	
 	private GraphicsContext graphicsContext;
 	
 	private Camera camera;
 	
 	private MouseHandler mouseHandler = MouseHandler.getInstance();
 	
+	private GridAttaching gridAttaching;
+
+	private DragCameraControls dragCameraControls;
+	
+	
+	
 	public LevelEditor() {
-		lastMousePosition = new Vector2D(0, 0);
 		camera = new Camera();
-	}
-
-	/**
-	 * @return the lastMousePosition
-	 */
-	public Vector2D getLastMousePosition() {
-		return lastMousePosition;
-	}
-
-	/**
-	 * @param lastMousePosition the lastMousePosition to set
-	 */
-	public void setLastMousePosition(Vector2D lastMousePosition) {
-		this.lastMousePosition = lastMousePosition;
+		dragCameraControls = new DragCameraControls(camera, mouseHandler);
+		gridAttaching = new GridAttaching(mouseHandler, camera);
 	}
 	
+	/**
+	 * When game is level editor mode then graphics is set and it can be used for drawing objects on grid
+	 * @param graphicsContext
+	 */
 	public void setGraphicsContext(GraphicsContext graphicsContext) {
 		this.graphicsContext = graphicsContext;
 	}
-	
-	/**
-	 * On every tick level editor will be updated but only if user is on level editor
-	 */
+
+	@Override
 	public void update() {
-		if(mouseHandler.getMousePressedButton() == MouseButton.SECONDARY) {
-			double delta_x = mouseHandler.getMouse_x() + mouseHandler.getDeltaDrag_x() - lastMousePosition.getX();
-			double delta_y = mouseHandler.getMouse_y() + mouseHandler.getDeltaDrag_y() - lastMousePosition.getY();
-			camera.moveCamera(new Vector2D(-delta_x, -delta_y));
-		}
-		lastMousePosition = new Vector2D(mouseHandler.getMouse_x() + mouseHandler.getDeltaDrag_x(), mouseHandler.getMouse_y() + mouseHandler.getDeltaDrag_y());
+		dragCameraControls.update();
+		gridAttaching.update();
+	}
+
+	@Override
+	public void draw(GraphicsContext graphicsContext) {
 		graphicsContext.clearRect(0, 0, GameConstants.WIDTH, GameConstants.HEIGHT);
-		drawYLines();
-		drawXLines();
+		dragCameraControls.draw(graphicsContext);
+		gridAttaching.draw(graphicsContext);
 	}
 	
-	/**
-	 * Draws vertical lines on grid
-	 */
-	private void drawYLines() {
-		double x_start = Math.floor(camera.getPosition().getX() / GameConstants.cell_width)
-				* GameConstants.cell_width - camera.getPosition().getX();
-		graphicsContext.setLineWidth(0.5);
-		graphicsContext.setStroke(Color.DIMGRAY);
-		for (int i = 0; i < GameConstants.linesLevelEditor_Y; i++) {
-			graphicsContext.strokeLine(x_start, 0, x_start, GameConstants.floorPosition_Y);
-			x_start += GameConstants.cell_width;
-			
-		}
+	public void draw() {
+		draw(this.graphicsContext);
 	}
 
 	/**
-	 * Draws horizontal lines on grid
+	 * @return the graphicsContext
 	 */
-	private void drawXLines() {
-		double y_start = Math.floor(camera.getPosition().getY() / GameConstants.cell_height)
-				* GameConstants.cell_height - camera.getPosition().getY();
-		graphicsContext.setLineWidth(0.5);
-		graphicsContext.setStroke(Color.DIMGRAY);
-		for (int i = 0; i < GameConstants.linesLevelEditor_X; i++) {
-			graphicsContext.strokeLine(0, y_start, GameConstants.WIDTH, y_start);
-			y_start += GameConstants.cell_height;
-		}
+	public GraphicsContext getGraphicsContext() {
+		return graphicsContext;
+	}
+
+	/**
+	 * @return the camera
+	 */
+	public Camera getCamera() {
+		return camera;
+	}
+
+	/**
+	 * @return the mouseHandler
+	 */
+	public MouseHandler getMouseHandler() {
+		return mouseHandler;
+	}
+
+	/**
+	 * @return the gridAttaching
+	 */
+	public GridAttaching getGridAttaching() {
+		return gridAttaching;
+	}
+
+	/**
+	 * @return the dragCameraControls
+	 */
+	public DragCameraControls getDragCameraControls() {
+		return dragCameraControls;
 	}
 	
 	

@@ -66,6 +66,7 @@ public class GeometryDash extends Application {
     	LevelEditorSceneController controller = fxmlLoader.<LevelEditorSceneController>getController();
     	Scene scene = new Scene(root1);
     	controller.setListeners();
+    	controller.setGameEngine(gameEngine);
     	gameEngine.getGameStateListener().levelEditorModeEntered(controller.getGraphicsContext());
     	gameEngine.createStageFromData(primaryStage);
     	gameEngine.start();
@@ -114,9 +115,9 @@ public class GeometryDash extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-//    	loadLevelEditor(primaryStage);
+    	loadLevelEditor(primaryStage);
 //        loadGameMenu(primaryStage);
-    	loadMain(primaryStage);
+//    	loadMain(primaryStage);
 
 //    	tester
 //		Media media = new Media(getClass().getResource(GameConstants.pathToSongs + "BlahBlahBlah.mp3").toExternalForm());

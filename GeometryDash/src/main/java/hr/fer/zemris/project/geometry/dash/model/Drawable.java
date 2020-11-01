@@ -4,7 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 /**
  * Specifies that some object can be drawn
- * @author Andi Škrgat
+ * @author Andi Skrgat
  *
  */
 public interface Drawable {

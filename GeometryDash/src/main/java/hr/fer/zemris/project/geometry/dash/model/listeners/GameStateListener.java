@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.model.listeners;
 
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import javafx.scene.canvas.GraphicsContext;
 
 /**

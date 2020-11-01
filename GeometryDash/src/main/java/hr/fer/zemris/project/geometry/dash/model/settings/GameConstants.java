@@ -62,7 +62,7 @@ public class GameConstants {
     /**
      * Floor position
      */
-    public static final int floorPosition_Y = 580;
+    public static final int floorPosition_Y = 495;
     
    
     /**
@@ -119,7 +119,7 @@ public class GameConstants {
     /**
      * Number of x lines on the screen
      */
-    public static final int linesLevelEditor_X = 14;
+    public static final int linesLevelEditor_X = 12;
     
     /**
      * Obstacles speed
@@ -140,4 +140,9 @@ public class GameConstants {
      * Player's final speed
      */
     public static final int playerFinalSpeed_Y=400;
+    
+    /**
+     * Time between recognizing mouse input for placing objects on the screen
+     */
+    public static final double transparentTimeLevel = 0.05;
 }
