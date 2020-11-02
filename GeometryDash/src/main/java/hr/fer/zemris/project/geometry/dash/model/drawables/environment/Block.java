@@ -46,6 +46,16 @@ public class Block extends Obstacle {
 			
 	}
 
+	public boolean playerIsOn(Player player){
+		Vector2D playerDL = new Vector2D(player.getCurrentPosition().getX(), player.getCurrentPosition().getY() + GameConstants.iconHeight);
+		Vector2D playerDR = new Vector2D(player.getCurrentPosition().getX() + GameConstants.iconHeight, player.getCurrentPosition().getY() + GameConstants.iconHeight);
+
+
+		return playerDL.getY() == this.getCurrentPosition().getY()
+				&& playerDR.getX() > this.getCurrentPosition().getX()
+				&& playerDL.getX() < (this.getCurrentPosition().getX()+this.getWidth());
+	}
+
 	@Override
 	public boolean checkCollisions(Player player) {
 		Vector2D playerUR = new Vector2D(player.getCurrentPosition().getX() + GameConstants.iconHeight, player.getCurrentPosition().getY());
