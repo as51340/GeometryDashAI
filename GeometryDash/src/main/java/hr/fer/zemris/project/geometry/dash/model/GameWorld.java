@@ -153,7 +153,18 @@ public class GameWorld {
 		checkPlayerCamera_X();
 		checkPlayerCamera_Y();
 		checkCameraGround_Y();
+		checkCollision();
 		renderer.render();
+	}
+
+	private void checkCollision(){
+		for(GameObject gameObject: gameObjects) {
+			if(gameObject instanceof Obstacle){
+				if(((Obstacle) gameObject).checkCollisions((Player) player)){
+					//kill player
+				}
+			}
+		}
 	}
 	
 	/**

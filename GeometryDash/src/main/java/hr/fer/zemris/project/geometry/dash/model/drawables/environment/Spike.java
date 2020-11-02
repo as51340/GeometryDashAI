@@ -2,40 +2,38 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
+import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 public class Spike extends Obstacle {
-	
+	//note: position here is lowe left corner!
 	public Spike(Vector2D position) {
 		setCurrentPosition(position);
+		this.setWidth(GameConstants.iconHeight); //stranica a
+		this.setHeight((int) (GameConstants.iconHeight * Math.sqrt(3) / 2)); // visina trokuta
+		this.setIcon(new Image("/hr/fer/zemris/project/geom/dash/obstacles/spike/placeholder-spike-icon.png", getWidth(), getHeight(), false, false));
+
 	}
 
 	@Override
     public boolean checkCollisions(Player player) {
-//        Vector2D obstacleUL = new Vector2D(getPositionX(), getPositionY());
-//        Vector2D obstacleDR = new Vector2D(getPositionX()+getWidth(), getPositionY()+getHeight());
-//    public boolean checkCollisions() {
-//        Vector2D obstacleUL = new Vector2D(this.getPosition().getX(), this.getPosition().getY());
-//        Vector2D obstacleDR = new Vector2D(this.getPosition().getX() +getWidth(), this.getPosition().getY()+getHeight());
-        //Vector2D player = Player.getPosition(); //TODO Player.getPosition()
-        Vector2D playerDL = new Vector2D(0, 0); //TODO fix position
-        Vector2D playerDR = new Vector2D(0, 0); //TODO fix position
-
-        if(this.contains(playerDR) || this.contains(playerDL)){
-            return true;
-        }
-        return false;
+                return this.contains(player.getCurrentPosition());
     }
 
 	@Override
 	public boolean contains(Vector2D p) {
-		return false;
+		double yk = p.getY() + GameConstants.iconHeight;
+		double yt = this.getCurrentPosition().getY();
+		double xt = this.getCurrentPosition().getX();
+		double stranicaL = (yk - yt) / Math.sqrt(3) + xt;
+		double stranicaR = (yt - yk) / Math.sqrt(3) + xt + this.getWidth();
+		return (stranicaL >= xt) && (stranicaR <= (xt + this.getWidth()));
 	}
 
 	@Override
 	public void draw(GraphicsContext graphicsContext) {
-		// TODO Auto-generated method stub
-		
+		graphicsContext.drawImage(this.getIcon(), this.getCurrentPosition().getX(), this.getCurrentPosition().getY());
 	}
 
 }
