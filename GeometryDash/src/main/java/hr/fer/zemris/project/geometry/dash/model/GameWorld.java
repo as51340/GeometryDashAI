@@ -209,7 +209,12 @@ public class GameWorld {
 			((Player) player).touchesGround();
 			player.getCurrentPosition().setY(floorPos_Y - GameConstants.playerGroundOffset_Y);
 		}
-
-
+		for(GameObject gameObject: gameObjects) {
+			if(gameObject instanceof Block || gameObject instanceof Platform){
+				if(((Obstacle) gameObject).checkCollisions((Player) player)){
+					//kill player
+				}
+			}
+		}
 	}
 }

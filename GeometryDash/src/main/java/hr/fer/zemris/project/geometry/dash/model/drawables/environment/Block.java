@@ -41,15 +41,17 @@ public class Block extends Obstacle {
 	
 	@Override
 	public boolean contains(Vector2D p) {
-		return (p.getX() >= getCurrentPosition().getX() && p.getX() <= getCurrentPosition().getX()+ getWidth()
-					&& 	p.getY() >= getCurrentPosition().getY() && p.getY() <= getCurrentPosition().getY()+ getHeight());
+		return (p.getX() > getCurrentPosition().getX() && p.getX() < getCurrentPosition().getX()+ getWidth()
+					&& 	p.getY() > getCurrentPosition().getY() && p.getY() < getCurrentPosition().getY()+ getHeight());
 			
 	}
 
 	@Override
 	public boolean checkCollisions(Player player) {
-		// TODO Auto-generated method stub
-		return false;
+		Vector2D playerUR = new Vector2D(player.getCurrentPosition().getX() + GameConstants.iconHeight, player.getCurrentPosition().getY());
+		Vector2D playerDR = new Vector2D(player.getCurrentPosition().getX() + GameConstants.iconHeight, player.getCurrentPosition().getY() + GameConstants.iconHeight);
+
+		return this.contains(playerDR) || this.contains(playerUR);
 	}
 
 	@Override
