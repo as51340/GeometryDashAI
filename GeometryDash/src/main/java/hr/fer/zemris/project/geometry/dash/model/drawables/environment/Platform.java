@@ -31,6 +31,15 @@ public class Platform extends Obstacle{
         		&& p.getY() >= getCurrentPosition().getY() && p.getY() <= getCurrentPosition().getY()+ getHeight());
     }
 
+    public boolean playerIsOn(Player player){
+        Vector2D playerDL = new Vector2D(player.getCurrentPosition().getX(), player.getCurrentPosition().getY() + GameConstants.iconHeight);
+        Vector2D playerDR = new Vector2D(player.getCurrentPosition().getX() + GameConstants.iconHeight, player.getCurrentPosition().getY() + GameConstants.iconHeight);
+
+
+        return playerDL.getY() == this.getCurrentPosition().getY()
+                && playerDR.getX() > this.getCurrentPosition().getX()
+                && playerDL.getX() < (this.getCurrentPosition().getX()+this.getWidth());
+    }
 
 	@Override
 	public void draw(GraphicsContext graphicsContext) {

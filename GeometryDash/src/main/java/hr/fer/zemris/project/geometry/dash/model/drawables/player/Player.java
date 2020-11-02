@@ -9,10 +9,11 @@ import javafx.scene.canvas.GraphicsContext;
 
 /**
  * The main player class, logics and engine behind the "protagonist" of <strong>Geometry Dash</strong>
+ *
  * @author Damjan, Andi
  */
-public class Player extends GameObject{
-	    
+public class Player extends GameObject {
+
     /**
      * Rotation angle in degrees
      */
@@ -23,33 +24,34 @@ public class Player extends GameObject{
      * Used to prevent multiple jumps in one tick
      */
     private boolean jumpIntent = false;
-    
+
     /**
      * Is touching ground
      */
     private boolean isTouchingGround = false;
-   
+
     /**
      * Character
      */
     private CharacterObject character;
-    
+
     /**
-	 * @return the character
-	 */
-	public CharacterObject getCharacter() {
-		return character;
-	}
+     * @return the character
+     */
+    public CharacterObject getCharacter() {
+        return character;
+    }
 
-	/**
-	 * @param character the character to set
-	 */
-	public void setCharacter(CharacterObject character) {
-		this.character = character;
-	}
+    /**
+     * @param character the character to set
+     */
+    public void setCharacter(CharacterObject character) {
+        this.character = character;
+    }
 
-	/**
+    /**
      * Constructs a <code>Player</code>
+     *
      * @param position
      */
     public Player(Vector2D position, Vector2D speed) {
@@ -62,39 +64,43 @@ public class Player extends GameObject{
      * Makes the player character "jump" - adds upward force
      */
     public void jump() {
-    	if(isTouchingGround == true) {
-    		jumpIntent = true;	
-    	}
+        if (isTouchingGround) {
+            jumpIntent = true;
+        }
     }
-	
-	/**
-	 * Calculates player physcics - gravity, speed and position
-	 */
-	private void calculatePlayerPhysics() {
-		getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates,  getSpeed().getY() * GameConstants.timeBetweenUpdates));
-		getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates,  GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
-		if(getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
-			getSpeed().setY(GameConstants.playerFinalSpeed_Y);
-		}
-	}
-	
-	/**
-	 * Sets isTouchingGround to true
-	 * TODO change that listener changes this propery
-	 */
-	public void touchesGround() {
-		isTouchingGround = true;
-	}
 
-	@Override
-	public void draw(GraphicsContext graphicsContext) {
-		if(jumpIntent == true) {
-			getCurrentPosition().translate(new Vector2D(0, GameConstants.playerJumpingOffset)); //change so listeners are listening for that
-			jumpIntent = false;
-			isTouchingGround = false;
-		}
-		graphicsContext.drawImage(this.character.getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
-		calculatePlayerPhysics();
-	}
-	
+    /**
+     * Calculates player physcics - gravity, speed and position
+     */
+    private void calculatePlayerPhysics() {
+        if (isTouchingGround) {
+
+        } else {
+            getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates, getSpeed().getY() * GameConstants.timeBetweenUpdates));
+        }
+//        getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates, GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
+//        if (getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
+//            getSpeed().setY(GameConstants.playerFinalSpeed_Y);
+//        }
+    }
+
+    /**
+     * Sets isTouchingGround to true
+     * TODO change that listener changes this propery
+     */
+    public void touchesGround() {
+        isTouchingGround = true;
+    }
+
+    @Override
+    public void draw(GraphicsContext graphicsContext) {
+        if (jumpIntent) {
+            getCurrentPosition().translate(new Vector2D(0, GameConstants.playerJumpingOffset)); //change so listeners are listening for that
+            jumpIntent = false;
+            isTouchingGround = false;
+        }
+        graphicsContext.drawImage(this.character.getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
+        calculatePlayerPhysics();
+    }
+
 }
