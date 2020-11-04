@@ -55,7 +55,7 @@ public class Block extends Obstacle {
 		Vector2D blockUL = this.getCurrentPosition();
 		Vector2D blockUR = this.getCurrentPosition().translated(new Vector2D(getWidth(),0));
 
-		return playerDL.getY() == blockUL.getY()
+		return playerDL.getY() >= blockUL.getY()
 				&& ((playerDR.getX() > blockUL.getX()
 					&& playerDR.getX() < blockUR.getX())
 					|| (playerDL.getX() > blockUL.getX()
@@ -65,10 +65,11 @@ public class Block extends Obstacle {
 	//provjerava je li UR corner ili DR corner "u" bloku
 	@Override
 	public boolean checkCollisions(Player player) {
-		Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
-		Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
-
-		return this.contains(playerDR) || this.contains(playerUR);
+//		Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
+//		Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
+//
+//		return this.contains(playerDR) || this.contains(playerUR);
+		return false;
 	}
 
 	@Override

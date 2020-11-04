@@ -25,10 +25,11 @@ public class Platform extends Obstacle{
     //tj da li ju je lupio od dole
     @Override
     public boolean checkCollisions(Player player) {
-        Vector2D playerUL = player.getCurrentPosition();
-        Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
-
-        return contains(playerUL) || contains(playerUR);
+//        Vector2D playerUL = player.getCurrentPosition();
+//        Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
+//
+//        return contains(playerUL) || contains(playerUR);
+        return false;
     }
 
     //provjerava je li tocka "u"platformi
@@ -46,7 +47,7 @@ public class Platform extends Obstacle{
         Vector2D platformUL = this.getCurrentPosition();
         Vector2D platformUR = this.getCurrentPosition().translated(new Vector2D(getWidth(),0));
 
-        return playerDL.getY() == this.getCurrentPosition().getY()
+        return playerDL.getY() >= this.getCurrentPosition().getY()
                 && ((playerDR.getX() > platformUL.getX()
                 && playerDR.getX() < platformUR.getX())
                 || (playerDL.getX() > platformUL.getX()
