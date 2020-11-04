@@ -44,7 +44,7 @@ public class Block extends Obstacle {
     @Override
     public boolean contains(Vector2D p) {
         return (p.getX() >= getCurrentPosition().getX() && p.getX() <= getCurrentPosition().getX() + getWidth()
-                && p.getY() >= getCurrentPosition().getY() && p.getY() <= getCurrentPosition().getY() + getHeight());
+                && p.getY() > getCurrentPosition().getY() && p.getY() < getCurrentPosition().getY() + getHeight());
 
     }
 
@@ -58,7 +58,7 @@ public class Block extends Obstacle {
         Vector2D blockUR = this.getCurrentPosition().translated(new Vector2D(getWidth(), 0));
 
         return playerDL.getY() >= blockUL.getY()
-                && playerUL.getY() <= this.getCurrentPosition().getY() + this.getHeight()
+                && playerUL.getY() < this.getCurrentPosition().getY() + this.getHeight()
                 && ((playerDR.getX() >= blockUL.getX()
                 && playerDR.getX() <= blockUR.getX())
                 || (playerDL.getX() >= blockUL.getX()
