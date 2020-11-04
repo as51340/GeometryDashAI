@@ -57,6 +57,8 @@ public class Player extends GameObject {
     public Player(Vector2D position, Vector2D speed) {
         setCurrentPosition(position);
         this.character = CharactersSelector.selectedCharacter;
+        this.setWidth(GameConstants.iconWidth);
+        this.setHeight(GameConstants.iconWidth);
         setSpeed(speed);
     }
 
