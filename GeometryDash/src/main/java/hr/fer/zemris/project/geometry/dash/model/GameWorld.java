@@ -209,10 +209,20 @@ public class GameWorld {
 			((Player) player).touchesGround();
 			player.getCurrentPosition().setY(floorPos_Y - GameConstants.playerGroundOffset_Y);
 		}
+
+		//prolazi sve gameObjects na levelu i ako je neki od njih blok ili platforma te ako je player na njemu kaze
+		//playeru da smije skociti
+		//+ ne da mu da padne ispot (TODO provjeriti dopusta li to )
 		for(GameObject gameObject: gameObjects) {
 			if(gameObject instanceof Block){
 				if(((Block) gameObject).playerIsOn((Player) player)){
 					((Player) player).touchesGround();
+					player.getCurrentPosition().setY(gameObject.getCurrentPosition().getY()-GameConstants.iconHeight);
+				}
+			} else if(gameObject instanceof Platform){
+				if(((Platform) gameObject).playerIsOn((Player) player)){
+					((Player) player).touchesGround();
+					player.getCurrentPosition().setY(gameObject.getCurrentPosition().getY()-GameConstants.iconHeight);
 				}
 			}
 		}

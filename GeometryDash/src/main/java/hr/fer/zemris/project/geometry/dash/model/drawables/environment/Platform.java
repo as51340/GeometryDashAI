@@ -19,26 +19,37 @@ public class Platform extends Obstacle{
     public Image getImage() {
     	return this.image;
     }
-    
+
+
+    //provjerava da li se playerov gornje lijevi ili desni kut nalazi "u" platformi
+    //tj da li ju je lupio od dole
     @Override
     public boolean checkCollisions(Player player) {
-        return false;
+        Vector2D playerUL = player.getCurrentPosition();
+        Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
+        return contains(playerUL) || contains(playerUR);
     }
 
+    //provjerava je li tocka "u"platformi
     @Override
     public boolean contains(Vector2D p) {
         return (p.getX() >= getCurrentPosition().getX() && p.getX() <= getCurrentPosition().getX()+ getWidth()
         		&& p.getY() >= getCurrentPosition().getY() && p.getY() <= getCurrentPosition().getY()+ getHeight());
     }
 
+    //provjerava je li player na platformi
+    //TODO provjeriti je li radi ispravno
     public boolean playerIsOn(Player player){
-        Vector2D playerDL = new Vector2D(player.getCurrentPosition().getX(), player.getCurrentPosition().getY() + GameConstants.iconHeight);
-        Vector2D playerDR = new Vector2D(player.getCurrentPosition().getX() + GameConstants.iconHeight, player.getCurrentPosition().getY() + GameConstants.iconHeight);
-
+        Vector2D playerDL = new Vector2D(player.getCurrentPosition().getX(), player.getCurrentPosition().getY() + player.getHeight());
+        Vector2D playerDR = new Vector2D(player.getCurrentPosition().getX() + player.getHeight(), player.getCurrentPosition().getY() + player.getHeight());
+        Vector2D platformUL = this.getCurrentPosition();
+        Vector2D platformUR = this.getCurrentPosition().translated(new Vector2D(getWidth(),0));
 
         return playerDL.getY() == this.getCurrentPosition().getY()
-                && playerDR.getX() > this.getCurrentPosition().getX()
-                && playerDL.getX() < (this.getCurrentPosition().getX()+this.getWidth());
+                && ((playerDR.getX() > platformUL.getX()
+                && playerDR.getX() < platformUR.getX())
+                || (playerDL.getX() > platformUL.getX()
+                && playerDL.getX() < platformUR.getX()));
     }
 
 	@Override

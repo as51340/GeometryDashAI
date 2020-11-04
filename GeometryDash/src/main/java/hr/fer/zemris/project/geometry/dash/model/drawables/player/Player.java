@@ -73,15 +73,11 @@ public class Player extends GameObject {
      * Calculates player physcics - gravity, speed and position
      */
     private void calculatePlayerPhysics() {
-        if (isTouchingGround) {
-
-        } else {
-            getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates, getSpeed().getY() * GameConstants.timeBetweenUpdates));
+        getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates,  getSpeed().getY() * GameConstants.timeBetweenUpdates));
+        getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates,  GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
+        if(getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
+            getSpeed().setY(GameConstants.playerFinalSpeed_Y);
         }
-//        getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates, GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
-//        if (getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
-//            getSpeed().setY(GameConstants.playerFinalSpeed_Y);
-//        }
     }
 
     /**

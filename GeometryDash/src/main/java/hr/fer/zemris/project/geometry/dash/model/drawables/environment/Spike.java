@@ -21,6 +21,8 @@ public class Spike extends Obstacle {
                 return this.contains(player.getCurrentPosition());
     }
 
+    //iz playerove UL tocke racuna nalazi li se u trokutu
+	//pravci trokuta su izracunati pomocu general formula za pravac jednakostranicnog trokuta
 	@Override
 	public boolean contains(Vector2D p) {
 		double yk = p.getY() + GameConstants.iconHeight;

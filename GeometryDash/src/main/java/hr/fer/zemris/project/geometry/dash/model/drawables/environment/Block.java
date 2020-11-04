@@ -38,7 +38,8 @@ public class Block extends Obstacle {
 	public Image getImage() {
 		return this.image;
 	}
-	
+
+	//za jednu tocku provjerava je li između lijeve i desne strane bloka
 	@Override
 	public boolean contains(Vector2D p) {
 		return (p.getX() > getCurrentPosition().getX() && p.getX() < getCurrentPosition().getX()+ getWidth()
@@ -46,16 +47,22 @@ public class Block extends Obstacle {
 			
 	}
 
+	//provjerava je li player down left i down right corner izmedu up left i up right cornera blocka
+	//trenutno mozda problem ako imamo piramidicu blokova jer player ne umre ako takve lijevi rub gornjeg bloka
 	public boolean playerIsOn(Player player){
-		Vector2D playerDL = new Vector2D(player.getCurrentPosition().getX(), player.getCurrentPosition().getY() + GameConstants.iconHeight);
-		Vector2D playerDR = new Vector2D(player.getCurrentPosition().getX() + GameConstants.iconHeight, player.getCurrentPosition().getY() + GameConstants.iconHeight);
-
+		Vector2D playerDL = new Vector2D(player.getCurrentPosition().getX(), player.getCurrentPosition().getY() + player.getHeight());
+		Vector2D playerDR = new Vector2D(player.getCurrentPosition().getX() + player.getHeight(), player.getCurrentPosition().getY() + player.getHeight());
+		Vector2D blockUL = this.getCurrentPosition();
+		Vector2D blockUR = this.getCurrentPosition().translated(new Vector2D(getWidth(),0));
 
 		return playerDL.getY() == this.getCurrentPosition().getY()
-				&& playerDR.getX() > this.getCurrentPosition().getX()
-				&& playerDL.getX() < (this.getCurrentPosition().getX()+this.getWidth());
+				&& ((playerDR.getX() > blockUL.getX()
+					&& playerDR.getX() < blockUR.getX())
+					|| (playerDL.getX() > blockUL.getX()
+					&& playerDL.getX() < blockUR.getX()));
 	}
 
+	//provjerava je li UR corner ili DR corner "u" bloku
 	@Override
 	public boolean checkCollisions(Player player) {
 		Vector2D playerUR = new Vector2D(player.getCurrentPosition().getX() + GameConstants.iconHeight, player.getCurrentPosition().getY());
