@@ -74,10 +74,10 @@ public class Player extends GameObject {
      */
     private void calculatePlayerPhysics() {
         getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates,  getSpeed().getY() * GameConstants.timeBetweenUpdates));
-        getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates,  GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
-        if(getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
-            getSpeed().setY(GameConstants.playerFinalSpeed_Y);
-        }
+//        getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates,  GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
+//        if(getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
+//            getSpeed().setY(GameConstants.playerFinalSpeed_Y);
+//        }
     }
 
     /**

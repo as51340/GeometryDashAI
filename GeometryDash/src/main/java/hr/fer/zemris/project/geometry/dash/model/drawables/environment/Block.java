@@ -42,20 +42,20 @@ public class Block extends Obstacle {
 	//za jednu tocku provjerava je li između lijeve i desne strane bloka
 	@Override
 	public boolean contains(Vector2D p) {
-		return (p.getX() > getCurrentPosition().getX() && p.getX() < getCurrentPosition().getX()+ getWidth()
-					&& 	p.getY() > getCurrentPosition().getY() && p.getY() < getCurrentPosition().getY()+ getHeight());
+		return (p.getX() >= getCurrentPosition().getX() && p.getX() <= getCurrentPosition().getX()+ getWidth()
+					&& 	p.getY() >= getCurrentPosition().getY() && p.getY() <= getCurrentPosition().getY()+ getHeight());
 			
 	}
 
 	//provjerava je li player down left i down right corner izmedu up left i up right cornera blocka
 	//trenutno mozda problem ako imamo piramidicu blokova jer player ne umre ako takve lijevi rub gornjeg bloka
 	public boolean playerIsOn(Player player){
-		Vector2D playerDL = new Vector2D(player.getCurrentPosition().getX(), player.getCurrentPosition().getY() + player.getHeight());
-		Vector2D playerDR = new Vector2D(player.getCurrentPosition().getX() + player.getHeight(), player.getCurrentPosition().getY() + player.getHeight());
+		Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0,player.getHeight()));
+		Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
 		Vector2D blockUL = this.getCurrentPosition();
 		Vector2D blockUR = this.getCurrentPosition().translated(new Vector2D(getWidth(),0));
 
-		return playerDL.getY() == this.getCurrentPosition().getY()
+		return playerDL.getY() == blockUL.getY()
 				&& ((playerDR.getX() > blockUL.getX()
 					&& playerDR.getX() < blockUR.getX())
 					|| (playerDL.getX() > blockUL.getX()
@@ -65,8 +65,8 @@ public class Block extends Obstacle {
 	//provjerava je li UR corner ili DR corner "u" bloku
 	@Override
 	public boolean checkCollisions(Player player) {
-		Vector2D playerUR = new Vector2D(player.getCurrentPosition().getX() + GameConstants.iconHeight, player.getCurrentPosition().getY());
-		Vector2D playerDR = new Vector2D(player.getCurrentPosition().getX() + GameConstants.iconHeight, player.getCurrentPosition().getY() + GameConstants.iconHeight);
+		Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
+		Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
 
 		return this.contains(playerDR) || this.contains(playerUR);
 	}

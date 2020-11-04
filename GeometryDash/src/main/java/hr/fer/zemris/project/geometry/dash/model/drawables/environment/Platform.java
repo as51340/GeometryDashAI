@@ -27,6 +27,7 @@ public class Platform extends Obstacle{
     public boolean checkCollisions(Player player) {
         Vector2D playerUL = player.getCurrentPosition();
         Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
+
         return contains(playerUL) || contains(playerUR);
     }
 
@@ -40,8 +41,8 @@ public class Platform extends Obstacle{
     //provjerava je li player na platformi
     //TODO provjeriti je li radi ispravno
     public boolean playerIsOn(Player player){
-        Vector2D playerDL = new Vector2D(player.getCurrentPosition().getX(), player.getCurrentPosition().getY() + player.getHeight());
-        Vector2D playerDR = new Vector2D(player.getCurrentPosition().getX() + player.getHeight(), player.getCurrentPosition().getY() + player.getHeight());
+        Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0,player.getHeight()));
+        Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
         Vector2D platformUL = this.getCurrentPosition();
         Vector2D platformUR = this.getCurrentPosition().translated(new Vector2D(getWidth(),0));
 

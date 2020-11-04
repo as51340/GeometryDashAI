@@ -18,7 +18,7 @@ public class Spike extends Obstacle {
 
 	@Override
     public boolean checkCollisions(Player player) {
-                return this.contains(player.getCurrentPosition());
+		return this.contains(player.getCurrentPosition());
     }
 
     //iz playerove UL tocke racuna nalazi li se u trokutu
