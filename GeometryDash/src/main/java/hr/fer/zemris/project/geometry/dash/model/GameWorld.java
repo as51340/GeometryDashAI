@@ -210,7 +210,6 @@ public class GameWorld {
 
 		//prolazi sve gameObjects na levelu i ako je neki od njih blok ili platforma te ako je player na njemu kaze
 		//playeru da smije skociti
-		//+ ne da mu da padne ispot (TODO provjeriti dopusta li to )
 		for(GameObject gameObject: gameObjects) {
 			if(gameObject instanceof Block){
 				if(((Block) gameObject).playerIsOn((Player) player)){

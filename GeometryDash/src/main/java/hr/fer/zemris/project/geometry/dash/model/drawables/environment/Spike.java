@@ -16,6 +16,7 @@ public class Spike extends Obstacle {
 
 	}
 
+	//TODO fix this
 	@Override
     public boolean checkCollisions(Player player) {
 		return this.contains(player.getCurrentPosition());
