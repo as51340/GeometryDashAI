@@ -132,7 +132,11 @@ public class GameWorld {
 //		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+4*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));
 //		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+4*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.blockImage));
 //		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+3*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));
-		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+10*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth * 5, GameConstants.platformImage));
+		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+10*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+11*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+12*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+13*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+14*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
 		//gameObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+30*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
 		player = new Player(new Vector2D(0,GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y));
@@ -159,7 +163,7 @@ public class GameWorld {
 		for(GameObject gameObject: gameObjects) {
 			if(gameObject instanceof Obstacle){
 				if(((Obstacle) gameObject).checkCollisions((Player) player)){
-					((Player) player).jump();
+					System.err.println("PLAYER JE MERTAV");
 				}
 			}
 		}
