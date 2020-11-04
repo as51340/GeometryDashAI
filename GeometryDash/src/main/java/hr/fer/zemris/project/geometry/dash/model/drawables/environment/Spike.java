@@ -12,7 +12,7 @@ public class Spike extends Obstacle {
 		setCurrentPosition(position);
 		this.setWidth(GameConstants.iconHeight); //stranica a
 		this.setHeight((int) (GameConstants.iconHeight * Math.sqrt(3) / 2)); // visina trokuta
-		this.setIcon(new Image("/hr/fer/zemris/project/geom/dash/obstacles/spike/placeholder-spike-icon.png", getWidth(), getHeight(), false, false));
+		this.setIcon(new Image("/hr/fer/zemris/project/geom/dash/obstacles/spike/blue.png", getWidth(), getHeight(), false, false));
 
 	}
 

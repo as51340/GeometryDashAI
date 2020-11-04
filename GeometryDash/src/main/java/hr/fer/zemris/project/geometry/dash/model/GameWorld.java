@@ -124,7 +124,7 @@ public class GameWorld {
 	 */
 	private void createScene() {
 		gameObjects = new ArrayList<>();
-		GrassSpike travica = new GrassSpike(new Vector2D(GameConstants.playerPosition_X+20*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight));
+//		GrassSpike travica = new GrassSpike(new Vector2D(GameConstants.playerPosition_X+20*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight));
 //		 isprobavao postavljanje blokova i platformi
 //		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));
 		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.blockImage));
@@ -142,7 +142,8 @@ public class GameWorld {
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y));
 		gameObjects.add(player);
 		gameObjects.add(floor);
-		gameObjects.add(travica);
+		gameObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X+20*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
+		gameObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X+21*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
 		renderer = new Renderer(gameObjects);
 		((Floor) floor).setCamera(renderer.getCamera());
 	}
