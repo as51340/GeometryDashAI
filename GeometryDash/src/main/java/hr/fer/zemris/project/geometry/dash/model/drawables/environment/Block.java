@@ -43,8 +43,8 @@ public class Block extends Obstacle {
     //za jednu tocku provjerava je li između lijeve i desne strane bloka
     @Override
     public boolean contains(Vector2D p) {
-        return (p.getX() >= getCurrentPosition().getX() && p.getX() <= getCurrentPosition().getX() + getWidth()
-                && p.getY() > getCurrentPosition().getY() && p.getY() < getCurrentPosition().getY() + getHeight());
+        return (p.getX() >= getCurrentPosition().getX() && p.getX() <= (getCurrentPosition().getX() + getWidth())
+                && p.getY() > getCurrentPosition().getY() && p.getY() < (getCurrentPosition().getY() + getHeight()));
 
     }
 
@@ -57,13 +57,17 @@ public class Block extends Obstacle {
         Vector2D blockUL = this.getCurrentPosition();
         Vector2D blockUR = this.getCurrentPosition().translated(new Vector2D(getWidth(), 0));
 
-        return playerDL.getY() >= blockUL.getY()
-                && playerUL.getY() < this.getCurrentPosition().getY() + this.getHeight()
-                && ((playerDR.getX() >= blockUL.getX()
-                && playerDR.getX() <= blockUR.getX())
-                || (playerDL.getX() >= blockUL.getX()
-                && playerDL.getX() <= blockUR.getX()));
-    }
+//        iskljuceno zbog testiranja
+//        return playerDL.getY() >= blockUL.getY()
+//                && playerUL.getY() < this.getCurrentPosition().getY() + this.getHeight()
+//                && ((playerDR.getX() >= blockUL.getX()
+//                && playerDR.getX() <= blockUR.getX())
+//                || (playerDL.getX() >= blockUL.getX()
+//                && playerDL.getX() <= blockUR.getX()));
+
+		return (contains(playerDR) || contains(playerDL)) && checkPlayerAngle(player);
+
+	}
 
     //provjerava je li UR corner ili DR corner "u" bloku
     //TODO promijeni kao provjeru s pravcima
@@ -74,14 +78,26 @@ public class Block extends Obstacle {
         Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
         Vector2D obstacleUL = this.getCurrentPosition();
 
-        if(contains(playerUR) || contains(playerUL)) return true;
-        else if (playerDR.getX() >= getCurrentPosition().getX() && playerDR.getX() <= getCurrentPosition().getX() + getWidth()
-                && playerDR.getY() >= 6.0/5.0*getCurrentPosition().getY() && playerDR.getY() <= getCurrentPosition().getY() + getHeight()){
-            return true;
-        }
-        return false;
+//        iskoljuceno zbog testiranja
+//        if(contains(playerUR) || contains(playerUL)) return true;
+//        else if (playerDR.getX() >= getCurrentPosition().getX() && playerDR.getX() <= getCurrentPosition().getX() + getWidth()
+//                && playerDR.getY() >= 6.0/5.0*getCurrentPosition().getY() && playerDR.getY() <= getCurrentPosition().getY() + getHeight()){
+//            return true;
+//        }
+
+		return (contains(playerUR) || contains(playerUL) || contains(playerDR)) && !checkPlayerAngle(player);
+
+//        return false;
 
     }
+
+    private boolean checkPlayerAngle(Player player) {
+    	double yCrit = player.getCurrentPosition().getX()
+				- this.getCurrentPosition().getX()
+				+ this.getCurrentPosition().getY();
+
+    	return player.getCurrentPosition().getY() < yCrit;
+	}
 
     @Override
     public void draw(GraphicsContext graphicsContext) {

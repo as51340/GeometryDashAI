@@ -10,9 +10,9 @@ import javafx.scene.image.Image;
 public class GrassSpike extends Obstacle{
     public GrassSpike(Vector2D position) {
         setCurrentPosition(position);
-        this.setWidth(2 * GameConstants.iconHeight);
+        this.setWidth(GameConstants.iconHeight);
         this.setHeight(GameConstants.iconHeight);
-        this.setIcon(new Image("/hr/fer/zemris/project/geom/dash/obstacles/grassspike/placeholder-grassspike-icon.png", getWidth(), getHeight(), false, false));
+        this.setIcon(new Image("/hr/fer/zemris/project/geom/dash/obstacles/grassspike/blue.png", getWidth(), getHeight(), false, false));
     }
 
     @Override

@@ -32,7 +32,7 @@ public class Floor extends Obstacle{
     
 	@Override
 	public void draw(GraphicsContext graphicsContext) {
-		graphicsContext.setLineWidth(2);
+		graphicsContext.setLineWidth(4);
 		if(camera != null) { //and it should be
 			setCurrentPosition(new Vector2D(camera.getPosition().getX(), getCurrentPosition().getY()));	
 		}

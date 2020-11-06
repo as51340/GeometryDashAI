@@ -11,8 +11,9 @@ public class Spike extends Obstacle {
 	public Spike(Vector2D position) {
 		setCurrentPosition(position);
 		this.setWidth(GameConstants.iconHeight); //stranica a
-		this.setHeight(GameConstants.iconHeight); // visina trokuta
+		this.setHeight((int) (GameConstants.iconHeight * Math.sqrt(3) / 2)); // visina trokuta
 		this.setIcon(new Image("/hr/fer/zemris/project/geom/dash/obstacles/spike/placeholder-spike-icon.png", getWidth(), getHeight(), false, false));
+
 	}
 
 	//daje se donji lijevi kut playera

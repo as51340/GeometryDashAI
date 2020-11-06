@@ -12,7 +12,7 @@ public class Platform extends Obstacle{
         setCurrentPosition(position);
         setHeight(GameConstants.iconHeight/2);
         setWidth(width);
-        this.image = new Image(image, getWidth(), getHeight(), false, false);
+        this.image = new Image(image, getWidth(), getHeight()*2, false, false);
     }
 
 

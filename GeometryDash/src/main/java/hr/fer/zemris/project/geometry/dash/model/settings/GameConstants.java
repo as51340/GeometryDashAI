@@ -68,12 +68,12 @@ public class GameConstants {
     /**
      * Path to block image
      */
-    public static final String blockImage = "/hr/fer/zemris/project/geom/dash/obstacles/block/placeholder-block-icon.jpg";
+    public static final String blockImage = "/hr/fer/zemris/project/geom/dash/obstacles/block/blue.png";
 
     /**
      * 	Path to platform image
      */
-    public static final String platformImage = "/hr/fer/zemris/project/geom/dash/obstacles/platform/placeholder-platform-icon.jpg";
+    public static final String platformImage = "/hr/fer/zemris/project/geom/dash/obstacles/platform/blue.png";
     
     /**
      * Offset camera to ground
