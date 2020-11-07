@@ -1,9 +1,5 @@
 package hr.fer.zemris.project.geometry.dash.model.settings.character;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.NoSuchElementException;
-
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.image.Image;
@@ -11,7 +7,7 @@ import javafx.scene.image.Image;
 
 /**
  * Represents character in game. Every character in game has icon and can be locked or unlocked from the beginning of the game
- * @author Andi Škrgat
+ * @author Andi Skrgat
  */
 public class CharacterObject {
 	

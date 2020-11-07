@@ -1,6 +1,9 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.player;
 
+import com.google.gson.annotations.Expose;
+
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
+import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
@@ -17,7 +20,8 @@ public class Player extends GameObject {
     /**
      * Rotation angle in degrees
      */
-    private double rotation = 45;
+	@Expose
+    private double rotation;
 
     /**
      * Flag that signifies the player wants to jump
@@ -29,34 +33,86 @@ public class Player extends GameObject {
      * Is touching ground
      */
     private boolean isTouchingGround = false;
-
+    
     /**
-     * Character
-     */
-    private CharacterObject character;
+	 * Object's speed
+	 */
+	@Expose
+	private Vector2D speed;
 
+	/**
+	 * Player's constructor
+	 */
+	public Player(double rotation, Vector2D speed, String icon) {
+		this.rotation = rotation;
+		this.speed = speed;
+		setIcon(Utils.loadIcon(icon));
+	}
+    
     /**
-     * @return the character
-     */
-    public CharacterObject getCharacter() {
-        return character;
-    }
+	 * @return the rotation
+	 */
+	public double getRotation() {
+		return rotation;
+	}
 
-    /**
-     * @param character the character to set
-     */
-    public void setCharacter(CharacterObject character) {
-        this.character = character;
-    }
+	/**
+	 * @param rotation the rotation to set
+	 */
+	public void setRotation(double rotation) {
+		this.rotation = rotation;
+	}
 
-    /**
+	/**
+	 * @return the jumpIntent
+	 */
+	public boolean isJumpIntent() {
+		return jumpIntent;
+	}
+
+	/**
+	 * @param jumpIntent the jumpIntent to set
+	 */
+	public void setJumpIntent(boolean jumpIntent) {
+		this.jumpIntent = jumpIntent;
+	}
+
+	/**
+	 * @return the isTouchingGround
+	 */
+	public boolean isTouchingGround() {
+		return isTouchingGround;
+	}
+
+	/**
+	 * @param isTouchingGround the isTouchingGround to set
+	 */
+	public void setTouchingGround(boolean isTouchingGround) {
+		this.isTouchingGround = isTouchingGround;
+	}
+
+	/**
+	 * @return the speed
+	 */
+	public Vector2D getSpeed() {
+		return speed;
+	}
+
+	/**
+	 * @param speed the speed to set
+	 */
+	public void setSpeed(Vector2D speed) {
+		this.speed = speed;
+	}
+
+	/**
      * Constructs a <code>Player</code>
      *
      * @param position
      */
     public Player(Vector2D position, Vector2D speed) {
         setCurrentPosition(position);
-        this.character = CharactersSelector.selectedCharacter;
+        setIcon(CharactersSelector.selectedCharacter.getIcon());
         this.setWidth(GameConstants.iconWidth);
         this.setHeight(GameConstants.iconWidth);
         setSpeed(speed);
@@ -100,14 +156,13 @@ public class Player extends GameObject {
             jumpIntent = false;
             isTouchingGround = false;
         }
-        graphicsContext.drawImage(this.character.getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
+        graphicsContext.drawImage(getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
         calculatePlayerPhysics();
     }
 
 	@Override
 	public GameObject copy() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Player(this.rotation, this.speed, this.getIconPath());
 	}
 
 }

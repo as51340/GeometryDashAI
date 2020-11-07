@@ -83,14 +83,25 @@ public class LevelEditorSceneController {
 	 * Reference to the game engine
 	 */
 	private GameEngine gameEngine;
-
+	
+	/**
+	 * Level editor listener
+	 */
 	private LevelEditorListener levelEditorListener = new DefaultLevelEditorListener();
+	
+	/**
+	 * Current color
+	 */
+	private String currColor = "blue";
 
 	@FXML
 	public void initialize() {
 
 	}
 
+	/**
+	 * Sets listeners for objects on the scene
+	 */
 	public void setListeners() {
 		setOnMousePressed();
 		setOnMouseReleased();
@@ -98,43 +109,79 @@ public class LevelEditorSceneController {
 		setOnMouseDragged();
 		setActionsForButtons();
 	}
+	
+	/**
+	 * Creates path
+	 * @param obstacle
+	 * @return
+	 */
+	private String createPathToObstacle(String obstacle) {
+		return GameConstants.pathToObstacles + obstacle + "/" + this.currColor + ".png";
+	}
+	
+	/**
+	 * Creates path
+	 * @param obstacle
+	 * @return
+	 */
+	private String createPathToObstacleLeft(String obstacle) {
+		return GameConstants.pathToObstacles + obstacle + "/" + this.currColor + "Left.png";
+	}
+	
+	/**
+	 * Creates path
+	 * @param obstacle
+	 * @return
+	 */
+	private String createPathToObstacleRight(String obstacle) {
+		return GameConstants.pathToObstacles + obstacle + "/" + this.currColor + "Right.png";
+	}
 
+	/**
+	 * Sets actions for clicking on buttons
+	 */
 	private void setActionsForButtons() {
 		addBlock.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Block", addBlock.getImage()));
+			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Block", createPathToObstacle("block")));
 		});
 		addGrass.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("GrassSpike", addGrass.getImage()));
+			levelEditorListener.newObjectSelected(Utils.createObjectFromName("GrassSpike", createPathToObstacle("grassspike")));
 
 		});
 		addPlatform.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Platform", addPlatform.getImage()));
+			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Platform", createPathToObstacle("platform")));
 		});
 		addSpike.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Spike", addSpike.getImage()));
+			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Spike", createPathToObstacle("spike")));
 		});
 		spikeLeft.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Spike", spikeLeft.getImage()));
+			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Spike", createPathToObstacleLeft("spike")));
 		});
 		spikeRight.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Spike", spikeRight.getImage()));
+			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Spike", createPathToObstacleRight("spike")));
 		});
 		blackColor.setOnMouseClicked((e) -> {
+			this.currColor = "black";
 			levelEditorListener.newColorSelected("black");
 		});
 		blueColor.setOnMouseClicked((e) -> {
+			this.currColor = "blue";
 			levelEditorListener.newColorSelected("blue");
 		});
 		redColor.setOnMouseClicked((e) -> {
+			this.currColor = "red";
 			levelEditorListener.newColorSelected("red");
 		});
 		greenColor.setOnMouseClicked((e) -> {
+			this.currColor = "green";
 			levelEditorListener.newColorSelected("green");
 		});
 		grayColor.setOnMouseClicked((e) -> {
+			this.currColor = "gray";
 			levelEditorListener.newColorSelected("gray");
 		});
 		purpleColor.setOnMouseClicked((e) -> {
+			this.currColor = "purple";
 			levelEditorListener.newColorSelected("purple");
 		});
 

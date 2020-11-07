@@ -2,34 +2,29 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
+import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+//TODO why to use specific width - every platform is 45
 public class Platform extends Obstacle{
-	private Image image;
+	
     public Platform(Vector2D position, int width, String image) {
-        setCurrentPosition(position);
+        this(position, image);
         setHeight(GameConstants.iconHeight/2);
         setWidth(width);
-        this.image = new Image(image, getWidth(), getHeight()*2, false, false);
     }
 
-    /**
-     * Constructor that accepts only image
-     * @param image
-     */
-    public Platform(Image icon) {
-    	setIcon(icon);
+   
+    public Platform(Vector2D position, String image) {
+    	setCurrentPosition(position);
+    	setIconPath(image);
+    	setIcon(Utils.loadIcon(image));
     }
-    
-    public Image getImage() {
-    	return this.image;
-    }
-
-
+   
     //provjerava da li se playerov gornje lijevi ili desni kut nalazi "u" platformi
     //tj da li ju je lupio od dole
     @Override
@@ -65,12 +60,12 @@ public class Platform extends Obstacle{
 
 	@Override
 	public void draw(GraphicsContext graphicsContext) {
-		graphicsContext.drawImage(this.image,  getCurrentPosition().getX(), getCurrentPosition().getY());
+		graphicsContext.drawImage(getIcon(),  getCurrentPosition().getX(), getCurrentPosition().getY());
 	}
 
 	@Override
 	public GameObject copy() {
-		return new Platform(getIcon());
+		return new Platform(this.getCurrentPosition(), this.getWidth(), this.getIconPath());
 	}
     
 //	@Override

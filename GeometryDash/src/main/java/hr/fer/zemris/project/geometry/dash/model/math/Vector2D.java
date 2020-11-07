@@ -1,5 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.math;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Represents a position on the screen, using the x and y coordinates
  * @author Damjan, Andi
@@ -7,9 +9,16 @@ package hr.fer.zemris.project.geometry.dash.model.math;
 public class Vector2D {
 
     /**
-     * x and y coordinates of the point
+     * x coordinate of the point
      */
-    private double x, y;
+	@Expose
+    private double x;
+    
+    /**
+     * y coordinate of the point
+     */
+	@Expose
+    private double y;
 
     /**
      * Inits position

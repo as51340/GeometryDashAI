@@ -2,6 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
+import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,21 +12,14 @@ import javafx.scene.image.ImageView;
 
 public class GrassSpike extends Obstacle{
 	
-    public GrassSpike(Vector2D position) {
+    public GrassSpike(Vector2D position, String uriIcon) {
         setCurrentPosition(position);
         this.setWidth(GameConstants.iconHeight);
         this.setHeight(GameConstants.iconHeight);
-      //  this.setIcon(new Image("/hr/fer/zemris/project/geom/dash/obstacles/grassspike/blue.png", getWidth(), getHeight(), false, false));
+        setIcon(Utils.loadIcon(uriIcon));
+        setIconPath(uriIcon);
     }
-    
-    /**
-     * Constructor that accepts only image
-     * @param image
-     */
-    public GrassSpike(Image icon) {
-    	setIcon(icon);
-    }
-
+   
     @Override
     public boolean checkCollisions(Player player) {
         Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0,player.getHeight()));
@@ -50,6 +44,6 @@ public class GrassSpike extends Obstacle{
 
 	@Override
 	public GameObject copy() {
-		return new GrassSpike(getIcon());
+		return new GrassSpike(this.getCurrentPosition(), this.getIconPath());
 	}
 }

@@ -2,6 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
+import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
@@ -16,40 +17,19 @@ import javafx.scene.image.ImageView;
 public class Block extends Obstacle {
 
     /**
-     * Image of the block.
-     */
-    private Image image;
-
-    /**
      * Constructs a <code>Block</code>.
-     *
      * @param position position of the block.
      * @param image    image of the block.
      */
-    public Block(Vector2D position, String image) {
+    public Block(Vector2D position, String uriIcon) {
         setCurrentPosition(position);
         setHeight(GameConstants.iconHeight);
         setWidth(GameConstants.iconHeight);
-        this.image = new Image(image, getWidth(), getHeight(), false, false);
+        setIconPath(uriIcon);
+        setIcon(Utils.loadIcon(uriIcon));
     }
     
-    /**
-     * Constructor that accepts only image
-     * @param image
-     */
-    public Block(Image icon) {
-    	setIcon(icon);
-    }
-
-    /**
-     * Returns the image of the block.
-     *
-     * @return image of the block.
-     */
-    public Image getImage() {
-        return this.image;
-    }
-
+    
     //za jednu tocku provjerava je li između lijeve i desne strane bloka
     @Override
     public boolean contains(Vector2D p) {
@@ -116,6 +96,6 @@ public class Block extends Obstacle {
 
 	@Override
 	public GameObject copy() {
-		return new Block(getIcon());
+		return new Block(this.getCurrentPosition(), this.getIconPath());
 	}
 }

@@ -4,7 +4,7 @@ import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 
 /**
  * Camera object, stores position, used for rendering objects on the scene and for dragging on level editor
- * @author Andi Škrgat
+ * @author Andi Skrgat
  */
 public class Camera {
 	

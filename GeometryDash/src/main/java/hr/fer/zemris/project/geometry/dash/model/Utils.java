@@ -28,8 +28,7 @@ import javafx.scene.paint.Color;
 public class Utils {
 
 	/**
-	 * Loads character icon from the resources
-	 * 
+	 * Loads character icon from the resources 
 	 * @param uri path to the characters
 	 * @return loaded icon
 	 */
@@ -51,7 +50,6 @@ public class Utils {
 
 	/**
 	 * Copies image
-	 * 
 	 * @param image old image
 	 * @return new copied image
 	 */
@@ -87,32 +85,58 @@ public class Utils {
 		return mediaPlayer;
 	}
 	
-	public static GameObject createObjectFromName(String objName, Image image) {
+	/**
+	 * Creates object from given object name
+	 * @param objName object name
+	 * @param uriIcon path to icon
+	 * @return created {@linkplain GameObject}
+	 */
+	public static GameObject createObjectFromName(String objName, String uriIcon) {
 		if(objName.equals("Block") == true) {
-			return createBlock(image);
+			return createBlock(uriIcon);
 		} else if(objName.equals("Platform") == true) {
-			return createPlatform(image);
+			return createPlatform(uriIcon);
 		} else if(objName.equals("Spike") == true) {
-			return createSpike(image);
+			return createSpike(uriIcon);
 		} else if(objName.equals("GrassSpike") == true) {
-			return createGrassSpike(image);
+			return createGrassSpike(uriIcon);
 		}
 		return null;
 	}
 	
-	private static GrassSpike createGrassSpike(Image image) {
-		return new GrassSpike(image);
+	/**
+	 * Creates grassspike
+	 * @param uriIcon path to icon
+	 * @return created {@linkplain GrassSpike}
+	 */
+	private static GrassSpike createGrassSpike(String uriIcon) {
+		return new GrassSpike(new Vector2D(0, 0), uriIcon);
 	}
 	
-	private static Spike createSpike(Image image) {
-		return new Spike(image);
+	/**
+	 * Creates spike
+	 * @param uriIcon path to icon
+	 * @return created {@linkplain Spike}
+	 */
+	private static Spike createSpike(String uriIcon) {
+		return new Spike(new Vector2D(0, 0), uriIcon);
 	}
 	
-	private static Platform createPlatform(Image image) {
-		return new Platform(image);
+	/**
+	 * Creates platform
+	 * @param uriIcon path to icon
+	 * @return created {@linkplain Platform}
+	 */
+	private static Platform createPlatform(String uriIcon) {
+		return new Platform(new Vector2D(0, 0), uriIcon);
 	}
 	
-	private static Block createBlock(Image image) {
-		return new Block(image);
+	/**
+	 * Creates block 
+	 * @param uriIcon path to icon
+	 * @return created {@linkplain Block}
+	 */
+	private static Block createBlock(String uriIcon) {
+		return new Block(new Vector2D(0, 0), uriIcon);
 	}
 }

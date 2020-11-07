@@ -1,6 +1,9 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
+
+import com.google.gson.annotations.Expose;
+
 import hr.fer.zemris.project.geometry.dash.model.Camera;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
@@ -10,13 +13,23 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
+/**
+ * Floor object
+ * @author Andi Škrgat
+ *
+ */
 public class Floor extends Obstacle{
 	
 	/**
 	 * Ground has to stay with camera, it must not finish
 	 */
+	@Expose
 	private Camera camera;
 	
+	/**
+	 * Constructor that takes its position
+	 * @param position
+	 */
     public Floor(Vector2D position) {
         setCurrentPosition(position);
     }

@@ -1,5 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
+import com.google.gson.annotations.Expose;
+
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -15,27 +17,31 @@ public abstract class GameObject implements Drawable{
 	/**
 	 * Object's current position
 	 */
+	@Expose
 	private Vector2D currentPosition;
 	
 	/**
 	 * Object's height
 	 */
+	@Expose
 	private int height;
 	
 	/**
 	 * Object's width
 	 */
+	@Expose
 	private int width;
-	
-	/**
-	 * Object's speed
-	 */
-	private Vector2D speed;
 	
 	/**
 	 * Object's icon
 	 */
 	private Image icon;
+	
+	/**
+	 * Path to icon
+	 */
+	@Expose
+	private String iconPath;
 		
 	/**
     * Returns some reference {@linkplain Vector2D} for object from which the hitbox will be calculated
@@ -84,21 +90,6 @@ public abstract class GameObject implements Drawable{
 	}
 
 	/**
-	 * @return speed
-	 */
-	public Vector2D getSpeed() {
-		return speed;
-	}
-
-	/**
-	 * Sets speed
-	 * @param speed
-	 */
-	public void setSpeed(Vector2D speed) {
-		this.speed = speed;
-	}
-
-	/**
 	 * @return icon
 	 */
 	public Image getIcon() {
@@ -114,6 +105,22 @@ public abstract class GameObject implements Drawable{
 	}
 	
 	
+	/**
+	 * @return the iconPath
+	 */
+	public String getIconPath() {
+		return iconPath;
+	}
+	
+	
+
+	/**
+	 * @param iconPath the iconPath to set
+	 */
+	public void setIconPath(String iconPath) {
+		this.iconPath = iconPath;
+	}
+
 	/**
 	 * Method for copying object
 	 * @return

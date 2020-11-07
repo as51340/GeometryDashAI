@@ -2,30 +2,25 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
+import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+//handle width and height
 public class Spike extends Obstacle {
+
 	//note: position here is lower left corner!
-	public Spike(Vector2D position) {
+	public Spike(Vector2D position, String uriIcon) {
 		setCurrentPosition(position);
 		this.setWidth(GameConstants.iconHeight); //stranica a
 		this.setHeight((int) (GameConstants.iconHeight * Math.sqrt(3) / 2)); // visina trokuta
-		//this.setIcon(new Image("/hr/fer/zemris/project/geom/dash/obstacles/spike/placeholder-spike-icon.png", getWidth(), getHeight(), false, false));
-
+		setIconPath(uriIcon);
+		setIcon(Utils.loadIcon(uriIcon));
 	}
 	
-    /**
-     * Constructor that accepts only image
-     * @param image
-     */
-    public Spike(Image icon) {
-    	setIcon(icon);
-    }
-
 	//daje se donji lijevi kut playera
 	@Override
     public boolean checkCollisions(Player player) {
@@ -60,7 +55,7 @@ public class Spike extends Obstacle {
 
 	@Override
 	public GameObject copy() {
-		return new Spike(getIcon());
+		return new Spike(this.getCurrentPosition(), this.getIconPath());
 	}
 
 }
