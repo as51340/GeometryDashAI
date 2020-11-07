@@ -3,10 +3,11 @@ package hr.fer.zemris.project.geometry.dash.model;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Game object. Every game object has its current position, width, height, speed and icon
- * @author Andi Škrgat
+ * @author Andi Skrgat
  *
  */
 public abstract class GameObject implements Drawable{
@@ -111,5 +112,12 @@ public abstract class GameObject implements Drawable{
 	public void setIcon(Image icon) {
 		this.icon = icon;
 	}
+	
+	
+	/**
+	 * Method for copying object
+	 * @return
+	 */
+	public abstract GameObject copy();
 	
 }

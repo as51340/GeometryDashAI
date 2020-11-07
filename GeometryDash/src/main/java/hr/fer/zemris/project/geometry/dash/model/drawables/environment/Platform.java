@@ -1,10 +1,12 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Platform extends Obstacle{
 	private Image image;
@@ -15,7 +17,14 @@ public class Platform extends Obstacle{
         this.image = new Image(image, getWidth(), getHeight()*2, false, false);
     }
 
-
+    /**
+     * Constructor that accepts only image
+     * @param image
+     */
+    public Platform(Image icon) {
+    	setIcon(icon);
+    }
+    
     public Image getImage() {
     	return this.image;
     }
@@ -57,6 +66,11 @@ public class Platform extends Obstacle{
 	@Override
 	public void draw(GraphicsContext graphicsContext) {
 		graphicsContext.drawImage(this.image,  getCurrentPosition().getX(), getCurrentPosition().getY());
+	}
+
+	@Override
+	public GameObject copy() {
+		return new Platform(getIcon());
 	}
     
 //	@Override

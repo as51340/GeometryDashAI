@@ -2,6 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.Camera;
+import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
@@ -46,6 +47,11 @@ public class Floor extends Obstacle{
 	 */
 	public void setCamera(Camera camera) {
 		this.camera = camera;
+	}
+
+	@Override
+	public GameObject copy() {
+		return null;
 	}
 	
     

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditorSceneController">
    <children>
       <Canvas fx:id="grid" height="720.0" layoutX="-7.0" layoutY="4.0" width="1280.0" />
-      <GridPane fx:id="gridPane" alignment="CENTER" layoutX="540.0" layoutY="520.0" prefHeight="102.0" prefWidth="200.0">
+      <GridPane id="gridPane" fx:id="gridPane" alignment="CENTER" layoutX="300.0" layoutY="520.0" prefHeight="102.0" prefWidth="200.0" stylesheets="@../../styles/gridPane.css">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="45.0" prefWidth="45.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="45.0" prefWidth="45.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="45.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="45.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="45.0" prefWidth="100.0" />
         </columnConstraints>
@@ -24,16 +26,57 @@
           <RowConstraints maxHeight="-Infinity" minHeight="45.0" prefHeight="45.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="addSpike" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-            <ImageView fx:id="addBlock" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="addPlatform" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-            <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
-            <ImageView fx:id="addGrass" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
-            <ImageView fx:id="rotateLeft" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-            <ImageView fx:id="rotateRight" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ImageView fx:id="addTunel" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ImageView fx:id="addSpike" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="spike" GridPane.columnIndex="2">
+               <image>
+                  <Image url="@../../obstacles/spike/blue.png" />
+               </image></ImageView>
+            <ImageView fx:id="addBlock" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="block">
+               <image>
+                  <Image url="@../../obstacles/block/blue.png" />
+               </image></ImageView>
+            <ImageView fx:id="addPlatform" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="platform" GridPane.columnIndex="1">
+               <image>
+                  <Image url="@../../obstacles/platform/blue.png" />
+               </image></ImageView>
+            <ImageView fx:id="addGrass" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="grass" GridPane.columnIndex="3">
+               <image>
+                  <Image url="@../../obstacles/grassspike/blue.png" />
+               </image></ImageView>
+            <ImageView fx:id="spikeLeft" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="spikeLeft" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../obstacles/spike/blueLeft.png" />
+               </image></ImageView>
+            <ImageView fx:id="spikeRight" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" styleClass="spikeRight" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../obstacles/spike/blueRight.png" />
+               </image></ImageView>
             <ImageView fx:id="addFire" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <ImageView fx:id="add" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+      <Button fx:id="Save" layoutX="22.0" layoutY="520.0" mnemonicParsing="false" text="Save">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Button>
+      <GridPane id="colorPicker" fx:id="colorPicker" layoutX="675.0" layoutY="520.0" prefHeight="33.0" prefWidth="481.0" stylesheets="@../../styles/gridPane.css">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="110.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="110.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="110.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="110.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="110.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="300.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="blackColor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="black" />
+            <Button fx:id="blueColor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="blue" GridPane.columnIndex="1" />
+            <Button fx:id="redColor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="red" GridPane.columnIndex="2" />
+            <Button fx:id="greenColor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="green" GridPane.columnIndex="3" />
+            <Button fx:id="grayColor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="gray" GridPane.columnIndex="4" />
+            <Button fx:id="purpleColor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="purple" GridPane.columnIndex="5" />
          </children>
       </GridPane>
    </children>

@@ -1,0 +1,87 @@
+#gridPane .block:hover {
+	-fx-rotate:10;
+}
+
+#gridPane .block:pressed {
+	-fx-opacity: 0.5;
+}
+
+#gridPane .platform:hover {
+	-fx-rotate:10;
+}
+
+#gridPane .platform:pressed {
+	-fx-opacity: 0.5;
+}
+
+#gridPane .spike:hover {
+	-fx-rotate:10;
+}
+
+#gridPane .spike:pressed {
+	-fx-opacity: 0.5;
+}
+
+#gridPane .grass:hover {
+	-fx-rotate:10;
+}
+
+#gridPane .grass:pressed {
+	-fx-opacity: 0.5;
+}
+
+#gridPane .spikeLeft:hover {
+	-fx-rotate:10;
+}
+
+#gridPane .spikeLeft:pressed {
+	-fx-opacity: 0.5;
+}
+
+#gridPane .spikeRight:hover {
+	-fx-rotate:10;
+}
+
+#gridPane .spikeRight:pressed {
+	-fx-opacity: 0.5;
+}
+
+#colorPicker .black {
+	-fx-background-color: #000000
+}
+
+#colorPicker .black:hover {
+	-fx-opacity: 0.5;
+}
+
+#colorPicker .blue {
+	-fx-background-color: #333FFF
+}
+
+#colorPicker .blue:hover {
+	-fx-opacity: 0.5;
+}
+
+#colorPicker .red {
+	-fx-background-color: #FF3333	
+}
+
+#colorPicker .red:hover {
+	-fx-opacity: 0.5;
+}
+
+#colorPicker .green {
+	-fx-background-color: #33FF55	
+}
+
+#colorPicker .green:hover {
+	-fx-opacity: 0.5;
+}
+
+#colorPicker .purple {
+	-fx-background-color: #C133FF	
+}
+
+#colorPicker .purple:hover {
+	-fx-opacity: 0.5;
+}

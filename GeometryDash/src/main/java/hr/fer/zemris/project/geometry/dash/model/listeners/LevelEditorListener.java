@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.model.listeners;
 
+import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import javafx.scene.image.Image;
 
 /**
@@ -9,6 +10,8 @@ import javafx.scene.image.Image;
  */
 public interface LevelEditorListener {
 
-	void newActionSelected(Image newImage, String objectName);
+	void newObjectSelected(GameObject gameObject);
 	
+	void newColorSelected(String color);
+
 }

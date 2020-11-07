@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.NoSuchElementException;
 
 import hr.fer.zemris.project.geometry.dash.model.Utils;
+import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.image.Image;
 
 
@@ -40,7 +41,7 @@ public class CharacterObject {
 	 * @return loaded icon
 	 */
 	private Image loadIcon(String uri) {
-		return Utils.loadIcon(uri);
+		return Utils.loadIcon(GameConstants.pathToIcons + uri);
 	}
 	
 	/**

@@ -76,10 +76,13 @@ public class Player extends GameObject {
      */
     private void calculatePlayerPhysics() {
         getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates,  getSpeed().getY() * GameConstants.timeBetweenUpdates));
-//        getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates,  GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
-//        if(getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
-//            getSpeed().setY(GameConstants.playerFinalSpeed_Y);
-//        }
+        getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates,  GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
+        if(getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
+            getSpeed().setY(GameConstants.playerFinalSpeed_Y);
+        }
+        if(getSpeed().getX() >= GameConstants.playerFinalSpeed_X) {
+        	getSpeed().setX(GameConstants.playerFinalSpeed_X);
+        }
     }
 
     /**
@@ -100,5 +103,11 @@ public class Player extends GameObject {
         graphicsContext.drawImage(this.character.getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
         calculatePlayerPhysics();
     }
+
+	@Override
+	public GameObject copy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

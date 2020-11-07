@@ -34,8 +34,7 @@ public class Utils {
 	 * @return loaded icon
 	 */
 	public static Image loadIcon(String uri) {
-		String path = GameConstants.pathToIcons + uri;
-		InputStream is = CharacterObject.class.getResourceAsStream(path);
+		InputStream is = CharacterObject.class.getResourceAsStream(uri);
 		if (is == null) {
 			throw new NoSuchElementException("No such icon in the resource directory");
 		}
@@ -47,6 +46,8 @@ public class Utils {
 		}
 		return icon;
 	}
+	
+	
 
 	/**
 	 * Copies image
@@ -86,34 +87,32 @@ public class Utils {
 		return mediaPlayer;
 	}
 	
-	public static GameObject createObjectFromName(String objName, Vector2D position) {
+	public static GameObject createObjectFromName(String objName, Image image) {
 		if(objName.equals("Block") == true) {
-			return createBlock(position);
+			return createBlock(image);
 		} else if(objName.equals("Platform") == true) {
-			return createPlatform(position);
+			return createPlatform(image);
 		} else if(objName.equals("Spike") == true) {
-			return createSpike(position);
+			return createSpike(image);
 		} else if(objName.equals("GrassSpike") == true) {
-			return createGrassSpike(position);
-		} 
+			return createGrassSpike(image);
+		}
 		return null;
 	}
 	
-	private static GrassSpike createGrassSpike(Vector2D position) {
-//		return new 
-		return null;
+	private static GrassSpike createGrassSpike(Image image) {
+		return new GrassSpike(image);
 	}
 	
-	private static Spike createSpike(Vector2D position) {
-//		return new Spike(position, GameConstants)
-		return null;
+	private static Spike createSpike(Image image) {
+		return new Spike(image);
 	}
 	
-	private static Platform createPlatform(Vector2D position) {
-		return new Platform(position, 45, GameConstants.platformImage);
+	private static Platform createPlatform(Image image) {
+		return new Platform(image);
 	}
 	
-	private static Block createBlock(Vector2D position) {
-		return new Block(position, GameConstants.blockImage);
+	private static Block createBlock(Image image) {
+		return new Block(image);
 	}
 }

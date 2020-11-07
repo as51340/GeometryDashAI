@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 
 /**
  * All constants used in game
- * @author Andi Škrgat
+ * @author Andi Skrgat
  *
  */
 public class GameConstants {
@@ -17,8 +17,8 @@ public class GameConstants {
 	/**
 	 * Sets icon's height
 	 */
-	public static final short iconHeight = 45; 	// Mislim da bi ovo trebalo maknuti jer
-												// ne želimo pravokutnike nego kvadrate
+	public static final short iconHeight = 45; 
+	
 	/**
 	 * Path to the character's icons
 	 */
@@ -38,6 +38,11 @@ public class GameConstants {
 	 * Path to game's scenes
 	 */
 	public static final String pathToVisualization = "/hr/fer/zemris/project/geom/dash/visualization/";
+	
+	/**
+	 * Path to game's obstacles
+	 */
+	public static final String pathToObstacles = "/hr/fer/zemris/project/geom/dash/obstacles/";
 	
 	/**
 	 * Width
@@ -137,9 +142,14 @@ public class GameConstants {
     public static final int playerSpeed_Y = 50;
    
     /**
-     * Player's final speed
+     * Player's final speed in y direction
      */
     public static final int playerFinalSpeed_Y=400;
+    
+    /**
+     * Player's final speed in y direction
+     */
+    public static final int playerFinalSpeed_X=150;
     
     /**
      * Time between recognizing mouse input for placing objects on the screen

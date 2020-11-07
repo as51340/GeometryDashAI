@@ -1,10 +1,12 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Class represents a 1x1 block obstacle.
@@ -29,6 +31,14 @@ public class Block extends Obstacle {
         setHeight(GameConstants.iconHeight);
         setWidth(GameConstants.iconHeight);
         this.image = new Image(image, getWidth(), getHeight(), false, false);
+    }
+    
+    /**
+     * Constructor that accepts only image
+     * @param image
+     */
+    public Block(Image icon) {
+    	setIcon(icon);
     }
 
     /**
@@ -101,6 +111,11 @@ public class Block extends Obstacle {
 
     @Override
     public void draw(GraphicsContext graphicsContext) {
-        graphicsContext.drawImage(this.image, getCurrentPosition().getX(), getCurrentPosition().getY());
+        graphicsContext.drawImage(getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
     }
+
+	@Override
+	public GameObject copy() {
+		return new Block(getIcon());
+	}
 }
