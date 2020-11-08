@@ -42,6 +42,9 @@ public abstract class GameObject implements Drawable{
 	 */
 	@Expose
 	private String iconPath;
+	
+	@Expose
+	private String name;
 		
 	/**
     * Returns some reference {@linkplain Vector2D} for object from which the hitbox will be calculated
@@ -112,8 +115,6 @@ public abstract class GameObject implements Drawable{
 		return iconPath;
 	}
 	
-	
-
 	/**
 	 * @param iconPath the iconPath to set
 	 */
@@ -121,10 +122,67 @@ public abstract class GameObject implements Drawable{
 		this.iconPath = iconPath;
 	}
 
+	
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	/**
 	 * Method for copying object
 	 * @return
 	 */
 	public abstract GameObject copy();
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((currentPosition == null) ? 0 : currentPosition.hashCode());
+		result = prime * result + height;
+		result = prime * result + ((iconPath == null) ? 0 : iconPath.hashCode());
+		result = prime * result + width;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof GameObject))
+			return false;
+		GameObject other = (GameObject) obj;
+		if (currentPosition == null) {
+			if (other.currentPosition != null)
+				return false;
+		} else if (!currentPosition.equals(other.currentPosition))
+			return false;
+		if (height != other.height)
+			return false;
+		if (iconPath == null) {
+			if (other.iconPath != null)
+				return false;
+		} else if (!iconPath.equals(other.iconPath))
+			return false;
+		if (width != other.width)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "GameObject [currentPosition=" + currentPosition.toString() + ", height=" + height + ", width=" + width + ", icon="
+				+ icon + ", iconPath=" + iconPath + ", name=" + name + "]";
+	}
+
 	
 }

@@ -2,8 +2,12 @@ package hr.fer.zemris.project.geometry.dash.visualization.level;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import com.google.gson.annotations.Expose;
 
 import hr.fer.zemris.project.geometry.dash.model.Camera;
 import hr.fer.zemris.project.geometry.dash.model.Drawable;
@@ -14,17 +18,56 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 
+/**
+ * Encapsulates objects on the level editor scene.
+ * @author Andi Škrgat
+ *
+ */
 public class ObjectsOnGrid implements Drawable{
 
-	private List<GameObject> listGameObjects;
+	/**
+	 * Game objects are stored in collection - {@linkplain HashSet} so two objects could not be on the same position on the grid
+	 */
+	@Expose
+	private Set<GameObject> listGameObjects;
 	
+	/**
+	 * Remembers if level was already saved
+	 */
+	private boolean saved = false;
+	
+	/**
+	 * Reference to the camera
+	 */
 	private Camera camera;
 	
+	/**
+	 * Basic constructor that sets camera to the objects on the grid
+	 * @param camera
+	 */
 	public ObjectsOnGrid(Camera camera) {
-		listGameObjects = new ArrayList<GameObject>();
+		listGameObjects = new HashSet<GameObject>();
 		this.camera = camera;
 	}
 	
+	/**
+	 * @return the saved
+	 */
+	public boolean isSaved() {
+		return saved;
+	}
+
+	/**
+	 * @param saved the saved to set
+	 */
+	public void setSaved(boolean saved) {
+		this.saved = saved;
+	}
+
+	/**
+	 * Adds game object on the scene
+	 * @param gameObject
+	 */
 	public void addGameObject(GameObject gameObject ) {
 		listGameObjects.add(gameObject);
 	}
@@ -38,6 +81,43 @@ public class ObjectsOnGrid implements Drawable{
 		}
 	}
 
+	/**
+	 * @return the listGameObjects
+	 */
+	public Set<GameObject> getListGameObjects() {
+		return listGameObjects;
+	}
+
+	/**
+	 * Clears all objects from the scene
+	 */
+	public void clear() {
+		listGameObjects.clear();
+	}
 	
+	/**
+	 * Removes game object from the scene
+	 * @param gameObject game object that user wants to remove from the scene
+	 */
+	public void remove(GameObject gameObject) {
+		listGameObjects.remove(gameObject);
+	}
 	
+	/**
+	 * Retrieves object that is on the specified positon
+	 * @param position position on the grid
+	 */
+	public void getObjectFromPosition(Vector2D position) {
+		//TODO - this is for removing objects from the screen 
+//		implement some useful method in GameObject if it can be done or keep HashMap with position and game object - memory unefficient
+		//TODO - multithreading where appropriate
+	}
+	
+	/**
+	 * Adds loaded objects on the scene
+	 * @param loadedObjects
+	 */
+	public void loadObjectsOnScreen(Set<GameObject> loadedObjects) {
+		listGameObjects = loadedObjects;
+	}
 }

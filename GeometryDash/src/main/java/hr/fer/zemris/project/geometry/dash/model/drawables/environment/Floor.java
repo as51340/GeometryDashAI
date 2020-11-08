@@ -32,6 +32,7 @@ public class Floor extends Obstacle{
 	 */
     public Floor(Vector2D position) {
         setCurrentPosition(position);
+        setName("Floor");
     }
     
     @Override

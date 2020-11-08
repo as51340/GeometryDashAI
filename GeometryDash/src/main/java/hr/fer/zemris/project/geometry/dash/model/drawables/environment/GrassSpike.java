@@ -18,6 +18,24 @@ public class GrassSpike extends Obstacle{
         this.setHeight(GameConstants.iconHeight);
         setIcon(Utils.loadIcon(uriIcon));
         setIconPath(uriIcon);
+        setName("GrassSpike");
+    }
+    
+    /**
+     * Constructor that accepts all {@linkplain GameObject}'s parameters 
+     * @param name object name
+     * @param currentPosition current position
+     * @param height height
+     * @param width width
+     * @param iconPath path to icon
+     */
+    public GrassSpike(String name, Vector2D currentPosition, int height, int width, String iconPath) {
+    	setName(name);
+    	setCurrentPosition(currentPosition);
+    	setHeight(height);
+    	setWidth(width);
+    	setIconPath(iconPath);
+    	setIcon(Utils.loadIcon(iconPath));
     }
    
     @Override
@@ -44,6 +62,6 @@ public class GrassSpike extends Obstacle{
 
 	@Override
 	public GameObject copy() {
-		return new GrassSpike(this.getCurrentPosition(), this.getIconPath());
+		return new GrassSpike(getCurrentPosition().copy(), new String(getIconPath()));
 	}
 }

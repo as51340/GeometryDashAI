@@ -13,7 +13,7 @@
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditorSceneController">
    <children>
       <Canvas fx:id="grid" height="720.0" layoutX="-7.0" layoutY="4.0" width="1280.0" />
-      <GridPane id="gridPane" fx:id="gridPane" alignment="CENTER" layoutX="300.0" layoutY="520.0" prefHeight="102.0" prefWidth="200.0" stylesheets="@../../styles/gridPane.css">
+      <GridPane id="gridPane" fx:id="gridPane" alignment="CENTER" layoutX="400.0" layoutY="520.0" prefHeight="102.0" prefWidth="200.0" stylesheets="@../../styles/gridPane.css">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="45.0" prefWidth="45.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="45.0" prefWidth="45.0" />
@@ -53,7 +53,7 @@
             <ImageView fx:id="addFire" fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Button fx:id="Save" layoutX="22.0" layoutY="520.0" mnemonicParsing="false" text="Save">
+      <Button fx:id="saveButton" layoutX="20.0" layoutY="528.0" mnemonicParsing="false" text="Save">
          <font>
             <Font size="28.0" />
          </font>
@@ -79,5 +79,15 @@
             <Button fx:id="purpleColor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="purple" GridPane.columnIndex="5" />
          </children>
       </GridPane>
+      <Button fx:id="loadButton" layoutX="19.0" layoutY="610.0" mnemonicParsing="false" text="Load">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Button>
+      <Button fx:id="resetButton" layoutX="157.0" layoutY="528.0" mnemonicParsing="false" text="Reset">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

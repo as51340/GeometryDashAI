@@ -19,7 +19,25 @@ public class Spike extends Obstacle {
 		this.setHeight((int) (GameConstants.iconHeight * Math.sqrt(3) / 2)); // visina trokuta
 		setIconPath(uriIcon);
 		setIcon(Utils.loadIcon(uriIcon));
+		setName("Spike");
 	}
+	
+	/**
+     * Constructor that accepts all {@linkplain GameObject}'s parameters 
+     * @param name object name
+     * @param currentPosition current position
+     * @param height height
+     * @param width width
+     * @param iconPath path to icon
+     */
+    public Spike(String name, Vector2D currentPosition, int height, int width, String iconPath) {
+    	setName(name);
+    	setCurrentPosition(currentPosition);
+    	setHeight(height);
+    	setWidth(width);
+    	setIconPath(iconPath);
+    	setIcon(Utils.loadIcon(iconPath));
+    }
 	
 	//daje se donji lijevi kut playera
 	@Override
@@ -55,7 +73,7 @@ public class Spike extends Obstacle {
 
 	@Override
 	public GameObject copy() {
-		return new Spike(this.getCurrentPosition(), this.getIconPath());
+		return new Spike(getCurrentPosition().copy(), new String(getIconPath()));
 	}
 
 }

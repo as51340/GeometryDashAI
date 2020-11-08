@@ -2,6 +2,9 @@ package hr.fer.zemris.project.geometry.dash.model;
 
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.listeners.GameStateListener;
@@ -100,7 +103,7 @@ public class GameEngine implements SoundSystem{
 	public GameWorld getGameWorld() {
 		return gameWorld;
 	}
-	
+		
 	/**
 	 * @return the fps
 	 */

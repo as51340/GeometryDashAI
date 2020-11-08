@@ -21,12 +21,30 @@ public class Block extends Obstacle {
      * @param position position of the block.
      * @param image    image of the block.
      */
-    public Block(Vector2D position, String uriIcon) {
+    public Block(Vector2D position, String iconPath) {
         setCurrentPosition(position);
         setHeight(GameConstants.iconHeight);
         setWidth(GameConstants.iconHeight);
-        setIconPath(uriIcon);
-        setIcon(Utils.loadIcon(uriIcon));
+        setIconPath(iconPath);
+        setIcon(Utils.loadIcon(iconPath));
+        setName("Block");
+    }
+    
+    /**
+     * Constructor that accepts all {@linkplain GameObject}'s parameters 
+     * @param name object name
+     * @param currentPosition current position
+     * @param height height
+     * @param width width
+     * @param iconPath path to icon
+     */
+    public Block(String name, Vector2D currentPosition, int height, int width, String iconPath) {
+    	setName(name);
+    	setCurrentPosition(currentPosition);
+    	setHeight(height);
+    	setWidth(width);
+    	setIconPath(iconPath);
+    	setIcon(Utils.loadIcon(iconPath));
     }
     
     
@@ -96,6 +114,6 @@ public class Block extends Obstacle {
 
 	@Override
 	public GameObject copy() {
-		return new Block(this.getCurrentPosition(), this.getIconPath());
+		return new Block(getCurrentPosition().copy(), new String(getIconPath()));
 	}
 }

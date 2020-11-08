@@ -16,6 +16,7 @@ public class Platform extends Obstacle{
         this(position, image);
         setHeight(GameConstants.iconHeight/2);
         setWidth(width);
+        setName("Platform");
     }
 
    
@@ -25,6 +26,23 @@ public class Platform extends Obstacle{
     	setIcon(Utils.loadIcon(image));
     }
    
+    /**
+     * Constructor that accepts all {@linkplain GameObject}'s parameters 
+     * @param name object name
+     * @param currentPosition current position
+     * @param height height
+     * @param width width
+     * @param iconPath path to icon
+     */
+    public Platform(String name, Vector2D currentPosition, int height, int width, String iconPath) {
+    	setName(name);
+    	setCurrentPosition(currentPosition);
+    	setHeight(height);
+    	setWidth(width);
+    	setIconPath(iconPath);
+    	setIcon(Utils.loadIcon(iconPath));
+    }
+    
     //provjerava da li se playerov gornje lijevi ili desni kut nalazi "u" platformi
     //tj da li ju je lupio od dole
     @Override
@@ -65,7 +83,7 @@ public class Platform extends Obstacle{
 
 	@Override
 	public GameObject copy() {
-		return new Platform(this.getCurrentPosition(), this.getWidth(), this.getIconPath());
+		return new Platform(getCurrentPosition().copy(), this.getWidth(), new String(getIconPath()));
 	}
     
 //	@Override

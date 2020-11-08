@@ -91,16 +91,16 @@ public class Utils {
 	 * @param uriIcon path to icon
 	 * @return created {@linkplain GameObject}
 	 */
-	public static GameObject createObjectFromName(String objName, String uriIcon) {
+	public static GameObject createObjectFromName(String objName, Vector2D objPosition, int height, int width, String uriIcon) {
 		if(objName.equals("Block") == true) {
-			return createBlock(uriIcon);
+			return createBlock(objPosition, height, width, uriIcon);
 		} else if(objName.equals("Platform") == true) {
-			return createPlatform(uriIcon);
+			return createPlatform(objPosition, height, width, uriIcon);
 		} else if(objName.equals("Spike") == true) {
-			return createSpike(uriIcon);
+			return createSpike(objPosition, height, width, uriIcon);
 		} else if(objName.equals("GrassSpike") == true) {
-			return createGrassSpike(uriIcon);
-		}
+			return createGrassSpike(objPosition, height, width, uriIcon);
+		} //TODO add impl for floor
 		return null;
 	}
 	
@@ -109,8 +109,8 @@ public class Utils {
 	 * @param uriIcon path to icon
 	 * @return created {@linkplain GrassSpike}
 	 */
-	private static GrassSpike createGrassSpike(String uriIcon) {
-		return new GrassSpike(new Vector2D(0, 0), uriIcon);
+	private static GrassSpike createGrassSpike(Vector2D objPosition, int height, int width, String uriIcon) {
+		return new GrassSpike("GrassSpike", objPosition, height, width, uriIcon);
 	}
 	
 	/**
@@ -118,8 +118,8 @@ public class Utils {
 	 * @param uriIcon path to icon
 	 * @return created {@linkplain Spike}
 	 */
-	private static Spike createSpike(String uriIcon) {
-		return new Spike(new Vector2D(0, 0), uriIcon);
+	private static Spike createSpike(Vector2D objPosition, int height, int width, String uriIcon) {
+		return new Spike("Spike", objPosition, height, width, uriIcon);
 	}
 	
 	/**
@@ -127,8 +127,8 @@ public class Utils {
 	 * @param uriIcon path to icon
 	 * @return created {@linkplain Platform}
 	 */
-	private static Platform createPlatform(String uriIcon) {
-		return new Platform(new Vector2D(0, 0), uriIcon);
+	private static Platform createPlatform(Vector2D objPosition, int height, int width, String uriIcon) {
+		return new Platform("Platform", objPosition, height, width,uriIcon);
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class Utils {
 	 * @param uriIcon path to icon
 	 * @return created {@linkplain Block}
 	 */
-	private static Block createBlock(String uriIcon) {
-		return new Block(new Vector2D(0, 0), uriIcon);
+	private static Block createBlock(Vector2D objPosition, int height, int width, String uriIcon) {
+		return new Block("Block", objPosition, height, width, uriIcon);
 	}
 }

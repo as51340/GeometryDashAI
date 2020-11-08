@@ -1,8 +1,31 @@
 package hr.fer.zemris.project.geometry.dash.visualization.level;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.StringBufferInputStream;
+import java.io.StringReader;
+import java.util.Optional;
+import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import com.google.gson.Gson;
+import com.sun.glass.ui.Window;
+
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
+import hr.fer.zemris.project.geometry.dash.model.SerializeUtil;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
+import hr.fer.zemris.project.geometry.dash.model.ZipUtil;
 import hr.fer.zemris.project.geometry.dash.model.listeners.LevelEditorListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
@@ -11,11 +34,15 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 
 /**
  * Controller for level editor.
@@ -79,16 +106,25 @@ public class LevelEditorSceneController {
 	@FXML
 	private Button purpleColor;
 
+	@FXML
+	private Button loadButton;
+
+	@FXML
+	private Button saveButton;
+
+	@FXML
+	private Button resetButton;
+
 	/**
 	 * Reference to the game engine
 	 */
 	private GameEngine gameEngine;
-	
+
 	/**
 	 * Level editor listener
 	 */
 	private LevelEditorListener levelEditorListener = new DefaultLevelEditorListener();
-	
+
 	/**
 	 * Current color
 	 */
@@ -108,57 +144,54 @@ public class LevelEditorSceneController {
 		setOnMouseMoved();
 		setOnMouseDragged();
 		setActionsForButtons();
+		setKeyCombinations();
 	}
 	
 	/**
-	 * Creates path
-	 * @param obstacle
-	 * @return
+	 * Sets key combinations for level editor
 	 */
-	private String createPathToObstacle(String obstacle) {
-		return GameConstants.pathToObstacles + obstacle + "/" + this.currColor + ".png";
+	private void setKeyCombinations()  {
+		grid.getScene().getAccelerators().put(KeyCombination.keyCombination("CTRL+S"), () -> {
+			
+		});
+		grid.getScene().getAccelerators().put(KeyCombination.keyCombination("CTRL+SHIFT+S"), () -> {
+			
+		});
 	}
 	
-	/**
-	 * Creates path
-	 * @param obstacle
-	 * @return
-	 */
-	private String createPathToObstacleLeft(String obstacle) {
-		return GameConstants.pathToObstacles + obstacle + "/" + this.currColor + "Left.png";
-	}
-	
-	/**
-	 * Creates path
-	 * @param obstacle
-	 * @return
-	 */
-	private String createPathToObstacleRight(String obstacle) {
-		return GameConstants.pathToObstacles + obstacle + "/" + this.currColor + "Right.png";
-	}
 
 	/**
 	 * Sets actions for clicking on buttons
 	 */
 	private void setActionsForButtons() {
 		addBlock.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Block", createPathToObstacle("block")));
+			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Block", new Vector2D(0,0), GameConstants.iconHeight,
+					GameConstants.iconWidth, createPathToObstacle("block")));
 		});
 		addGrass.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("GrassSpike", createPathToObstacle("grassspike")));
+			levelEditorListener
+					.newObjectSelected(Utils.createObjectFromName("GrassSpike", new Vector2D(0,0), GameConstants.iconHeight,
+							GameConstants.iconWidth,createPathToObstacle("grassspike")));
 
 		});
 		addPlatform.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Platform", createPathToObstacle("platform")));
+			levelEditorListener
+					.newObjectSelected(Utils.createObjectFromName("Platform", new Vector2D(0,0), GameConstants.iconHeight,
+							GameConstants.iconWidth,createPathToObstacle("platform")));
 		});
 		addSpike.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Spike", createPathToObstacle("spike")));
+			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Spike",new Vector2D(0,0), GameConstants.iconHeight,
+					GameConstants.iconWidth, createPathToObstacle("spike")));
 		});
 		spikeLeft.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Spike", createPathToObstacleLeft("spike")));
+			levelEditorListener
+					.newObjectSelected(Utils.createObjectFromName("Spike", new Vector2D(0,0), GameConstants.iconHeight,
+							GameConstants.iconWidth,createPathToObstacleLeft("spike")));
 		});
 		spikeRight.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Spike", createPathToObstacleRight("spike")));
+			levelEditorListener
+					.newObjectSelected(Utils.createObjectFromName("Spike", new Vector2D(0,0), GameConstants.iconHeight,
+							GameConstants.iconWidth,createPathToObstacleRight("spike")));
 		});
 		blackColor.setOnMouseClicked((e) -> {
 			this.currColor = "black";
@@ -184,7 +217,48 @@ public class LevelEditorSceneController {
 			this.currColor = "purple";
 			levelEditorListener.newColorSelected("purple");
 		});
+		saveButton.setOnMouseClicked((e) -> {
+			
+			levelEditorListener.saveLevel(null);
+		});
 
+		loadButton.setOnMouseClicked((e) -> {
+			levelEditorListener.loadLevel();
+		});
+
+		resetButton.setOnMouseClicked((e) -> {
+			levelEditorListener.reset();
+		});
+	}
+	
+	/**
+	 * Creates path
+	 * 
+	 * @param obstacle
+	 * @return
+	 */
+	private String createPathToObstacle(String obstacle) {
+		return GameConstants.pathToObstacles + obstacle + "/" + this.currColor + ".png";
+	}
+
+	/**
+	 * Creates path
+	 * 
+	 * @param obstacle
+	 * @return
+	 */
+	private String createPathToObstacleLeft(String obstacle) {
+		return GameConstants.pathToObstacles + obstacle + "/" + this.currColor + "Left.png";
+	}
+
+	/**
+	 * Creates path
+	 * 
+	 * @param obstacle
+	 * @return
+	 */
+	private String createPathToObstacleRight(String obstacle) {
+		return GameConstants.pathToObstacles + obstacle + "/" + this.currColor + "Right.png";
 	}
 
 	/**
@@ -443,6 +517,18 @@ public class LevelEditorSceneController {
 	 */
 	class DefaultLevelEditorListener implements LevelEditorListener {
 
+		/**
+		 * Object that serializes and deserializes given object
+		 */
+		private SerializeUtil serializeUtil;
+
+		/**
+		 * Constructor for level editor listener
+		 */
+		public DefaultLevelEditorListener() {
+			serializeUtil = new SerializeUtil();
+		}
+
 		@Override
 		public void newObjectSelected(GameObject gameObject) {
 			getGameEngine().getLevelEditor().getGridAttaching().setCurrObj(gameObject);
@@ -458,5 +544,23 @@ public class LevelEditorSceneController {
 			spikeRight.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + "Right.png"));
 		}
 
+		@Override
+		public void saveLevel(String fileToSave) {
+			String json = serializeUtil.serialize(gameEngine.getLevelEditor().getGridAttaching().getObjectsOnGrid().getListGameObjects());
+			ZipUtil.saveToZipFile(GameConstants.pathToLevelsFolder, json, fileToSave);
+		}
+
+		@Override
+		public void loadLevel() {
+			String jsonFromFile = ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, null);
+			Set<GameObject> loadedObjects = serializeUtil.deserialize(jsonFromFile);
+			reset();
+			gameEngine.getLevelEditor().getGridAttaching().getObjectsOnGrid().loadObjectsOnScreen(loadedObjects);
+		}
+		
+		@Override
+		public void reset() {
+			gameEngine.getLevelEditor().getGridAttaching().getObjectsOnGrid().clear();
+		}
 	}
 }

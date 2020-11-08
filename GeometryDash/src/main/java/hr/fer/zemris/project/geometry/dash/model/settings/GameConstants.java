@@ -152,7 +152,12 @@ public class GameConstants {
     public static final int playerFinalSpeed_X=150;
     
     /**
-     * Time between recognizing mouse input for placing objects on the screen
+     * Path to zip file
      */
-    public static final double transparentTimeLevel = 0.05;
+    public static final String pathToLevelsFolder = "levels";
+    
+    /**
+     * Buffer size when reading from file
+     */
+    public static final int bytesPerKB = 4096;
 }

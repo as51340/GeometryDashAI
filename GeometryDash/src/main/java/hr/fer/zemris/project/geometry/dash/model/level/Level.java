@@ -2,10 +2,12 @@ package hr.fer.zemris.project.geometry.dash.model.level;
 
 /**
  * Game level with its stats etc.
- * @author Andi ï¿½krgat
+ * @author Andi Škrgat
  *
  */
 public class Level {
+	
+	
 	
 	/**
 	 * Level name

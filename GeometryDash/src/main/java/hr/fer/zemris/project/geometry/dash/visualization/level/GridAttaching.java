@@ -29,10 +29,6 @@ public class GridAttaching implements Drawable, Changeable{
 	
 	private ObjectsOnGrid objectsOnGrid;
 	
-	private double transparentTime = GameConstants.transparentTimeLevel;
-	
-	private double transparentTimeLeft = 0;
-	
 	public GridAttaching(MouseHandler mouseHandler, Camera camera) {
 		this.position = new Vector2D(0, 0);
 		this.mouseHandler = mouseHandler; 
@@ -42,14 +38,11 @@ public class GridAttaching implements Drawable, Changeable{
 	
 	@Override
 	public void update() {
-		transparentTimeLeft -= transparentTime;
 		double x = Math.floor((mouseHandler.getMouse_x() + mouseHandler.getDeltaDrag_x() + camera.getPosition().getX()) / GameConstants.iconWidth);
 		double y = Math.floor((mouseHandler.getMouse_y() + mouseHandler.getDeltaDrag_y() + camera.getPosition().getY()) / GameConstants.iconHeight);
 		position.setX(x*GameConstants.iconWidth - camera.getPosition().getX());
 		position.setY(y*GameConstants.iconHeight - camera.getPosition().getY());
-		if(currObj != null && mouseHandler.getMousePressedButton() == MouseButton.PRIMARY && 
-				transparentTimeLeft < 0 && this.position.getY() < GameConstants.floorPosition_Y) {
-			transparentTimeLeft = transparentTime;
+		if(currObj != null && mouseHandler.getMousePressedButton() == MouseButton.PRIMARY  && this.position.getY() < GameConstants.floorPosition_Y) {
 			Vector2D newPosition = new Vector2D(x*GameConstants.iconWidth, y * GameConstants.iconHeight);
 			GameObject newGameObject = currObj.copy();
 			newGameObject.setCurrentPosition(newPosition);
@@ -95,21 +88,7 @@ public class GridAttaching implements Drawable, Changeable{
 	public ObjectsOnGrid getObjectsOnGrid() {
 		return objectsOnGrid;
 	}
-
-	/**
-	 * @return the transparentTime
-	 */
-	public double getTransparentTime() {
-		return transparentTime;
-	}
-
-	/**
-	 * @return the transparentTimeLeft
-	 */
-	public double getTransparentTimeLeft() {
-		return transparentTimeLeft;
-	}
-
+	
 	/**
 	 * @return the currObj
 	 */
