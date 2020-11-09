@@ -10,14 +10,33 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 
+/**
+ * Implements functionality so user can drag screen on level editor
+ * @author Andi Škrgat
+ *
+ */
 public class DragCameraControls implements Drawable, Changeable{
 
+	/**
+	 * Camera
+	 */
 	private Camera camera;
 	
+	/**
+	 * Mouse listener
+	 */
 	private MouseHandler mouseHandler;
 	
+	/**
+	 * Stores last mouse position
+	 */
 	private Vector2D lastMousePosition;
 	
+	/**
+	 * Inits properties
+	 * @param camera camera
+	 * @param mouseHandler mouse listener
+	 */
 	public DragCameraControls(Camera camera, MouseHandler mouseHandler) {
 		this.camera = camera;
 		this.mouseHandler = mouseHandler;
@@ -27,6 +46,7 @@ public class DragCameraControls implements Drawable, Changeable{
 	/**
 	 * On every tick level editor will be updated but only if user is on level editor
 	 */
+	@Override
 	public void update() {
 		if(mouseHandler.getMousePressedButton() == MouseButton.SECONDARY) {
 			double delta_x = mouseHandler.getMouse_x() + mouseHandler.getDeltaDrag_x() - lastMousePosition.getX();

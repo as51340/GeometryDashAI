@@ -20,20 +20,37 @@ import javafx.scene.paint.Color;
  */
 public class LevelEditor implements Drawable, Changeable{
 
+	/**
+	 * Object for drawing
+	 */
 	private GraphicsContext graphicsContext;
 	
+	/**
+	 * Camera
+	 */
 	private Camera camera;
 	
-	private MouseHandler mouseHandler = MouseHandler.getInstance();
+	/**
+	 * Mouse listener
+	 */
+	private MouseHandler mouseHandler;
 	
+	/**
+	 * Class for attaching objects
+	 */
 	private GridAttaching gridAttaching;
 
+	/**
+	 * Dragging functionality
+	 */
 	private DragCameraControls dragCameraControls;
 	
-	
-	
+	/**
+	 * Constructor
+	 */
 	public LevelEditor() {
 		camera = new Camera();
+		mouseHandler = new MouseHandler();
 		dragCameraControls = new DragCameraControls(camera, mouseHandler);
 		gridAttaching = new GridAttaching(mouseHandler, camera);
 	}
@@ -59,6 +76,9 @@ public class LevelEditor implements Drawable, Changeable{
 		gridAttaching.draw(graphicsContext);
 	}
 	
+	/**
+	 * This method is called from game engine so graphics context can be initialized
+	 */
 	public void draw() {
 		draw(this.graphicsContext);
 	}

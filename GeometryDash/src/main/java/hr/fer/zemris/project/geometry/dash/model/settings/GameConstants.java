@@ -57,17 +57,17 @@ public class GameConstants {
     /**
      * X position of player
      */
-    public static final int playerPosition_X = 300	;
+    public static final int playerPosition_X = 300;
     
     /**
      * Y position of player
      */
-    public static final int playerPosition_Y = 560;
+    public static final int playerPosition_Y = 550;
 	
     /**
      * Floor position
      */
-    public static final int floorPosition_Y = 495;
+    public static final int floorPosition_Y = 540;
     
    
     /**
@@ -88,13 +88,12 @@ public class GameConstants {
     /**
      * Gravity constant
      */
-    public static final int gravity_Y = 200;
+    public static final int gravity_Y = 2500;
     
     /**
      * Accelaration in x direction
      */
     public static final int acceleration_X = 100;
-    
 
     /**
      * Offset player to ground
@@ -104,7 +103,7 @@ public class GameConstants {
     /**
      * Jumping offset
      */
-    public static final int playerJumpingOffset = -175;
+    public static final int playerJumpingOffset = -700;
     
     /**
      * Cell width for level editor
@@ -124,7 +123,7 @@ public class GameConstants {
     /**
      * Number of x lines on the screen
      */
-    public static final int linesLevelEditor_X = 12;
+    public static final int linesLevelEditor_X = 13;
     
     /**
      * Obstacles speed
@@ -160,4 +159,9 @@ public class GameConstants {
      * Buffer size when reading from file
      */
     public static final int bytesPerKB = 4096;
+ 
+    /**
+     * Player's rotation
+     */
+    public static final double playerRotationSpeed = 300.0;
 }

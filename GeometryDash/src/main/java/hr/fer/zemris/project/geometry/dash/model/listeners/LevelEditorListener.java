@@ -38,5 +38,10 @@ public interface LevelEditorListener {
 	 * Resets current level
 	 */
 	void reset();
+	
+	/**
+	 * When user clicks on remove button, user can click on object he wants to remove from the scene 
+	 */
+	void remove();
 
 }

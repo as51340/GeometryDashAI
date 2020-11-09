@@ -17,18 +17,48 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 
+/**
+ * Class that is responsible for attaching objects to grid
+ * @author Andi Škrgat
+ *
+ */
 public class GridAttaching implements Drawable, Changeable{
 
+	/**
+	 * Current position on the screen
+	 */
 	private Vector2D position;
 	
+	/**
+	 * Reference to the mouse handler - acts as listener
+	 */
 	private MouseHandler mouseHandler;
 	
+	/**
+	 * Camera
+	 */
 	private Camera camera;
 		
+	/**
+	 * Currently selected object for adding it to the grid
+	 */
 	private GameObject currObj;
 	
+	/**
+	 * Stores objects on grid
+	 */
 	private ObjectsOnGrid objectsOnGrid;
 	
+	/**
+	 * Stores information if user wants to remove object from the scene
+	 */
+	private boolean removeIntent;
+	
+	/**
+	 * Constructor
+	 * @param mouseHandler mouse listener
+	 * @param camera camera
+	 */
 	public GridAttaching(MouseHandler mouseHandler, Camera camera) {
 		this.position = new Vector2D(0, 0);
 		this.mouseHandler = mouseHandler; 
@@ -42,7 +72,11 @@ public class GridAttaching implements Drawable, Changeable{
 		double y = Math.floor((mouseHandler.getMouse_y() + mouseHandler.getDeltaDrag_y() + camera.getPosition().getY()) / GameConstants.iconHeight);
 		position.setX(x*GameConstants.iconWidth - camera.getPosition().getX());
 		position.setY(y*GameConstants.iconHeight - camera.getPosition().getY());
-		if(currObj != null && mouseHandler.getMousePressedButton() == MouseButton.PRIMARY  && this.position.getY() < GameConstants.floorPosition_Y) {
+		if(removeIntent == true && mouseHandler.getMousePressedButton() == MouseButton.PRIMARY  && this.position.getY() < GameConstants.floorPosition_Y) {
+			Vector2D positionToRemove = new Vector2D(x*GameConstants.iconWidth, y * GameConstants.iconHeight);
+			objectsOnGrid.remove(positionToRemove);
+		}
+		else if(currObj != null && mouseHandler.getMousePressedButton() == MouseButton.PRIMARY  && this.position.getY() < GameConstants.floorPosition_Y) {
 			Vector2D newPosition = new Vector2D(x*GameConstants.iconWidth, y * GameConstants.iconHeight);
 			GameObject newGameObject = currObj.copy();
 			newGameObject.setCurrentPosition(newPosition);
@@ -101,6 +135,20 @@ public class GridAttaching implements Drawable, Changeable{
 	 */
 	public void setCurrObj(GameObject currObj) {
 		this.currObj = currObj;
+	}
+
+	/**
+	 * @return the removeIntent
+	 */
+	public boolean isRemoveIntent() {
+		return removeIntent;
+	}
+
+	/**
+	 * @param removeIntent the removeIntent to set
+	 */
+	public void setRemoveIntent(boolean removeIntent) {
+		this.removeIntent = removeIntent;
 	}
 	
 }

@@ -2,10 +2,12 @@ package hr.fer.zemris.project.geometry.dash.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.*;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
+import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
@@ -16,15 +18,10 @@ import javafx.stage.Stage;
 
 /**
  * Manages all current objects on the scene. 
- * @author Andi Å krgat
+ * @author Andi Škrgat
  *
  */
 public class GameWorld {
-	
-	/**
-	 * List of all game objet+cts
-	 */
-	private List<GameObject> gameObjects;
 	
 	/**
 	 * Reference to the {@linkplain LevelManager}
@@ -57,6 +54,26 @@ public class GameWorld {
 	private Renderer renderer;
 	
 	/**
+	 * Currently selected level
+	 */
+	private Level currentLevel;
+	
+	
+	/**
+	 * @return the currentLevel
+	 */
+	public Level getCurrentLevel() {
+		return currentLevel;
+	}
+
+	/**
+	 * @param currentLevel the currentLevel to set
+	 */
+	public void setCurrentLevel(Level currentLevel) {
+		this.currentLevel = currentLevel;
+	}
+
+	/**
 	 * @return the graphics
 	 */
 	public GraphicsContext getGraphics() {
@@ -68,13 +85,6 @@ public class GameWorld {
 	 */
 	public void setGraphics(GraphicsContext graphics) {
 		this.graphics = graphics;
-	}
-
-	/**
-	 * @return game objects
-	 */
-	public List<GameObject> getGameObjects() {
-		return gameObjects;
 	}
 	
 	/**
@@ -116,6 +126,7 @@ public class GameWorld {
 	 */
 	public GameWorld() {
 		charactersSelector = new CharactersSelector();
+		levelManager = new LevelManager();
 		createScene();
 	}
 	
@@ -123,34 +134,13 @@ public class GameWorld {
 	 * Creates temporary scene
 	 */
 	private void createScene() {
-		gameObjects = new ArrayList<>();
-//		GrassSpike travica = new GrassSpike(new Vector2D(GameConstants.playerPosition_X+20*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight));
-//		 isprobavao postavljanje blokova i platformi
-//		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));
-//		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.blockImage));
-//		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-3*GameConstants.iconHeight), GameConstants.blockImage));
-//		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+4*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));
-//		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+4*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.blockImage));
-//		gameObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X+3*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.blockImage));
-//		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+10*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth * 5, GameConstants.platformImage));
-//		gameObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+30*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
-//		gameObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+20*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
-//		gameObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+10*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
-//		gameObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
-//		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+10*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-//		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+11*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-//		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+12*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-//		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+13*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-//		gameObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X+14*GameConstants.iconHeight, GameConstants.floorPosition_Y-2*GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-//		//gameObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+30*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
 		player = new Player(new Vector2D(0,GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
-		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y));
-//		gameObjects.add(player);
-//		gameObjects.add(floor);
-//		gameObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X+20*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
-//		gameObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X+21*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
-//		gameObjects.add(travica);
-		renderer = new Renderer(gameObjects);
+		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + 50));
+		Set<GameObject> levelObjects = new SerializeUtil().deserialize(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, "StereoMadness"));
+		levelObjects.add(player);
+		levelObjects.add(floor);
+		this.currentLevel = levelManager.addLevel("StereoMadness", levelObjects);
+		renderer = new Renderer(levelObjects);
 		((Floor) floor).setCamera(renderer.getCamera());
 	}
 
@@ -167,7 +157,7 @@ public class GameWorld {
 	}
 
 	private void checkCollision(){
-		for(GameObject gameObject: gameObjects) {
+		for(GameObject gameObject: currentLevel.getLevelData()) {
 			if(gameObject instanceof Obstacle){
 				if(((Obstacle) gameObject).checkCollisions((Player) player)){
 					System.err.println("PLAYER JE MERTAV");
@@ -214,14 +204,15 @@ public class GameWorld {
 	private void checkPlayerGround() {
 		double playerPos_Y = player.getCurrentPosition().getY();
 		double floorPos_Y = floor.getCurrentPosition().getY();
-		if(playerPos_Y + GameConstants.playerGroundOffset_Y > floorPos_Y) {
+		if(playerPos_Y + GameConstants.playerGroundOffset_Y > floorPos_Y ) {
 			((Player) player).touchesGround();
 			player.getCurrentPosition().setY(floorPos_Y - GameConstants.playerGroundOffset_Y);
+			((Player) player).setTouchingGround(true);
 		}
 
 		//prolazi sve gameObjects na levelu i ako je neki od njih blok ili platforma te ako je player na njemu kaze
 		//playeru da smije skociti
-		for(GameObject gameObject: gameObjects) {
+		for(GameObject gameObject: currentLevel.getLevelData()) {
 			if(gameObject instanceof Block){
 				if(((Block) gameObject).playerIsOn((Player) player)){
 					((Player) player).touchesGround();

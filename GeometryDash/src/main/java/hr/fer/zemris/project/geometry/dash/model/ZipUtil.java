@@ -33,7 +33,7 @@ public class ZipUtil {
 	 * @param json content to save
 	 * @param existingFile if null user is asked to input file name, else uses existing file as place to save
 	 */
-	public static void saveToZipFile(String zipFileName, String json, String existingFile) {
+	public static String saveToZipFile(String zipFileName, String json, String existingFile) {
 		String enteredFileName = null;
 		if(existingFile == null) {
 			TextInputDialog dialog = new TextInputDialog("Enter level name");
@@ -42,7 +42,9 @@ public class ZipUtil {
 			Optional<String> result = dialog.showAndWait();
 			if (result.isPresent()) {
 			    enteredFileName = result.get();
-			}		 
+			} else {
+				return null;
+			}
 		} else {
 			enteredFileName = existingFile;
 		}
@@ -64,6 +66,7 @@ public class ZipUtil {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		return enteredFileName;
 	}
 	
 	/**
@@ -81,6 +84,8 @@ public class ZipUtil {
 			String enteredFileName = null;
 			if (result.isPresent()) {
 			    enteredFileName = result.get();
+			} else {
+				return null;
 			}
 			fileInZip = enteredFileName;
 		}

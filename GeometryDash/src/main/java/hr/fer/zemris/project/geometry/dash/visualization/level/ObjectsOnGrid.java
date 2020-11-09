@@ -3,6 +3,7 @@ package hr.fer.zemris.project.geometry.dash.visualization.level;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,11 +33,6 @@ public class ObjectsOnGrid implements Drawable{
 	private Set<GameObject> listGameObjects;
 	
 	/**
-	 * Remembers if level was already saved
-	 */
-	private boolean saved = false;
-	
-	/**
 	 * Reference to the camera
 	 */
 	private Camera camera;
@@ -48,20 +44,6 @@ public class ObjectsOnGrid implements Drawable{
 	public ObjectsOnGrid(Camera camera) {
 		listGameObjects = new HashSet<GameObject>();
 		this.camera = camera;
-	}
-	
-	/**
-	 * @return the saved
-	 */
-	public boolean isSaved() {
-		return saved;
-	}
-
-	/**
-	 * @param saved the saved to set
-	 */
-	public void setSaved(boolean saved) {
-		this.saved = saved;
 	}
 
 	/**
@@ -101,6 +83,21 @@ public class ObjectsOnGrid implements Drawable{
 	 */
 	public void remove(GameObject gameObject) {
 		listGameObjects.remove(gameObject);
+	}
+	
+	/**
+	 * Removes game object that is on specified position. If none object is on that position, nothing happens
+	 * @param position position of game object
+	 */
+	public void remove(Vector2D position) {
+		Iterator<GameObject> it = listGameObjects.iterator();
+		while(it.hasNext()) {
+			GameObject gameObject = it.next();
+			if(gameObject.getCurrentPosition().equals(position)) {
+				it.remove();
+				return;
+			}
+		}
 	}
 	
 	/**

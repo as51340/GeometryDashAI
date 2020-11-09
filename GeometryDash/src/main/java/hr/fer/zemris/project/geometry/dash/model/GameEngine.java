@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
+import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
 import hr.fer.zemris.project.geometry.dash.model.listeners.GameStateListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Settings;
@@ -66,6 +67,11 @@ public class GameEngine implements SoundSystem{
 	private LevelEditor levelEditor;
 	
 	/**
+	 * Level manager
+	 */
+	private LevelManager levelManager;
+	
+	/**
 	 * {@linkplain Settings}
 	 */
 	private Settings settings;
@@ -94,7 +100,15 @@ public class GameEngine implements SoundSystem{
 		gameWorld = new GameWorld(); //for now list of obstacles is empty, not focus on that currently
 		levelEditor = new LevelEditor();
 		gameStateListener = new DefaultGameStateListener();
+		levelManager = new LevelManager();
 		createGameLoop();
+	}
+
+	/**
+	 * @return the levelManager
+	 */
+	public LevelManager getLevelManager() {
+		return levelManager;
 	}
 
 	/**

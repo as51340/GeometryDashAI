@@ -2,6 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Block;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Floor;
@@ -27,7 +28,7 @@ public class Renderer {
 	/**
 	 * Game objects
 	 */
-	private List<GameObject> gameObjects;
+	private Set<GameObject> gameObjects;
 	
 	/**
 	 * Graphics context
@@ -38,7 +39,7 @@ public class Renderer {
 	 * Gets game objects and inits camera
 	 * @param gameObjects game objects
 	 */
-	public Renderer(List<GameObject> gameObjects) {
+	public Renderer(Set<GameObject> gameObjects) {
 		this.camera = new Camera();
 		this.gameObjects = gameObjects;
 	}
@@ -61,7 +62,7 @@ public class Renderer {
 	/**
 	 * @return game objects
 	 */
-	public List<GameObject> getGameObjects() {
+	public Set<GameObject> getGameObjects() {
 		return gameObjects;
 	}
 
@@ -69,7 +70,7 @@ public class Renderer {
 	 * Set game objects
 	 * @param gameObjects
 	 */
-	public void setGameObjects(List<GameObject> gameObjects) {
+	public void setGameObjects(Set<GameObject> gameObjects) {
 		this.gameObjects = gameObjects;
 	}
 	

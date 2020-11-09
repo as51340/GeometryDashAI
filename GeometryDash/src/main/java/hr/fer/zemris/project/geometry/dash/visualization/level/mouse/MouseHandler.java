@@ -3,29 +3,17 @@ package hr.fer.zemris.project.geometry.dash.visualization.level.mouse;
 import javafx.scene.input.MouseButton;
 
 /**
- * Stores mouse position and length of drag when level editor is active. Implements Singleton design pattern
- * @author Andi Å krgat
+ * Stores mouse position and length of drag when level editor is active. Acts as mouse listener for level editor
+ * @author Andi Škrgat
  *
  */
 public class MouseHandler {
-
-	/**
-	 * Private reference to this object
-	 */
-	private static final MouseHandler mouseHandler = new MouseHandler();
+	
 	
 	/**
-	 * This way, it is always returned same object
-	 * @return instance of mouse handler
+	 * Public constructor
 	 */
-	public static MouseHandler getInstance() {
-		return mouseHandler;
-	}
-	
-	/**
-	 * Private constructor
-	 */
-	private MouseHandler() {
+	public MouseHandler() {
 		
 	}
 	

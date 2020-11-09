@@ -11,7 +11,7 @@ import javafx.scene.media.MediaPlayer;
 
 /**
  * Music that will be player on specific level
- * @author Andi Å krgat
+ * @author Andi Škrgat
  *
  */
 public class LevelMusicPlayer {

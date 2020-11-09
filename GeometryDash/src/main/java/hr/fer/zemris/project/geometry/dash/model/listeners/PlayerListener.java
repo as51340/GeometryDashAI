@@ -1,4 +1,4 @@
-package hr.fer.zemris.project.geometry.dash.model;
+package hr.fer.zemris.project.geometry.dash.model.listeners;
 
 /**
  * Interested in changes of the player

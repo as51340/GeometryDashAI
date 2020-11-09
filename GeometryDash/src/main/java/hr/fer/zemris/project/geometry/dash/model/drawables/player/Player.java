@@ -1,5 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.player;
 
+import java.awt.geom.AffineTransform;
+
 import com.google.gson.annotations.Expose;
 
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
@@ -8,7 +10,12 @@ import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 /**
  * The main player class, logics and engine behind the "protagonist" of <strong>Geometry Dash</strong>
@@ -32,7 +39,7 @@ public class Player extends GameObject {
     /**
      * Is touching ground
      */
-    private boolean isTouchingGround = false;
+    private boolean isTouchingGround = true;
     
     /**
 	 * Object's speed
@@ -122,9 +129,7 @@ public class Player extends GameObject {
      * Makes the player character "jump" - adds upward force
      */
     public void jump() {
-        if (isTouchingGround) {
-            jumpIntent = true;
-        }
+        jumpIntent = true;
     }
 
     /**
@@ -132,7 +137,8 @@ public class Player extends GameObject {
      */
     private void calculatePlayerPhysics() {
         getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates,  getSpeed().getY() * GameConstants.timeBetweenUpdates));
-        getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates,  GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
+        getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates , 
+        		GameConstants.gravity_Y * GameConstants.timeBetweenUpdates ));
         if(getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
             getSpeed().setY(GameConstants.playerFinalSpeed_Y);
         }
@@ -151,12 +157,26 @@ public class Player extends GameObject {
 
     @Override
     public void draw(GraphicsContext graphicsContext) {
-        if (jumpIntent) {
-            getCurrentPosition().translate(new Vector2D(0, GameConstants.playerJumpingOffset)); //change so listeners are listening for that
+        if (jumpIntent && isTouchingGround == true) {
+            getSpeed().setY(GameConstants.playerJumpingOffset);
             jumpIntent = false;
             isTouchingGround = false;
         }
+        if(isTouchingGround == false) {
+        	setRotation(getRotation() + GameConstants.playerRotationSpeed * GameConstants.timeBetweenUpdates);
+        } else {
+        	this.rotation = (int) this.rotation % 360;
+        	if(this.rotation > 180 && this.rotation < 360) {
+        		this.rotation = 0;
+        	} else if(this.rotation > 0 && this.rotation < 180) {
+        		this.rotation = 0;
+        	}
+        }
+        Rotate r = new Rotate(getRotation(), getCurrentPosition().getX() + GameConstants.iconWidth / 2, getCurrentPosition().getY() + GameConstants.iconHeight / 2);
+        graphicsContext.save();
+        graphicsContext.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
         graphicsContext.drawImage(getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
+        graphicsContext.restore();
         calculatePlayerPhysics();
     }
 
