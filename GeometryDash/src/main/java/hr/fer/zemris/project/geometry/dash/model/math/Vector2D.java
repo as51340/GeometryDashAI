@@ -142,7 +142,8 @@ public class Vector2D {
 	}
 
 	/**
-	 * Rotates vector in counterclockwise direction if angle is > 0 or clockwise if angle is < 0. Magnitude of vector remains the same.
+	 * Rotates vector in counterclockwise direction if angle is > 0 or clockwise if angle is < 0.
+	 * Magnitude of vector remains the same.
 	 * @param angle angle in radians.
 	 */
 	public void rotate(double angle) {
