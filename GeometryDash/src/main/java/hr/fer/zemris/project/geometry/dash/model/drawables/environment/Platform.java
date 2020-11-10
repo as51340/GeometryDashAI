@@ -70,6 +70,7 @@ public class Platform extends Obstacle{
 
         return playerDL.getY() >= this.getCurrentPosition().getY()
                 && playerDL.getY()<= this.getCurrentPosition().getY()+this.getHeight()
+                // ^^^ this used to be UL, which makes collisions impossible
                 && ((playerDR.getX() > platformUL.getX()
                 && playerDR.getX() < platformUR.getX())
                 || (playerDL.getX() > platformUL.getX()

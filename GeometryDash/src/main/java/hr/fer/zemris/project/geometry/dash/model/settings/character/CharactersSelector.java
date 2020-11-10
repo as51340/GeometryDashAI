@@ -60,6 +60,7 @@ public class CharactersSelector {
 		CharacterObject char21 = new CharacterObject("one.png", true);
 		CharacterObject char22 = new CharacterObject("two.png", true);
 		CharacterObject char23 = new CharacterObject("three.png", true);
+		CharacterObject char24 = new CharacterObject("player.png", true);
 		allCharacters.add(char1);
 		allCharacters.add(char2);
 		allCharacters.add(char4);
@@ -82,7 +83,7 @@ public class CharactersSelector {
 		allCharacters.add(char21);
 		allCharacters.add(char22);
 		allCharacters.add(char23);
-		selectedCharacter = char6;
+		selectedCharacter = char24;
 	}
 	
 	/**
