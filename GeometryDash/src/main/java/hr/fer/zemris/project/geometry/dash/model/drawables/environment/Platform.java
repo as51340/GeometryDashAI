@@ -69,7 +69,7 @@ public class Platform extends Obstacle{
         Vector2D platformUR = this.getCurrentPosition().translated(new Vector2D(getWidth(),0));
 
         return playerDL.getY() >= this.getCurrentPosition().getY()
-                && playerUL.getY()<= this.getCurrentPosition().getY()+this.getHeight()
+                && playerDL.getY()<= this.getCurrentPosition().getY()+this.getHeight()
                 && ((playerDR.getX() > platformUL.getX()
                 && playerDR.getX() < platformUR.getX())
                 || (playerDL.getX() > platformUL.getX()
