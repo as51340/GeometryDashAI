@@ -121,6 +121,7 @@ public class GameWorld {
 	public GameObject getPlayer() {
 		return player;
 	}
+
 	/**
 	 * Initializes characters selector and creates scene for playing. Temporary for testing collisions and jumping on platforms
 	 */

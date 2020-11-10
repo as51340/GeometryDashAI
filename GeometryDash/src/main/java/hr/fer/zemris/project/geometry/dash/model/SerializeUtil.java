@@ -28,7 +28,11 @@ public class SerializeUtil {
 	private Gson gson;
 	
 	public SerializeUtil() {
-		this.gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(GameObject.class, new GameObjectDeserializer()).setPrettyPrinting().create();
+		this.gson = new GsonBuilder()
+				.excludeFieldsWithoutExposeAnnotation()
+				.registerTypeAdapter(GameObject.class, new GameObjectDeserializer())
+				.setPrettyPrinting()
+				.create();
 	}
 	
 	/**
@@ -55,7 +59,7 @@ public class SerializeUtil {
 	 * @author Andi Škrgat
 	 *
 	 */
-	class GameObjectDeserializer implements JsonDeserializer<GameObject> {
+	static class GameObjectDeserializer implements JsonDeserializer<GameObject> {
 
 		@Override
 		public GameObject deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
@@ -69,8 +73,7 @@ public class SerializeUtil {
 			double x = vectorPosition.get("x").getAsDouble();
 			double y = vectorPosition.get("y").getAsDouble();
 			y += 50;
-			GameObject retObj = Utils.createObjectFromName(objectName, new Vector2D(x,y), height, width, iconPath);
-			return retObj;
+			return Utils.createObjectFromName(objectName, new Vector2D(x,y), height, width, iconPath);
 		}
 		
 	}

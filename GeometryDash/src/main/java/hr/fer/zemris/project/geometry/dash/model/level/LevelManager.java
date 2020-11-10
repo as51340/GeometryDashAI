@@ -30,8 +30,8 @@ public class LevelManager {
 	
 	/**
 	 * Adds level to the list of all levels
-	 * @param objectsOnGrid
-	 * @param levelName
+	 * @param levelName name of the level
+	 * @param levelData objects belonging to the level
 	 */
 	public Level addLevel(String levelName, Set<GameObject> levelData) {
 		Level level = new Level(levelName, levelData);		
@@ -40,7 +40,8 @@ public class LevelManager {
 	}
 	
 	/**
-	 * @param levelName
+	 * Returns appropriate level by its name
+	 * @param levelName name of the level
 	 * @return {@linkplain Level} with level name
 	 */
 	public Level getLevelByName(String levelName) {
@@ -53,8 +54,8 @@ public class LevelManager {
 	}
 	
 	/**
-	 * Remove level with name
-	 * @param levelName level name
+	 * Remove level with given name
+	 * @param levelName name of the level
 	 */
 	public void removeLevelByName(String levelName) {
 		Iterator<Level> iterator = allLevels.iterator();

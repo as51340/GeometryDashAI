@@ -95,7 +95,7 @@ public class GameEngine implements SoundSystem{
 		this.title = title;
 		this.width = width;
 		this.height = height;
-		this.fps = fps;;
+		this.fps = fps;
 		settings = new Settings();
 		gameWorld = new GameWorld(); //for now list of obstacles is empty, not focus on that currently
 		levelEditor = new LevelEditor();
@@ -219,19 +219,14 @@ public class GameEngine implements SoundSystem{
 		Vector2D camDir = new Vector2D(1,0);
         camDir.scale(GameConstants.timeBetweenUpdates * 50f);
 		//time between update will be approx. 16.67ms, for 10ms we have to provide 100 fps as value
-        KeyFrame keyFrame = new KeyFrame(frameTime, new EventHandler<ActionEvent>() {
-   
-			@Override
-			public void handle(ActionEvent event) {
-				if(gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.PRACTISE_MODE_PLAYING) {
-					gameWorld.update();	
-				} else if(gameState == GameState.LEVEL_EDITOR_MODE) {
-					levelEditor.update();
-					levelEditor.draw();
-				}
+        return new KeyFrame(frameTime, event -> {
+			if(gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.PRACTISE_MODE_PLAYING) {
+				gameWorld.update();
+			} else if(gameState == GameState.LEVEL_EDITOR_MODE) {
+				levelEditor.update();
+				levelEditor.draw();
 			}
-        });
-        return keyFrame;
+		});
 	}
 	
 	/**

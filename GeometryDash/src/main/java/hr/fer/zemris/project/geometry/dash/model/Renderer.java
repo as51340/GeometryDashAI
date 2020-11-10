@@ -92,7 +92,6 @@ public class Renderer {
 	
 	/**
 	 * Renders all objects on the scene
-	 * @param graphicsContext
 	 */
 	public void render() {
 		graphicsContext.clearRect(0, 0, GameConstants.WIDTH, GameConstants.HEIGHT); //clear screen from last drawing

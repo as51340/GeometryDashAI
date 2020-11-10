@@ -84,7 +84,27 @@ public class Utils {
 		MediaPlayer mediaPlayer = new MediaPlayer(media);
 		return mediaPlayer;
 	}
-	
+
+//		INEFFICIENT
+//	/**
+//	 * Creates object from given object name
+//	 * @param objName object name
+//	 * @param uriIcon path to icon
+//	 * @return created {@linkplain GameObject}
+//	 */
+//	public static GameObject createObjectFromName(String objName, Vector2D objPosition, int height, int width, String uriIcon) {
+//		if(objName.equals("Block") == true) {
+//			return createBlock(objPosition, height, width, uriIcon);
+//		} else if(objName.equals("Platform") == true) {
+//			return createPlatform(objPosition, height, width, uriIcon);
+//		} else if(objName.equals("Spike") == true) {
+//			return createSpike(objPosition, height, width, uriIcon);
+//		} else if(objName.equals("GrassSpike") == true) {
+//			return createGrassSpike(objPosition, height, width, uriIcon);
+//		}
+//		return null;
+//	}
+
 	/**
 	 * Creates object from given object name
 	 * @param objName object name
@@ -92,16 +112,19 @@ public class Utils {
 	 * @return created {@linkplain GameObject}
 	 */
 	public static GameObject createObjectFromName(String objName, Vector2D objPosition, int height, int width, String uriIcon) {
-		if(objName.equals("Block") == true) {
-			return createBlock(objPosition, height, width, uriIcon);
-		} else if(objName.equals("Platform") == true) {
-			return createPlatform(objPosition, height, width, uriIcon);
-		} else if(objName.equals("Spike") == true) {
-			return createSpike(objPosition, height, width, uriIcon);
-		} else if(objName.equals("GrassSpike") == true) {
-			return createGrassSpike(objPosition, height, width, uriIcon);
-		} //TODO add impl for floor
-		return null;
+		GameObject retObject;
+		switch (objName) {
+			case "Block" -> retObject = createBlock(objPosition, height, width, uriIcon);
+			case "Platform" -> retObject = createPlatform(objPosition, height, width, uriIcon);
+			case "Spike" -> retObject = createSpike(objPosition, height, width, uriIcon);
+			case "GrassSpike" -> retObject = createGrassSpike(objPosition, height, width, uriIcon);
+			// TODO case "Floor"
+			default -> throw new IllegalArgumentException("Unsupported object type!");
+			// prije je bilo return null ali mislim da ne bi trebalo biti prihvatljivo
+			// da se kreacija objekta s nepoznatim imenom samo prešuti
+		}
+
+		return retObject;
 	}
 	
 	/**

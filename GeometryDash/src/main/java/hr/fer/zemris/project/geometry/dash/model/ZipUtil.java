@@ -71,7 +71,7 @@ public class ZipUtil {
 	
 	/**
 	 * Reads content from zip file
-	 * @param filename if it is null then it asks user with the help of {@linkplain FileChooser} which file to load, else loads
+	 * @param zipFileName if it is null then it asks user with the help of {@linkplain FileChooser} which file to load, else loads
 	 * requested file - extension must not be entered
 	 * @return {@linkplain String} file content
 	 */
@@ -81,7 +81,7 @@ public class ZipUtil {
 			dialog.setTitle("LOAD LEVEL");
 			dialog.setHeaderText("Please enter level name(without extension)");
 			Optional<String> result = dialog.showAndWait();
-			String enteredFileName = null;
+			String enteredFileName;
 			if (result.isPresent()) {
 			    enteredFileName = result.get();
 			} else {
@@ -94,9 +94,9 @@ public class ZipUtil {
 			 ZipEntry zipEntry = zipFile.getEntry(fileInZip + ".json");
 			 InputStream is = zipFile.getInputStream(zipEntry);
 			 BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			 String line = null;
+			 String line;
 			 while((line = br.readLine()) != null) {
-				 sb = sb.append(line);
+				 sb.append(line);
 			 }
 			 is.close();
 			 br.close();

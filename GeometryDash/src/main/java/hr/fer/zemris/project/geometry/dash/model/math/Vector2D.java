@@ -2,6 +2,8 @@ package hr.fer.zemris.project.geometry.dash.model.math;
 
 import com.google.gson.annotations.Expose;
 
+import static java.lang.Math.*;
+
 /**
  * Represents a position on the screen, using the x and y coordinates
  * @author Damjan, Andi
@@ -46,80 +48,114 @@ public class Vector2D {
         return y;
     }
 
-    /**
+//    dragi bože ovo je neefikasno
+//
+//    /**
+//	 * Rotates vector in counterclockwise direction if angle is > 0 or clockwise if angle is < 0. Magnitude of vector remains the same.
+//	 * @param angle angle in radians.
+//	 */
+//	public void rotate(double angle) {
+//		double a1 = 0;
+//		if(Math.abs(x)< 1e-7 ) {
+//			if(y > 0) {
+//				a1 = Math.PI / 2;
+//			} else if(y < 0) {
+//				a1 = 1.5 * Math.PI;
+//			}
+//		} else {
+//			a1 = (Math.atan(y / x));
+//			//System.out.println(a1);
+//			if(x < 0 && y > 0) {
+//				a1 += Math.PI;
+//			} else if(x < 0 && y < 0) {
+//				a1 += Math.PI;
+//			} else if(x > 0 && y < 0) {
+//				a1 += 2* Math.PI;
+//			} else if(y == 0 && x < 0) {
+//				a1 += Math.PI;
+//			}
+//		}
+//		double a2 = a1 + angle;
+//		if(a2 > 2  * Math.PI) {
+//			while(a2 > 2 * Math.PI) {
+//				a2 -= 2 * Math.PI;
+//			}
+//		} else if(a2 < 0) {
+//			while(a2 < 0) {
+//				a2 += 2* Math.PI;
+//			}
+//		}
+//		double length = Math.sqrt(x * x + y * y);
+//		if(Math.abs(Math.PI / 2 - a2) < 1e-7) {
+//			this.x  = 0;
+//			this.y = length;
+//			return;
+//		} else if(Math.abs(Math.PI * 1.5 - a2) < 1e-5) {
+//			this.x = 0;
+//			this.y = -length;
+//			return;
+//		} else {
+//			double x2 = length / Math.sqrt(1 + Math.tan(a2) * Math.tan(a2));
+//			//System.out.println(x2);
+//			double y2 = (Math.abs(Math.tan(a2)) * length) / Math.sqrt(1 + Math.tan(a2) * Math.tan(a2));
+//			if(Math.abs(a2) < 1e-7) {
+//				this.x = x2;
+//				this.y = 0;
+//				return;
+//			} else if(Math.abs(Math.PI - a2) < 1e-7) {
+//				this.x = -x2;
+//				this.y = 0;
+//				return;
+//			} else {
+//				if(a2 > Math.PI / 2 && a2 < Math.PI) {
+//					x2 *= -1;
+//				} else if(a2 > Math.PI && a2 < Math.PI * 1.5) {
+//					x2 *= -1;
+//					y2 *= -1;
+//				} else if(a2 > Math.PI * 1.5 && a2 < 2 * Math.PI) {
+//					y2 *= -1;
+//				}
+//			}
+//			this.x = x2;
+//			this.y = y2;
+//		}
+//	}
+
+	/**
+	 * Returns the length (absolute value) of the vector
+	 * @return the length of the vector
+	 */
+	public double getLength() {
+		return hypot(x, y);
+	}
+
+	/**
+	 * Returns the angle of the vector
+	 * @return angle of the vector in radians
+	 */
+	public double getAngle() {
+		double angle = atan2(y, x);
+		if (angle < 0) {
+			angle += (2 * PI);
+		}
+		return angle;
+	}
+
+	/**
 	 * Rotates vector in counterclockwise direction if angle is > 0 or clockwise if angle is < 0. Magnitude of vector remains the same.
 	 * @param angle angle in radians.
 	 */
 	public void rotate(double angle) {
-		double a1 = 0;
-		if(Math.abs(x)< 1e-7 ) {
-			if(y > 0) {
-				a1 = Math.PI / 2;
-			} else if(y < 0) {
-				a1 = 1.5 * Math.PI;
-			}
-		} else {
-			a1 = (Math.atan(y / x));
-			//System.out.println(a1);
-			if(x < 0 && y > 0) {
-				a1 += Math.PI;
-			} else if(x < 0 && y < 0) {
-				a1 += Math.PI;
-			} else if(x > 0 && y < 0) {
-				a1 += 2* Math.PI;
-			} else if(y == 0 && x < 0) {
-				a1 += Math.PI;
-			}
-		}
-		double a2 = a1 + angle;
-		if(a2 > 2  * Math.PI) {
-			while(a2 > 2 * Math.PI) {
-				a2 -= 2 * Math.PI;
-			}
-		} else if(a2 < 0) {
-			while(a2 < 0) {
-				a2 += 2* Math.PI;
-			}
-		}
-		double length = Math.sqrt(x * x + y * y);
-		if(Math.abs(Math.PI / 2 - a2) < 1e-7) {
-			this.x  = 0;
-			this.y = length;
-			return;
-		} else if(Math.abs(Math.PI * 1.5 - a2) < 1e-5) {
-			this.x = 0;
-			this.y = -length;
-			return;
-		} else {
-			double x2 = length / Math.sqrt(1 + Math.tan(a2) * Math.tan(a2));
-			//System.out.println(x2);
-			double y2 = (Math.abs(Math.tan(a2)) * length) / Math.sqrt(1 + Math.tan(a2) * Math.tan(a2));
-			if(Math.abs(a2) < 1e-7) {
-				this.x = x2;
-				this.y = 0;
-				return;
-			} else if(Math.abs(Math.PI - a2) < 1e-7) {
-				this.x = -x2;
-				this.y = 0;
-				return;
-			} else {
-				if(a2 > Math.PI / 2 && a2 < Math.PI) {
-					x2 *= -1;
-				} else if(a2 > Math.PI && a2 < Math.PI * 1.5) {
-					x2 *= -1;
-					y2 *= -1;
-				} else if(a2 > Math.PI * 1.5 && a2 < 2 * Math.PI) {
-					y2 *= -1;
-				}
-			}
-			this.x = x2;
-			this.y = y2;
-		}
+		double currentAngle = getAngle();
+		double currentLength = getLength();
+		currentAngle += angle;
+		x = currentLength * cos(currentAngle);
+		y = currentLength * sin(currentAngle);
 	}
 	
 	/**
 	 * @param angle angle in radians, if > 0 than rotation is in counterclockwise direction, else in clockwise direction.
-	 * @returns new Vector2D that is rotated by angle radians.
+	 * @return new Vector2D that is rotated by angle radians.
 	 */
 	public Vector2D rotated(double angle) {
 		Vector2D v = new Vector2D(this.x, this.y);
@@ -129,20 +165,11 @@ public class Vector2D {
 	
 	/**
 	 * Scaling vector means keeping its orientation but changing its length by a scale factor.
-	 * @param scaler
+	 * @param scaler scale factor
 	 */
 	public void scale(double scaler) {
-		if(scaler == 0) {
-			this.x = 0;
-			this.y = 0;
-		} else {
-			if(this.x != 0) {
-				this.x = this.x * scaler;
-			}
-			if(this.y != 0) {
-				this.y = this.y * scaler;
-			}
-		}
+		this.x = this.x * scaler;
+		this.y = this.y * scaler;
 	}
 	
 	/**
@@ -179,7 +206,8 @@ public class Vector2D {
  
     /**
      * Sets both coordinates of the point to the given values
-     * @param coords array with two items - x and y coordinate
+     * @param x new x coordinate
+	 * @param y new y coordinate
      */
     public void setPos(double x, double y) {
         this.x = x;
@@ -207,12 +235,12 @@ public class Vector2D {
      * @return array with two items - x and y coordinate
      */
     public double[] getPos() {
-        double[] retVal = {x, y};
-        return retVal;
+		return new double[]{x, y};
     }
     
     /**
-	 * @returns new Vector2D with same real components	
+	 * Returns a copy of this {@link Vector2D}
+	 * @return new Vector2D with same real components
 	 */
 	public Vector2D copy() {
 		return new Vector2D(this.x, this.y);

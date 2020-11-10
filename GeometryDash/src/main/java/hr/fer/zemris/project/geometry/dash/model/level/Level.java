@@ -50,7 +50,8 @@ public class Level {
 	
 	/**
 	 * Level is created with its data
-	 * @param objectsOnGrid level's data
+	 * @param levelName name of the level
+	 * @param gameObjects objects belonging to the level
 	 */
 	public Level(String levelName, Set<GameObject> gameObjects) {
 		this.levelName = levelName;
