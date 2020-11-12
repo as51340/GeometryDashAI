@@ -4,16 +4,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+
 /**
  * Class for testing level object
- * @author Andi Škrgat
+ * @author Andi ï¿½krgat
  *
  */
 public class LevelTest {
 
 	@Test
 	public void initializationCheck() {
-		Level level = new Level();
+		Level level = new Level("LevelName", new HashSet<>());
 		assertEquals(0, level.getLevelPercentagePassNormalMode());
 		assertEquals(0, level.getLevelPercentagePassPracticeMode());
 		assertEquals(0, level.getTotalAttempts());
@@ -23,7 +25,7 @@ public class LevelTest {
 	
 	@Test
 	public void testPropertiesIncrementing() {
-		Level level = new Level();
+		Level level = new Level("LevelName", new HashSet<>());
 		level.setLevelPercentagePassNormalMode();
 		level.setLevelPercentagePassPracticeMode();
 		level.setTotalAttempts();

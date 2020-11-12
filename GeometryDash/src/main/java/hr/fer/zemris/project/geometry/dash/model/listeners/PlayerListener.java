@@ -21,5 +21,10 @@ public interface PlayerListener{
 	 * Player is on the floor
 	 */
 	void playerIsOnFloor();
+
+	/**
+	 * Player is dead
+	 */
+	void playerIsDead();
 	
 }

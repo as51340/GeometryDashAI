@@ -89,6 +89,7 @@ public class GeometryDash extends Application {
         		player.jump();	
     		}
     	});
+
     	scene.setOnMouseClicked((e) -> {
     		if(e.getButton() == MouseButton.PRIMARY) {
     			Player player = (Player) gameEngine.getGameWorld().getPlayer();

@@ -209,6 +209,10 @@ public class GameEngine implements SoundSystem{
 	public void start() {
 		gameLoop.play();
 	}
+
+	public void reset(){
+		// TODO find how to completely reset a GameWorld
+	}
 	
 	/**
 	 * Updates game world or level editor
@@ -221,7 +225,10 @@ public class GameEngine implements SoundSystem{
 		//time between update will be approx. 16.67ms, for 10ms we have to provide 100 fps as value
         return new KeyFrame(frameTime, event -> {
 			if(gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.PRACTISE_MODE_PLAYING) {
-				gameWorld.update();
+				if (!gameWorld.update()) {
+					gameLoop.stop();
+					reset();
+				}
 			} else if(gameState == GameState.LEVEL_EDITOR_MODE) {
 				levelEditor.update();
 				levelEditor.draw();
