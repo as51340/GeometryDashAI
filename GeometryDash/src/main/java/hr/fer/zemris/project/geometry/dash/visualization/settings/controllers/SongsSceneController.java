@@ -1,13 +1,9 @@
 package hr.fer.zemris.project.geometry.dash.visualization.settings.controllers;
 
-import java.util.LinkedList;
 import java.util.Set;
-
-import org.apache.maven.settings.building.SettingsProblemCollector;
 
 import hr.fer.zemris.project.geometry.dash.model.settings.music.LevelMusicPlayer;
 import hr.fer.zemris.project.geometry.dash.visualization.MenuController;
-import hr.fer.zemris.project.geometry.dash.visualization.components.SongListComponent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

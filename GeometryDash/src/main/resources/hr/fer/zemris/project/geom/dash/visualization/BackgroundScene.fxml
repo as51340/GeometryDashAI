@@ -45,7 +45,7 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="charactersButton" fitWidth="150.0" layoutX="348.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true" styleClass="menu-button">
+            <ImageView fx:id="charactersButton" fitWidth="150.0" layoutX="348.0" layoutY="285.0" onMouseClicked="#characterSelectButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button">
                <image>
                   <Image url="@../static/characters_btn.png" />
                </image>

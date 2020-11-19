@@ -35,6 +35,11 @@ public class GameConstants {
 	public static final String pathToVisualization = "/hr/fer/zemris/project/geom/dash/visualization/";
 	
 	/**
+	 * Path to photos
+	 */
+	public static final String pathToStatic = "/hr/fer/zemris/project/geom/dash/static/";
+	
+	/**
 	 * Width
 	 */
 	public static final int WIDTH = 1280;

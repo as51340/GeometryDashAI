@@ -38,6 +38,30 @@ public class Utils {
 	}
 	
 
+	/**
+	 * Loads photo from the resources
+	 * @param uri path to the photo
+	 * @return loaded photo
+	 */
+	public static Image loadStatic(String uri){
+		String path = GameConstants.pathToStatic + uri;
+		InputStream is = CharacterObject.class.getResourceAsStream(path);
+		
+		if(is == null) {
+			throw new NoSuchElementException("No such icon in the resource directory");
+		} 
+		Image icon = new Image(is, 45, 45, false, true);
+		
+		try {
+			is.close();
+		} catch(IOException e) {
+			System.out.println("Cannot close input stream." );
+		}
+		
+		return icon;
+	}
+	
+	
 
 	/**
 	 * Creates media player from given song
