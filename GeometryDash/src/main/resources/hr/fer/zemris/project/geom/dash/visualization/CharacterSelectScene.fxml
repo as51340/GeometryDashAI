@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.paint.RadialGradient?>
@@ -15,7 +16,27 @@
 
 <StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.CharacterSelectController">
    <children>
-      <Rectangle fx:id="background" height="720.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" StackPane.alignment="TOP_LEFT">
+      <Pane>
+         <children>
+            <ImageView fx:id="background1" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../static/dash_background_bw.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="background2" pickOnBounds="true" preserveRatio="true" x="800.0">
+               <image>
+                  <Image url="@../static/dash_background_bw.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="background3" pickOnBounds="true" preserveRatio="true" x="1600.0">
+               <image>
+                  <Image url="@../static/dash_background_bw.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Rectangle fx:id="overlay" blendMode="OVERLAY" fill="WHITE" height="760.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" StackPane.alignment="TOP_LEFT" />
+      <Rectangle fx:id="grayBackground" height="720.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" StackPane.alignment="TOP_LEFT">
          <fill>
             <RadialGradient centerX="0.5" centerY="0.24285714285714285" radius="0.41860465116279066">
                <stops>
@@ -61,6 +82,6 @@
             </GridPane>
          </children>
       </AnchorPane>
-      <Rectangle fx:id="overlay" height="720.0" mouseTransparent="true" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="1280.0" StackPane.alignment="TOP_LEFT" />
+      <Rectangle fx:id="overlayBlack" height="720.0" mouseTransparent="true" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="1280.0" StackPane.alignment="TOP_LEFT" />
    </children>
 </StackPane>

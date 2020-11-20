@@ -29,10 +29,22 @@ public class CharacterSelectController {
     private StackPane rootPane;
     
     @FXML
+	private ImageView background1;
+
+	@FXML
+	private ImageView background2;
+
+	@FXML
+	private ImageView background3;
+	
+	@FXML
+	private Rectangle overlay;
+    
+    @FXML
     private AnchorPane anchorPane;
 	
 	@FXML
-	private Rectangle background;
+	private Rectangle grayBackground;
 	
     @FXML
     private Line line;
@@ -50,20 +62,20 @@ public class CharacterSelectController {
 	private GridPane characterGrid;
     
     @FXML
-	private Rectangle overlay;
+	private Rectangle overlayBlack;
     
     
     public void setPreviousSceneRoot(Pane previousSceneRootPane) {
 		previousSceneRootPane.getChildren().add(rootPane);
 		this.previousSceneRootPane = previousSceneRootPane;
 		
-		overlay.setVisible(true);
+		overlayBlack.setVisible(true);
         FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(TRANSITION_DURATION), rootPane);
         fadeTransition1.setFromValue(0);
         fadeTransition1.setToValue(1);
         
         fadeTransition1.setOnFinished(e1 -> {
-        	FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(TRANSITION_DURATION), overlay);
+        	FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(TRANSITION_DURATION), overlayBlack);
             fadeTransition2.setFromValue(1);
             fadeTransition2.setToValue(0);
             fadeTransition2.play();
@@ -74,7 +86,7 @@ public class CharacterSelectController {
     
     @FXML
     protected void backButtonClicked(MouseEvent event) {
-        FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(TRANSITION_DURATION), overlay);
+        FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(TRANSITION_DURATION), overlayBlack);
         fadeTransition1.setFromValue(0);
         fadeTransition1.setToValue(1);
         
@@ -91,6 +103,9 @@ public class CharacterSelectController {
     
     @FXML
     public void initialize() {
+    	Utils.animateBackground(overlay, background1, background2, background3);
+    	//grayBackground.setVisible(false);
+    	
     	CharactersSelector selector = new CharactersSelector();
     	int x = 0, y = 0;
     	
