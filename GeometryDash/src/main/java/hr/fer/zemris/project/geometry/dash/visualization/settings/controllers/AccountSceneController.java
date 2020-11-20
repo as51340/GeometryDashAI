@@ -35,6 +35,15 @@ public class AccountSceneController extends MenuController {
 	@FXML
 	Label welcomeLabel;
 	
+	@FXML
+	AnchorPane logInPane;
+	
+	@FXML
+	TextField usernameLogIn;
+	
+	@FXML
+	TextField passwordLogIn;
+	
 	Account account;
 	
 	@FXML
@@ -50,19 +59,41 @@ public class AccountSceneController extends MenuController {
 	}
 	
 	@FXML
+	private void logInButtonClicked(MouseEvent event) { //zasad samo hardkodirano. Možemo povezat s bazom
+		account.setFirstName("loggedInUser");
+		account.setLastName("loggedInUserLastName");
+		account.setUsername(usernameLogIn.getText());
+		account.setPassword(passwordLogIn.getText());
+		
+		logInPane.setVisible(false);
+		loggedInPane.setVisible(true);
+		welcomeLabel.setText("Welcome " + account.getUsername());
+	}
+	
+	@FXML
 	private void registerMeButtonClicked(MouseEvent event) {
 		notLoggedInPane.setVisible(false);
 		registerPane.setVisible(true);
 	}
+	
+	@FXML
+	private void logInMeButtonClicked(MouseEvent event) {
+		notLoggedInPane.setVisible(false);
+		logInPane.setVisible(true);
+	}
+	
+	
 	
 	public void init() {
 		account = gameEngine.getSettings().getAccount();
 		if(account.getUsername() == null) {
 			loggedInPane.setVisible(false);
 			registerPane.setVisible(false);
+			logInPane.setVisible(false);
 		} else {
 			notLoggedInPane.setVisible(false);
 			registerPane.setVisible(false);
+			logInPane.setVisible(false);
 			welcomeLabel.setText("Welcome " + account.getUsername());
 		}
 	}

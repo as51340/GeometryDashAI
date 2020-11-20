@@ -94,6 +94,18 @@
 	
 }
 
+.helpText {
+	-fx-font-family: 'Pusab';
+	-fx-font-size: 40px;
+	-fx-text-fill: #ffb900;
+}
+
+.helpTextAnswer {
+	-fx-font-family: 'Pusab';
+	-fx-font-size: 40px;
+	-fx-text-fill: #ffffff;
+}
+
 CheckBox {
 	-fx-font-family: 'Pusab';
 	-fx-text-fill: #ffb900;	

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -13,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../styles/style.css" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.settings.controllers.RateSceneController" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.settings.controllers.RateSceneController">
    <children>
       <Rectangle fx:id="overlay" height="1440.0" stroke="BLACK" strokeWidth="0.0" width="1280.0" StackPane.alignment="TOP_CENTER" />
       <Rectangle height="531.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="861.0" />
@@ -40,6 +48,7 @@
                   <Image url="@../../static/back_btn.png" />
                </image>
             </ImageView>
+            <Text fill="#faff00" layoutX="254.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 60px;" styleClass="label" text="You don't get an option&#10;to rate us because we&#10;already know we&#10;deserve 5 stars!" textAlignment="CENTER" />
          </children>
       </AnchorPane>
    </children>
