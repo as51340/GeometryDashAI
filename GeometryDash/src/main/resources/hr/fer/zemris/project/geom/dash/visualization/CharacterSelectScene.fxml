@@ -37,13 +37,13 @@
                   <Image url="@../static/back_btn.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="selectedCharacter" fitHeight="150.0" fitWidth="150.0" layoutX="562.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="selectedCharacter" fitHeight="150.0" fitWidth="150.0" layoutX="565.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../player/icons/geom-dash-yellow-icon.png" />
                </image>
             </ImageView>
             <Rectangle fx:id="gridBackground" arcHeight="50.0" arcWidth="50.0" fill="#727272" height="370.0" layoutX="375.0" layoutY="327.0" opacity="0.76" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="530.0" />
-            <GridPane fx:id="characterGrid" alignment="CENTER" gridLinesVisible="true" layoutX="560.0" layoutY="420.0" maxHeight="240.0" maxWidth="480.0" minHeight="185.0" minWidth="160.0" prefHeight="185.0" prefWidth="160.0">
+            <GridPane fx:id="characterGrid" alignment="CENTER" layoutX="560.0" layoutY="420.0" maxHeight="240.0" maxWidth="480.0" minHeight="185.0" minWidth="160.0" prefHeight="185.0" prefWidth="160.0">
               <columnConstraints>
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />

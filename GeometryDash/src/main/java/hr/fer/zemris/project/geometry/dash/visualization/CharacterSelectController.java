@@ -7,6 +7,7 @@ import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import static javafx.scene.input.MouseEvent.MOUSE_CLICKED;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -18,6 +19,9 @@ import javafx.util.Duration;
 public class CharacterSelectController {
 
 	private static final int TRANSITION_DURATION = 300;
+	private static final int GRID_ICON_SIZE = 60;
+	private static final int SELECTED_ICON_SIZE = 150;
+	private static final int GRID_COLUMNS = 6;
 	
 	private Pane previousSceneRootPane;
 	
@@ -94,16 +98,22 @@ public class CharacterSelectController {
     		ImageView characterImage;
     		
     		if(character.isLocked()) {
-    			characterImage = new ImageView(Utils.loadStatic("lock.jpg"));
+    			characterImage = new ImageView(Utils.loadStatic("lock.jpg", GRID_ICON_SIZE, GRID_ICON_SIZE));
     		} else {
-    			characterImage = new ImageView(character.getIcon());
+    			characterImage = new ImageView(Utils.loadIcon(character.getUri(), GRID_ICON_SIZE, GRID_ICON_SIZE));
+    			
+    			characterImage.getStyleClass().add("menu-button");
+        		characterImage.addEventHandler(MOUSE_CLICKED, e -> {
+        			selectedCharacter.setImage(Utils.loadIcon(character.getUri(), SELECTED_ICON_SIZE, SELECTED_ICON_SIZE));
+        			CharactersSelector.selectedCharacter = character;
+        		});
     		}
     		
-    		x %= 6;
+    		x %= GRID_COLUMNS;
     		characterGrid.add(characterImage, x, y, 1, 1);
     		x++;
     		
-    		if(x == 6) y++;
+    		if(x == GRID_COLUMNS) y++;
     	}
     }
 

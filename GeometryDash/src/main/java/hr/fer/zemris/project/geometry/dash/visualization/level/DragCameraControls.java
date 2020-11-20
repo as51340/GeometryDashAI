@@ -2,7 +2,6 @@ package hr.fer.zemris.project.geometry.dash.visualization.level;
 
 import hr.fer.zemris.project.geometry.dash.model.Camera;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
-import javafx.scene.input.MouseEvent;
 
 public class DragCameraControls {
 

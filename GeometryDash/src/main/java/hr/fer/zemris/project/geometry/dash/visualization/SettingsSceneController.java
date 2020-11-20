@@ -1,7 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.settings.controllers.*;
@@ -10,14 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Slider;
-
-import javafx.scene.image.ImageView;
-
 import javafx.scene.input.MouseEvent;
 
-import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 
 public class SettingsSceneController extends MenuController{
 		
@@ -62,7 +56,6 @@ public class SettingsSceneController extends MenuController{
 	
 	@FXML
     private void accountButtonClicked(MouseEvent event) throws IOException {
-   
 		FXMLLoader loader = new FXMLLoader(
     		getClass().getResource(GameConstants.pathToVisualization + "settings/AccountScene.fxml")
     	);
@@ -70,8 +63,6 @@ public class SettingsSceneController extends MenuController{
     	AccountSceneController controller = loader.getController();
     	
     	controller.setPreviousSceneRoot(this.rootPane);
-    	
-    	
     }
 	
 	@FXML

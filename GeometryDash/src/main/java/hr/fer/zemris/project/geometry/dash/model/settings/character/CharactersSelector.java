@@ -3,8 +3,6 @@ package hr.fer.zemris.project.geometry.dash.model.settings.character;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-
 /**
  * Keeps all characters loaded from resources
  * @author Andi Škrgat
@@ -21,8 +19,6 @@ public class CharactersSelector {
 	 * All characters 
 	 */
 	private List<CharacterObject> allCharacters;
-	
-	
 	
 	/**
 	 * Constructor that loads all characters
@@ -97,8 +93,7 @@ public class CharactersSelector {
 	 * @return currently selected character
 	 */
 	public CharacterObject getSelectedCharacter() {
-		return this.selectedCharacter;
-		
+		return selectedCharacter;
 	}
 	
 

@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 
 public class LevelEditorSceneController {

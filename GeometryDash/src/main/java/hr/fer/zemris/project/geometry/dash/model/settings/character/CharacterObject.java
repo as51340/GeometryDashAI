@@ -1,10 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.settings.character;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.NoSuchElementException;
-
 import hr.fer.zemris.project.geometry.dash.model.Utils;
+import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.image.Image;
 
 
@@ -21,6 +18,11 @@ public class CharacterObject {
 	private Image icon;
 	
 	/**
+	 * Uri to icon photo
+	 */
+	private String uri;
+	
+	/**
 	 * Not all characters are available from the beginning
 	 */
 	private boolean locked;
@@ -33,6 +35,7 @@ public class CharacterObject {
 	public CharacterObject(String uri, boolean locked) {
 		this.icon = loadIcon(uri);
 		this.locked = locked;
+		this.uri = uri;
 	}
 	
 	/**
@@ -41,7 +44,7 @@ public class CharacterObject {
 	 * @return loaded icon
 	 */
 	private Image loadIcon(String uri) {
-		return Utils.loadIcon(uri);
+		return Utils.loadIcon(uri, GameConstants.iconWidth, GameConstants.iconHeight);
 	}
 	
 	/**
@@ -65,6 +68,12 @@ public class CharacterObject {
 		return icon;
 	}
 	
+	/**
+	 * @return the icon uri
+	 */
+	public String getUri() {
+		return uri;
+	}
 	
 
 }
