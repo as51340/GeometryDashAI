@@ -2,6 +2,7 @@ package hr.fer.zemris.project.geometry.dash.visualization;
 
 import java.io.IOException;
 
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.settings.controllers.*;
 import javafx.fxml.FXML;
@@ -41,18 +42,7 @@ public class SettingsSceneController extends MenuController{
 	
 	@FXML
 	private Slider sfx;
-
 	
-	private void setVisibility(boolean state) {
-		account.setVisible(state);
-		howToPlay.setVisible(state);
-		rate.setVisible(state);
-		songs.setVisible(state);
-		help.setVisible(state);
-		options.setVisible(state);
-		music.setVisible(state);
-		sfx.setVisible(state);
-	}	
 	
 	@FXML
     private void accountButtonClicked(MouseEvent event) throws IOException {
@@ -63,6 +53,8 @@ public class SettingsSceneController extends MenuController{
     	AccountSceneController controller = loader.getController();
     	
     	controller.setPreviousSceneRoot(this.rootPane);
+    	controller.setGameEngine(gameEngine);
+    	controller.init();
     }
 	
 	@FXML
@@ -73,6 +65,7 @@ public class SettingsSceneController extends MenuController{
     	loader.load();
     	HowToPlaySceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
+    	controller.setGameEngine(gameEngine);
     }
 	
 	@FXML
@@ -83,6 +76,7 @@ public class SettingsSceneController extends MenuController{
     	loader.load();
     	RateSceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
+    	controller.setGameEngine(gameEngine);
     }
 	
 	@FXML
@@ -93,6 +87,7 @@ public class SettingsSceneController extends MenuController{
     	loader.load();
     	SongsSceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
+    	controller.setGameEngine(gameEngine);
     }
 	
 	@FXML
@@ -103,16 +98,24 @@ public class SettingsSceneController extends MenuController{
     	loader.load();
     	HelpSceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
+    	controller.setGameEngine(gameEngine);
     }
 	
 	@FXML
     private void optionsButtonClicked(MouseEvent event) throws IOException {
-    	FXMLLoader loader = new FXMLLoader(
+		FXMLLoader loader = new FXMLLoader(
     		getClass().getResource(GameConstants.pathToVisualization + "settings/OptionsScene.fxml")
     	);
-    	loader.load();
-    	OptionsSceneController controller = loader.getController();
-    	controller.setPreviousSceneRoot(rootPane);
+		loader.load();	
+		OptionsSceneController controller = loader.<OptionsSceneController>getController();
+		controller.setPreviousSceneRoot(rootPane);
+		controller.setGameEngine(gameEngine);
+    	controller.init();
+    
+		
     }
+	
+	
+	
 	
 }

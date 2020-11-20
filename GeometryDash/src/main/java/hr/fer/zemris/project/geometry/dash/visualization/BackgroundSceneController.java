@@ -2,6 +2,7 @@ package hr.fer.zemris.project.geometry.dash.visualization;
 
 import java.io.IOException;
 
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.fxml.FXML;
@@ -42,7 +43,14 @@ public class BackgroundSceneController {
     
     @FXML
     private StackPane rootPane;
-    
+
+
+	/**
+	 * Reference to the game engine
+	 */
+	private GameEngine gameEngine;
+
+	
     @FXML
     private void settingsButtonClicked(MouseEvent event) throws IOException {
     	FXMLLoader loader = new FXMLLoader(
@@ -51,6 +59,7 @@ public class BackgroundSceneController {
     	loader.load();
     	SettingsSceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
+    	controller.setGameEngine(gameEngine);
     }
     
     @FXML
@@ -61,6 +70,7 @@ public class BackgroundSceneController {
     	loader.load();
     	AchievementsSceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
+    	controller.setGameEngine(gameEngine);
     }
     
     @FXML
@@ -71,6 +81,7 @@ public class BackgroundSceneController {
     	loader.load();
     	StatsSceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
+    	controller.setGameEngine(gameEngine);
     }
     
     @FXML
@@ -86,5 +97,9 @@ public class BackgroundSceneController {
 	@FXML
 	public void initialize() {
 		Utils.animateBackground(overlay, background1, background2, background3);
+	}
+	
+	public void setGameEngine(GameEngine gameEngine) {
+		this.gameEngine = gameEngine;
 	}
 }

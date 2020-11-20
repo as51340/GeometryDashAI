@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -29,7 +30,9 @@ public class MenuController {
     
     @FXML
     protected StackPane rootPane;
-	
+
+    protected GameEngine gameEngine;
+    
 	public void setPreviousSceneRoot(Pane previousSceneRootPane) {
 		this.rootPane.setVisible(true);
 		this.previousSceneRootPane = previousSceneRootPane;
@@ -72,5 +75,10 @@ public class MenuController {
         fadeTransitionReverse.setToValue(0.0);
         fadeTransitionReverse.play();
     }
+    
+	public void setGameEngine(GameEngine gameEngine) {
+		this.gameEngine = gameEngine;
+	}
+
 
 }

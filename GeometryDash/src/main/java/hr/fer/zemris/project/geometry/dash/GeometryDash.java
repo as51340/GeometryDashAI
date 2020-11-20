@@ -7,6 +7,7 @@ import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.BackgroundMusicPlayer;
+import hr.fer.zemris.project.geometry.dash.visualization.BackgroundSceneController;
 import hr.fer.zemris.project.geometry.dash.visualization.GameSceneController;
 import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditorSceneController;
 import javafx.application.Application;
@@ -29,10 +30,16 @@ public class GeometryDash extends Application {
 	private GameEngine gameEngine = new GameEngine(100, "Geometry Dash", GameConstants.WIDTH, GameConstants.HEIGHT);
 	
 	private void loadGameMenu(Stage primaryStage) throws IOException {
-		Parent root = FXMLLoader.load(
-    		getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml")
-    	);
-    	
+//		Parent root = FXMLLoader.load(
+//    		getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml")
+//    	);
+
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
+    	Parent root = fxmlLoader.load();
+
+		BackgroundSceneController controller = fxmlLoader.<BackgroundSceneController>getController();
+		controller.setGameEngine(gameEngine);
+		
         Scene scene = createScaledScene(root, primaryStage);
         
 		primaryStage.setTitle("Geometry Dash");
