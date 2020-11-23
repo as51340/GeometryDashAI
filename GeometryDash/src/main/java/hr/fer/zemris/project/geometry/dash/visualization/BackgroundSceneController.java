@@ -93,6 +93,17 @@ public class BackgroundSceneController {
     	CharacterSelectController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
     }
+    
+    @FXML
+    private void playButtonClicked(MouseEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(
+    			getClass().getResource(GameConstants.pathToVisualization + "ChooseLevelScene.fxml")
+    	);
+    	loader.load();
+    	ChooseLevelController controller = loader.getController();
+    	controller.setPreviousSceneRoot(rootPane);
+    	controller.setGameEngine(gameEngine);
+    }
 
 	@FXML
 	public void initialize() {
