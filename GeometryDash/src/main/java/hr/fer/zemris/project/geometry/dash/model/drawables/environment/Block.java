@@ -26,7 +26,7 @@ public class Block extends Obstacle {
         setHeight(GameConstants.iconHeight);
         setWidth(GameConstants.iconHeight);
         setIconPath(iconPath);
-        setIcon(Utils.loadIcon(iconPath));
+        setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
         setName("Block");
     }
     
@@ -44,7 +44,7 @@ public class Block extends Obstacle {
     	setHeight(height);
     	setWidth(width);
     	setIconPath(iconPath);
-    	setIcon(Utils.loadIcon(iconPath));
+    	setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
     }
     
     

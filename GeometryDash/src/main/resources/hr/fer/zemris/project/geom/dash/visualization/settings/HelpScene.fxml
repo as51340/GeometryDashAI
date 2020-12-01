@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -13,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.settings.controllers.HelpSceneController">
+<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.settings.controllers.HelpSceneController">
    <children>
       <Rectangle fx:id="overlay" height="1440.0" stroke="BLACK" strokeWidth="0.0" width="1280.0" StackPane.alignment="TOP_CENTER" />
       <Rectangle height="531.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="861.0" />
@@ -40,6 +48,12 @@
                   <Image url="@../../static/back_btn.png" />
                </image>
             </ImageView>
+            <Label layoutX="368.0" layoutY="156.0" styleClass="helpText" text="Dont know how to play? " textAlignment="CENTER" />
+            <Label layoutX="312.0" layoutY="196.0" styleClass="helpTextAnswer" text="Check out how to play section!" />
+            <Label layoutX="329.0" layoutY="352.0" styleClass="helpTextAnswer" text="Go to Account and register!" />
+            <Label layoutX="257.0" layoutY="312.0" styleClass="helpText" text="Want to keep track of your scores?" textAlignment="CENTER" />
+            <Label layoutX="303.0" layoutY="451.0" styleClass="helpText" text="Want to see some AI magic?" textAlignment="CENTER" />
+            <Label layoutX="503.0" layoutY="492.0" styleClass="helpTextAnswer" text="Coming soon!" />
          </children>
       </AnchorPane>
    </children>

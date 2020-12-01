@@ -53,7 +53,7 @@ public class Player extends GameObject {
 	public Player(double rotation, Vector2D speed, String icon) {
 		this.rotation = rotation;
 		this.speed = speed;
-		setIcon(Utils.loadIcon(icon));
+		setIcon(Utils.loadIcon(icon, GameConstants.iconWidth, GameConstants.iconHeight));
 	}
     
     /**

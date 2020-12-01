@@ -16,7 +16,7 @@ public class GrassSpike extends Obstacle{
         setCurrentPosition(position);
         this.setWidth(GameConstants.iconHeight);
         this.setHeight(GameConstants.iconHeight);
-        setIcon(Utils.loadIcon(uriIcon));
+        setIcon(Utils.loadIcon(uriIcon, GameConstants.iconWidth, GameConstants.iconHeight));
         setIconPath(uriIcon);
         setName("GrassSpike");
     }
@@ -35,7 +35,7 @@ public class GrassSpike extends Obstacle{
     	setHeight(height);
     	setWidth(width);
     	setIconPath(iconPath);
-    	setIcon(Utils.loadIcon(iconPath));
+    	setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
     }
    
     @Override

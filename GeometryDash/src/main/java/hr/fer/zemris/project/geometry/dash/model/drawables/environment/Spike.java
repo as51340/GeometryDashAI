@@ -18,7 +18,7 @@ public class Spike extends Obstacle {
 		this.setWidth(GameConstants.iconHeight); //stranica a
 		this.setHeight((int) (GameConstants.iconHeight * Math.sqrt(3) / 2)); // visina trokuta
 		setIconPath(uriIcon);
-		setIcon(Utils.loadIcon(uriIcon));
+		setIcon(Utils.loadIcon(uriIcon, GameConstants.iconWidth, GameConstants.iconHeight));
 		setName("Spike");
 	}
 	
@@ -36,7 +36,7 @@ public class Spike extends Obstacle {
     	setHeight(height);
     	setWidth(width);
     	setIconPath(iconPath);
-    	setIcon(Utils.loadIcon(iconPath));
+    	setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
     }
 	
 	//daje se donji lijevi kut playera

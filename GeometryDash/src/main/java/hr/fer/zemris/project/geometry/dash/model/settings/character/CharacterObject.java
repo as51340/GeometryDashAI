@@ -17,6 +17,11 @@ public class CharacterObject {
 	private Image icon;
 	
 	/**
+	 * Uri to icon photo
+	 */
+	private String uri;
+	
+	/**
 	 * Not all characters are available from the beginning
 	 */
 	private boolean locked;
@@ -29,6 +34,7 @@ public class CharacterObject {
 	public CharacterObject(String uri, boolean locked) {
 		this.icon = loadIcon(uri);
 		this.locked = locked;
+		this.uri = uri;
 	}
 	
 	/**
@@ -37,7 +43,10 @@ public class CharacterObject {
 	 * @return loaded icon
 	 */
 	private Image loadIcon(String uri) {
-		return Utils.loadIcon(GameConstants.pathToIcons + uri);
+
+		//return Utils.loadIcon(GameConstants.pathToIcons + uri);
+
+		return Utils.loadIcon(GameConstants.pathToIcons + uri, GameConstants.iconWidth, GameConstants.iconHeight);
 	}
 	
 	/**
@@ -61,6 +70,12 @@ public class CharacterObject {
 		return icon;
 	}
 	
+	/**
+	 * @return the icon uri
+	 */
+	public String getUri() {
+		return uri;
+	}
 	
 
 }

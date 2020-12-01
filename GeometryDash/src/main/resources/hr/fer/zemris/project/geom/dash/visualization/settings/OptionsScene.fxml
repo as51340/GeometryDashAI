@@ -43,7 +43,7 @@
       </Text>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <GridPane layoutX="252.0" layoutY="121.0" prefHeight="473.0" prefWidth="782.0">
+            <GridPane fx:id="optionGrid" layoutX="252.0" layoutY="121.0" prefHeight="473.0" prefWidth="782.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -54,12 +54,12 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <CheckBox mnemonicParsing="false" text="ai option" />
-                  <CheckBox mnemonicParsing="false" text="ai option2" GridPane.rowIndex="1" />
-                  <CheckBox mnemonicParsing="false" text="ai option3" GridPane.rowIndex="2" />
-                  <CheckBox mnemonicParsing="false" text="ai option4" GridPane.columnIndex="1" />
-                  <CheckBox mnemonicParsing="false" text="ai option5" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <CheckBox mnemonicParsing="false" text="ai option6" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <CheckBox mnemonicParsing="false" text="Auto Retry" />
+                  <CheckBox mnemonicParsing="false" text="Restart Button" GridPane.rowIndex="1" />
+                  <CheckBox mnemonicParsing="false" text="ai option" GridPane.rowIndex="2" />
+                  <CheckBox mnemonicParsing="false" text="ai option2" GridPane.columnIndex="1" />
+                  <CheckBox mnemonicParsing="false" text="ai option3" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <CheckBox mnemonicParsing="false" text="ai option4" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <ImageView fx:id="backButton" fitHeight="67.0" fitWidth="57.0" onMouseClicked="#backButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="35.0">

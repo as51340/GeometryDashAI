@@ -23,7 +23,7 @@ public class Platform extends Obstacle{
     public Platform(Vector2D position, String image) {
     	setCurrentPosition(position);
     	setIconPath(image);
-    	setIcon(Utils.loadIcon(image));
+    	setIcon(Utils.loadIcon(image, GameConstants.iconWidth, GameConstants.iconHeight));
     }
    
     /**
@@ -40,7 +40,7 @@ public class Platform extends Obstacle{
     	setHeight(height);
     	setWidth(width);
     	setIconPath(iconPath);
-    	setIcon(Utils.loadIcon(iconPath));
+    	setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
     }
     
     //provjerava da li se playerov gornje lijevi ili desni kut nalazi "u" platformi

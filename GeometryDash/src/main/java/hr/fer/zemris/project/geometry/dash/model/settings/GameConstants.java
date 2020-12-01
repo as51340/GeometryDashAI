@@ -43,6 +43,12 @@ public class GameConstants {
 	 * Path to game's obstacles
 	 */
 	public static final String pathToObstacles = "/hr/fer/zemris/project/geom/dash/obstacles/";
+
+	 /** 
+	 * Path to photos
+	 */
+	public static final String pathToStatic = "/hr/fer/zemris/project/geom/dash/static/";
+
 	
 	/**
 	 * Width

@@ -10,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 
+
 /**
  * Implements functionality so user can drag screen on level editor
  * @author Andi Škrgat

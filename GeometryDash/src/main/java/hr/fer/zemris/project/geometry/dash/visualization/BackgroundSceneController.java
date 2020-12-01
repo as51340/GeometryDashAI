@@ -2,29 +2,17 @@ package hr.fer.zemris.project.geometry.dash.visualization;
 
 import java.io.IOException;
 
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
+import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
-import javafx.animation.Animation;
-import javafx.animation.FillTransition;
-import javafx.animation.Interpolator;
-import javafx.animation.ParallelTransition;
-import javafx.animation.SequentialTransition;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.util.Duration;
 
 public class BackgroundSceneController {
-
-	private static final int BACKGROUND_WIDTH = 800;
-	private static final int BACKGROUND_TRANSITION_DURATION = 30000;
-	private static final int COLOR_TRANSITION_DURATION = 7000;
 
 	@FXML
 	private ImageView background1;
@@ -55,7 +43,14 @@ public class BackgroundSceneController {
     
     @FXML
     private StackPane rootPane;
-    
+
+
+	/**
+	 * Reference to the game engine
+	 */
+	private GameEngine gameEngine;
+
+	
     @FXML
     private void settingsButtonClicked(MouseEvent event) throws IOException {
     	FXMLLoader loader = new FXMLLoader(
@@ -64,6 +59,7 @@ public class BackgroundSceneController {
     	loader.load();
     	SettingsSceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
+    	controller.setGameEngine(gameEngine);
     }
     
     @FXML
@@ -74,6 +70,7 @@ public class BackgroundSceneController {
     	loader.load();
     	AchievementsSceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
+    	controller.setGameEngine(gameEngine);
     }
     
     @FXML
@@ -84,49 +81,36 @@ public class BackgroundSceneController {
     	loader.load();
     	StatsSceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
+    	controller.setGameEngine(gameEngine);
+    }
+    
+    @FXML
+    private void characterSelectButtonClicked(MouseEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(
+    		getClass().getResource(GameConstants.pathToVisualization + "CharacterSelectScene.fxml")
+    	);
+    	loader.load();
+    	CharacterSelectController controller = loader.getController();
+    	controller.setPreviousSceneRoot(rootPane);
+    }
+    
+    @FXML
+    private void playButtonClicked(MouseEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(
+    			getClass().getResource(GameConstants.pathToVisualization + "level/ChooseLevelScene.fxml")
+    	);
+    	loader.load();
+    	ChooseLevelController controller = loader.getController();
+    	controller.setPreviousSceneRoot(rootPane);
+    	controller.setGameEngine(gameEngine);
     }
 
 	@FXML
 	public void initialize() {
-		ParallelTransition backgroundCyclingAnimation = new ParallelTransition(
-			createBackgroundTransition(background1), 
-			createBackgroundTransition(background2), 
-			createBackgroundTransition(background3)
-		);
-		backgroundCyclingAnimation.setCycleCount(Animation.INDEFINITE);
-		backgroundCyclingAnimation.play();
-		
-		SequentialTransition colorCyclingAnimation = new SequentialTransition(
-			createColorTransition(overlay, Color.DODGERBLUE, Color.BLUEVIOLET),
-			createColorTransition(overlay, Color.BLUEVIOLET, Color.PURPLE),
-			createColorTransition(overlay, Color.PURPLE, Color.CRIMSON),
-			createColorTransition(overlay, Color.CRIMSON, Color.ORANGE), 
-			createColorTransition(overlay, Color.ORANGE, Color.YELLOWGREEN), 
-			createColorTransition(overlay, Color.YELLOWGREEN, Color.LIGHTGREEN),
-			createColorTransition(overlay, Color.LIGHTGREEN, Color.CYAN),
-			createColorTransition(overlay, Color.CYAN, Color.DODGERBLUE)
-		);
-		colorCyclingAnimation.setCycleCount(Animation.INDEFINITE);
-		colorCyclingAnimation.play();
+		Utils.animateBackground(overlay, background1, background2, background3);
 	}
 	
-	private static TranslateTransition createBackgroundTransition(Node background) {
-		TranslateTransition transition = new TranslateTransition(
-			Duration.millis(BACKGROUND_TRANSITION_DURATION), background
-		);
-		transition.setFromX(0);
-		transition.setToX(-BACKGROUND_WIDTH);
-		transition.setInterpolator(Interpolator.LINEAR);
-		return transition;
+	public void setGameEngine(GameEngine gameEngine) {
+		this.gameEngine = gameEngine;
 	}
-	
-	private static FillTransition createColorTransition(Shape shape, Color fromColor, Color toColor) {
-		return new FillTransition(
-			Duration.millis(COLOR_TRANSITION_DURATION), 
-			shape, 
-			fromColor, 
-			toColor
-		);
-	}
-
 }

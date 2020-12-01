@@ -17,6 +17,12 @@ public class Options {
 	 */
 	private boolean showRestartButton;
 
+	
+	
+	public Options() {
+		autoRetry = false;
+		showRestartButton = true;
+	}
 	/**
 	 * @return the autoRetry
 	 */

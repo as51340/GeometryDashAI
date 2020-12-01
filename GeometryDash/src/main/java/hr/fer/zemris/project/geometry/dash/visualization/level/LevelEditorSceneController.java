@@ -17,10 +17,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
 import com.google.gson.Gson;
 import com.sun.glass.ui.Window;
-
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.SerializeUtil;
@@ -627,12 +625,18 @@ public class LevelEditorSceneController {
 		public void newColorSelected(String color) {
 			getGameEngine().getLevelEditor().getGridAttaching().setCurrObj(null);
 			gameEngine.getLevelEditor().getGridAttaching().setRemoveIntent(false);
-			addBlock.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "block/" + color + ".png"));
-			addGrass.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "grassspike/" + color + ".png"));
-			addPlatform.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "platform/" + color + ".png"));
-			addSpike.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + ".png"));
-			spikeLeft.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + "Left.png"));
-			spikeRight.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + "Right.png"));
+			addBlock.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "block/" + color + ".png", 
+					GameConstants.iconWidth, GameConstants.iconHeight));
+			addGrass.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "grassspike/" + color + ".png",
+					GameConstants.iconWidth, GameConstants.iconHeight));
+			addPlatform.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "platform/" + color + ".png",
+					GameConstants.iconWidth, GameConstants.iconHeight));
+			addSpike.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + ".png"
+					, GameConstants.iconWidth, GameConstants.iconHeight));
+			spikeLeft.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + "Left.png"
+					, GameConstants.iconWidth, GameConstants.iconHeight));
+			spikeRight.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + "Right.png"
+					, GameConstants.iconWidth, GameConstants.iconHeight));
 		}
 
 		@Override

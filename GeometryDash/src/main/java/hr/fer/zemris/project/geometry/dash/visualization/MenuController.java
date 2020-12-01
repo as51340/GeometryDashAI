@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -29,11 +30,14 @@ public class MenuController {
     
     @FXML
     protected StackPane rootPane;
-	
+
+    protected GameEngine gameEngine;
+    
 	public void setPreviousSceneRoot(Pane previousSceneRootPane) {
 		this.rootPane.setVisible(true);
 		this.previousSceneRootPane = previousSceneRootPane;
 		previousSceneRootPane.getChildren().add(rootPane);
+		
     	rootPane.translateYProperty().set(-GameConstants.HEIGHT);
         KeyValue keyValue = new KeyValue(rootPane.translateYProperty(), 0, Interpolator.EASE_IN);
         KeyFrame keyFrame = new KeyFrame(Duration.millis(MENU_TRANSITION_DURATION), keyValue);
@@ -48,13 +52,10 @@ public class MenuController {
         fadeTransition.play();
 	}
 	
-	
-	
     @FXML
     protected void backButtonClicked(MouseEvent event) {
-   
-    	
     	rootPane.translateYProperty().set(0);
+    	
         KeyValue keyValueReverse = new KeyValue(
         	rootPane.translateYProperty(), -GameConstants.HEIGHT, Interpolator.EASE_IN
         );
@@ -74,5 +75,10 @@ public class MenuController {
         fadeTransitionReverse.setToValue(0.0);
         fadeTransitionReverse.play();
     }
+    
+	public void setGameEngine(GameEngine gameEngine) {
+		this.gameEngine = gameEngine;
+	}
+
 
 }
