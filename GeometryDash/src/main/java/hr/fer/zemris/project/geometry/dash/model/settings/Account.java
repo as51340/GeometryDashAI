@@ -1,5 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.settings;
 
+import hr.fer.zemris.project.geometry.dash.model.stats.Stats;
+
 /**
  * Account in game. This will enable us to remembers user data
  * @author Andi Škrgat
@@ -8,7 +10,7 @@ package hr.fer.zemris.project.geometry.dash.model.settings;
 public class Account {
 
 	/**
-	 * Usernmae
+	 * Username
 	 */
 	private String username;
 	
@@ -28,15 +30,26 @@ public class Account {
 	private String lastName;
 
 	/**
+	 * Account information
+	 * @param firstName first name 
+	 * @param lastName last name
+	 * @param username username
+	 * @param password password
+	 */
+	public Account(String firstName, String lastName, String username, String password) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+	}
+	
+	/**
 	 * @return the username
 	 */
 	public String getUsername() {
 		return username;
 	}
 	
-
-
-
 	/**
 	 * @param username the username to set
 	 */
@@ -85,4 +98,5 @@ public class Account {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+		
 }

@@ -11,5 +11,7 @@ public interface SoundSystem {
 	 * When player dies, this sound will be played
 	 */
 	void playKillSound();
+	
+	
 
 }

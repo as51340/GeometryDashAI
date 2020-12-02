@@ -1,24 +1,8 @@
 package hr.fer.zemris.project.geometry.dash.visualization.level;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringBufferInputStream;
-import java.io.StringReader;
-import java.util.Optional;
 import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-import com.google.gson.Gson;
-import com.sun.glass.ui.Window;
+
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.SerializeUtil;
@@ -28,33 +12,39 @@ import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.listeners.LevelEditorListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.visualization.BackgroundSceneController;
 import hr.fer.zemris.project.geometry.dash.visualization.level.mouse.MouseHandler;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * Controller for level editor.
- * 
- * @author Andi Skrgat Rijesiti da kamera ne moze ic di su kontrole Da se ne
- *         mogu staviti dva objekta na istu poziciju
+ * @author Andi Skrgat 
  */
 public class LevelEditorSceneController {
+	
+	@FXML
+	private AnchorPane anchorPane;
 
 	@FXML
 	private Canvas grid;
@@ -145,7 +135,12 @@ public class LevelEditorSceneController {
     
     @FXML
     private MenuItem aboutItem;
+    
+    @FXML
+    private ImageView goBack;
 
+    private Pane previousSceneRootPane;
+    
 	/**
 	 * Reference to the game engine
 	 */
@@ -316,6 +311,23 @@ public class LevelEditorSceneController {
 			levelEditorListener.remove();
 		});
 	}
+	
+	@FXML
+    void backButtonClicked(MouseEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader(
+    			getClass().getResource(GameConstants.pathToVisualization+ "BackgroundScene.fxml")
+    	);
+    	Parent parent = loader.load();
+//		Parent parent = FXMLLoader.load(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
+		Scene backgroundScene = new Scene(parent);
+		BackgroundSceneController controller = loader.getController();
+		controller.setGameEngine(gameEngine);
+		Stage window = (Stage)((Node) event.getSource()).getScene().getWindow();
+		window.setScene(backgroundScene);
+		window.show();
+    }
+	
+	
 
 	/**
 	 * Creates path

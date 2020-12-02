@@ -11,17 +11,9 @@ public class Options {
 	 * Auto retry after game player lost
 	 */
 	private boolean autoRetry;
-	
-	/**
-	 * Specifies if restart button will be shown on the pause screen
-	 */
-	private boolean showRestartButton;
 
-	
-	
 	public Options() {
 		autoRetry = false;
-		showRestartButton = true;
 	}
 	/**
 	 * @return the autoRetry
@@ -35,20 +27,6 @@ public class Options {
 	 */
 	public void setAutoRetry(boolean autoRetry) {
 		this.autoRetry = autoRetry;
-	}
-
-	/**
-	 * @return the showRestartButton
-	 */
-	public boolean isShowRestartButton() {
-		return showRestartButton;
-	}
-
-	/**
-	 * @param showRestartButton the showRestartButton to set
-	 */
-	public void setShowRestartButton(boolean showRestartButton) {
-		this.showRestartButton = showRestartButton;
 	}
 	
 	//bunch of AI options

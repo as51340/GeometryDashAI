@@ -11,9 +11,11 @@ import javafx.scene.media.MediaPlayer;
 
 /**
  * Music that will be player on specific level
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
+// handle situation when user creates new level, so he can sets which song will be played when he creates new level
+// then you will need to remember all this stuff into history
 public class LevelMusicPlayer {
 
 	/**
@@ -37,6 +39,7 @@ public class LevelMusicPlayer {
 	 * Loads all media players that will be used in levels and creates music settings
 	 */
 	public LevelMusicPlayer() {
+		System.out.println("Stvoren novi level music player"); //for testing purposes
 		levelMediaPlayer = loadLevelMediaPlayer();
 		musicSettings = MusicSettings.getInstance();
 	}
@@ -85,5 +88,14 @@ public class LevelMusicPlayer {
 	 */
 	public void setLevelSong(String levelName, String songName) {
 		addLevelSong(levelName, songName);	
+	}
+	
+	/**
+	 * Starts playing song for specified level
+	 * @param levelName level name
+	 */
+	public void startPlayingSongForLevel(String levelName) {
+		MediaPlayer mediaPlayer = levelMediaPlayer.get(levelName);
+		musicSettings.setCurrMediaPlayer(mediaPlayer);
 	}
 }

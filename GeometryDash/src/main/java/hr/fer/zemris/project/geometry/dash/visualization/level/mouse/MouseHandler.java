@@ -4,7 +4,7 @@ import javafx.scene.input.MouseButton;
 
 /**
  * Stores mouse position and length of drag when level editor is active. Acts as mouse listener for level editor
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public class MouseHandler {

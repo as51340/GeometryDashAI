@@ -11,6 +11,7 @@ import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.model.settings.Options;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -20,51 +21,14 @@ import javafx.stage.Stage;
 /**
  * Manages all current objects on the scene.
  *
- * @author Andi �krgat
+ * @author Andi Škrgat
  */
 public class GameWorld {
 
     /**
-     * A {@link PlayerListener} implementation
-     */
-    class WorldPlayerListener implements PlayerListener {
-        /**
-         * Player is in the air
-         */
-        @Override
-        public void playerIsInAir() {
-            // TODO otkriti kako ovo iskoristiti
-        }
-
-        /**
-         * Player is on the platform
-         */
-        @Override
-        public void playerIsOnPlatform() {
-            // TODO otkriti kako ovo iskoristiti
-        }
-
-        /**
-         * Player is on the floor
-         */
-        @Override
-        public void playerIsOnFloor() {
-            // TODO otkriti kako ovo iskoristiti
-        }
-
-        /**
-         * Player is dead
-         */
-        @Override
-        public void playerIsDead() {
-            // TODO otkriti kako ovo iskoristiti
-        }
-    }
-
-    /**
      * Reference to the {@linkplain WorldPlayerListener}
      */
-    private WorldPlayerListener playerListener;
+    private PlayerListener playerListener;
 
     /**
      * Reference to the {@linkplain LevelManager}
@@ -95,26 +59,6 @@ public class GameWorld {
      * Renderer
      */
     private Renderer renderer;
-
-    /**
-     * Currently selected level
-     */
-    private Level currentLevel;
-
-
-    /**
-     * @return the currentLevel
-     */
-    public Level getCurrentLevel() {
-        return currentLevel;
-    }
-
-    /**
-     * @param currentLevel the currentLevel to set
-     */
-    public void setCurrentLevel(Level currentLevel) {
-        this.currentLevel = currentLevel;
-    }
 
     /**
      * @return the graphics
@@ -164,13 +108,21 @@ public class GameWorld {
     public GameObject getPlayer() {
         return player;
     }
-
+    
     /**
+	 * @return the playerListener
+	 */
+	public PlayerListener getPlayerListener() {
+		return playerListener;
+	}
+
+	/**
      * Initializes characters selector and creates scene for playing. Temporary for testing collisions and jumping on platforms
      */
     public GameWorld() {
         charactersSelector = new CharactersSelector();
         levelManager = new LevelManager();
+        playerListener = new WorldPlayerListener();
         createScene();
     }
 
@@ -184,10 +136,13 @@ public class GameWorld {
     private void createScene() {
         player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
         floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + 50));
-        Set<GameObject> levelObjects = new SerializeUtil().deserialize(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, "StereoMadness"));
+        Set<GameObject> levelObjects = new SerializeUtil().deserialize(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, "Level1"));
+        //when we create choose level scene then we will change these lines, maybe create scene will be public and will receive levelName
+        // and level manager will have from start predefines levels, you can call levelManeger.startLevelWithName(levelName);
+        // but for testing it's okay
         levelObjects.add(player);
         levelObjects.add(floor);
-        this.currentLevel = levelManager.addLevel("StereoMadness", levelObjects);
+        //levelManager.addLevel("Level1", levelObjects);
         renderer = new Renderer(levelObjects);
         ((Floor) floor).setCamera(renderer.getCamera());
     }
@@ -196,20 +151,19 @@ public class GameWorld {
      * Checks for relations between camera, player and ground
      */
     public boolean update() {
-        boolean check = true;
         checkPlayerGround();
         checkPlayerCamera_X();
         checkPlayerCamera_Y();
         checkCameraGround_Y();
         if (checkCollision()) {
-            check =  false;
+        	return false;
         }
         renderer.render();
-        return check;
+        return true;
     }
 
     private boolean checkCollision() {
-        for (GameObject gameObject : currentLevel.getLevelData()) {
+        for (GameObject gameObject : levelManager.getCurrentLevel().getLevelData()) {
             if (gameObject instanceof Obstacle) {
                 if (((Obstacle) gameObject).checkCollisions((Player) player)) {
 //                    renderer.getCamera().setPosition(new Vector2D(-5, 0));
@@ -267,7 +221,7 @@ public class GameWorld {
 
         //prolazi sve gameObjects na levelu i ako je neki od njih blok ili platforma te ako je player na njemu kaze
         //playeru da smije skociti
-        for (GameObject gameObject : currentLevel.getLevelData()) {
+        for (GameObject gameObject : levelManager.getCurrentLevel().getLevelData()) {
             if (gameObject instanceof Block) {
                 if (((Block) gameObject).playerIsOn((Player) player)) {
                     ((Player) player).touchesGround();
@@ -281,4 +235,56 @@ public class GameWorld {
             }
         }
     }
+    
+    /**
+     * A {@link PlayerListener} implementation
+     */ 
+    class WorldPlayerListener implements PlayerListener {
+    		
+        /**
+         * Player is in the air
+         */
+        @Override
+        public void playerIsInAir() {
+            // TODO otkriti kako ovo iskoristiti
+        }
+
+        /**
+         * Player is on the platform
+         */
+        @Override
+        public void playerIsOnPlatform() {
+            // TODO otkriti kako ovo iskoristiti
+        }
+
+        /**
+         * Player is on the floor
+         */
+        @Override
+        public void playerIsOnFloor() {
+            // TODO otkriti kako ovo iskoristiti
+        }
+
+        /**
+         * Player is dead
+         */
+        @Override
+        public void playerIsDead(Options options) {
+            // TODO otkriti kako ovo iskoristiti
+        	// iskoristiti na način da se poziva ta metoda kad player umre pa da otvori ili ne otvori scena ovisno o postavkama
+         	// treba ti referenca na optionse jer ti je tamo zapisano što korisnik želi da mu se otvori
+        	if(options.isAutoRetry() == true) { // ako je auto retry onda sve kreni ispočetka
+        		
+        	} else { //ako ne otvori scenu u kojoj će moć izabrat da li želi restart ili u game menu
+        		
+        	}
+        }
+
+    	@Override
+    	public void playerJumped() {
+    		((Player)player).jump();
+    	}
+    	
+    }
+
 }

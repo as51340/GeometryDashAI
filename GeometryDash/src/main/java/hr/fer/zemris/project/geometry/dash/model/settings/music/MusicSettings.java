@@ -3,9 +3,6 @@ package hr.fer.zemris.project.geometry.dash.model.settings.music;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.media.*;
 
-//dodat u options da se moze promijenit pjesma za neki level
-//listeneri za sva te opcije
-
 /**
  * Stores information about current media player, volume... Implemented Singleton design pattern
  * @author Andi Škrgat
@@ -66,7 +63,9 @@ public class MusicSettings {
 	 * @param currMediaPlayer the currMediaPlayer to set
 	 */
 	public void setCurrMediaPlayer(MediaPlayer currMediaPlayer) {
+		currMediaPlayer.stop();
 		this.currMediaPlayer = currMediaPlayer;
+		currMediaPlayer.play();
 	}
 	
 }

@@ -12,11 +12,6 @@ import hr.fer.zemris.project.geometry.dash.model.settings.music.MusicSettings;
 public class Settings {
 	
 	/**
-	 * Account options
-	 */
-	private Account account;
-	
-	/**
 	 * Game options
 	 */
 	private Options options;
@@ -26,21 +21,13 @@ public class Settings {
 	 */
 	private BackgroundMusicPlayer backgroundMusicPlayer;
 	
-	
-	/**
-	 * Reference to the level music player
-	 */
-	private LevelMusicPlayer levelMusicPlayer;
 		
 	/**
 	 * Initializes account and options
 	 */
 	public Settings() {
-		account = new Account();
 		options = new Options();
 		backgroundMusicPlayer = new BackgroundMusicPlayer();
-		backgroundMusicPlayer.startPlayingSongs();
-		levelMusicPlayer = new LevelMusicPlayer();
 	}
 
 	/**
@@ -49,21 +36,8 @@ public class Settings {
 	public BackgroundMusicPlayer getBackgroundMusicPlayer() {
 		return backgroundMusicPlayer;
 	}
-
-	/**
-	 * @return the levelMusicPlayer
-	 */
-	public LevelMusicPlayer getLevelMusicPlayer() {
-		return levelMusicPlayer;
-	}
-
-	/**
-	 * @return the account
-	 */
-	public Account getAccount() {
-		return account;
-	}
-
+	
+	
 	/**
 	 * @return the options
 	 */

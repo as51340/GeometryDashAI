@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 
 /**
  * Full featured level editor
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public class LevelEditor implements Drawable, Changeable{

@@ -18,7 +18,7 @@ import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 
 /**
  * Class for serializing and deserializing different types of objects
- * @author Andi Škrgat
+ * @author Andi Å krgat
  */
 public class SerializeUtil {
 
@@ -56,7 +56,7 @@ public class SerializeUtil {
 	
 	/**
 	 * Custom json deserializer for deserializing {@linkplain GameObject}
-	 * @author Andi Škrgat
+	 * @author Andi Å krgat
 	 *
 	 */
 	static class GameObjectDeserializer implements JsonDeserializer<GameObject> {

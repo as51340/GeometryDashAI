@@ -76,15 +76,15 @@ public class GeometryDash extends Application {
     	
     	scene.setOnKeyPressed((e) -> {
     		if(e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W) {
-    			Player player = (Player) gameEngine.getGameWorld().getPlayer();
-        		player.jump();	
+        		gameEngine.getGameWorld().getPlayerListener().playerJumped();
+        		gameEngine.getUserListener().playerJumped();
     		}
     	});
 
     	scene.setOnMouseClicked((e) -> {
     		if(e.getButton() == MouseButton.PRIMARY) {
-    			Player player = (Player) gameEngine.getGameWorld().getPlayer();
-        		player.jump();	
+        		gameEngine.getGameWorld().getPlayerListener().playerJumped();
+        		gameEngine.getUserListener().playerJumped();
     		}
     	});
         
@@ -102,6 +102,9 @@ public class GeometryDash extends Application {
     	gameEngine.createStageFromData(primaryStage);
     	gameEngine.start();
     	primaryStage.setResizable(true);
+    	primaryStage.setTitle("Geometry Dash");
+		primaryStage.setScene(scene);
+	    primaryStage.show();
 	}
 	
 	private static Scene createScaledScene(Node root, Stage stage) {
@@ -131,7 +134,7 @@ public class GeometryDash extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-//  	loadLevelEditor(primaryStage);
+//    	loadLevelEditor(primaryStage);
 		loadGameMenu(primaryStage);
 //    	loadMain(primaryStage);
 
@@ -146,7 +149,7 @@ public class GeometryDash extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
-    }
+		launch(args);
+	}
 
 }

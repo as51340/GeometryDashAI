@@ -9,6 +9,7 @@ import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
 import hr.fer.zemris.project.geometry.dash.model.listeners.GameStateListener;
+import hr.fer.zemris.project.geometry.dash.model.listeners.UserListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Settings;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.SoundSystem;
@@ -22,73 +23,86 @@ import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 /**
- * Engine that will be used in implementation of game <strong>Geometry dash</strong>
- * It defines only properties that are connected directly with running game, it doesn't have any specific
- * connection with geometry dash, so it means on this "platform" can also be other games played
+ * Engine that will be used in implementation of game <strong>Geometry
+ * dash</strong> It defines only properties that are connected directly with
+ * running game, it doesn't have any specific connection with geometry dash, so
+ * it means on this "platform" can also be other games played
+ * 
  * @author Andi Škrgat
  *
  */
-public class GameEngine implements SoundSystem{
-	
+public class GameEngine implements SoundSystem {
+
 	/**
 	 * Frames per second, default value is 60
 	 */
 	private int fps;
-	
+
 	/**
 	 * Game's title
 	 */
 	private String title;
-	
+
 	/**
 	 * Maybe here, maybe somewhere else
 	 */
 	private int width;
-	
+
 	/**
 	 * Maybe here, maybe somewhere else
 	 */
 	private int height;
-	
+
 	/**
-	 * Reference to game loop 
+	 * Reference to game loop
 	 */
 	private Timeline gameLoop;
-	
+
 	/**
 	 * Game world
 	 */
 	private GameWorld gameWorld;
-	
+
 	/**
 	 * Reference to the level editor
 	 */
 	private LevelEditor levelEditor;
-	
+
 	/**
 	 * Level manager
 	 */
 	private LevelManager levelManager;
-	
+
 	/**
 	 * {@linkplain Settings}
 	 */
 	private Settings settings;
-	
+
 	/**
 	 * Game state listener
 	 */
 	private GameStateListener gameStateListener;
-	
+
 	/**
 	 * Game state
 	 */
 	private GameState gameState;
-	
+
 	/**
-	 * Basic constructor that sets game's title
-	 * Creates game loop and event handler
+	 * Reference to the current user session
+	 */
+	private Session session;
+
+	/**
+	 * User listener
+	 */
+	private UserListener userListener;
+
+	/**
+	 * Basic constructor that sets game's title Creates game loop and event handler
+	 * 
 	 * @param title Game's title
 	 */
 	public GameEngine(int fps, String title, int width, int height) {
@@ -97,10 +111,11 @@ public class GameEngine implements SoundSystem{
 		this.height = height;
 		this.fps = fps;
 		settings = new Settings();
-		gameWorld = new GameWorld(); //for now list of obstacles is empty, not focus on that currently
+		gameWorld = new GameWorld(); // for now list of obstacles is empty, not focus on that currently
 		levelEditor = new LevelEditor();
 		gameStateListener = new DefaultGameStateListener();
 		levelManager = new LevelManager();
+		userListener = new UserListenerImpl();
 		createGameLoop();
 	}
 
@@ -117,7 +132,7 @@ public class GameEngine implements SoundSystem{
 	public GameWorld getGameWorld() {
 		return gameWorld;
 	}
-		
+
 	/**
 	 * @return the fps
 	 */
@@ -180,14 +195,13 @@ public class GameEngine implements SoundSystem{
 	public Timeline getGameLoop() {
 		return gameLoop;
 	}
-	
+
 	/**
 	 * @return the settings
 	 */
 	public Settings getSettings() {
 		return settings;
 	}
-	
 
 	/**
 	 * @return the gameState
@@ -204,38 +218,47 @@ public class GameEngine implements SoundSystem{
 	}
 
 	/**
+	 * @return the userListener
+	 */
+	public UserListener getUserListener() {
+		return userListener;
+	}
+
+	/**
 	 * Starts game loop
 	 */
 	public void start() {
 		gameLoop.play();
 	}
 
-	public void reset(){
+	public void reset() {
 		// TODO find how to completely reset a GameWorld
 	}
-	
+
 	/**
 	 * Updates game world or level editor
+	 * 
 	 * @return {@linkplain KeyFrame}
 	 */
 	private KeyFrame createKeyFrame() {
-		Duration frameTime = Duration.millis(1000.0/getFps()); //for 60 FPS and that is usually standard
-		Vector2D camDir = new Vector2D(1,0);
-        camDir.scale(GameConstants.timeBetweenUpdates * 50f);
-		//time between update will be approx. 16.67ms, for 10ms we have to provide 100 fps as value
-        return new KeyFrame(frameTime, event -> {
-			if(gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.PRACTISE_MODE_PLAYING) {
-				if (!gameWorld.update()) {
-					gameLoop.stop();
-					reset();
+		Duration frameTime = Duration.millis(1000.0 / getFps()); // for 60 FPS and that is usually standard
+		Vector2D camDir = new Vector2D(1, 0);
+		camDir.scale(GameConstants.timeBetweenUpdates * 50f);
+		// time between update will be approx. 16.67ms, for 10ms we have to provide 100
+		// fps as value
+		return new KeyFrame(frameTime, event -> {
+			if (gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.PRACTISE_MODE_PLAYING) {
+				if(!gameWorld.update()) {
+					gameWorld.getPlayerListener().playerIsDead(settings.getOptions());
 				}
-			} else if(gameState == GameState.LEVEL_EDITOR_MODE) {
+				//tu nekako stopiraj
+			} else if (gameState == GameState.LEVEL_EDITOR_MODE) {
 				levelEditor.update();
 				levelEditor.draw();
 			}
 		});
 	}
-	
+
 	/**
 	 * Initializes {@linkplain Timeline} object for looping through game
 	 */
@@ -244,7 +267,7 @@ public class GameEngine implements SoundSystem{
 		gameLoop.setCycleCount(Animation.INDEFINITE);
 		gameLoop.getKeyFrames().add(createKeyFrame());
 	}
-	
+
 	/**
 	 * @return the levelEditor
 	 */
@@ -260,7 +283,22 @@ public class GameEngine implements SoundSystem{
 	}
 
 	/**
+	 * @return the session
+	 */
+	public Session getSession() {
+		return session;
+	}
+
+	/**
+	 * @param session the session to set
+	 */
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
+	/**
 	 * Initializes stage from game-engine data
+	 * 
 	 * @param stage {@linkplain Stage}
 	 */
 	public void createStageFromData(Stage stage) {
@@ -271,14 +309,15 @@ public class GameEngine implements SoundSystem{
 
 	@Override
 	public void playKillSound() {
-		//TODO
+		// TODO
 	}
-	
+
 	/**
 	 * Implementation of {@linkplain GameStateListener}
-	 * @author Andi �krgat
+	 * 
+	 * @author Andi �krgat
 	 */
-	public class DefaultGameStateListener implements GameStateListener{
+	public class DefaultGameStateListener implements GameStateListener {
 
 		@Override
 		public void levelEditorModeEntered(GraphicsContext graphicsContext) {
@@ -289,19 +328,19 @@ public class GameEngine implements SoundSystem{
 		@Override
 		public void levelEditorModeExited() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void characterSelectorModeEntered() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void characterSelectorModeExited() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
@@ -312,7 +351,7 @@ public class GameEngine implements SoundSystem{
 		@Override
 		public void practiseModePlayingExited() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
@@ -323,7 +362,63 @@ public class GameEngine implements SoundSystem{
 		@Override
 		public void normalModePlayingExited() {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
+
+	/**
+	 * Implementation of {@linkplain UserListener} interface
+	 * 
+	 * @author Andi Škrgat
+	 *
+	 */
+	class UserListenerImpl implements UserListener {
+
+		@Override
+		public void userStartedPlaying() {
+			if (session != null) {
+				session.getStats().setTotalAttempts();
+				// here you can check than if user achieved something now, here you obtain that
+				// data structure you return from stats
+			}
+		}
+
+		@Override
+		public void userRatedLevel(String levelName, int rating) {
+			// store in DB that someone liked this level, rating
+		}
+
+		@Override
+		public void userFinishedLevel(String levelName) {
+			if (session != null) {
+				session.getStats().setCompletedLevels(); // same here
+
+			}
+		}
+
+		@Override
+		public void register(String firstName, String lastName, String username, String password) {
+			session = new Session(firstName, lastName, username, password);
+		}
+
+		@Override
+		public void login(String username, String password) {
+			// find from file or whatever
+			// create session
+		}
+
+		@Override
+		public void logout() {
+			session = null;
+		}
+
+		@Override
+		public void playerJumped() {
+			if (session != null) {
+				session.getStats().setTotalJumps(); // you have to check here also
+			}
+		}
+
+	}
+
 }

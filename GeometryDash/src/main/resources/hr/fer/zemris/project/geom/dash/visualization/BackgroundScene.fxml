@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.BackgroundSceneController">
+<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.BackgroundSceneController">
    <children>
       <Pane>
          <children>
@@ -76,6 +76,26 @@
                <effect>
                   <DropShadow />
                </effect>
+            </ImageView>
+            <ImageView fx:id="logout" fitHeight="150.0" fitWidth="200.0" layoutY="574.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../static/logout.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="startBackgroundMusic" fitHeight="125.0" fitWidth="150.0" layoutX="1116.0" layoutY="199.0" onMouseClicked="#startBackgroundMusicClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button">
+               <image>
+                  <Image url="@../static/startBackgroundMusic.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="stopBackgroundMusic" fitHeight="125.0" fitWidth="150.0" layoutX="1116.0" layoutY="345.0" onMouseClicked="#stopBackgroundMusicClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button">
+               <image>
+                  <Image url="@../static/stopBackgroundMusic.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="nextBackgroundMusic" fitHeight="125.0" fitWidth="150.0" layoutX="1116.0" layoutY="486.0" onMouseClicked="#nextBackgroundMusicClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button">
+               <image>
+                  <Image url="@../static/nextBackgroundMusic.png" />
+               </image>
             </ImageView>
          </children>
       </AnchorPane>

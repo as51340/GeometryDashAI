@@ -1,8 +1,10 @@
 package hr.fer.zemris.project.geometry.dash.model.listeners;
 
+import hr.fer.zemris.project.geometry.dash.model.settings.Options;
+
 /**
  * Interested in changes of the player
- * @author Andi Škrgat
+ * @author Andi �krgat
  *
  */
 public interface PlayerListener{
@@ -25,6 +27,11 @@ public interface PlayerListener{
 	/**
 	 * Player is dead
 	 */
-	void playerIsDead();
+	void playerIsDead(Options options);
+	
+	/**
+	 * Performs action when player jumps
+	 */
+	void playerJumped();
 	
 }

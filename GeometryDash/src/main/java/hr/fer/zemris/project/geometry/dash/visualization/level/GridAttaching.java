@@ -19,7 +19,7 @@ import javafx.scene.input.MouseButton;
 
 /**
  * Class that is responsible for attaching objects to grid
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public class GridAttaching implements Drawable, Changeable{

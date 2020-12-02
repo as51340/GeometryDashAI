@@ -27,12 +27,7 @@ public class OptionsSceneController extends MenuController {
 	    		case "Auto Retry":
 	    			check.setSelected(options.isAutoRetry());
 	    			check.setOnAction(event -> options.setAutoRetry(check.isSelected()));
-	    			break;
-	    		case "Restart Button":
-	    			check.setSelected(options.isShowRestartButton());
-	    			check.setOnAction(event -> options.setShowRestartButton(check.isSelected()));
-	    			break;
-	    			
+	    			break;	    			
 	    		//todo ai
 	    		}
 	    	}

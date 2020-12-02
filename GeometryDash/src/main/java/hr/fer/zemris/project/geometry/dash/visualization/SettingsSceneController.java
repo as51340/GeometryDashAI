@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.model.settings.music.MusicSettings;
 import hr.fer.zemris.project.geometry.dash.visualization.settings.controllers.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,6 +43,22 @@ public class SettingsSceneController extends MenuController{
 	
 	@FXML
 	private Slider sfx;
+	
+	/**
+	 * Reference to the music settings
+	 */
+	private MusicSettings musicSettings = MusicSettings.getInstance();
+	
+	/**
+	 * Initially set music volume to 50 
+	 * Register on every change of music
+	 */
+	public void initialize() {
+		music.valueProperty().set(0);
+		music.valueProperty().addListener((observable, oldValue, newValue) -> {
+			musicSettings.setVolume(newValue.doubleValue() / 100);
+		});
+	}
 	
 	
 	@FXML
@@ -110,9 +127,7 @@ public class SettingsSceneController extends MenuController{
 		OptionsSceneController controller = loader.<OptionsSceneController>getController();
 		controller.setPreviousSceneRoot(rootPane);
 		controller.setGameEngine(gameEngine);
-    	controller.init();
-    
-		
+    	controller.init();	
     }
 	
 	

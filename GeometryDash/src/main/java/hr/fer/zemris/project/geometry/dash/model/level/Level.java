@@ -8,7 +8,7 @@ import hr.fer.zemris.project.geometry.dash.visualization.level.ObjectsOnGrid;
 
 /**
  * Game level with all its data, stats and level name.
- * @author Andi Škrgat
+ * @author Andi ï¿½krgat
  *
  */
 public class Level {
@@ -39,11 +39,6 @@ public class Level {
 	private short levelPercentagePassPracticeMode;
 	
 	/**
-	 * Initially normal mode is selected for playing
-	 */
-	private LEVEL_MODE levelMode = LEVEL_MODE.NORMAL_MODE;
-	
-	/**
 	 * Level's data
 	 */
 	private Set<GameObject> gameObjects;
@@ -56,20 +51,6 @@ public class Level {
 	public Level(String levelName, Set<GameObject> gameObjects) {
 		this.levelName = levelName;
 		this.gameObjects = gameObjects;
-	}
-
-	/**
-	 * @param levelMode the levelMode to set
-	 */
-	public void setLevelMode(LEVEL_MODE levelMode) {
-		this.levelMode = levelMode;
-	}
-
-	/**
-	 * @return the levelMode
-	 */
-	public LEVEL_MODE getLevelMode() {
-		return levelMode;
 	}
 
 	/**

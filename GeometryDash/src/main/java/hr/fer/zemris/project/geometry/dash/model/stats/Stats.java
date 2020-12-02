@@ -2,7 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model.stats;
 
 /**
  * Handles all statistic from game
- * @author Andi Škrgat
+ * @author Andi �krgat
  *
  */
 public class Stats {
@@ -23,24 +23,9 @@ public class Stats {
 	private short collectedStars;
 	
 	/**
-	 * Collected diamonds?
-	 */
-	private short collectedDiamonds;
-	
-	/**
-	 * Total orbs collected
-	 */
-	private short totalOrbsCollected;
-	
-	/**
 	 * Completed levels
 	 */
 	private short completedLevels;
-	
-	/**
-	 * Secret coins
-	 */
-	private short secretCoins;
 	
 	/**
 	 * User coins
@@ -72,8 +57,18 @@ public class Stats {
 	/**
 	 * @param increments totalJumps
 	 */
-	public void setTotalJumps() {
+	public boolean setTotalJumps() {
 		this.totalJumps++;
+		if(totalJumps == 100) {
+			//do something, maybe return true so method that calls can show something
+			return true;
+		} else if(totalJumps == 500) {
+			// mozes i drugacije
+			return true;
+		} else if(totalJumps == 1000) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -86,8 +81,14 @@ public class Stats {
 	/**
 	 * @param increments totalAttempts
 	 */
-	public void setTotalAttempts() {
+	public boolean setTotalAttempts() {
 		this.totalAttempts++;
+		if(totalAttempts == 100) {
+			return true;
+		} else if(totalAttempts == 500) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -105,34 +106,6 @@ public class Stats {
 	}
 
 	/**
-	 * @return the collectedDiamonds
-	 */
-	public short getCollectedDiamonds() {
-		return collectedDiamonds;
-	}
-
-	/**
-	 * @param increments collectedDiamonds
-	 */
-	public void setCollectedDiamonds() {
-		this.collectedDiamonds++;
-	}
-
-	/**
-	 * @return the totalOrbsCollected
-	 */
-	public short getTotalOrbsCollected() {
-		return totalOrbsCollected;
-	}
-
-	/**
-	 * @param increments totalOrbsCollected
-	 */
-	public void setTotalOrbsCollected() {
-		this.totalOrbsCollected++;
-	}
-
-	/**
 	 * @return the completedLevels
 	 */
 	public short getCompletedLevels() {
@@ -142,22 +115,16 @@ public class Stats {
 	/**
 	 * @param increments completedLevels
 	 */
-	public void setCompletedLevels() {
+	//for example show him something, when he finished his first level, when finished five of them etc.. and then return true or false
+	//same for others, think how you can rate levels, or we can just implement Like od Dislike
+	public boolean setCompletedLevels() {
 		this.completedLevels++;
-	}
-
-	/**
-	 * @return the secretCoins
-	 */
-	public short getSecretCoins() {
-		return secretCoins;
-	}
-
-	/**
-	 * @param increments secretCoins
-	 */
-	public void setSecretCoins() {
-		this.secretCoins++;
+		if(completedLevels == 1) {
+			return true; // or you can return some data structure with bool and number of levels finished so method that calls this know 
+			// what to show
+		}
+		return false;
+		
 	}
 
 	/**
@@ -216,8 +183,4 @@ public class Stats {
 		this.ratedLevels++;
 	}
 	
-	
-	
-	
-
 }

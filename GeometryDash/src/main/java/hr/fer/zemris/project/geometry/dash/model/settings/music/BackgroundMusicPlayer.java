@@ -41,9 +41,11 @@ public class BackgroundMusicPlayer {
 	 * Initializes all media players
 	 */
 	public BackgroundMusicPlayer() {
+		System.out.println("Stvoren novi background music player");
 		mediaPlayers = new ArrayList<MediaPlayer>();
 		musicSettings = MusicSettings.getInstance();
 		loadBackgroundMusicPlayers();
+		startPlayingSongs();
 	}
 
 	/**
@@ -51,15 +53,14 @@ public class BackgroundMusicPlayer {
 	 */
 	private void loadBackgroundMusicPlayers() {
 		mediaPlayers.add(Utils.createMediaPlayer("InMyMind.mp3"));
-		mediaPlayers.add(Utils.createMediaPlayer("BlahBlahBlah.mp3"));
-//		mediaPlayers.add(Utils.createMediaPlayer("PrayerInC.mp3"));
-//		mediaPlayers.add(Utils.createMediaPlayer("Melody.mp3"));
-//		mediaPlayers.add(Utils.createMediaPlayer("Firestone.mp3"));
-//		mediaPlayers.add(Utils.createMediaPlayer("SweetDreams.mp3"));
-//		mediaPlayers.add(Utils.createMediaPlayer("OceanDrive.mp3"));
-//		mediaPlayers.add(Utils.createMediaPlayer("MoreThanYouKnow.mp3"));
-//		mediaPlayers.add(Utils.createMediaPlayer("HappyNow.mp3"));
-//		mediaPlayers.add(Utils.createMediaPlayer("AreYouWithMe.mp3"));
+//		mediaPlayers.add(Utils.createMediaPlayer("BlahBlahBlah.mp3"));
+		mediaPlayers.add(Utils.createMediaPlayer("PrayerInC.mp3"));
+		mediaPlayers.add(Utils.createMediaPlayer("Melody.mp3"));
+		mediaPlayers.add(Utils.createMediaPlayer("Firestone.mp3"));
+		mediaPlayers.add(Utils.createMediaPlayer("OceanDrive.mp3"));
+		mediaPlayers.add(Utils.createMediaPlayer("MoreThanYouKnow.mp3"));
+		mediaPlayers.add(Utils.createMediaPlayer("HappyNow.mp3"));
+		mediaPlayers.add(Utils.createMediaPlayer("AreYouWithMe.mp3"));
 	}
 
 	/**
@@ -95,7 +96,7 @@ public class BackgroundMusicPlayer {
 	}
 
 	/**
-	 * Plays songs in background in its own thread TODO Pitaj cupica
+	 * Plays songs in background in its own thread
 	 */
 	public void startPlayingSongs() {
 		BackgroundThreadFactory threadFactory = new BackgroundThreadFactory();
@@ -109,14 +110,13 @@ public class BackgroundMusicPlayer {
 				if (first == true) {
 					first = false;
 					musicSettings.setCurrMediaPlayer(player);
-					player.setStartTime(Duration.minutes(2));
-					//player.play();
+					player.play();
 				}
 				player.setOnEndOfMedia(() -> {
 					musicSettings.setCurrMediaPlayer(nextPlayer);
 					nextPlayer.setStartTime(Duration.minutes(2));
 					nextPlayer.seek(Duration.ZERO);
-					//nextPlayer.play();
+					nextPlayer.play();
 				});
 			}
 		}).start();

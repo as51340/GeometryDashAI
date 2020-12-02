@@ -1,6 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.visualization.settings.controllers;
-
-
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
+import hr.fer.zemris.project.geometry.dash.model.Session;
+import hr.fer.zemris.project.geometry.dash.model.listeners.UserListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.Account;
 import hr.fer.zemris.project.geometry.dash.visualization.MenuController;
 import javafx.fxml.FXML;
@@ -43,31 +44,26 @@ public class AccountSceneController extends MenuController {
 	
 	@FXML
 	TextField passwordLogIn;
-	
-	Account account;
-	
+		
 	@FXML
 	private void registerButtonClicked(MouseEvent event) {
-		account.setFirstName(firstName.getText());
-		account.setLastName(lastName.getText());
-		account.setUsername(username.getText());
-		account.setPassword(password.getText());
+		gameEngine.getUserListener().register(firstName.getText(), lastName.getText(), username.getText(), password.getText());
+		//store in file or DB
 		
 		registerPane.setVisible(false);
 		loggedInPane.setVisible(true);
-		welcomeLabel.setText("Welcome " + account.getUsername());
+		welcomeLabel.setText("Welcome " + username.getText());
 	}
 	
 	@FXML
 	private void logInButtonClicked(MouseEvent event) { //zasad samo hardkodirano. Možemo povezat s bazom
-		account.setFirstName("loggedInUser");
-		account.setLastName("loggedInUserLastName");
-		account.setUsername(usernameLogIn.getText());
-		account.setPassword(passwordLogIn.getText());
-		
+		gameEngine.getUserListener().login(usernameLogIn.getText(), passwordLogIn.getText());
+		//retrieve from DB or file
+		//if everything is okay than create session
+		//else dont
 		logInPane.setVisible(false);
 		loggedInPane.setVisible(true);
-		welcomeLabel.setText("Welcome " + account.getUsername());
+//		welcomeLabel.setText("Welcome " + session.getAccount().getUsername());
 	}
 	
 	@FXML
@@ -82,11 +78,8 @@ public class AccountSceneController extends MenuController {
 		logInPane.setVisible(true);
 	}
 	
-	
-	
 	public void init() {
-		account = gameEngine.getSettings().getAccount();
-		if(account.getUsername() == null) {
+		if(gameEngine.getSession() == null) {
 			loggedInPane.setVisible(false);
 			registerPane.setVisible(false);
 			logInPane.setVisible(false);
@@ -94,7 +87,7 @@ public class AccountSceneController extends MenuController {
 			notLoggedInPane.setVisible(false);
 			registerPane.setVisible(false);
 			logInPane.setVisible(false);
-			welcomeLabel.setText("Welcome " + account.getUsername());
+			welcomeLabel.setText("Welcome " + gameEngine.getSession().getAccount().getUsername());
 		}
 	}
 

@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 
 /**
  * Remembers what icon is currently selected on level editor
- * @author Andi Škrgat
+ * @author Andi Å krgat
  *
  */
 public interface LevelEditorListener {
