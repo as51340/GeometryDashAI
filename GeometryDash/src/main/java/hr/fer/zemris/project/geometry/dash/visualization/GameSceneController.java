@@ -5,22 +5,12 @@ import java.util.Map;
 
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
-import javafx.animation.Animation;
-import javafx.animation.FillTransition;
-import javafx.animation.Interpolator;
-import javafx.animation.ParallelTransition;
-import javafx.animation.SequentialTransition;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.util.Duration;
 
 public class GameSceneController {
 	
@@ -51,7 +41,7 @@ public class GameSceneController {
 
 	public void setGameEngine(GameEngine gameEngine) {
 		this.gameEngine = gameEngine;
-		gameEngine.getGameWorld().getRenderer().setGraphicsContext(canvas.getGraphicsContext2D());
+		this.gameEngine.getGameWorld().getRenderer().setGraphicsContext(canvas.getGraphicsContext2D());
 	}
 	
 	@FXML

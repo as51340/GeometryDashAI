@@ -4,29 +4,18 @@ import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
-import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import static javafx.scene.input.MouseEvent.MOUSE_CLICKED;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
-public class CharacterSelectController {
+public class CharacterSelectController extends MainOptionsController {
 
 	private static final int GRID_ICON_SIZE = 60;
 	private static final int SELECTED_ICON_SIZE = 150;
 	private static final int GRID_COLUMNS = 6;
-	
-	private Pane previousSceneRootPane;
-	
-    @FXML
-    private StackPane rootPane;
     
     @FXML
 	private ImageView background1;
@@ -42,15 +31,6 @@ public class CharacterSelectController {
     
     @FXML
     private AnchorPane anchorPane;
-	
-	@FXML
-	private Rectangle grayBackground;
-	
-    @FXML
-    private Line line;
-
-    @FXML
-    private ImageView backButton;
 
     @FXML
     private ImageView selectedCharacter;
@@ -62,50 +42,10 @@ public class CharacterSelectController {
 	private GridPane characterGrid;
     
     @FXML
-	private Rectangle overlayBlack;
-    
-    
-    public void setPreviousSceneRoot(Pane previousSceneRootPane) {
-		previousSceneRootPane.getChildren().add(rootPane);
-		this.previousSceneRootPane = previousSceneRootPane;
-		
-		overlayBlack.setVisible(true);
-        FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(GameConstants.TRANSITION_DURATION), rootPane);
-        fadeTransition1.setFromValue(0);
-        fadeTransition1.setToValue(1);
-        
-        fadeTransition1.setOnFinished(e1 -> {
-        	FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(GameConstants.TRANSITION_DURATION), overlayBlack);
-            fadeTransition2.setFromValue(1);
-            fadeTransition2.setToValue(0);
-            fadeTransition2.play();
-        });
-        
-        fadeTransition1.play();
-	}
-    
-    @FXML
-    protected void backButtonClicked(MouseEvent event) {
-        FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(GameConstants.TRANSITION_DURATION), overlayBlack);
-        fadeTransition1.setFromValue(0);
-        fadeTransition1.setToValue(1);
-        
-        fadeTransition1.setOnFinished(e1 -> {
-        	FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(300), rootPane);
-            fadeTransition2.setFromValue(1);
-            fadeTransition2.setToValue(0);
-            fadeTransition2.setOnFinished(e2 -> previousSceneRootPane.getChildren().remove(rootPane));
-            fadeTransition2.play();
-        });
-        
-        fadeTransition1.play();
-    }
-    
-    @FXML
     public void initialize() {
     	Utils.animateBackground(overlay, background1, background2, background3);
-    	grayBackground.setVisible(false);
     	
+    	//CharactersSelector selector = gameEngine.getGameWorld().getCharactersSelector();
     	CharactersSelector selector = new CharactersSelector();
     	int x = 0, y = 0;
     	

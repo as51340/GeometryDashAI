@@ -2,7 +2,6 @@ package hr.fer.zemris.project.geometry.dash.visualization;
 
 import java.io.IOException;
 
-import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.MusicSettings;
 import hr.fer.zemris.project.geometry.dash.visualization.settings.controllers.*;
@@ -60,7 +59,6 @@ public class SettingsSceneController extends MenuController{
 			musicSettings.setVolume(newValue.doubleValue() / 100);
 		});
 	}
-	
 	
 	@FXML
     private void accountButtonClicked(MouseEvent event) throws IOException {
@@ -130,8 +128,5 @@ public class SettingsSceneController extends MenuController{
 		controller.setGameEngine(gameEngine);
     	controller.init();	
     }
-	
-	
-	
-	
+
 }

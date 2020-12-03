@@ -5,7 +5,6 @@ import java.io.IOException;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
-import hr.fer.zemris.project.geometry.dash.model.settings.music.BackgroundMusicPlayer;
 import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditorSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -104,6 +103,7 @@ public class BackgroundSceneController {
 		loader.load();
 		CharacterSelectController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
+		controller.setGameEngine(gameEngine);
 	}
 
 	@FXML
@@ -113,7 +113,7 @@ public class BackgroundSceneController {
 		loader.load();
 		ChooseLevelController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
-		gameEngine.getSettings().getBackgroundMusicPlayer().stop();
+		//gameEngine.getSettings().getBackgroundMusicPlayer().stop();
 		controller.setGameEngine(gameEngine);
 	}
 

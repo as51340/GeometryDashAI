@@ -1,6 +1,5 @@
 package hr.fer.zemris.project.geometry.dash.visualization.level;
 
-import java.io.IOException;
 import java.util.Set;
 
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
@@ -12,8 +11,8 @@ import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.listeners.LevelEditorListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.visualization.MainOptionsController;
 import hr.fer.zemris.project.geometry.dash.visualization.level.mouse.MouseHandler;
-import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -25,23 +24,16 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
 /**
  * Controller for level editor.
  * 
  * @author Andi Skrgat
  */
-public class LevelEditorSceneController {
-
-	@FXML
-	private StackPane rootPane;
+public class LevelEditorSceneController extends MainOptionsController {
 	
 	@FXML
 	private Rectangle background;
@@ -138,19 +130,6 @@ public class LevelEditorSceneController {
 
 	@FXML
 	private MenuItem aboutItem;
-
-	@FXML
-	private ImageView goBack;
-	
-	@FXML
-	private Rectangle overlayBlack;
-
-	private Pane previousSceneRootPane;
-
-	/**
-	 * Reference to the game engine
-	 */
-	private GameEngine gameEngine;
 
 	/**
 	 * Level editor listener
@@ -316,42 +295,6 @@ public class LevelEditorSceneController {
 		removeButton.setOnMouseClicked((e) -> {
 			levelEditorListener.remove();
 		});
-	}
-	
-    public void setPreviousSceneRoot(Pane previousSceneRootPane) {
-		previousSceneRootPane.getChildren().add(rootPane);
-		this.previousSceneRootPane = previousSceneRootPane;
-		
-		overlayBlack.setVisible(true);
-        FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(GameConstants.TRANSITION_DURATION), rootPane);
-        fadeTransition1.setFromValue(0);
-        fadeTransition1.setToValue(1);
-        
-        fadeTransition1.setOnFinished(e1 -> {
-        	FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(GameConstants.TRANSITION_DURATION), overlayBlack);
-            fadeTransition2.setFromValue(1);
-            fadeTransition2.setToValue(0);
-            fadeTransition2.play();
-        });
-        
-        fadeTransition1.play();
-	}
-
-	@FXML
-	protected void backButtonClicked(MouseEvent event) throws IOException {
-        FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(GameConstants.TRANSITION_DURATION), overlayBlack);
-        fadeTransition1.setFromValue(0);
-        fadeTransition1.setToValue(1);
-        
-        fadeTransition1.setOnFinished(e1 -> {
-        	FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(300), rootPane);
-            fadeTransition2.setFromValue(1);
-            fadeTransition2.setToValue(0);
-            fadeTransition2.setOnFinished(e2 -> previousSceneRootPane.getChildren().remove(rootPane));
-            fadeTransition2.play();
-        });
-        
-        fadeTransition1.play();
 	}
 
 	/**

@@ -79,6 +79,4 @@ public class MenuController {
 	public void setGameEngine(GameEngine gameEngine) {
 		this.gameEngine = gameEngine;
 	}
-
-
 }
