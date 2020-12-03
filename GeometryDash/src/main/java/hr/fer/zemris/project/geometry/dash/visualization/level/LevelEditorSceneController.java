@@ -11,22 +11,13 @@ import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.io.ZipUtil;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.listeners.LevelEditorListener;
-import hr.fer.zemris.project.geometry.dash.model.listeners.MainThreadResultListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
 import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
-import hr.fer.zemris.project.geometry.dash.threads.DaemonicThreadFactory;
-import hr.fer.zemris.project.geometry.dash.threads.ResultListenerImpl;
-import hr.fer.zemris.project.geometry.dash.visualization.BackgroundSceneController;
 import hr.fer.zemris.project.geometry.dash.visualization.level.mouse.MouseHandler;
 import javafx.animation.FadeTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -41,7 +32,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
@@ -51,6 +43,12 @@ import javafx.util.Duration;
  */
 public class LevelEditorSceneController {
 
+	@FXML
+	private StackPane rootPane;
+	
+	@FXML
+	private Rectangle background;
+	
 	@FXML
 	private AnchorPane anchorPane;
 
@@ -146,6 +144,9 @@ public class LevelEditorSceneController {
 
 	@FXML
 	private ImageView goBack;
+	
+	@FXML
+	private Rectangle overlayBlack;
 
 	private Pane previousSceneRootPane;
 
@@ -319,19 +320,41 @@ public class LevelEditorSceneController {
 			levelEditorListener.remove();
 		});
 	}
+	
+    public void setPreviousSceneRoot(Pane previousSceneRootPane) {
+		previousSceneRootPane.getChildren().add(rootPane);
+		this.previousSceneRootPane = previousSceneRootPane;
+		
+		overlayBlack.setVisible(true);
+        FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(GameConstants.TRANSITION_DURATION), rootPane);
+        fadeTransition1.setFromValue(0);
+        fadeTransition1.setToValue(1);
+        
+        fadeTransition1.setOnFinished(e1 -> {
+        	FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(GameConstants.TRANSITION_DURATION), overlayBlack);
+            fadeTransition2.setFromValue(1);
+            fadeTransition2.setToValue(0);
+            fadeTransition2.play();
+        });
+        
+        fadeTransition1.play();
+	}
 
 	@FXML
-	void backButtonClicked(MouseEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
-		Parent parent = loader.load();
-//		Parent parent = FXMLLoader.load(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
-		Scene backgroundScene = new Scene(parent);
-		BackgroundSceneController controller = loader.getController();
-		controller.setGameEngine(gameEngine);
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		window.setScene(backgroundScene);
-		window.show();
+	protected void backButtonClicked(MouseEvent event) throws IOException {
+        FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(GameConstants.TRANSITION_DURATION), overlayBlack);
+        fadeTransition1.setFromValue(0);
+        fadeTransition1.setToValue(1);
+        
+        fadeTransition1.setOnFinished(e1 -> {
+        	FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(300), rootPane);
+            fadeTransition2.setFromValue(1);
+            fadeTransition2.setToValue(0);
+            fadeTransition2.setOnFinished(e2 -> previousSceneRootPane.getChildren().remove(rootPane));
+            fadeTransition2.play();
+        });
+        
+        fadeTransition1.play();
 	}
 
 	/**

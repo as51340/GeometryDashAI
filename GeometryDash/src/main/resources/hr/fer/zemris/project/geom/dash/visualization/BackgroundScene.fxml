@@ -37,7 +37,7 @@
                   <Image url="@../static/title.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="playButton" fitWidth="200.0" layoutX="541.0" layoutY="261.0" onMouseClicked="#playButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button">
+            <ImageView fx:id="playButton" fitWidth="200.0" layoutX="541.0" layoutY="260.0" onMouseClicked="#playButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button">
                <image>
                   <Image url="@../static/play_btn.png" />
                </image>
@@ -45,13 +45,18 @@
                   <DropShadow />
                </effect>
             </ImageView>
-            <ImageView fx:id="charactersButton" fitWidth="150.0" layoutX="348.0" layoutY="285.0" onMouseClicked="#characterSelectButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button">
+            <ImageView fx:id="charactersButton" fitWidth="150.0" layoutX="348.0" layoutY="285.0" onMouseClicked="#characterSelectButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.leftAnchor="348.0">
                <image>
                   <Image url="@../static/characters_btn.png" />
                </image>
                <effect>
                   <DropShadow />
                </effect>
+            </ImageView>
+            <ImageView fx:id="levelEditorButton" fitWidth="150.0" layoutX="795.0" layoutY="285.0" onMouseClicked="#levelEditorButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.rightAnchor="348.0">
+               <image>
+                  <Image url="@../static/levelEditor_btn.png" />
+               </image>
             </ImageView>
             <ImageView fx:id="achievementsButton" fitWidth="100.0" layoutX="467.0" layoutY="571.0" onMouseClicked="#achievementsButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.bottomAnchor="49.0">
                <image>

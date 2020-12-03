@@ -79,6 +79,7 @@ public class CharactersSelector {
 		allCharacters.add(char21);
 		allCharacters.add(char22);
 		allCharacters.add(char23);
+		allCharacters.add(char24);
 		selectedCharacter = char24;
 	}
 	

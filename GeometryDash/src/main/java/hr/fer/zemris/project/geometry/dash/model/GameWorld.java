@@ -276,9 +276,9 @@ public class GameWorld {
         @Override
         public void playerIsDead(Options options) {
             // TODO otkriti kako ovo iskoristiti
-        	// iskoristiti na način da se poziva ta metoda kad player umre pa da otvori ili ne otvori scena ovisno o postavkama
-         	// treba ti referenca na optionse jer ti je tamo zapisano što korisnik želi da mu se otvori
-        	if(options.isAutoRetry() == true) { // ako je auto retry onda sve kreni ispočetka
+        	// iskoristiti na nacin da se poziva ta metoda kad player umre pa da otvori ili ne otvori scena ovisno o postavkama
+         	// treba ti referenca na optionse jer ti je tamo zapisano što korisnik zeli da mu se otvori
+        	if(options.isAutoRetry() == true) { // ako je auto retry onda sve kreni ispocetka
         		
         	} else { //ako ne otvori scenu u kojoj će moć izabrat da li želi restart ili u game menu
         		

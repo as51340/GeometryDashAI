@@ -6,6 +6,7 @@ import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.BackgroundMusicPlayer;
+import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditorSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
@@ -32,6 +33,9 @@ public class BackgroundSceneController {
 
 	@FXML
 	private ImageView charactersButton;
+	
+	@FXML
+	private ImageView levelEditorButton;
 
 	@FXML
 	private ImageView achievementsButton;
@@ -113,6 +117,16 @@ public class BackgroundSceneController {
 		controller.setGameEngine(gameEngine);
 	}
 
+	@FXML
+	private void levelEditorButtonClicked(MouseEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader(
+				getClass().getResource(GameConstants.pathToVisualization + "level/LevelEditorScene.fxml"));
+		loader.load();
+		LevelEditorSceneController controller = loader.getController();
+		controller.setPreviousSceneRoot(rootPane);
+		controller.setGameEngine(gameEngine);
+	}
+	
 	@FXML
 	public void initialize() {
 		Utils.animateBackground(overlay, background1, background2, background3);
