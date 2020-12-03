@@ -48,22 +48,22 @@ public class AccountSceneController extends MenuController {
 	@FXML
 	private void registerButtonClicked(MouseEvent event) {
 		gameEngine.getUserListener().register(firstName.getText(), lastName.getText(), username.getText(), password.getText());
-		//store in file or DB
-		
 		registerPane.setVisible(false);
 		loggedInPane.setVisible(true);
 		welcomeLabel.setText("Welcome " + username.getText());
 	}
 	
 	@FXML
-	private void logInButtonClicked(MouseEvent event) { //zasad samo hardkodirano. Možemo povezat s bazom
-		gameEngine.getUserListener().login(usernameLogIn.getText(), passwordLogIn.getText());
-		//retrieve from DB or file
-		//if everything is okay than create session
-		//else dont
+	
+	private void logInButtonClicked(MouseEvent event) {
+		boolean logged = gameEngine.getUserListener().login(usernameLogIn.getText(), passwordLogIn.getText());
 		logInPane.setVisible(false);
 		loggedInPane.setVisible(true);
-//		welcomeLabel.setText("Welcome " + session.getAccount().getUsername());
+		if(logged == true) {
+			welcomeLabel.setText("Welcome " + gameEngine.getSession().getAccount().getUsername());	
+		} else {
+			welcomeLabel.setText("Unknown user!");
+		}
 	}
 	
 	@FXML

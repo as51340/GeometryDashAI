@@ -1,6 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -135,11 +136,12 @@ public class GameWorld {
      */
     private void createScene() {
         player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
-        floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + 50));
-        Set<GameObject> levelObjects = new SerializeUtil().deserialize(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, "Level1"));
+        floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
+//        Set<GameObject> levelObjects = new SerializeUtil(GameConstants.levelToWorldOffset).deserialize(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, "Level1"));
         //when we create choose level scene then we will change these lines, maybe create scene will be public and will receive levelName
         // and level manager will have from start predefines levels, you can call levelManeger.startLevelWithName(levelName);
         // but for testing it's okay
+        Set<GameObject> levelObjects = new HashSet<GameObject>();
         levelObjects.add(player);
         levelObjects.add(floor);
         levelManager.addLevel("Level1", levelObjects);
@@ -152,6 +154,8 @@ public class GameWorld {
      * Checks for relations between camera, player and ground
      */
     public boolean update() {
+//    	System.out.println("Početna x: " + (player.getCurrentPosition().getX() - GameConstants.playerPosition_X));
+//    	System.out.println("Završna x: " + (player.getCurrentPosition().getX() - GameConstants.playerPosition_X + GameConstants.WIDTH));
         checkPlayerGround();
         checkPlayerCamera_X();
         checkPlayerCamera_Y();

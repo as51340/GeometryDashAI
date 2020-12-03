@@ -1,5 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
+import com.google.gson.annotations.Expose;
+
 import hr.fer.zemris.project.geometry.dash.model.listeners.UserListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.Account;
 import hr.fer.zemris.project.geometry.dash.model.stats.Stats;
@@ -14,11 +16,13 @@ public class Session {
 	/**
 	 * Information about current user
 	 */
+	@Expose
 	private Account account;
 	
 	/**
 	 * User's statistic
 	 */
+	@Expose
 	private Stats stats;
 	
 	
@@ -34,6 +38,14 @@ public class Session {
 		stats = new Stats();
 	}
 	
+	public Session(Account account, Stats stats) {
+		super();
+		this.account = account;
+		this.stats = stats;
+	}
+
+
+
 	/**
 	 *  @return the account
 	 */

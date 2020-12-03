@@ -3,15 +3,18 @@ package hr.fer.zemris.project.geometry.dash.visualization.level;
 import java.io.IOException;
 import java.util.Set;
 
+import com.google.gson.Gson;
+
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
-import hr.fer.zemris.project.geometry.dash.model.SerializeUtil;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
-import hr.fer.zemris.project.geometry.dash.model.ZipUtil;
+import hr.fer.zemris.project.geometry.dash.model.io.ZipUtil;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.listeners.LevelEditorListener;
 import hr.fer.zemris.project.geometry.dash.model.listeners.MainThreadResultListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
+import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.threads.DaemonicThreadFactory;
 import hr.fer.zemris.project.geometry.dash.threads.ResultListenerImpl;
@@ -620,13 +623,13 @@ public class LevelEditorSceneController {
 		/**
 		 * Object that serializes and deserializes given object
 		 */
-		private SerializeUtil serializeUtil;
+		private SerializationOfObjects serializeUtil;
 
 		/**
 		 * Constructor for level editor listener
 		 */
 		public DefaultLevelEditorListener() {
-			serializeUtil = new SerializeUtil();
+			serializeUtil = new SerializationOfObjects(GsonFactory.createGameObjectGson(0));
 		}
 
 		@Override
@@ -670,7 +673,7 @@ public class LevelEditorSceneController {
 		public void loadLevel() {
 			gameEngine.getLevelEditor().getGridAttaching().setRemoveIntent(false);
 			String jsonFromFile = ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, null);
-			Set<GameObject> loadedObjects = serializeUtil.deserialize(jsonFromFile);
+			Set<GameObject> loadedObjects = (Set<GameObject>) serializeUtil.deserializeGameObjects(jsonFromFile);
 			if(loadedObjects != null) {
 				reset();
 				gameEngine.getLevelEditor().getGridAttaching().getObjectsOnGrid().loadObjectsOnScreen(loadedObjects);	

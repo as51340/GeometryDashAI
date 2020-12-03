@@ -172,6 +172,8 @@ public class Player extends GameObject {
         		this.rotation = 0;
         	}
         }
+        System.out.println("Player x: " + getCurrentPosition().getX());
+        System.out.println("Player y: " + getCurrentPosition().getY());
         Rotate r = new Rotate(getRotation(), getCurrentPosition().getX() + GameConstants.iconWidth / 2, getCurrentPosition().getY() + GameConstants.iconHeight / 2);
         graphicsContext.save();
         graphicsContext.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
@@ -179,7 +181,7 @@ public class Player extends GameObject {
         graphicsContext.restore();
         calculatePlayerPhysics();
     }
-
+    
 	@Override
 	public GameObject copy() {
 		return new Player(this.rotation, this.speed, this.getIconPath());

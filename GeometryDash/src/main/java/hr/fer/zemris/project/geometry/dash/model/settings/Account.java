@@ -1,5 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.settings;
 
+import com.google.gson.annotations.Expose;
+
 import hr.fer.zemris.project.geometry.dash.model.stats.Stats;
 
 /**
@@ -12,21 +14,25 @@ public class Account {
 	/**
 	 * Username
 	 */
+	@Expose
 	private String username;
 	
 	/**
 	 * Password
 	 */
+	@Expose
 	private String password;
 	
 	/**
 	 * User's first name
 	 */
+	@Expose
 	private String firstName;
 	
 	/**
 	 * User's last name
 	 */
+	@Expose
 	private String lastName;
 
 	/**

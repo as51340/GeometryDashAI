@@ -6,7 +6,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
+import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
+import hr.fer.zemris.project.geometry.dash.model.hash.HashUtil;
+import hr.fer.zemris.project.geometry.dash.model.io.FileIO;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
 import hr.fer.zemris.project.geometry.dash.model.listeners.GameStateListener;
 import hr.fer.zemris.project.geometry.dash.model.listeners.UserListener;
@@ -384,6 +388,11 @@ public class GameEngine implements SoundSystem {
 	 */
 	class UserListenerImpl implements UserListener {
 
+		/**
+		 * Serialization class
+		 */
+		private SerializationOfObjects serObject = new SerializationOfObjects(GsonFactory.createUserGson());
+		
 		@Override
 		public void userStartedPlaying() {
 			if (session != null) {
@@ -410,12 +419,29 @@ public class GameEngine implements SoundSystem {
 		@Override
 		public void register(String firstName, String lastName, String username, String password) {
 			session = new Session(firstName, lastName, username, password);
+			String hashedPassword = HashUtil.hashContent(password);
+			session.getAccount().setPassword(hashedPassword);
+			String fileName = GameConstants.pathToUsersFolder + "/" + session.getAccount().getUsername() + ".json";
+			FileIO.createJsonFile(fileName, serObject.serialize(session));
 		}
 
 		@Override
-		public void login(String username, String password) {
-			// find from file or whatever
-			// create session
+		public boolean login(String username, String password) {
+			String fileName = GameConstants.pathToUsersFolder + "/" + username + ".json";
+			String json = FileIO.readFromJsonFile(fileName);
+			if(json == null) {
+				System.out.println("Json je null");
+				return false;
+			}
+			Session newSession = serObject.deserializeUser(json);
+			String hashedPassword = HashUtil.hashContent(password);
+			if(newSession.getAccount().getPassword().equals(hashedPassword) == true) {
+				session = newSession;
+				return true;
+			} else {
+				System.out.println("Wrong password");
+				return false;
+			}
 		}
 
 		@Override

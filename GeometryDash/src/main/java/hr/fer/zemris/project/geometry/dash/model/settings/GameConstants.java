@@ -109,7 +109,7 @@ public class GameConstants {
     /**
      * Jumping offset
      */
-    public static final int playerJumpingOffset = -700;
+    public static final int playerJumpingOffset = -750;
     
     /**
      * Cell width for level editor
@@ -170,4 +170,14 @@ public class GameConstants {
      * Player's rotation
      */
     public static final double playerRotationSpeed = 300.0;
+    
+    /**
+     * Level to world y offset
+     */
+    public static final int levelToWorldOffset = 50;
+    
+    /**
+     * Path to user folder
+     */
+    public static final String pathToUsersFolder = "users";
 }
