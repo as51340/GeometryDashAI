@@ -1,0 +1,18 @@
+{
+  "account": {
+    "username": "ldoncic",
+    "password": "6771cbd1c2df82b12f25c8687cb151abe7c72e968229766ab459a3ba4a4c97a9",
+    "firstName": "luka",
+    "lastName": "doncic"
+  },
+  "stats": {
+    "totalJumps": 0,
+    "totalAttempts": 0,
+    "collectedStars": 0,
+    "completedLevels": 0,
+    "userCoins": 0,
+    "likedLevels": 0,
+    "dislikedLevels": 0,
+    "ratedLevels": 0
+  }
+}

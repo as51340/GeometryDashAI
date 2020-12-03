@@ -1,4 +1,4 @@
-package hr.fer.zemris.project.geometry.dash.model;
+package hr.fer.zemris.project.geometry.dash.model.io;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -102,7 +102,7 @@ public class ZipUtil {
 		}
 		StringBuilder sb = new StringBuilder();
 		final String temp = fileInZip;
-		Thread openThread = DaemonicThreadFactory.getInstance().newThread(() -> {
+//		Thread openThread = DaemonicThreadFactory.getInstance().newThread(() -> {
 			try(ZipFile zipFile = new ZipFile(zipFileName + "/" + temp + ".zip")) {
 				 ZipEntry zipEntry = zipFile.getEntry(temp + ".json");
 				 InputStream is = zipFile.getInputStream(zipEntry);
@@ -116,13 +116,13 @@ public class ZipUtil {
 			} catch(IOException e) {
 				e.printStackTrace();
 			}	
-		});
-		openThread.start();
-		try {
-			openThread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		});
+//		openThread.start();
+//		try {
+//			openThread.join();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		return sb.toString();
 	}
 }

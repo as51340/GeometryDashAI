@@ -1,5 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.stats;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Handles all statistic from game
  * @author Andi �krgat
@@ -10,41 +12,49 @@ public class Stats {
 	/**
 	 * Total jumps in game
 	 */
+	@Expose
 	private long totalJumps;
 	
 	/**
 	 * Total attempts
 	 */
+	@Expose
 	private long totalAttempts;
 	
 	/**
 	 * Collected stars?
 	 */
+	@Expose
 	private short collectedStars;
 	
 	/**
 	 * Completed levels
 	 */
+	@Expose
 	private short completedLevels;
 	
 	/**
 	 * User coins
 	 */
+	@Expose
 	private short userCoins;
 	
 	/**
 	 * Liked levels
 	 */
+	@Expose
 	private short likedLevels;
 	
 	/**
 	 * Disliked levels
 	 */
+	@Expose
 	private short dislikedLevels;
 	
 	/**
 	 * Rated levels
 	 */
+	@Expose
 	private short ratedLevels;
 
 	/**
@@ -52,6 +62,23 @@ public class Stats {
 	 */
 	public long getTotalJumps() {
 		return totalJumps;
+	}
+	
+	public Stats() {
+		
+	}
+	
+	
+
+	public Stats(long totalJumps, long totalAttempts, short completedLevels, short likedLevels, short dislikedLevels,
+			short ratedLevels) {
+		super();
+		this.totalJumps = totalJumps;
+		this.totalAttempts = totalAttempts;
+		this.completedLevels = completedLevels;
+		this.likedLevels = likedLevels;
+		this.dislikedLevels = dislikedLevels;
+		this.ratedLevels = ratedLevels;
 	}
 
 	/**

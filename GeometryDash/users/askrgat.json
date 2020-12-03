@@ -1,0 +1,18 @@
+{
+  "account": {
+    "username": "askrgat",
+    "password": "bdf1ad1f06e002105f87075e051d67bceb64e399e77439d6bc28ea3a5a94492e",
+    "firstName": "andi",
+    "lastName": "škrgat"
+  },
+  "stats": {
+    "totalJumps": 0,
+    "totalAttempts": 0,
+    "collectedStars": 0,
+    "completedLevels": 0,
+    "userCoins": 0,
+    "likedLevels": 0,
+    "dislikedLevels": 0,
+    "ratedLevels": 0
+  }
+}

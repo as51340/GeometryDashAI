@@ -109,7 +109,7 @@ public class GameConstants {
     /**
      * Jumping offset
      */
-    public static final int playerJumpingOffset = -700;
+    public static final int playerJumpingOffset = -750;
     
     /**
      * Cell width for level editor
@@ -172,7 +172,18 @@ public class GameConstants {
     public static final double playerRotationSpeed = 300.0;
     
     /**
-     * Duration of transition between scenes.
+<<<<<<< HEAD
+     * Level to world y offset
+     */
+    public static final int levelToWorldOffset = 50;
+    
+    /**
+     * Path to user folder
+     */
+    public static final String pathToUsersFolder = "users";
+ 
+    /** Duration of transition between scenes.
+     * 
      */
     public static final int TRANSITION_DURATION = 300;
 }
