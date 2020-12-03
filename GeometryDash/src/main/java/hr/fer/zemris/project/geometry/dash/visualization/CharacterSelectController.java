@@ -19,7 +19,6 @@ import javafx.util.Duration;
 
 public class CharacterSelectController {
 
-	private static final int TRANSITION_DURATION = 300;
 	private static final int GRID_ICON_SIZE = 60;
 	private static final int SELECTED_ICON_SIZE = 150;
 	private static final int GRID_COLUMNS = 6;
@@ -71,12 +70,12 @@ public class CharacterSelectController {
 		this.previousSceneRootPane = previousSceneRootPane;
 		
 		overlayBlack.setVisible(true);
-        FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(TRANSITION_DURATION), rootPane);
+        FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(GameConstants.TRANSITION_DURATION), rootPane);
         fadeTransition1.setFromValue(0);
         fadeTransition1.setToValue(1);
         
         fadeTransition1.setOnFinished(e1 -> {
-        	FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(TRANSITION_DURATION), overlayBlack);
+        	FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(GameConstants.TRANSITION_DURATION), overlayBlack);
             fadeTransition2.setFromValue(1);
             fadeTransition2.setToValue(0);
             fadeTransition2.play();
@@ -87,7 +86,7 @@ public class CharacterSelectController {
     
     @FXML
     protected void backButtonClicked(MouseEvent event) {
-        FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(TRANSITION_DURATION), overlayBlack);
+        FadeTransition fadeTransition1 = new FadeTransition(Duration.millis(GameConstants.TRANSITION_DURATION), overlayBlack);
         fadeTransition1.setFromValue(0);
         fadeTransition1.setToValue(1);
         
@@ -105,7 +104,7 @@ public class CharacterSelectController {
     @FXML
     public void initialize() {
     	Utils.animateBackground(overlay, background1, background2, background3);
-    	//grayBackground.setVisible(false);
+    	grayBackground.setVisible(false);
     	
     	CharactersSelector selector = new CharactersSelector();
     	int x = 0, y = 0;

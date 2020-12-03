@@ -170,4 +170,9 @@ public class GameConstants {
      * Player's rotation
      */
     public static final double playerRotationSpeed = 300.0;
+    
+    /**
+     * Duration of transition between scenes.
+     */
+    public static final int TRANSITION_DURATION = 300;
 }
