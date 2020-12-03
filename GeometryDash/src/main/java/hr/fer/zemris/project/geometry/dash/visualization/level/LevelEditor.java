@@ -6,6 +6,7 @@ import hr.fer.zemris.project.geometry.dash.model.Drawable;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.threads.DaemonicThreadFactory;
 import hr.fer.zemris.project.geometry.dash.visualization.level.mouse.MouseHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -15,26 +16,27 @@ import javafx.scene.paint.Color;
 
 /**
  * Full featured level editor
+ * 
  * @author Andi Škrgat
  *
  */
-public class LevelEditor implements Drawable, Changeable{
+public class LevelEditor implements Drawable, Changeable {
 
 	/**
 	 * Object for drawing
 	 */
 	private GraphicsContext graphicsContext;
-	
+
 	/**
 	 * Camera
 	 */
 	private Camera camera;
-	
+
 	/**
 	 * Mouse listener
 	 */
 	private MouseHandler mouseHandler;
-	
+
 	/**
 	 * Class for attaching objects
 	 */
@@ -44,7 +46,7 @@ public class LevelEditor implements Drawable, Changeable{
 	 * Dragging functionality
 	 */
 	private DragCameraControls dragCameraControls;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -54,9 +56,11 @@ public class LevelEditor implements Drawable, Changeable{
 		dragCameraControls = new DragCameraControls(camera, mouseHandler);
 		gridAttaching = new GridAttaching(mouseHandler, camera);
 	}
-	
+
 	/**
-	 * When game is level editor mode then graphics is set and it can be used for drawing objects on grid
+	 * When game is level editor mode then graphics is set and it can be used for
+	 * drawing objects on grid
+	 * 
 	 * @param graphicsContext
 	 */
 	public void setGraphicsContext(GraphicsContext graphicsContext) {
@@ -75,7 +79,7 @@ public class LevelEditor implements Drawable, Changeable{
 		dragCameraControls.draw(graphicsContext);
 		gridAttaching.draw(graphicsContext);
 	}
-	
+
 	/**
 	 * This method is called from game engine so graphics context can be initialized
 	 */
@@ -117,6 +121,5 @@ public class LevelEditor implements Drawable, Changeable{
 	public DragCameraControls getDragCameraControls() {
 		return dragCameraControls;
 	}
-	
-	
+
 }

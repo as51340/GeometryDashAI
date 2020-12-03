@@ -18,13 +18,16 @@ public class MusicSettings {
 	/**
 	 * Music's volume, in {@linkplain Media} volume is in range from [0.0, 1.0], default is on 0.5
 	 */
-	private double volume = 0.5;
+	private double volume = 0;
 		
 	/**
 	 * Currently active media player
 	 */
-	private MediaPlayer currMediaPlayer;
+	private static MediaPlayer currMediaPlayer;
 	
+	/**
+	 * @return instance of MusicSettings
+	 */
 	public static MusicSettings getInstance() {
 		return SINGLE_INSTANCE;
 	}
@@ -64,7 +67,7 @@ public class MusicSettings {
 	 */
 	public void setCurrMediaPlayer(MediaPlayer currMediaPlayer) {
 		currMediaPlayer.stop();
-		this.currMediaPlayer = currMediaPlayer;
+		MusicSettings.currMediaPlayer = currMediaPlayer;
 		currMediaPlayer.play();
 	}
 	

@@ -10,11 +10,15 @@ import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.ZipUtil;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.listeners.LevelEditorListener;
+import hr.fer.zemris.project.geometry.dash.model.listeners.MainThreadResultListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.threads.DaemonicThreadFactory;
+import hr.fer.zemris.project.geometry.dash.threads.ResultListenerImpl;
 import hr.fer.zemris.project.geometry.dash.visualization.BackgroundSceneController;
 import hr.fer.zemris.project.geometry.dash.visualization.level.mouse.MouseHandler;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -39,10 +43,11 @@ import javafx.util.Duration;
 
 /**
  * Controller for level editor.
- * @author Andi Skrgat 
+ * 
+ * @author Andi Skrgat
  */
 public class LevelEditorSceneController {
-	
+
 	@FXML
 	private AnchorPane anchorPane;
 
@@ -111,36 +116,36 @@ public class LevelEditorSceneController {
 
 	@FXML
 	private Button removeButton;
-	
+
 	@FXML
-    private MenuBar menuBar;
+	private MenuBar menuBar;
 
-    @FXML
-    private Menu fileMenu;
+	@FXML
+	private Menu fileMenu;
 
-    @FXML
-    private MenuItem newItem;
+	@FXML
+	private MenuItem newItem;
 
-    @FXML
-    private MenuItem loadItem;
+	@FXML
+	private MenuItem loadItem;
 
-    @FXML
-    private MenuItem saveItem;
+	@FXML
+	private MenuItem saveItem;
 
-    @FXML
-    private MenuItem saveAsItem;
+	@FXML
+	private MenuItem saveAsItem;
 
-    @FXML
-    private Menu helpMenu;
-    
-    @FXML
-    private MenuItem aboutItem;
-    
-    @FXML
-    private ImageView goBack;
+	@FXML
+	private Menu helpMenu;
 
-    private Pane previousSceneRootPane;
-    
+	@FXML
+	private MenuItem aboutItem;
+
+	@FXML
+	private ImageView goBack;
+
+	private Pane previousSceneRootPane;
+
 	/**
 	 * Reference to the game engine
 	 */
@@ -178,7 +183,7 @@ public class LevelEditorSceneController {
 		setKeyCombinations();
 		setMenuActions();
 	}
-	
+
 	/**
 	 * Sets actions for menu
 	 */
@@ -196,8 +201,8 @@ public class LevelEditorSceneController {
 		saveItem.setAccelerator(KeyCombination.keyCombination("CTRL+S"));
 		saveItem.setText("Save");
 		saveItem.setOnAction((e) -> {
-			if(level == null) {
-				levelEditorListener.saveLevel(null);	
+			if (level == null) {
+				levelEditorListener.saveLevel(null);
 			} else {
 				levelEditorListener.saveLevel(level.getLevelName());
 			}
@@ -212,13 +217,13 @@ public class LevelEditorSceneController {
 		aboutItem.setOnAction((e) -> {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("About level editor");
-			alert.setContentText("Create your perfect level with level editor. You can create new spikes, block, platforms and bunch of other"
-					+ "objects on scene. When you finish, export file and everything will be set for you. Enjoy your AIDash!"
-					+ ""
-					+ "Game authors");
+			alert.setContentText(
+					"Create your perfect level with level editor. You can create new spikes, block, platforms and bunch of other"
+							+ "objects on scene. When you finish, export file and everything will be set for you. Enjoy your AIDash!"
+							+ "" + "Game authors");
 			alert.showAndWait();
 		});
-		
+
 	}
 
 	/**
@@ -311,23 +316,20 @@ public class LevelEditorSceneController {
 			levelEditorListener.remove();
 		});
 	}
-	
+
 	@FXML
-    void backButtonClicked(MouseEvent event) throws IOException {
+	void backButtonClicked(MouseEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(
-    			getClass().getResource(GameConstants.pathToVisualization+ "BackgroundScene.fxml")
-    	);
-    	Parent parent = loader.load();
+				getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
+		Parent parent = loader.load();
 //		Parent parent = FXMLLoader.load(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
 		Scene backgroundScene = new Scene(parent);
 		BackgroundSceneController controller = loader.getController();
 		controller.setGameEngine(gameEngine);
-		Stage window = (Stage)((Node) event.getSource()).getScene().getWindow();
+		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		window.setScene(backgroundScene);
 		window.show();
-    }
-	
-	
+	}
 
 	/**
 	 * Creates path
@@ -637,18 +639,18 @@ public class LevelEditorSceneController {
 		public void newColorSelected(String color) {
 			getGameEngine().getLevelEditor().getGridAttaching().setCurrObj(null);
 			gameEngine.getLevelEditor().getGridAttaching().setRemoveIntent(false);
-			addBlock.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "block/" + color + ".png", 
+			addBlock.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "block/" + color + ".png",
 					GameConstants.iconWidth, GameConstants.iconHeight));
 			addGrass.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "grassspike/" + color + ".png",
 					GameConstants.iconWidth, GameConstants.iconHeight));
 			addPlatform.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "platform/" + color + ".png",
 					GameConstants.iconWidth, GameConstants.iconHeight));
-			addSpike.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + ".png"
-					, GameConstants.iconWidth, GameConstants.iconHeight));
-			spikeLeft.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + "Left.png"
-					, GameConstants.iconWidth, GameConstants.iconHeight));
-			spikeRight.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + "Right.png"
-					, GameConstants.iconWidth, GameConstants.iconHeight));
+			addSpike.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + ".png",
+					GameConstants.iconWidth, GameConstants.iconHeight));
+			spikeLeft.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + "Left.png",
+					GameConstants.iconWidth, GameConstants.iconHeight));
+			spikeRight.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "spike/" + color + "Right.png",
+					GameConstants.iconWidth, GameConstants.iconHeight));
 		}
 
 		@Override
@@ -657,10 +659,10 @@ public class LevelEditorSceneController {
 			String json = serializeUtil
 					.serialize(gameEngine.getLevelEditor().getGridAttaching().getObjectsOnGrid().getListGameObjects());
 			String savedTo = ZipUtil.saveToZipFile(GameConstants.pathToLevelsFolder, json, fileToSave);
-			if(savedTo != null) {
+			if (savedTo != null) {
 				gameEngine.getLevelManager().addLevel(savedTo,
 						gameEngine.getLevelEditor().getGridAttaching().getObjectsOnGrid().getListGameObjects());
-				level = gameEngine.getLevelManager().getLevelByName(savedTo);		
+				level = gameEngine.getLevelManager().getLevelByName(savedTo);
 			}
 		}
 

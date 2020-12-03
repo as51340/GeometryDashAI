@@ -91,7 +91,8 @@ public class LevelManager {
 		while (iterator.hasNext()) {
 			Level lev = iterator.next();
 			if (lev.getLevelName().equals(levelName)) {
-				levelMusicPlayer.startPlayingSongForLevel(levelName);
+//				levelMusicPlayer.startPlayingSongForLevel(levelName);
+				this.currentLevel = lev;
 				return lev.getLevelData();
 			}
 		}

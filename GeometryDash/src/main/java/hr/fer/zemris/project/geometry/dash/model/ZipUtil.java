@@ -16,22 +16,29 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import hr.fer.zemris.project.geometry.dash.model.listeners.MainThreadResultListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.threads.DaemonicThreadFactory;
+import hr.fer.zemris.project.geometry.dash.threads.ResultListenerImpl;
+import javafx.application.Platform;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 
 /**
  * Provides method for writing to zip file and reading from zip file
- * @author Andi Škrgat
+ * 
+ * @author Andi ï¿½krgat
  *
  */
 public class ZipUtil {
 
 	/**
 	 * Saves level to zip file
-	 * @param zipFileName zip file
-	 * @param json content to save
-	 * @param existingFile if null user is asked to input file name, else uses existing file as place to save
+	 * 
+	 * @param zipFileName  zip file
+	 * @param json         content to save
+	 * @param existingFile if null user is asked to input file name, else uses
+	 *                     existing file as place to save
 	 */
 	public static String saveToZipFile(String zipFileName, String json, String existingFile) {
 		String enteredFileName = null;
@@ -48,27 +55,30 @@ public class ZipUtil {
 		} else {
 			enteredFileName = existingFile;
 		}
-		OutputStream fos;
-		InputStream is = new ByteArrayInputStream(json.getBytes());
-		byte[] buffer = new byte[GameConstants.bytesPerKB];
-		try {
-			fos = new FileOutputStream(zipFileName + "/" + enteredFileName + ".zip");
-			ZipOutputStream zos = new ZipOutputStream(fos);
-			zos.putNextEntry(new ZipEntry(enteredFileName + ".json"));
-			int length;
-			while((length = is.read(buffer)) != -1) {
-				zos.write(buffer, 0, length);
-				zos.flush();
+		final String temp = enteredFileName;
+		DaemonicThreadFactory.getInstance().newThread(() -> {
+			OutputStream fos;
+			InputStream is = new ByteArrayInputStream(json.getBytes());
+			byte[] buffer = new byte[GameConstants.bytesPerKB];
+			try {
+				fos = new FileOutputStream(zipFileName + "/" + temp + ".zip");
+				ZipOutputStream zos = new ZipOutputStream(fos);
+				zos.putNextEntry(new ZipEntry(temp + ".json"));
+				int length;
+				while ((length = is.read(buffer)) != -1) {
+					zos.write(buffer, 0, length);
+					zos.flush();
+				}
+				zos.closeEntry();
+				zos.close();
+				fos.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
-			zos.closeEntry();
-			zos.close();
-			fos.close();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		}).start();
 		return enteredFileName;
 	}
-	
+
 	/**
 	 * Reads content from zip file
 	 * @param zipFileName if it is null then it asks user with the help of {@linkplain FileChooser} which file to load, else loads
@@ -85,22 +95,32 @@ public class ZipUtil {
 			if (result.isPresent()) {
 			    enteredFileName = result.get();
 			} else {
+				System.out.println("VraÄ‡am null nekako");
 				return null;
 			}
 			fileInZip = enteredFileName;
 		}
 		StringBuilder sb = new StringBuilder();
-		 try(ZipFile zipFile = new ZipFile(zipFileName + "/" + fileInZip + ".zip")) {
-			 ZipEntry zipEntry = zipFile.getEntry(fileInZip + ".json");
-			 InputStream is = zipFile.getInputStream(zipEntry);
-			 BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			 String line;
-			 while((line = br.readLine()) != null) {
-				 sb.append(line);
-			 }
-			 is.close();
-			 br.close();
-		} catch(IOException e) {
+		final String temp = fileInZip;
+		Thread openThread = DaemonicThreadFactory.getInstance().newThread(() -> {
+			try(ZipFile zipFile = new ZipFile(zipFileName + "/" + temp + ".zip")) {
+				 ZipEntry zipEntry = zipFile.getEntry(temp + ".json");
+				 InputStream is = zipFile.getInputStream(zipEntry);
+				 BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				 String line;
+				 while((line = br.readLine()) != null) {
+					 sb.append(line);
+				 }
+				 is.close();
+				 br.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}	
+		});
+		openThread.start();
+		try {
+			openThread.join();
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		return sb.toString();

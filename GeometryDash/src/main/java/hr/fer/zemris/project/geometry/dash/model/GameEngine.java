@@ -13,6 +13,7 @@ import hr.fer.zemris.project.geometry.dash.model.listeners.UserListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Settings;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.SoundSystem;
+import hr.fer.zemris.project.geometry.dash.threads.DaemonicThreadFactory;
 import hr.fer.zemris.project.geometry.dash.visualization.level.GridAttaching;
 import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditor;
 import javafx.animation.Animation;
@@ -253,7 +254,16 @@ public class GameEngine implements SoundSystem {
 				}
 				//tu nekako stopiraj
 			} else if (gameState == GameState.LEVEL_EDITOR_MODE) {
-				levelEditor.update();
+//				Thread updateThread = DaemonicThreadFactory.getInstance().newThread(() -> {
+					levelEditor.update();
+//				});
+//				updateThread.start();
+//				try {
+//					updateThread.join();
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				levelEditor.draw();
 			}
 		});
@@ -380,6 +390,7 @@ public class GameEngine implements SoundSystem {
 				session.getStats().setTotalAttempts();
 				// here you can check than if user achieved something now, here you obtain that
 				// data structure you return from stats
+				// ucitaj novu scenu na kojoj ce mu se prikazat da je nesto osvojio
 			}
 		}
 

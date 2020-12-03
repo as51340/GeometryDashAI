@@ -142,7 +142,8 @@ public class GameWorld {
         // but for testing it's okay
         levelObjects.add(player);
         levelObjects.add(floor);
-        //levelManager.addLevel("Level1", levelObjects);
+        levelManager.addLevel("Level1", levelObjects);
+        levelManager.startLevelWithName("Level1");
         renderer = new Renderer(levelObjects);
         ((Floor) floor).setCamera(renderer.getCamera());
     }

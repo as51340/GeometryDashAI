@@ -109,6 +109,7 @@ public class BackgroundSceneController {
 		loader.load();
 		ChooseLevelController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
+		gameEngine.getSettings().getBackgroundMusicPlayer().stop();
 		controller.setGameEngine(gameEngine);
 	}
 

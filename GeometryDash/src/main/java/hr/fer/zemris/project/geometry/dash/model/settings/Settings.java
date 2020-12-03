@@ -3,6 +3,7 @@ package hr.fer.zemris.project.geometry.dash.model.settings;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.BackgroundMusicPlayer;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.LevelMusicPlayer;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.MusicSettings;
+import hr.fer.zemris.project.geometry.dash.threads.DaemonicThreadFactory;
 
 /**
  * Game settings
@@ -27,7 +28,11 @@ public class Settings {
 	 */
 	public Settings() {
 		options = new Options();
-		backgroundMusicPlayer = new BackgroundMusicPlayer();
+		DaemonicThreadFactory threadFactory = DaemonicThreadFactory.getInstance();
+		threadFactory.newThread(() -> {
+			backgroundMusicPlayer = new BackgroundMusicPlayer();
+		});
+		//add .start() when you want to play
 	}
 
 	/**

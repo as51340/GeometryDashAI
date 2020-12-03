@@ -134,8 +134,8 @@ public class GeometryDash extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-//    	loadLevelEditor(primaryStage);
-		loadGameMenu(primaryStage);
+    	loadLevelEditor(primaryStage);
+//		loadGameMenu(primaryStage);
 //    	loadMain(primaryStage);
 
 //    	tester

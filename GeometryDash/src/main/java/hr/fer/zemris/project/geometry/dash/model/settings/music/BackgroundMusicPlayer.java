@@ -15,7 +15,7 @@ import javafx.util.Duration;
  * @author Andi Škrgat
  *
  */
-public class BackgroundMusicPlayer {
+public class BackgroundMusicPlayer{
 
 	/**
 	 * Playing property
@@ -45,7 +45,21 @@ public class BackgroundMusicPlayer {
 		mediaPlayers = new ArrayList<MediaPlayer>();
 		musicSettings = MusicSettings.getInstance();
 		loadBackgroundMusicPlayers();
-		startPlayingSongs();
+		int playersSize = mediaPlayers.size();
+		for(int i = 0; i < playersSize; i++) {
+			MediaPlayer player = mediaPlayers.get(i);			
+			MediaPlayer nextPlayer = mediaPlayers.get((i + 1) % playersSize);
+			player.setOnEndOfMedia(() -> {
+				player.stop();
+				musicSettings.setCurrMediaPlayer(nextPlayer);
+				nextPlayer.play();
+				songIndex++;
+			});
+		}
+		MediaPlayer firstMediaPlayer = mediaPlayers.get(songIndex);
+		musicSettings.setCurrMediaPlayer(firstMediaPlayer);
+		isPlaying = true;
+		firstMediaPlayer.play();
 	}
 
 	/**
@@ -89,54 +103,14 @@ public class BackgroundMusicPlayer {
 	 * Jumps to the next song on the list
 	 */
 	public void next() {
+		if(musicSettings.getCurrMediaPlayer() == null) {
+			return;
+		}
 		songIndex = (songIndex + 1) % mediaPlayers.size();
 		musicSettings.getCurrMediaPlayer().stop();
 		musicSettings.setCurrMediaPlayer(mediaPlayers.get(songIndex));
-		musicSettings.getCurrMediaPlayer().play();
-	}
-
-	/**
-	 * Plays songs in background in its own thread
-	 */
-	public void startPlayingSongs() {
-		BackgroundThreadFactory threadFactory = new BackgroundThreadFactory();
-		int playersSize = mediaPlayers.size();
-		threadFactory.newThread(() -> {
-			boolean first = true;
-			while(true) {
-				MediaPlayer player = mediaPlayers.get(songIndex);
-				songIndex = (songIndex + 1) % playersSize;
-				MediaPlayer nextPlayer = mediaPlayers.get(songIndex);
-				if (first == true) {
-					first = false;
-					musicSettings.setCurrMediaPlayer(player);
-					player.play();
-				}
-				player.setOnEndOfMedia(() -> {
-					musicSettings.setCurrMediaPlayer(nextPlayer);
-					nextPlayer.setStartTime(Duration.minutes(2));
-					nextPlayer.seek(Duration.ZERO);
-					nextPlayer.play();
-				});
-			}
-		}).start();
-		;
-	}
-
-	/**
-	 * Thread factory for creating daemon threads
-	 * 
-	 * @author Andi Škrgat
-	 *
-	 */
-	private class BackgroundThreadFactory implements ThreadFactory {
-
-		@Override
-		public Thread newThread(Runnable r) {
-			Thread musicThread = new Thread(r);
-			musicThread.setDaemon(true);
-			return musicThread;
+		if(isPlaying == true) {
+			musicSettings.getCurrMediaPlayer().play();	
 		}
-
 	}
 }

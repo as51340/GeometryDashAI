@@ -72,7 +72,7 @@ public class SerializeUtil {
 			JsonObject vectorPosition = jsonObject.get("currentPosition").getAsJsonObject();
 			double x = vectorPosition.get("x").getAsDouble();
 			double y = vectorPosition.get("y").getAsDouble();
-			y += 50;
+//			y += 50;
 			return Utils.createObjectFromName(objectName, new Vector2D(x,y), height, width, iconPath);
 		}
 		

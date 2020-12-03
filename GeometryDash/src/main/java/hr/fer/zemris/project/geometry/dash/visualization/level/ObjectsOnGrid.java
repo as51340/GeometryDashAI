@@ -14,6 +14,7 @@ import hr.fer.zemris.project.geometry.dash.model.Camera;
 import hr.fer.zemris.project.geometry.dash.model.Drawable;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
+import hr.fer.zemris.project.geometry.dash.threads.DaemonicThreadFactory;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.BoxBlur;
@@ -21,7 +22,7 @@ import javafx.scene.image.Image;
 
 /**
  * Encapsulates objects on the level editor scene.
- * @author Andi Škrgat
+ * @author Andi ï¿½krgat
  *
  */
 public class ObjectsOnGrid implements Drawable{
@@ -31,6 +32,11 @@ public class ObjectsOnGrid implements Drawable{
 	 */
 	@Expose
 	private Set<GameObject> listGameObjects;
+	
+	/**
+	 * For efficiently checking if some position is occupied
+	 */
+	private Map<Vector2D, GameObject> positionToObject;
 	
 	/**
 	 * Reference to the camera
@@ -43,6 +49,7 @@ public class ObjectsOnGrid implements Drawable{
 	 */
 	public ObjectsOnGrid(Camera camera) {
 		listGameObjects = new HashSet<GameObject>();
+		positionToObject = new HashMap<Vector2D, GameObject>();
 		this.camera = camera;
 	}
 
@@ -51,7 +58,11 @@ public class ObjectsOnGrid implements Drawable{
 	 * @param gameObject
 	 */
 	public void addGameObject(GameObject gameObject ) {
+		if(listGameObjects.contains(gameObject)) {
+			return;
+		}
 		listGameObjects.add(gameObject);
+		positionToObject.put(gameObject.getCurrentPosition(), gameObject);
 	}
 	
 	
@@ -90,13 +101,9 @@ public class ObjectsOnGrid implements Drawable{
 	 * @param position position of game object
 	 */
 	public void remove(Vector2D position) {
-		Iterator<GameObject> it = listGameObjects.iterator();
-		while(it.hasNext()) {
-			GameObject gameObject = it.next();
-			if(gameObject.getCurrentPosition().equals(position)) {
-				it.remove();
-				return;
-			}
+		if(positionToObject.get(position) != null) {
+			listGameObjects.remove(positionToObject.get(position));
+			positionToObject.remove(position);
 		}
 	}
 	
@@ -104,10 +111,8 @@ public class ObjectsOnGrid implements Drawable{
 	 * Retrieves object that is on the specified positon
 	 * @param position position on the grid
 	 */
-	public void getObjectFromPosition(Vector2D position) {
-		//TODO - this is for removing objects from the screen 
-//		implement some useful method in GameObject if it can be done or keep HashMap with position and game object - memory unefficient
-		//TODO - multithreading where appropriate
+	public GameObject getObjectFromPosition(Vector2D position) {
+		return positionToObject.get(position);
 	}
 	
 	/**
