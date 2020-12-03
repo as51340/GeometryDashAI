@@ -22,7 +22,7 @@ public class LevelTest {
 		assertEquals(0, level.getTotalJumps());
 		assertEquals(LEVEL_MODE.NORMAL_MODE, level.getLevelMode());
 	}
-	
+
 	@Test
 	public void testPropertiesIncrementing() {
 		Level level = new Level("LevelName", new HashSet<>());
