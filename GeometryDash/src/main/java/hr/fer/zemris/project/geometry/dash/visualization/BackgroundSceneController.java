@@ -8,6 +8,8 @@ import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditorSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -124,7 +126,10 @@ public class BackgroundSceneController {
 		loader.load();
 		LevelEditorSceneController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
+		controller.setListeners();
 		controller.setGameEngine(gameEngine);
+		gameEngine.getGameStateListener().levelEditorModeEntered(controller.getGraphicsContext());
+		gameEngine.start();
 	}
 	
 	@FXML

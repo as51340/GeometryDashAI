@@ -2,8 +2,6 @@ package hr.fer.zemris.project.geometry.dash.visualization.level;
 
 import java.util.Set;
 
-import com.google.gson.Gson;
-
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
