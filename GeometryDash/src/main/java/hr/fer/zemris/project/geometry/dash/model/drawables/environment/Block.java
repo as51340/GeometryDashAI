@@ -25,7 +25,6 @@ public class Block extends Obstacle {
         setCurrentPosition(position);
         setHeight(GameConstants.iconHeight);
         setWidth(GameConstants.iconWidth);
-        setCenterPosition(new Vector2D(position.getX() / 2, position.getY() / 2));
         setIconPath(iconPath);
         setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
         setName("Block");
@@ -43,7 +42,6 @@ public class Block extends Obstacle {
     public Block(String name, Vector2D currentPosition, int height, int width, String iconPath) {
         setName(name);
         setCurrentPosition(currentPosition);
-        setCenterPosition(new Vector2D(currentPosition.getX() / 2, currentPosition.getY() / 2));
         setHeight(height);
         setWidth(width);
         setIconPath(iconPath);

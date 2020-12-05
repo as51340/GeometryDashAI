@@ -11,6 +11,10 @@ import javafx.scene.image.ImageView;
 
 //handle width and height
 public class Spike extends Obstacle {
+	@Override
+	public Vector2D getCenterPosition() {
+		return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, -getHeight()/2.0));
+	}
 
 	//note: position here is lower left corner!
 	public Spike(Vector2D position, String uriIcon) {

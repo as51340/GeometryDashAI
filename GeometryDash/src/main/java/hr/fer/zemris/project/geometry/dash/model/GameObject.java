@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.chart.ValueAxis;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -20,10 +21,6 @@ public abstract class GameObject implements Drawable {
     @Expose
     private Vector2D currentPosition;
 
-    /**
-     * Center of object
-     */
-    private Vector2D centerPosition;
 
     /**
      * Object's height
@@ -66,16 +63,7 @@ public abstract class GameObject implements Drawable {
      * @return Vector2D of center position
      */
     public Vector2D getCenterPosition() {
-        return centerPosition;
-    }
-
-    /**
-     * Sets object ceter position to given center position
-     *
-     * @param centerPosition given center position
-     */
-    public void setCenterPosition(Vector2D centerPosition) {
-        this.centerPosition = centerPosition;
+        return this.getCurrentPosition().translated(new Vector2D(this.getWidth()/2.0, this.getHeight()/2.0));
     }
 
     /**

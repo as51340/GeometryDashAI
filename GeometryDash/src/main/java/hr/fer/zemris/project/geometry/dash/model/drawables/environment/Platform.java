@@ -24,7 +24,6 @@ public class Platform extends Obstacle {
         setCurrentPosition(position);
         setIconPath(image);
         setIcon(Utils.loadIcon(image, GameConstants.iconWidth, GameConstants.iconHeight));
-        setCenterPosition(new Vector2D(position.getX() / 2, position.getY() / 2));
     }
 
     /**
@@ -42,7 +41,6 @@ public class Platform extends Obstacle {
         setHeight(height);
         setWidth(width);
         setIconPath(iconPath);
-        setCenterPosition(new Vector2D(currentPosition.getX() / 2, currentPosition.getY() / 2));
         setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
     }
 
