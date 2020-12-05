@@ -27,7 +27,7 @@ public class Player extends GameObject {
     /**
      * Rotation angle in degrees
      */
-	@Expose
+    @Expose
     private double rotation;
 
     /**
@@ -40,79 +40,79 @@ public class Player extends GameObject {
      * Is touching ground
      */
     private boolean isTouchingGround = true;
-    
+
     /**
-	 * Object's speed
-	 */
-	@Expose
-	private Vector2D speed;
+     * Object's speed
+     */
+    @Expose
+    private Vector2D speed;
 
-	/**
-	 * Player's constructor
-	 */
-	public Player(double rotation, Vector2D speed, String icon) {
-		this.rotation = rotation;
-		this.speed = speed;
-		setIcon(Utils.loadIcon(icon, GameConstants.iconWidth, GameConstants.iconHeight));
-	}
-    
     /**
-	 * @return the rotation
-	 */
-	public double getRotation() {
-		return rotation;
-	}
+     * Player's constructor
+     */
+    public Player(double rotation, Vector2D speed, String icon) {
+        this.rotation = rotation;
+        this.speed = speed;
+        setIcon(Utils.loadIcon(icon, GameConstants.iconWidth, GameConstants.iconHeight));
+    }
 
-	/**
-	 * @param rotation the rotation to set
-	 */
-	public void setRotation(double rotation) {
-		this.rotation = rotation;
-	}
+    /**
+     * @return the rotation
+     */
+    public double getRotation() {
+        return rotation;
+    }
 
-	/**
-	 * @return the jumpIntent
-	 */
-	public boolean isJumpIntent() {
-		return jumpIntent;
-	}
+    /**
+     * @param rotation the rotation to set
+     */
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
+    }
 
-	/**
-	 * @param jumpIntent the jumpIntent to set
-	 */
-	public void setJumpIntent(boolean jumpIntent) {
-		this.jumpIntent = jumpIntent;
-	}
+    /**
+     * @return the jumpIntent
+     */
+    public boolean isJumpIntent() {
+        return jumpIntent;
+    }
 
-	/**
-	 * @return the isTouchingGround
-	 */
-	public boolean isTouchingGround() {
-		return isTouchingGround;
-	}
+    /**
+     * @param jumpIntent the jumpIntent to set
+     */
+    public void setJumpIntent(boolean jumpIntent) {
+        this.jumpIntent = jumpIntent;
+    }
 
-	/**
-	 * @param isTouchingGround the isTouchingGround to set
-	 */
-	public void setTouchingGround(boolean isTouchingGround) {
-		this.isTouchingGround = isTouchingGround;
-	}
+    /**
+     * @return the isTouchingGround
+     */
+    public boolean isTouchingGround() {
+        return isTouchingGround;
+    }
 
-	/**
-	 * @return the speed
-	 */
-	public Vector2D getSpeed() {
-		return speed;
-	}
+    /**
+     * @param isTouchingGround the isTouchingGround to set
+     */
+    public void setTouchingGround(boolean isTouchingGround) {
+        this.isTouchingGround = isTouchingGround;
+    }
 
-	/**
-	 * @param speed the speed to set
-	 */
-	public void setSpeed(Vector2D speed) {
-		this.speed = speed;
-	}
+    /**
+     * @return the speed
+     */
+    public Vector2D getSpeed() {
+        return speed;
+    }
 
-	/**
+    /**
+     * @param speed the speed to set
+     */
+    public void setSpeed(Vector2D speed) {
+        this.speed = speed;
+    }
+
+    /**
      * Constructs a <code>Player</code>
      *
      * @param position
@@ -122,6 +122,7 @@ public class Player extends GameObject {
         setIcon(CharactersSelector.selectedCharacter.getIcon());
         this.setWidth(GameConstants.iconWidth);
         this.setHeight(GameConstants.iconWidth);
+        this.setCenterPosition(new Vector2D(position.getX() / 2, position.getY() / 2));
         setSpeed(speed);
     }
 
@@ -136,14 +137,14 @@ public class Player extends GameObject {
      * Calculates player physcics - gravity, speed and position
      */
     private void calculatePlayerPhysics() {
-        getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates,  getSpeed().getY() * GameConstants.timeBetweenUpdates));
-        getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates , 
-        		GameConstants.gravity_Y * GameConstants.timeBetweenUpdates ));
-        if(getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
+        getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates, getSpeed().getY() * GameConstants.timeBetweenUpdates));
+        getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates,
+                GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
+        if (getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
             getSpeed().setY(GameConstants.playerFinalSpeed_Y);
         }
-        if(getSpeed().getX() >= GameConstants.playerFinalSpeed_X) {
-        	getSpeed().setX(GameConstants.playerFinalSpeed_X);
+        if (getSpeed().getX() >= GameConstants.playerFinalSpeed_X) {
+            getSpeed().setX(GameConstants.playerFinalSpeed_X);
         }
     }
 
@@ -162,20 +163,20 @@ public class Player extends GameObject {
             jumpIntent = false;
             isTouchingGround = false;
         }
-        if(!isTouchingGround) {
-        	setRotation(getRotation() + GameConstants.playerRotationSpeed * GameConstants.timeBetweenUpdates);
+        if (!isTouchingGround) {
+            setRotation(getRotation() + GameConstants.playerRotationSpeed * GameConstants.timeBetweenUpdates);
 //			System.err.println("U zraku: " + getRotation());	// za testiranje
         } else {
-        	this.rotation = (int) this.rotation % 360;
-        	if(this.rotation > 45 && this.rotation < 135) {
-        		this.rotation = 90;
-        	} else if(this.rotation > 135 && this.rotation < 225) {
-        		this.rotation = 180;
-        	} else if(this.rotation > 225 && this.rotation < 315) {
-        		this.rotation = 270;
-        	} else if(this.rotation > 315 || this.rotation < 45) {
-        		this.rotation = 0;
-        	}
+            this.rotation = (int) this.rotation % 360;
+            if (this.rotation > 45 && this.rotation < 135) {
+                this.rotation = 90;
+            } else if (this.rotation > 135 && this.rotation < 225) {
+                this.rotation = 180;
+            } else if (this.rotation > 225 && this.rotation < 315) {
+                this.rotation = 270;
+            } else if (this.rotation > 315 || this.rotation < 45) {
+                this.rotation = 0;
+            }
 //			System.err.println("Stojim: " + getRotation());	// za testiranje
         }
         System.out.println("Player x: " + getCurrentPosition().getX());
@@ -187,10 +188,11 @@ public class Player extends GameObject {
         graphicsContext.restore();
         calculatePlayerPhysics();
     }
-    
-	@Override
-	public GameObject copy() {
-		return new Player(this.rotation, this.speed, this.getIconPath());
-	}
+
+    @Override
+    public GameObject copy() {
+        return new Player(this.rotation, this.speed, this.getIconPath());
+    }
+
 
 }

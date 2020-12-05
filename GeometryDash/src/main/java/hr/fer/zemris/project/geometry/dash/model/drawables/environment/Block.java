@@ -18,36 +18,39 @@ public class Block extends Obstacle {
 
     /**
      * Constructs a <code>Block</code>.
+     *
      * @param position position of the block.
-     * @param image    image of the block.
      */
     public Block(Vector2D position, String iconPath) {
         setCurrentPosition(position);
         setHeight(GameConstants.iconHeight);
-        setWidth(GameConstants.iconHeight);
+        setWidth(GameConstants.iconWidth);
+        setCenterPosition(new Vector2D(position.getX() / 2, position.getY() / 2));
         setIconPath(iconPath);
         setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
         setName("Block");
     }
-    
+
     /**
-     * Constructor that accepts all {@linkplain GameObject}'s parameters 
-     * @param name object name
+     * Constructor that accepts all {@linkplain GameObject}'s parameters
+     *
+     * @param name            object name
      * @param currentPosition current position
-     * @param height height
-     * @param width width
-     * @param iconPath path to icon
+     * @param height          height
+     * @param width           width
+     * @param iconPath        path to icon
      */
     public Block(String name, Vector2D currentPosition, int height, int width, String iconPath) {
-    	setName(name);
-    	setCurrentPosition(currentPosition);
-    	setHeight(height);
-    	setWidth(width);
-    	setIconPath(iconPath);
-    	setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
+        setName(name);
+        setCurrentPosition(currentPosition);
+        setCenterPosition(new Vector2D(currentPosition.getX() / 2, currentPosition.getY() / 2));
+        setHeight(height);
+        setWidth(width);
+        setIconPath(iconPath);
+        setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
     }
-    
-    
+
+
     //za jednu tocku provjerava je li između lijeve i desne strane bloka
     @Override
     public boolean contains(Vector2D p) {
@@ -73,9 +76,9 @@ public class Block extends Obstacle {
 //                || (playerDL.getX() >= blockUL.getX()
 //                && playerDL.getX() <= blockUR.getX()));
 
-		return (contains(playerDR) || contains(playerDL)) && checkPlayerAngle(player);
+        return (contains(playerDR) || contains(playerDL)) && checkPlayerAngle(player);
 
-	}
+    }
 
     //provjerava je li UR corner ili DR corner "u" bloku
     //TODO promijeni kao provjeru s pravcima
@@ -93,27 +96,27 @@ public class Block extends Obstacle {
 //            return true;
 //        }
 
-		return (contains(playerUR) || contains(playerUL) || contains(playerDR)) && !checkPlayerAngle(player);
+        return (contains(playerUR) || contains(playerUL) || contains(playerDR)) && !checkPlayerAngle(player);
 
 //        return false;
 
     }
 
     private boolean checkPlayerAngle(Player player) {
-    	double yCrit = player.getCurrentPosition().getX()
-				- this.getCurrentPosition().getX()
-				+ this.getCurrentPosition().getY();
+        double yCrit = player.getCurrentPosition().getX()
+                - this.getCurrentPosition().getX()
+                + this.getCurrentPosition().getY();
 
-    	return player.getCurrentPosition().getY() < yCrit;
-	}
+        return player.getCurrentPosition().getY() < yCrit;
+    }
 
     @Override
     public void draw(GraphicsContext graphicsContext) {
         graphicsContext.drawImage(getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
     }
 
-	@Override
-	public GameObject copy() {
-		return new Block(getCurrentPosition().copy(), new String(getIconPath()));
-	}
+    @Override
+    public GameObject copy() {
+        return new Block(getCurrentPosition().copy(), new String(getIconPath()));
+    }
 }
