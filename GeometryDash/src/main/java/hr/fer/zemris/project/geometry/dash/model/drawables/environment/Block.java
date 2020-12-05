@@ -62,13 +62,15 @@ public class Block extends Obstacle {
     //provjerava je li player down left i down right corner izmedu up left i up right cornera blocka
     //trenutno mozda problem ako imamo piramidicu blokova jer player ne umre ako takve lijevi rub gornjeg bloka
     public boolean playerIsOn(Player player) {
+
         Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0, player.getHeight()));
         Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
         Vector2D playerUL = player.getCurrentPosition();
         Vector2D blockUL = this.getCurrentPosition();
         Vector2D blockUR = this.getCurrentPosition().translated(new Vector2D(getWidth(), 0));
 
-//        iskljuceno zbog testiranja
+
+//        STARO STARO, NE OTKOMENTIRATI:
 //        return playerDL.getY() >= blockUL.getY()
 //                && playerUL.getY() < this.getCurrentPosition().getY() + this.getHeight()
 //                && ((playerDR.getX() >= blockUL.getX()
@@ -77,7 +79,6 @@ public class Block extends Obstacle {
 //                && playerDL.getX() <= blockUR.getX()));
 
         return (contains(playerDR) || contains(playerDL)) && checkPlayerAngle(player);
-
     }
 
     //provjerava je li UR corner ili DR corner "u" bloku

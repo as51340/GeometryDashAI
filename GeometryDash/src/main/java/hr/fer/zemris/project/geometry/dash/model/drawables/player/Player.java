@@ -39,7 +39,7 @@ public class Player extends GameObject {
     /**
      * Is touching ground
      */
-    private boolean isTouchingGround = true;
+    private boolean isTouchingGround = false;
 
     /**
      * Object's speed
@@ -158,10 +158,15 @@ public class Player extends GameObject {
 
     @Override
     public void draw(GraphicsContext graphicsContext) {
-        if (jumpIntent && isTouchingGround) {
-            getSpeed().setY(GameConstants.playerJumpingOffset);
-            jumpIntent = false;
-            isTouchingGround = false;
+        if (isTouchingGround) {
+
+            if (jumpIntent) {
+                getSpeed().setY(GameConstants.playerJumpingOffset);
+                jumpIntent = false;
+                isTouchingGround = false;
+            } else {
+                getSpeed().setY(0);
+            }
         }
         if (!isTouchingGround) {
             setRotation(getRotation() + GameConstants.playerRotationSpeed * GameConstants.timeBetweenUpdates);

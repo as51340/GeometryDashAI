@@ -247,6 +247,14 @@ public class Vector2D {
 		return new Vector2D(this.x, this.y);
 	}
 
+    /**
+	 * Returns a new {@link Vector2D} with components opposite to this one
+	 * @return new Vector2D with components opposite to this one
+	 */
+	public Vector2D reversed() {
+		return new Vector2D(this.x * -1, this.y * -1);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

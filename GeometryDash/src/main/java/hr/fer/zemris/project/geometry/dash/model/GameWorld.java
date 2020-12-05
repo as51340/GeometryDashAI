@@ -149,14 +149,17 @@ public class GameWorld {
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 5 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 5 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 5 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 2 * GameConstants.iconHeight), GameConstants.blockImage));
+        levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 6 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 2 * GameConstants.iconHeight), GameConstants.blockImage));
+        levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 7 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 2 * GameConstants.iconHeight), GameConstants.blockImage));
+        levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 8 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 2 * GameConstants.iconHeight), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 4 * GameConstants.iconHeight, GameConstants.floorPosition_Y ), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 4 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 3 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
-        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 10 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 11 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 12 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 13 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 14 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 20 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 21 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 22 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 23 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 24 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
         //levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+30*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
 //        levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+30*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
 //        levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+20*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
@@ -239,10 +242,13 @@ public class GameWorld {
     private void checkPlayerGround() {
         double playerPos_Y = player.getCurrentPosition().getY();
         double floorPos_Y = floor.getCurrentPosition().getY();
-        if (playerPos_Y + GameConstants.playerGroundOffset_Y > floorPos_Y) {
+        if (playerPos_Y + GameConstants.playerGroundOffset_Y >= floorPos_Y) {
             ((Player) player).touchesGround();
             player.getCurrentPosition().setY(floorPos_Y - GameConstants.playerGroundOffset_Y);
             ((Player) player).setTouchingGround(true);
+        }
+        else {
+            ((Player) player).setTouchingGround(false);
         }
 
         //prolazi sve gameObjects na levelu i ako je neki od njih blok ili platforma te ako je player na njemu kaze
