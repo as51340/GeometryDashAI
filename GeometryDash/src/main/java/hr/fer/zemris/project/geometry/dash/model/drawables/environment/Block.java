@@ -56,50 +56,39 @@ public class Block extends Obstacle {
     public boolean contains(Vector2D p) {
         return (p.getX() >= getCurrentPosition().getX() && p.getX() <= (getCurrentPosition().getX() + getWidth())
                 && p.getY() > getCurrentPosition().getY() && p.getY() < (getCurrentPosition().getY() + getHeight()));
-
     }
 
-    //provjerava je li player down left i down right corner izmedu up left i up right cornera blocka
-    //trenutno mozda problem ako imamo piramidicu blokova jer player ne umre ako takve lijevi rub gornjeg bloka
+    @Override
+    public boolean contains(Player player) {
+        Vector2D centerDiff = player.getCenterPosition().translated(this.getCenterPosition().reversed());
+        return Math.hypot(centerDiff.getX(), centerDiff.getY()) <= getHeight();
+    }
+
     public boolean playerIsOn(Player player) {
 
-        Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0, player.getHeight()));
-        Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
-        Vector2D playerUL = player.getCurrentPosition();
-        Vector2D blockUL = this.getCurrentPosition();
-        Vector2D blockUR = this.getCurrentPosition().translated(new Vector2D(getWidth(), 0));
-
-
-//        STARO STARO, NE OTKOMENTIRATI:
-//        return playerDL.getY() >= blockUL.getY()
-//                && playerUL.getY() < this.getCurrentPosition().getY() + this.getHeight()
-//                && ((playerDR.getX() >= blockUL.getX()
-//                && playerDR.getX() <= blockUR.getX())
-//                || (playerDL.getX() >= blockUL.getX()
-//                && playerDL.getX() <= blockUR.getX()));
-
-        return (contains(playerDR) || contains(playerDL)) && checkPlayerAngle(player);
+        return false;
     }
 
-    //provjerava je li UR corner ili DR corner "u" bloku
-    //TODO promijeni kao provjeru s pravcima
+    //TODO promijeni kao provjeru sa sredistima
     @Override
     public boolean checkCollisions(Player player) {
-        Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
-        Vector2D playerUL = player.getCurrentPosition();
-        Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
-        Vector2D obstacleUL = this.getCurrentPosition();
+        // od koord. centra blocka (generalno vece) se oduzmu koord. centra playera (generalno manje)
+        Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
+        double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
+        double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
 
-//        iskoljuceno zbog testiranja
-//        if(contains(playerUR) || contains(playerUL)) return true;
-//        else if (playerDR.getX() >= getCurrentPosition().getX() && playerDR.getX() <= getCurrentPosition().getX() + getWidth()
-//                && playerDR.getY() >= 6.0/5.0*getCurrentPosition().getY() && playerDR.getY() <= getCurrentPosition().getY() + getHeight()){
-//            return true;
-//        }
+        if (Math.hypot(xDiff, yDiff) <= getWidth()) {
+            if (Math.abs(xDiff) <= Math.abs(yDiff) && yDiff >= 0) {
+                // ON ZIZI (zivi al na meg jeziku)
+                player.touchesGround();
+                player.getCurrentPosition().setY(this.getCurrentPosition().getY() - GameConstants.iconHeight);
+            } else {
+                // ON MRI
+                return true;
+            }
+        }
 
-        return (contains(playerUR) || contains(playerUL) || contains(playerDR)) && !checkPlayerAngle(player);
-
-//        return false;
+        return false;
 
     }
 
