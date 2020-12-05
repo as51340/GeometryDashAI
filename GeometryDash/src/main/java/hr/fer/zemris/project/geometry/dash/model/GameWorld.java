@@ -152,9 +152,12 @@ public class GameWorld {
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 4 * GameConstants.iconHeight, GameConstants.floorPosition_Y ), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 4 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 3 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
-        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 10 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth * 5, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 10 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 11 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 12 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 13 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 14 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
         //levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+30*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
-        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 10 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth * 5, GameConstants.platformImage));
 //        levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+30*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
 //        levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+20*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
 //        levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+10*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));

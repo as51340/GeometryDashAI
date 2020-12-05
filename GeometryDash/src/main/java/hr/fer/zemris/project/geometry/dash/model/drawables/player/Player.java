@@ -168,13 +168,13 @@ public class Player extends GameObject {
 //			System.err.println("U zraku: " + getRotation());	// za testiranje
         } else {
             this.rotation = (int) this.rotation % 360;
-            if (this.rotation > 45 && this.rotation < 135) {
+            if (this.rotation >= 45 && this.rotation < 135) {
                 this.rotation = 90;
-            } else if (this.rotation > 135 && this.rotation < 225) {
+            } else if (this.rotation >= 135 && this.rotation < 225) {
                 this.rotation = 180;
-            } else if (this.rotation > 225 && this.rotation < 315) {
+            } else if (this.rotation >= 225 && this.rotation < 315) {
                 this.rotation = 270;
-            } else if (this.rotation > 315 || this.rotation < 45) {
+            } else if (this.rotation >= 315 || this.rotation < 45) {
                 this.rotation = 0;
             }
 //			System.err.println("Stojim: " + getRotation());	// za testiranje
