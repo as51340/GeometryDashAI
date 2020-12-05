@@ -143,8 +143,11 @@ public class GameWorld {
         //when we create choose level scene then we will change these lines, maybe create scene will be public and will receive levelName
         // and level manager will have from start predefines levels, you can call levelManeger.startLevelWithName(levelName);
         // but for testing it's okay
-        Set<GameObject> levelObjects = new HashSet<GameObject>();
-        //GrassSpike travica = new GrassSpike(new Vector2D(GameConstants.playerPosition_X+20*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.);
+        Set<GameObject> levelObjects = new HashSet<>();
+        levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X + 40 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
+        levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X + 41 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
+        levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X + 42 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
+        levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X + 43 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 5 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 6 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 7 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
@@ -153,11 +156,11 @@ public class GameWorld {
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 6 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 3 * GameConstants.iconHeight), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 7 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 3 * GameConstants.iconHeight), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 8 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 3 * GameConstants.iconHeight), GameConstants.blockImage));
-        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 20 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 21 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 22 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 23 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
-        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 24 * GameConstants.iconHeight, GameConstants.floorPosition_Y -  GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 20 * GameConstants.iconHeight, GameConstants.floorPosition_Y - GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 21 * GameConstants.iconHeight, GameConstants.floorPosition_Y - GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 22 * GameConstants.iconHeight, GameConstants.floorPosition_Y - GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 23 * GameConstants.iconHeight, GameConstants.floorPosition_Y - GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 24 * GameConstants.iconHeight, GameConstants.floorPosition_Y - GameConstants.iconHeight), GameConstants.iconWidth, GameConstants.platformImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 30 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 31 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 34 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
@@ -170,6 +173,7 @@ public class GameWorld {
 
         levelObjects.add(player);
         levelObjects.add(floor);
+
         levelManager.addLevel("Level1", levelObjects);
         levelManager.startLevelWithName("Level1");
         renderer = new Renderer(levelObjects);
@@ -248,8 +252,7 @@ public class GameWorld {
             ((Player) player).touchesGround();
             player.getCurrentPosition().setY(floorPos_Y - GameConstants.playerGroundOffset_Y);
             ((Player) player).setTouchingGround(true);
-        }
-        else {
+        } else {
             ((Player) player).setTouchingGround(false);
         }
 
@@ -307,7 +310,7 @@ public class GameWorld {
             // TODO otkriti kako ovo iskoristiti
             // iskoristiti na nacin da se poziva ta metoda kad player umre pa da otvori ili ne otvori scena ovisno o postavkama
             // treba ti referenca na optionse jer ti je tamo zapisano što korisnik zeli da mu se otvori
-            if (options.isAutoRetry() == true) { // ako je auto retry onda sve kreni ispocetka
+            if (options.isAutoRetry()) { // ako je auto retry onda sve kreni ispocetka
 
             } else { //ako ne otvori scenu u kojoj će moć izabrat da li želi restart ili u game menu
 

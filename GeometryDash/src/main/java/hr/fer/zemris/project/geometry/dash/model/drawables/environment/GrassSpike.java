@@ -6,15 +6,12 @@ import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 
 public class GrassSpike extends Obstacle {
 
     public GrassSpike(Vector2D position, String uriIcon) {
         setCurrentPosition(position);
-        this.setWidth(GameConstants.iconHeight);
+        this.setWidth(GameConstants.iconWidth);
         this.setHeight(GameConstants.iconHeight);
         setIcon(Utils.loadIcon(uriIcon, GameConstants.iconWidth, GameConstants.iconHeight));
         setIconPath(uriIcon);
@@ -41,10 +38,15 @@ public class GrassSpike extends Obstacle {
 
     @Override
     public boolean checkCollisions(Player player) {
-        Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0, player.getHeight()));
-        Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
+//        Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0, player.getHeight()));
+//        Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
+//
+//        return this.contains(playerDR) || this.contains(playerDL);
+        Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
+        double xDiff = centerDiff.getX();
+        double yDiff = centerDiff.getY();
 
-        return this.contains(playerDR) || this.contains(playerDL);
+        return Math.hypot(xDiff, yDiff) <= getWidth()/2.0;
     }
 
     @Override
@@ -63,6 +65,6 @@ public class GrassSpike extends Obstacle {
 
     @Override
     public GameObject copy() {
-        return new GrassSpike(getCurrentPosition().copy(), new String(getIconPath()));
+        return new GrassSpike(getCurrentPosition().copy(), getIconPath());
     }
 }

@@ -85,7 +85,8 @@ public class GameConstants {
      * 	Path to platform image
      */
     public static final String platformImage = "/hr/fer/zemris/project/geom/dash/obstacles/platform/blue.png";
-    
+    public static final String grassImage = "/hr/fer/zemris/project/geom/dash/obstacles/grassspike/blue.png";
+
     /**
      * Offset camera to ground
      */
