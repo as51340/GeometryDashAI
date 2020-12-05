@@ -46,16 +46,8 @@ public class Spike extends Obstacle {
 	//daje se donji lijevi kut playera
 	@Override
     public boolean checkCollisions(Player player) {
-		Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
-		double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
-		double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
-
-		if (Math.hypot(xDiff, yDiff) <= getWidth()) {
-			return !(Math.abs(xDiff) <= Math.abs(yDiff) && yDiff >= 0);
-		}
-
-		return false;
-    }
+		return this.contains(player.getCurrentPosition().translated(new Vector2D(0, getHeight())));
+	}
 
 	//pravac playera yp = p.y+getHeight
 	//sx = x pozicija donjeg lijevog kuta trokuta
