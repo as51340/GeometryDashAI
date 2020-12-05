@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Set;
 
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.*;
+import hr.fer.zemris.project.geometry.dash.model.io.ZipUtil;
 import hr.fer.zemris.project.geometry.dash.model.listeners.PlayerListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
+import hr.fer.zemris.project.geometry.dash.model.serialization.GameObjectDeserializer;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Options;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
@@ -137,11 +139,27 @@ public class GameWorld {
     private void createScene() {
         player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
         floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
-//        Set<GameObject> levelObjects = new SerializeUtil(GameConstants.levelToWorldOffset).deserialize(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, "Level1"));
+        //Set<GameObject> levelObjects = new GameObjectDeserializer(GameConstants.levelToWorldOffset).deserialize(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, "Level1"));
         //when we create choose level scene then we will change these lines, maybe create scene will be public and will receive levelName
         // and level manager will have from start predefines levels, you can call levelManeger.startLevelWithName(levelName);
         // but for testing it's okay
         Set<GameObject> levelObjects = new HashSet<GameObject>();
+        //GrassSpike travica = new GrassSpike(new Vector2D(GameConstants.playerPosition_X+20*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight), GameConstants.);
+        levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 5 * GameConstants.iconHeight, GameConstants.floorPosition_Y - GameConstants.iconHeight), GameConstants.blockImage));
+        levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 5 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 2 * GameConstants.iconHeight), GameConstants.blockImage));
+        levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 5 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 2 * GameConstants.iconHeight), GameConstants.blockImage));
+        levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 5 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 3 * GameConstants.iconHeight), GameConstants.blockImage));
+        levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 4 * GameConstants.iconHeight, GameConstants.floorPosition_Y - GameConstants.iconHeight), GameConstants.blockImage));
+        levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 4 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 2 * GameConstants.iconHeight), GameConstants.blockImage));
+        levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 3 * GameConstants.iconHeight, GameConstants.floorPosition_Y - GameConstants.iconHeight), GameConstants.blockImage));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 10 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 2 * GameConstants.iconHeight), GameConstants.iconWidth * 5, GameConstants.platformImage));
+        //levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+30*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
+        levelObjects.add(new Platform(new Vector2D(GameConstants.playerPosition_X + 10 * GameConstants.iconHeight, GameConstants.floorPosition_Y - 2 * GameConstants.iconHeight), GameConstants.iconWidth * 5, GameConstants.platformImage));
+//        levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+30*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
+//        levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+20*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
+//        levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+10*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
+//        levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+5*GameConstants.iconHeight, GameConstants.floorPosition_Y-GameConstants.iconHeight)));
+
         levelObjects.add(player);
         levelObjects.add(floor);
         levelManager.addLevel("Level1", levelObjects);
@@ -171,7 +189,7 @@ public class GameWorld {
         for (GameObject gameObject : levelManager.getCurrentLevel().getLevelData()) {
             if (gameObject instanceof Obstacle) {
                 if (((Obstacle) gameObject).checkCollisions((Player) player)) {
-                    renderer.getCamera().setPosition(new Vector2D(-5, 0));
+                    renderer.getCamera().setPosition(new Vector2D(-10, 0));
                     player.setCurrentPosition(new Vector2D(0, 0));
                     return true;
                 }
