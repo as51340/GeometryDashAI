@@ -63,7 +63,16 @@ public class Block extends Obstacle {
     }
 
     public boolean playerIsOn(Player player) {
+        Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
+        double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
+        double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
 
+        if (yDiff <= getHeight() + 2) {
+            if (xDiff <= getWidth()) {
+            // ON ZIZI (zivi al na meg jeziku)
+            return Math.abs(xDiff) <= Math.abs(yDiff) && yDiff >= 0;
+            }
+        }
         return false;
     }
 
@@ -76,14 +85,7 @@ public class Block extends Obstacle {
         double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
 
         if (Math.hypot(xDiff, yDiff) <= getWidth()) {
-            if (Math.abs(xDiff) <= Math.abs(yDiff) && yDiff >= 0) {
-                // ON ZIZI (zivi al na meg jeziku)
-                player.touchesGround();
-                player.getCurrentPosition().setY(this.getCurrentPosition().getY() - GameConstants.iconHeight);
-            } else {
-                // ON MRI
-                return true;
-            }
+            return !(Math.abs(xDiff) <= Math.abs(yDiff) && yDiff >= 0);
         }
 
         return false;
