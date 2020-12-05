@@ -121,7 +121,7 @@ public class Player extends GameObject {
         setCurrentPosition(position);
         setIcon(CharactersSelector.selectedCharacter.getIcon());
         this.setWidth(GameConstants.iconWidth);
-        this.setHeight(GameConstants.iconWidth);
+        this.setHeight(GameConstants.iconHeight);
         this.setCenterPosition(new Vector2D(position.getX() / 2, position.getY() / 2));
         setSpeed(speed);
     }

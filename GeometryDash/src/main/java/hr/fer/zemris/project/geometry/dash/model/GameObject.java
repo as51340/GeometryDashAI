@@ -60,10 +60,20 @@ public abstract class GameObject implements Drawable {
         return this.currentPosition;
     }
 
+    /**
+     * Returns Vector2D of center position
+     *
+     * @return Vector2D of center position
+     */
     public Vector2D getCenterPosition() {
         return centerPosition;
     }
 
+    /**
+     * Sets object ceter position to given center position
+     *
+     * @param centerPosition given center position
+     */
     public void setCenterPosition(Vector2D centerPosition) {
         this.centerPosition = centerPosition;
     }

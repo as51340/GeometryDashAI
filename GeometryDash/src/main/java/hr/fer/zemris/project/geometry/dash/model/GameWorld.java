@@ -109,15 +109,15 @@ public class GameWorld {
     public GameObject getPlayer() {
         return player;
     }
-    
-    /**
-	 * @return the playerListener
-	 */
-	public PlayerListener getPlayerListener() {
-		return playerListener;
-	}
 
-	/**
+    /**
+     * @return the playerListener
+     */
+    public PlayerListener getPlayerListener() {
+        return playerListener;
+    }
+
+    /**
      * Initializes characters selector and creates scene for playing. Temporary for testing collisions and jumping on platforms
      */
     public GameWorld() {
@@ -161,7 +161,7 @@ public class GameWorld {
         checkPlayerCamera_Y();
         checkCameraGround_Y();
         if (checkCollision()) {
-        	return false;
+            return false;
         }
         renderer.render();
         return true;
@@ -171,8 +171,8 @@ public class GameWorld {
         for (GameObject gameObject : levelManager.getCurrentLevel().getLevelData()) {
             if (gameObject instanceof Obstacle) {
                 if (((Obstacle) gameObject).checkCollisions((Player) player)) {
-//                    renderer.getCamera().setPosition(new Vector2D(-5, 0));
-//                    player.setCurrentPosition(new Vector2D(0, 0));
+                    renderer.getCamera().setPosition(new Vector2D(-5, 0));
+                    player.setCurrentPosition(new Vector2D(0, 0));
                     return true;
                 }
             }
@@ -240,12 +240,12 @@ public class GameWorld {
             }
         }
     }
-    
+
     /**
      * A {@link PlayerListener} implementation
-     */ 
+     */
     class WorldPlayerListener implements PlayerListener {
-    		
+
         /**
          * Player is in the air
          */
@@ -276,20 +276,20 @@ public class GameWorld {
         @Override
         public void playerIsDead(Options options) {
             // TODO otkriti kako ovo iskoristiti
-        	// iskoristiti na nacin da se poziva ta metoda kad player umre pa da otvori ili ne otvori scena ovisno o postavkama
-         	// treba ti referenca na optionse jer ti je tamo zapisano što korisnik zeli da mu se otvori
-        	if(options.isAutoRetry() == true) { // ako je auto retry onda sve kreni ispocetka
-        		
-        	} else { //ako ne otvori scenu u kojoj će moć izabrat da li želi restart ili u game menu
-        		
-        	}
+            // iskoristiti na nacin da se poziva ta metoda kad player umre pa da otvori ili ne otvori scena ovisno o postavkama
+            // treba ti referenca na optionse jer ti je tamo zapisano što korisnik zeli da mu se otvori
+            if (options.isAutoRetry() == true) { // ako je auto retry onda sve kreni ispocetka
+
+            } else { //ako ne otvori scenu u kojoj će moć izabrat da li želi restart ili u game menu
+
+            }
         }
 
-    	@Override
-    	public void playerJumped() {
-    		((Player)player).jump();
-    	}
-    	
+        @Override
+        public void playerJumped() {
+            ((Player) player).jump();
+        }
+
     }
 
 }
