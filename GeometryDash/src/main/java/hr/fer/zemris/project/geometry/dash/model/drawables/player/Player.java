@@ -1,20 +1,13 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.player;
 
-import java.awt.geom.AffineTransform;
 
 import com.google.gson.annotations.Expose;
-
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
-import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 
 /**
@@ -47,6 +40,8 @@ public class Player extends GameObject {
     @Expose
     private Vector2D speed;
 
+    private Vector2D rotatingPoint;
+
     /**
      * Player's constructor
      */
@@ -54,6 +49,14 @@ public class Player extends GameObject {
         this.rotation = rotation;
         this.speed = speed;
         setIcon(Utils.loadIcon(icon, GameConstants.iconWidth, GameConstants.iconHeight));
+    }
+
+    public Vector2D getRotatingPoint() {
+        return rotatingPoint;
+    }
+
+    public void setRotatingPoint(Vector2D rotatingPoint) {
+        this.rotatingPoint = rotatingPoint;
     }
 
     /**
@@ -119,6 +122,7 @@ public class Player extends GameObject {
      */
     public Player(Vector2D position, Vector2D speed) {
         setCurrentPosition(position);
+        rotatingPoint = position.copy();
         setIcon(CharactersSelector.selectedCharacter.getIcon());
         this.setWidth(GameConstants.iconWidth);
         this.setHeight(GameConstants.iconHeight);
@@ -145,6 +149,7 @@ public class Player extends GameObject {
         if (getSpeed().getX() >= GameConstants.playerFinalSpeed_X) {
             getSpeed().setX(GameConstants.playerFinalSpeed_X);
         }
+        rotatingPoint = getCenterPosition().copy();
     }
 
     /**
@@ -169,6 +174,8 @@ public class Player extends GameObject {
         }
         if (!isTouchingGround) {
             setRotation(getRotation() + GameConstants.playerRotationSpeed * GameConstants.timeBetweenUpdates);
+            Vector2D v = getCenterPosition().translated(getCurrentPosition().reversed()).rotated(getRotation());
+            rotatingPoint = getCenterPosition().translated(v);
 //			System.err.println("U zraku: " + getRotation());	// za testiranje
         } else {
             this.rotation = (int) this.rotation % 360;
@@ -181,11 +188,14 @@ public class Player extends GameObject {
             } else if (this.rotation >= 315 || this.rotation < 45) {
                 this.rotation = 0;
             }
+            rotatingPoint = getCenterPosition().copy();
 //			System.err.println("Stojim: " + getRotation());	// za testiranje
         }
-        System.out.println("Player x: " + getCurrentPosition().getX());
-        System.out.println("Player y: " + getCurrentPosition().getY());
-        Rotate r = new Rotate(getRotation(), getCurrentPosition().getX() + GameConstants.iconWidth / 2, getCurrentPosition().getY() + GameConstants.iconHeight / 2);
+
+        System.out.println("Player x: " + rotatingPoint.getX());
+        System.out.println("Player y: " + rotatingPoint.getY());
+        System.out.println("Rotation: " + getRotation());
+        Rotate r = new Rotate(getRotation(), getCurrentPosition().getX() + GameConstants.iconWidth / 2.0, getCurrentPosition().getY() + GameConstants.iconHeight / 2.0);
         graphicsContext.save();
         graphicsContext.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
         graphicsContext.drawImage(getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());

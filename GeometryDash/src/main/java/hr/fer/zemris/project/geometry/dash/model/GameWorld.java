@@ -190,24 +190,20 @@ public class GameWorld {
         checkPlayerCamera_X();
         checkPlayerCamera_Y();
         checkCameraGround_Y();
-        if (checkCollision()) {
-            return false;
-        }
+        checkCollision();
         renderer.render();
         return true;
     }
 
-    private boolean checkCollision() {
+    private void checkCollision() {
         for (GameObject gameObject : levelManager.getCurrentLevel().getLevelData()) {
             if (gameObject instanceof Obstacle) {
                 if (((Obstacle) gameObject).checkCollisions((Player) player)) {
                     renderer.getCamera().setPosition(new Vector2D(-10, 0));
-                    player.setCurrentPosition(new Vector2D(0, 0));
-                    return true;
+                    player.setCurrentPosition(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5));
                 }
             }
         }
-        return false;
     }
 
     /**
