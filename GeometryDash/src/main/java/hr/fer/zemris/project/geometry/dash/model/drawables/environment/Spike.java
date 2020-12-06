@@ -16,11 +16,11 @@ public class Spike extends Obstacle {
 		return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, getHeight()/2.0));
 	}
 
-	//note: position here is lower left corner!
+	//note: position here is upper left corner!
 	public Spike(Vector2D position, String uriIcon) {
 		setCurrentPosition(position);
 		this.setWidth(GameConstants.iconWidth); //stranica a
-		this.setHeight((int) (GameConstants.iconHeight * Math.sqrt(3) / 2)); // visina trokuta
+		this.setHeight(GameConstants.iconHeight); // visina trokuta
 		setIconPath(uriIcon);
 		setIcon(Utils.loadIcon(uriIcon, GameConstants.iconWidth, GameConstants.iconHeight));
 		setName("Spike");
@@ -50,8 +50,10 @@ public class Spike extends Obstacle {
 		double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
 		double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
 
-		return  (((2 * Math.abs(xDiff) + Math.abs(yDiff)) <= getHeight() * 2) && Math.abs(yDiff) <= getHeight() ||
-				(Math.abs(xDiff) <= getWidth() && Math.abs(yDiff) <= getHeight() / 4));
+		return  (((2 * Math.abs(xDiff) + Math.abs(yDiff)) <= getHeight() * 1.7) && Math.abs(yDiff) <= getHeight() * 0.85
+//				|| (Math.abs(xDiff) <= getWidth() * 0.85 && Math.abs(yDiff + getHeight()/2) <= getHeight() / 2)
+//				ma necemo ovo ^^^
+		);
 
 
 //		return this.contains(player.getCurrentPosition().translated(new Vector2D(0, getHeight())));
