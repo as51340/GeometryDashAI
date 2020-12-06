@@ -6,15 +6,13 @@ import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 //TODO why to use specific width - every platform is 45
 public class Platform extends Obstacle {
 
     public Platform(Vector2D position, int width, String image) {
         this(position, image);
-        setHeight(GameConstants.iconHeight / 2);
+        setHeight(GameConstants.iconHeight);
         setWidth(width);
         setName("Platform");
     }
@@ -64,16 +62,15 @@ public class Platform extends Obstacle {
         double xDiff = centerDiff.getX();
         double yDiff = centerDiff.getY();
 
-        return Math.hypot(xDiff, yDiff*2.8) <= getWidth();
-//
-//        NOVO, RADI!
+        //return Math.hypot(xDiff, yDiff*2.8) <= getWidth();
+        return Math.abs(xDiff)<=getWidth() && Math.abs(yDiff)<=getHeight()/2.0;
     }
 
     //provjerava je li tocka "u"platformi
     @Override
     public boolean contains(Vector2D p) {
         return (p.getX() >= getCurrentPosition().getX() && p.getX() <= getCurrentPosition().getX() + getWidth()
-                && p.getY() >= getCurrentPosition().getY() && p.getY() <= getCurrentPosition().getY() + getHeight() / 2);
+                && p.getY() >= getCurrentPosition().getY() && p.getY() <= getCurrentPosition().getY() + getHeight() / 2.0);
     }
 
     //provjerava je li player na platformi
@@ -85,7 +82,7 @@ public class Platform extends Obstacle {
         Vector2D platformUR = this.getCurrentPosition().translated(new Vector2D(getWidth(), 0));
 
         return playerDL.getY() >= this.getCurrentPosition().getY()
-                && playerDL.getY() <= this.getCurrentPosition().getY() + this.getHeight()
+                && playerDL.getY() <= this.getCurrentPosition().getY() + this.getHeight()/2.0
                 // ^^^ this used to be UL, which makes collisions impossible
                 && ((playerDR.getX() > platformUL.getX()
                 && playerDR.getX() < platformUR.getX())
