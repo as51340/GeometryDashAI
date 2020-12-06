@@ -57,13 +57,16 @@ public class Platform extends Obstacle {
 //
 //        return contains(playerUL) || contains(playerUR);
 //
+//        STARO ^^^
+
+
         Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
         double xDiff = centerDiff.getX();
         double yDiff = centerDiff.getY();
 
         return Math.hypot(xDiff, yDiff*2.8) <= getWidth();
-
-
+//
+//        NOVO, RADI!
     }
 
     //provjerava je li tocka "u"platformi

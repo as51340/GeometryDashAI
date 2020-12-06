@@ -168,9 +168,9 @@ public class GameWorld {
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 34 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 35 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
         levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X+40*GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.spikeImage));
-        levelObjects.add(new LeftSpike(new Vector2D(GameConstants.playerPosition_X+50*GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.leftSpikeImage));
-        levelObjects.add(new LeftSpike(new Vector2D(GameConstants.playerPosition_X+55*GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.leftSpikeImage));
-        levelObjects.add(new LeftSpike(new Vector2D(GameConstants.playerPosition_X+60*GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.leftSpikeImage));
+        levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X+50*GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
+        levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X+55*GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
+        levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X+60*GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
         levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X + 65 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
         levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X + 69 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
         levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X + 75 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
