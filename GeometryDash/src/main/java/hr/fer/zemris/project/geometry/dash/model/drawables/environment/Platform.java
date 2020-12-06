@@ -21,7 +21,7 @@ public class Platform extends Obstacle {
 
     @Override
     public Vector2D getCenterPosition() {
-        return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, getHeight()*2.0/3.0));
+        return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, getHeight()/6.0));
     }
 
     public Platform(Vector2D position, String image) {
