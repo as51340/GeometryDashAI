@@ -19,7 +19,7 @@ public class Spike extends Obstacle {
 	//note: position here is lower left corner!
 	public Spike(Vector2D position, String uriIcon) {
 		setCurrentPosition(position);
-		this.setWidth(GameConstants.iconHeight); //stranica a
+		this.setWidth(GameConstants.iconWidth); //stranica a
 		this.setHeight((int) (GameConstants.iconHeight * Math.sqrt(3) / 2)); // visina trokuta
 		setIconPath(uriIcon);
 		setIcon(Utils.loadIcon(uriIcon, GameConstants.iconWidth, GameConstants.iconHeight));
