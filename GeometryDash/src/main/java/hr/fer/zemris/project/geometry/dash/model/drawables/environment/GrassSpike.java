@@ -48,30 +48,16 @@ public class GrassSpike extends Obstacle {
 
     @Override
     public boolean checkCollisions(Player player) {
-//        Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0, player.getHeight()));
-//        Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
-//
-//        return this.contains(playerDR) || this.contains(playerDL);
         Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
         double xDiff = centerDiff.getX();
         double yDiff = centerDiff.getY();
 
         return Math.abs(xDiff) <= 4.0*getWidth()/5.0 && Math.abs(yDiff) <=  getHeight() / 2.0;
-        //return Math.hypot(xDiff, yDiff / 0.5) <= getWidth();
-    }
-
-    @Override
-    public boolean contains(Vector2D p) {
-        return p.getX() >= this.getCurrentPosition().getX()
-                && p.getX() <= (this.getCurrentPosition().getX() + this.getWidth())
-                && p.getY() <= (this.getCurrentPosition().getY() + this.getHeight())
-                && p.getY() >= (this.getCurrentPosition().getY());
     }
 
     @Override
     public void draw(GraphicsContext graphicsContext) {
         graphicsContext.drawImage(this.getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
-        //here it should be image
     }
 
     @Override

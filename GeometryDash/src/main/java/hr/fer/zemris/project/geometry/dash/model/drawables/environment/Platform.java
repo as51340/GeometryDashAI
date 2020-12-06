@@ -46,39 +46,19 @@ public class Platform extends Obstacle {
         setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
     }
 
-    //provjerava da li se playerov gornje lijevi ili desni kut nalazi "u" platformi
-    //tj da li ju je lupio od dole
     @Override
     public boolean checkCollisions(Player player) {
-//        Vector2D playerUL = player.getCurrentPosition();
-//        Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
-//
-//        return contains(playerUL) || contains(playerUR);
-//
-//        STARO ^^^
-
-
         Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
         double xDiff = centerDiff.getX();
         double yDiff = centerDiff.getY();
 
-        //return Math.hypot(xDiff, yDiff*2.8) <= getWidth();
-        // NOVO ^^^
         return Math.abs(xDiff)<=getWidth() && Math.abs(yDiff)<=getHeight()/2.0;
-    }
-
-    //provjerava je li tocka "u"platformi
-    @Override
-    public boolean contains(Vector2D p) {
-        return (p.getX() >= getCurrentPosition().getX() && p.getX() <= getCurrentPosition().getX() + getWidth()
-                && p.getY() >= getCurrentPosition().getY() && p.getY() <= getCurrentPosition().getY() + getHeight() / 2.0);
     }
 
     //provjerava je li player na platformi
     public boolean playerIsOn(Player player) {
         Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0, player.getHeight()));
         Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
-        Vector2D playerUL = player.getCurrentPosition();
         Vector2D platformUL = this.getCurrentPosition();
         Vector2D platformUR = this.getCurrentPosition().translated(new Vector2D(getWidth(), 0));
 
@@ -98,7 +78,7 @@ public class Platform extends Obstacle {
 
     @Override
     public GameObject copy() {
-        return new Platform(getCurrentPosition().copy(), this.getWidth(), new String(getIconPath()));
+        return new Platform(getCurrentPosition().copy(), this.getWidth(), getIconPath());
     }
 
 }

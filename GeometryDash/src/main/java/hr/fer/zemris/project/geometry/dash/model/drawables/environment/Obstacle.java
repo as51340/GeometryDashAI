@@ -15,11 +15,4 @@ public abstract class Obstacle extends GameObject {
      */
     public abstract boolean checkCollisions(Player player);
 
-    public abstract boolean contains(Vector2D p);
-
-    public boolean contains(Player player) {
-        Vector2D centerDiff = player.getCenterPosition().translated(this.getCenterPosition().reversed());
-        return Math.hypot(centerDiff.getX(), centerDiff.getY()) < getHeight();
-
-    }
 }

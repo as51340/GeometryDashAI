@@ -49,19 +49,6 @@ public class Block extends Obstacle {
     }
 
 
-    //za jednu tocku provjerava je li između lijeve i desne strane bloka
-    @Override
-    public boolean contains(Vector2D p) {
-        return (p.getX() >= getCurrentPosition().getX() && p.getX() <= (getCurrentPosition().getX() + getWidth())
-                && p.getY() > getCurrentPosition().getY() && p.getY() < (getCurrentPosition().getY() + getHeight()));
-    }
-
-    @Override
-    public boolean contains(Player player) {
-        Vector2D centerDiff = player.getCenterPosition().translated(this.getCenterPosition().reversed());
-        return Math.hypot(centerDiff.getX(), centerDiff.getY()) <= getHeight();
-    }
-
     public boolean playerIsOn(Player player) {
         Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
         double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
@@ -76,7 +63,6 @@ public class Block extends Obstacle {
         return false;
     }
 
-    //TODO promijeni kao provjeru sa sredistima
     @Override
     public boolean checkCollisions(Player player) {
         // od koord. centra blocka (generalno vece) se oduzmu koord. centra playera (generalno manje)
@@ -90,14 +76,6 @@ public class Block extends Obstacle {
 
         return false;
 
-    }
-
-    private boolean checkPlayerAngle(Player player) {
-        double yCrit = player.getCurrentPosition().getX()
-                - this.getCurrentPosition().getX()
-                + this.getCurrentPosition().getY();
-
-        return player.getCurrentPosition().getY() < yCrit;
     }
 
     @Override
