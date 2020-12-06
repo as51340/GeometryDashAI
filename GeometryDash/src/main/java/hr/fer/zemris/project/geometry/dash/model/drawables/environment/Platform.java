@@ -19,6 +19,10 @@ public class Platform extends Obstacle {
         setName("Platform");
     }
 
+    @Override
+    public Vector2D getCenterPosition() {
+        return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, getHeight()*2.0/3.0));
+    }
 
     public Platform(Vector2D position, String image) {
         setCurrentPosition(position);
@@ -48,10 +52,18 @@ public class Platform extends Obstacle {
     //tj da li ju je lupio od dole
     @Override
     public boolean checkCollisions(Player player) {
-        Vector2D playerUL = player.getCurrentPosition();
-        Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
+//        Vector2D playerUL = player.getCurrentPosition();
+//        Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
+//
+//        return contains(playerUL) || contains(playerUR);
+//
+        Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
+        double xDiff = centerDiff.getX();
+        double yDiff = centerDiff.getY();
 
-        return contains(playerUL) || contains(playerUR);
+        return Math.hypot(xDiff, yDiff*2.8) <= getWidth();
+
+
     }
 
     //provjerava je li tocka "u"platformi

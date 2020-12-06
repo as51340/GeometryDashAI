@@ -43,7 +43,7 @@ public class GrassSpike extends Obstacle {
      */
     @Override
     public Vector2D getCenterPosition() {
-        return this.getCurrentPosition().translated(new Vector2D(this.getWidth() / 2, this.getHeight() * 0.75 ));
+        return this.getCurrentPosition().translated(new Vector2D(this.getWidth() / 2.0, this.getHeight() * 0.75 ));
     }
 
     @Override

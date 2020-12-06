@@ -182,6 +182,7 @@ public class GameConstants {
     public static final double playerRotationSpeed = 350.0;
     
     /**
+<<<<<<< HEAD
      * Level to world y offset
      */
     public static final int levelToWorldOffset = 50;
