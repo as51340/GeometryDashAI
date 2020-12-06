@@ -21,7 +21,7 @@ public class Platform extends Obstacle {
 
     @Override
     public Vector2D getCenterPosition() {
-        return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, getHeight()*2.0/3.0));
+        return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, getHeight()/6.0));
     }
 
     public Platform(Vector2D position, String image) {
@@ -57,13 +57,16 @@ public class Platform extends Obstacle {
 //
 //        return contains(playerUL) || contains(playerUR);
 //
+//        STARO ^^^
+
+
         Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
         double xDiff = centerDiff.getX();
         double yDiff = centerDiff.getY();
 
         return Math.hypot(xDiff, yDiff*2.8) <= getWidth();
-
-
+//
+//        NOVO, RADI!
     }
 
     //provjerava je li tocka "u"platformi
