@@ -119,7 +119,7 @@ public class GameConstants {
     /**
      * Jumping offset
      */
-    public static final int playerJumpingOffset = -750;
+    public static final int playerJumpingOffset = -1000;
     
     /**
      * Cell width for level editor
@@ -179,7 +179,7 @@ public class GameConstants {
     /**
      * Player's rotation
      */
-    public static final double playerRotationSpeed = 300.0;
+    public static final double playerRotationSpeed = 400.0;
     
     /**
 <<<<<<< HEAD

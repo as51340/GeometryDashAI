@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 public class Spike extends Obstacle {
 	@Override
 	public Vector2D getCenterPosition() {
-		return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, -getHeight()/2.0));
+		return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, getHeight()/2.0));
 	}
 
 	//note: position here is lower left corner!
@@ -46,7 +46,14 @@ public class Spike extends Obstacle {
 	//daje se donji lijevi kut playera
 	@Override
     public boolean checkCollisions(Player player) {
-		return this.contains(player.getCurrentPosition().translated(new Vector2D(0, getHeight())));
+		Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
+		double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
+		double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
+
+		return  ((2 * Math.abs(xDiff) + Math.abs(yDiff)) <= getHeight() * 2);
+
+
+//		return this.contains(player.getCurrentPosition().translated(new Vector2D(0, getHeight())));
 	}
 
 	//pravac playera yp = p.y+getHeight

@@ -16,6 +16,7 @@ import javafx.scene.transform.Rotate;
  * @author Damjan, Andi
  */
 public class Player extends GameObject {
+    private double gravityTimer = GameConstants.gravity_Y;
 
     /**
      * Rotation angle in degrees
@@ -99,6 +100,9 @@ public class Player extends GameObject {
      */
     public void setTouchingGround(boolean isTouchingGround) {
         this.isTouchingGround = isTouchingGround;
+        if (isTouchingGround) {
+            this.gravityTimer = GameConstants.gravity_Y;
+        }
     }
 
     /**
@@ -133,16 +137,20 @@ public class Player extends GameObject {
      * Makes the player character "jump" - adds upward force
      */
     public void jump() {
-        jumpIntent = true;
+        if (isTouchingGround) {
+            jumpIntent = true;
+        }
     }
 
     /**
      * Calculates player physcics - gravity, speed and position
      */
     private void calculatePlayerPhysics() {
-        getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates, getSpeed().getY() * GameConstants.timeBetweenUpdates));
+        getCurrentPosition().translate(new Vector2D(getSpeed().getX() * GameConstants.timeBetweenUpdates, getSpeed().getY() * GameConstants.timeBetweenUpdates + gravityTimer/1200));
         getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates,
                 GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
+        gravityTimer += 10;
+        System.out.println(gravityTimer);
         if (getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
             getSpeed().setY(GameConstants.playerFinalSpeed_Y);
         }
@@ -158,6 +166,7 @@ public class Player extends GameObject {
      */
     public void touchesGround() {
         isTouchingGround = true;
+        gravityTimer = GameConstants.gravity_Y;
     }
 
     @Override
@@ -173,7 +182,7 @@ public class Player extends GameObject {
             }
         }
         if (!isTouchingGround) {
-            setRotation(getRotation() + GameConstants.playerRotationSpeed * GameConstants.timeBetweenUpdates);
+            setRotation(getRotation() + GameConstants.playerRotationSpeed* GameConstants.timeBetweenUpdates);
             Vector2D v = getCenterPosition().translated(getCurrentPosition().reversed()).rotated(getRotation());
             rotatingPoint = getCenterPosition().translated(v);
 //			System.err.println("U zraku: " + getRotation());	// za testiranje
