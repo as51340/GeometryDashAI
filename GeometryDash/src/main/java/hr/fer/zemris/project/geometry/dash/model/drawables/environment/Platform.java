@@ -58,7 +58,7 @@ public class Platform extends Obstacle {
     @Override
     public boolean contains(Vector2D p) {
         return (p.getX() >= getCurrentPosition().getX() && p.getX() <= getCurrentPosition().getX() + getWidth()
-                && p.getY() >= getCurrentPosition().getY() && p.getY() <= getCurrentPosition().getY() + getHeight());
+                && p.getY() >= getCurrentPosition().getY() && p.getY() <= getCurrentPosition().getY() + getHeight() / 2);
     }
 
     //provjerava je li player na platformi
