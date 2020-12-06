@@ -87,6 +87,11 @@ public class GameConstants {
     public static final String spikeImage = "/hr/fer/zemris/project/geom/dash/obstacles/spike/blue.png";
 
     /**
+     * Path to left spike image
+     */
+    public static final String leftSpikeImage = "/hr/fer/zemris/project/geom/dash/obstacles/spike/blueLeft.png";
+
+    /**
      * 	Path to platform image
      */
     public static final String platformImage = "/hr/fer/zemris/project/geom/dash/obstacles/platform/blue.png";
