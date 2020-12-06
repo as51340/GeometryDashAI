@@ -20,7 +20,7 @@ public class LeftSpike extends Obstacle {
     public LeftSpike(Vector2D position, String uriIcon) {
         setCurrentPosition(position);
         this.setWidth(GameConstants.iconHeight); //visina trokuta
-        this.setHeight((int) (GameConstants.iconHeight * Math.sqrt(3) / 2)); // baza trokuta
+        this.setHeight(GameConstants.iconHeight); // baza trokuta
         setIconPath(uriIcon);
         setIcon(Utils.loadIcon(uriIcon, GameConstants.iconWidth, GameConstants.iconHeight));
         setName("LeftSpike");
@@ -50,8 +50,8 @@ public class LeftSpike extends Obstacle {
         double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
         double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
 
-        return  (((Math.abs(xDiff) + (2 * Math.abs(yDiff))) <= getHeight() * 1.5) && Math.abs(xDiff) <= getHeight()
-                && Math.abs(yDiff) <= getHeight());
+        return  (((xDiff + (2 * Math.abs(yDiff))) <= getHeight()) && Math.abs(xDiff) <= getHeight() * 0.85
+                && Math.abs(yDiff) <= getHeight() * 0.85);
 
 
 //		return this.contains(player.getCurrentPosition().translated(new Vector2D(0, getHeight())));
