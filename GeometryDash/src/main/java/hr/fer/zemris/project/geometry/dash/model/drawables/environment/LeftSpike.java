@@ -50,7 +50,7 @@ public class LeftSpike extends Obstacle {
         double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
         double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
 
-        return  (((Math.abs(xDiff) + (2.5 * Math.abs(yDiff))) <= getHeight() * 1.5) && Math.abs(xDiff) <= getHeight()
+        return  (((Math.abs(xDiff) + (2 * Math.abs(yDiff))) <= getHeight() * 1.5) && Math.abs(xDiff) <= getHeight()
                 && Math.abs(yDiff) <= getHeight());
 
 
