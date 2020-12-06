@@ -36,6 +36,16 @@ public class GrassSpike extends Obstacle {
         setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
     }
 
+    /**
+     * Returns Vector2D of center position
+     *
+     * @return Vector2D of center position
+     */
+    @Override
+    public Vector2D getCenterPosition() {
+        return this.getCurrentPosition().translated(new Vector2D(this.getWidth() / 2, this.getHeight() * 0.75 ));
+    }
+
     @Override
     public boolean checkCollisions(Player player) {
 //        Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0, player.getHeight()));
