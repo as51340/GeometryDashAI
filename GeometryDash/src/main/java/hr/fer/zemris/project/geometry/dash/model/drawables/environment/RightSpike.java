@@ -10,20 +10,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 //handle width and height
-public class LeftSpike extends Obstacle {
+public class RightSpike extends Obstacle {
     @Override
     public Vector2D getCenterPosition() {
         return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, getHeight()/2.0));
     }
 
     //note: position here is lower left corner!
-    public LeftSpike(Vector2D position, String uriIcon) {
+    public RightSpike(Vector2D position, String uriIcon) {
         setCurrentPosition(position);
         this.setWidth(GameConstants.iconHeight); //visina trokuta
         this.setHeight(GameConstants.iconHeight); // baza trokuta
         setIconPath(uriIcon);
         setIcon(Utils.loadIcon(uriIcon, GameConstants.iconWidth, GameConstants.iconHeight));
-        setName("LeftSpike");
+        setName("RightSpike");
     }
 
     /**
@@ -34,7 +34,7 @@ public class LeftSpike extends Obstacle {
      * @param width width
      * @param iconPath path to icon
      */
-    public LeftSpike(String name, Vector2D currentPosition, int height, int width, String iconPath) {
+    public RightSpike(String name, Vector2D currentPosition, int height, int width, String iconPath) {
         setName(name);
         setCurrentPosition(currentPosition);
         setHeight(height);
@@ -50,7 +50,7 @@ public class LeftSpike extends Obstacle {
         double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
         double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
 
-        return  (((xDiff + (2 * Math.abs(yDiff))) <= getHeight()) && Math.abs(xDiff) <= getHeight()
+        return  ((((2 * Math.abs(yDiff)) - xDiff) <= getHeight()) && Math.abs(xDiff) <= getHeight()
                 && Math.abs(yDiff) <= getHeight() * 0.9);
 
 

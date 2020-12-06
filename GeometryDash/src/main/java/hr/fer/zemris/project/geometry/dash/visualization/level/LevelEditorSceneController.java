@@ -252,7 +252,7 @@ public class LevelEditorSceneController extends MainOptionsController {
 					GameConstants.iconHeight, GameConstants.iconWidth, createPathToObstacleLeft("spike")));
 		});
 		spikeRight.setOnMouseClicked((e) -> {
-			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Spike", new Vector2D(0, 0),
+			levelEditorListener.newObjectSelected(Utils.createObjectFromName("RightSpike", new Vector2D(0, 0),
 					GameConstants.iconHeight, GameConstants.iconWidth, createPathToObstacleRight("spike")));
 		});
 		blackColor.setOnMouseClicked((e) -> {
