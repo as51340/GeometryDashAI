@@ -104,7 +104,7 @@ public class GameConstants {
     /**
      * Gravity constant
      */
-    public static final int gravity_Y = 2500;
+    public static final int gravity_Y = 2400;
     
     /**
      * Accelaration in x direction
@@ -179,10 +179,9 @@ public class GameConstants {
     /**
      * Player's rotation
      */
-    public static final double playerRotationSpeed = 400.0;
+    public static final double playerRotationSpeed = 350.0;
     
     /**
-<<<<<<< HEAD
      * Level to world y offset
      */
     public static final int levelToWorldOffset = 50;

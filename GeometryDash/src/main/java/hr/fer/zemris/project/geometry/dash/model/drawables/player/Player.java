@@ -150,7 +150,6 @@ public class Player extends GameObject {
         getSpeed().translate(new Vector2D(GameConstants.acceleration_X * GameConstants.timeBetweenUpdates,
                 GameConstants.gravity_Y * GameConstants.timeBetweenUpdates));
         gravityTimer += 10;
-        System.out.println(gravityTimer);
         if (getSpeed().getY() >= GameConstants.playerFinalSpeed_Y) {
             getSpeed().setY(GameConstants.playerFinalSpeed_Y);
         }
