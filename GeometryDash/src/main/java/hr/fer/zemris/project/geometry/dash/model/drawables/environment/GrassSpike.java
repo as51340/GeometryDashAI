@@ -46,7 +46,7 @@ public class GrassSpike extends Obstacle {
         double xDiff = centerDiff.getX();
         double yDiff = centerDiff.getY();
 
-        return Math.hypot(xDiff, yDiff) <= getWidth()/2.0;
+        return Math.hypot(xDiff, yDiff / 0.5) <= getWidth();
     }
 
     @Override

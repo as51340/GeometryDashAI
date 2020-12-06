@@ -159,7 +159,7 @@ public class GameConstants {
     /**
      * Player's final speed in y direction
      */
-    public static final int playerFinalSpeed_Y=400;
+    public static final int playerFinalSpeed_Y=500;
     
     /**
      * Player's final speed in y direction
