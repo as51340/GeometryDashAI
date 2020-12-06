@@ -169,7 +169,7 @@ public class GameConstants {
     /**
      * Player's final speed in y direction
      */
-    public static final int playerFinalSpeed_X=150;
+    public static final int playerFinalSpeed_X=200;
     
     /**
      * Path to zip file
@@ -184,7 +184,7 @@ public class GameConstants {
     /**
      * Player's rotation
      */
-    public static final double playerRotationSpeed = 350.0;
+    public static final double playerRotationSpeed = 250.0;
     
     /**
 <<<<<<< HEAD

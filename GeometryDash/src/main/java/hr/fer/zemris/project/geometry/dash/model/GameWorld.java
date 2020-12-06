@@ -145,7 +145,7 @@ public class GameWorld {
         // but for testing it's okay
         Set<GameObject> levelObjects = new HashSet<>();
         levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X + 26 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
-        levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X + 12 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
+        levelObjects.add(new GrassSpike(new Vector2D(GameConstants.playerPosition_X + 15 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.grassImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 5 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 6 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
         levelObjects.add(new Block(new Vector2D(GameConstants.playerPosition_X + 7 * GameConstants.iconHeight, GameConstants.floorPosition_Y), GameConstants.blockImage));
@@ -232,9 +232,9 @@ public class GameWorld {
         for (GameObject gameObject : levelManager.getCurrentLevel().getLevelData()) {
             if (gameObject instanceof Obstacle) {
                 if (((Obstacle) gameObject).checkCollisions((Player) player)) {
-                    renderer.getCamera().setPosition(new Vector2D(-10, 0));
-                    player.setCurrentPosition(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5));
-//                    return true;
+//                    renderer.getCamera().setPosition(new Vector2D(-10, 0));
+//                    player.setCurrentPosition(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5));
+                    return true;
                 }
             }
         }

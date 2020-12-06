@@ -63,6 +63,7 @@ public class Platform extends Obstacle {
         double yDiff = centerDiff.getY();
 
         //return Math.hypot(xDiff, yDiff*2.8) <= getWidth();
+        // NOVO ^^^
         return Math.abs(xDiff)<=getWidth() && Math.abs(yDiff)<=getHeight()/2.0;
     }
 
