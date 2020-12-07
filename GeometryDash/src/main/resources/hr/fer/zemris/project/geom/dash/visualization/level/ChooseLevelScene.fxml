@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 
-<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.ChooseLevelController">
+<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.ChooseLevelController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="733.0" stroke="BLACK" strokeType="INSIDE" width="1292.0" />
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: mediumblue;">
@@ -29,6 +29,16 @@
                   <BoxBlur height="0.0" iterations="2" width="133.57" />
                </effect>
             </Line>
+            <ImageView fx:id="previousLevel" fitHeight="100.0" fitWidth="100.0" layoutX="1.0" layoutY="313.0" onMouseClicked="#previousButtonClicked">
+               <image>
+                  <Image url="@../../static/leftarrow.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="nextLevel" fitHeight="100.0" fitWidth="80.0" layoutX="1173.0" layoutY="310.0" onMouseClicked="#nextButtonClicked">
+               <image>
+                  <Image url="@../../static/rightarrow.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
       <Rectangle fx:id="overlayBlack" height="720.0" mouseTransparent="true" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="1280.0" StackPane.alignment="TOP_LEFT" />
