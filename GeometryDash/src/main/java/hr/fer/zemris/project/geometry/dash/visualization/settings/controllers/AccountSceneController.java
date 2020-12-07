@@ -1,8 +1,5 @@
 package hr.fer.zemris.project.geometry.dash.visualization.settings.controllers;
-import hr.fer.zemris.project.geometry.dash.model.GameEngine;
-import hr.fer.zemris.project.geometry.dash.model.Session;
-import hr.fer.zemris.project.geometry.dash.model.listeners.UserListener;
-import hr.fer.zemris.project.geometry.dash.model.settings.Account;
+
 import hr.fer.zemris.project.geometry.dash.visualization.MenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -48,6 +45,7 @@ public class AccountSceneController extends MenuController {
 	@FXML
 	private void registerButtonClicked(MouseEvent event) {
 		gameEngine.getUserListener().register(firstName.getText(), lastName.getText(), username.getText(), password.getText());
+		listener.loggedIn();
 		registerPane.setVisible(false);
 		loggedInPane.setVisible(true);
 		welcomeLabel.setText("Welcome " + username.getText());
@@ -60,7 +58,8 @@ public class AccountSceneController extends MenuController {
 		logInPane.setVisible(false);
 		loggedInPane.setVisible(true);
 		if(logged == true) {
-			welcomeLabel.setText("Welcome " + gameEngine.getSession().getAccount().getUsername());	
+			welcomeLabel.setText("Welcome " + gameEngine.getSession().getAccount().getUsername());
+			listener.loggedIn();
 		} else {
 			welcomeLabel.setText("Unknown user!");
 		}

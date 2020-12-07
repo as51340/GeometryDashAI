@@ -1,6 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
+import hr.fer.zemris.project.geometry.dash.model.listeners.LoggedInListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -32,6 +33,8 @@ public class MenuController {
     protected StackPane rootPane;
 
     protected GameEngine gameEngine;
+    
+    protected LoggedInListener listener;
     
 	public void setPreviousSceneRoot(Pane previousSceneRootPane) {
 		this.rootPane.setVisible(true);
@@ -78,5 +81,9 @@ public class MenuController {
     
 	public void setGameEngine(GameEngine gameEngine) {
 		this.gameEngine = gameEngine;
+	}
+	
+	public void setListener(LoggedInListener listener) {
+		this.listener = listener;
 	}
 }

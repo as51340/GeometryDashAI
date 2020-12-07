@@ -4,12 +4,15 @@ import java.io.IOException;
 
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
+import hr.fer.zemris.project.geometry.dash.model.listeners.LoggedInListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditorSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
@@ -49,7 +52,10 @@ public class BackgroundSceneController {
 	private StackPane rootPane;
 
 	@FXML
-	private ImageView logout;
+	private Button logout;
+	
+	@FXML
+	private AnchorPane logoutOverlay;
 
 	@FXML
 	private ImageView startBackgroundMusic;
@@ -64,6 +70,8 @@ public class BackgroundSceneController {
 	 * Reference to the game engine
 	 */
 	private GameEngine gameEngine;
+	
+	private LoggedInListener listener;
 
 
 	@FXML
@@ -74,6 +82,7 @@ public class BackgroundSceneController {
 		SettingsSceneController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
 		controller.setGameEngine(gameEngine);
+		controller.setListener(listener);
 	}
 
 	@FXML
@@ -133,9 +142,32 @@ public class BackgroundSceneController {
 	}
 	
 	@FXML
+	private void logoutButtonClicked(MouseEvent event) throws IOException {
+		gameEngine.getUserListener().logout();
+		logout.setVisible(false);
+		logout.setMouseTransparent(true);
+		
+		logoutOverlay.setVisible(true);
+	}
+	
+	@FXML
+	private void removeOverlay(MouseEvent event) throws IOException {
+		logoutOverlay.setVisible(false);
+	}
+	
+	@FXML
 	public void initialize() {
 		Utils.animateBackground(overlay, background1, background2, background3);
-//		logout.setVisible(false);
+	}
+	
+	public void init() {
+		logout.setVisible(gameEngine.getSession() != null);
+		logout.setMouseTransparent(gameEngine.getSession() == null);
+		
+		listener = () -> {
+			logout.setVisible(true);
+			logout.setMouseTransparent(false);
+		};
 	}
 
 	/**

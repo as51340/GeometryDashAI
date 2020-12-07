@@ -70,6 +70,7 @@ public class SettingsSceneController extends MenuController{
     	
     	controller.setPreviousSceneRoot(this.rootPane);
     	controller.setGameEngine(gameEngine);
+    	controller.setListener(listener);
     	controller.init();
     }
 	

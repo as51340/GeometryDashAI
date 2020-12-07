@@ -36,14 +36,14 @@ public class StatsSceneController extends MenuController {
 		obsList = FXCollections.observableArrayList();
 		Stats stats = gameEngine.getSession().getStats();
 		
-		obsList.add(new Text("Total jumps:                  " + stats.getTotalJumps()));
-		obsList.add(new Text("Total attempts:               " + stats.getTotalAttempts()));
-		obsList.add(new Text("Collected stars:              " + stats.getCollectedStars()));
-		obsList.add(new Text("Completed levels:             " + stats.getCompletedLevels()));
-		obsList.add(new Text("Collected user coins:         " + stats.getUserCoins()));
-		obsList.add(new Text("Liked levels:                 " + stats.getLikedLevels()));
-		obsList.add(new Text("Disliked levels:              " + stats.getDislikedLevels()));
-		obsList.add(new Text("Rated levels:                 " + stats.getRatedLevels()));
+		obsList.add(new Text("Total jumps: " + stats.getTotalJumps()));
+		obsList.add(new Text("Total attempts: " + stats.getTotalAttempts()));
+		obsList.add(new Text("Collected stars: " + stats.getCollectedStars()));
+		obsList.add(new Text("Completed levels: " + stats.getCompletedLevels()));
+		obsList.add(new Text("Collected user coins: " + stats.getUserCoins()));
+		obsList.add(new Text("Liked levels: " + stats.getLikedLevels()));
+		obsList.add(new Text("Disliked levels: " + stats.getDislikedLevels()));
+		obsList.add(new Text("Rated levels: " + stats.getRatedLevels()));
 		
 		statsList.setItems(obsList);
 		
