@@ -41,9 +41,11 @@ public class GeometryDash extends Application {
     	Parent root = fxmlLoader.load();
 
 		BackgroundSceneController controller = fxmlLoader.<BackgroundSceneController>getController();
-		controller.setGameEngine(gameEngine);
-		
         Scene scene = createScaledScene(root, primaryStage);
+        
+        controller.setGameEngine(gameEngine);
+    	gameEngine.createStageFromData(primaryStage);
+    	gameEngine.start();
         
 		primaryStage.setTitle("Geometry Dash");
 		primaryStage.setScene(scene);

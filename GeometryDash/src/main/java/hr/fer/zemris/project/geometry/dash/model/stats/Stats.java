@@ -67,8 +67,6 @@ public class Stats {
 	public Stats() {
 		
 	}
-	
-	
 
 	public Stats(long totalJumps, long totalAttempts, short completedLevels, short likedLevels, short dislikedLevels,
 			short ratedLevels) {

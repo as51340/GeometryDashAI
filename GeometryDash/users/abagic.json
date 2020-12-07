@@ -1,0 +1,18 @@
+{
+  "account": {
+    "username": "abagic",
+    "password": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+    "firstName": "Ana",
+    "lastName": "bagic"
+  },
+  "stats": {
+    "totalJumps": 0,
+    "totalAttempts": 0,
+    "collectedStars": 0,
+    "completedLevels": 0,
+    "userCoins": 0,
+    "likedLevels": 0,
+    "dislikedLevels": 0,
+    "ratedLevels": 0
+  }
+}
