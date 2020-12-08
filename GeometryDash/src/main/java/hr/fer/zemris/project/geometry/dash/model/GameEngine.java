@@ -1,6 +1,8 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
 import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
+import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Floor;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.hash.HashUtil;
 import hr.fer.zemris.project.geometry.dash.model.io.FileIO;
@@ -25,7 +28,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -110,6 +115,9 @@ public class GameEngine implements SoundSystem {
 	 * 
 	 * @param title Game's title
 	 */
+	
+	private Stage primaryStage;
+	
 	public GameEngine(int fps, String title, int width, int height) {
 		this.title = title;
 		this.width = width;
@@ -238,6 +246,14 @@ public class GameEngine implements SoundSystem {
 
 	public void reset() {
 		// TODO find how to completely reset a GameWorld
+		Camera newCamera = getGameWorld().getRenderer().getCamera();
+		newCamera.setPosition(new Vector2D(0, 0));
+		((Floor)getGameWorld().getFloor()).setCamera(newCamera);
+		getGameWorld().getRenderer().getGameObjects().forEach(o -> {
+			o.setCurrentPosition(o.initialPosition.copy());
+		});
+		createGameLoop();
+		start();
 	}
 
 	/**
@@ -254,7 +270,12 @@ public class GameEngine implements SoundSystem {
 		return new KeyFrame(frameTime, event -> {
 			if (gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.PRACTISE_MODE_PLAYING) {
 				if(!gameWorld.update()) {
-					gameWorld.getPlayerListener().playerIsDead(settings.getOptions());
+					try {
+						gameLoop.stop();				
+						gameWorld.getPlayerListener().playerIsDead(settings.getOptions(), this);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 				//tu nekako stopiraj
 			} else if (gameState == GameState.LEVEL_EDITOR_MODE) {
@@ -319,6 +340,11 @@ public class GameEngine implements SoundSystem {
 		stage.setTitle(this.title);
 		stage.setWidth(this.width);
 		stage.setHeight(this.height);
+		this.primaryStage = stage;
+	}
+	
+	public Stage getPrimaryStage() {
+		return primaryStage;
 	}
 
 	@Override
@@ -457,5 +483,4 @@ public class GameEngine implements SoundSystem {
 		}
 
 	}
-
 }

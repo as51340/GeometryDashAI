@@ -22,6 +22,7 @@ public class Block extends Obstacle {
      * @param position position of the block.
      */
     public Block(Vector2D position, String iconPath) {
+    	setInitialPosition(position.copy());
         setCurrentPosition(position);
         setHeight(GameConstants.iconHeight);
         setWidth(GameConstants.iconWidth);
@@ -30,7 +31,7 @@ public class Block extends Obstacle {
         setName("Block");
     }
 
-    /**
+	/**
      * Constructor that accepts all {@linkplain GameObject}'s parameters
      *
      * @param name            object name
@@ -41,6 +42,8 @@ public class Block extends Obstacle {
      */
     public Block(String name, Vector2D currentPosition, int height, int width, String iconPath) {
         setName(name);
+
+        setInitialPosition(currentPosition.copy());
         setCurrentPosition(currentPosition);
         setHeight(height);
         setWidth(width);

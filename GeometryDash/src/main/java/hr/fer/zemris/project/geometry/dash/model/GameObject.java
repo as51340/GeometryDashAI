@@ -20,6 +20,8 @@ public abstract class GameObject implements Drawable {
      */
     @Expose
     private Vector2D currentPosition;
+    
+    protected Vector2D initialPosition;
 
 
     /**
@@ -74,6 +76,11 @@ public abstract class GameObject implements Drawable {
     public void setCurrentPosition(Vector2D newPosition) {
         this.currentPosition = newPosition;
     }
+    
+    public void setInitialPosition(Vector2D init) {
+    	this.initialPosition = init;
+		
+	}
 
     /**
      * @return height

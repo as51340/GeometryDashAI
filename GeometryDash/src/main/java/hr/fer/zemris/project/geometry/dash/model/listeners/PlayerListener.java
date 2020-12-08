@@ -1,6 +1,10 @@
 package hr.fer.zemris.project.geometry.dash.model.listeners;
 
+import java.io.IOException;
+
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.settings.Options;
+import javafx.scene.layout.Pane;
 
 /**
  * Interested in changes of the player
@@ -26,8 +30,9 @@ public interface PlayerListener{
 
 	/**
 	 * Player is dead
+	 * @throws IOException 
 	 */
-	void playerIsDead(Options options);
+	void playerIsDead(Options options, GameEngine gameEngine) throws IOException;
 	
 	/**
 	 * Performs action when player jumps

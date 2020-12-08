@@ -18,6 +18,7 @@ public class Spike extends Obstacle {
 
 	//note: position here is lower left corner!
 	public Spike(Vector2D position, String uriIcon) {
+		setInitialPosition(position.copy());
 		setCurrentPosition(position);
 		this.setWidth(GameConstants.iconHeight); //stranica a
 		this.setHeight((int) (GameConstants.iconHeight * Math.sqrt(3) / 2)); // visina trokuta
@@ -36,6 +37,7 @@ public class Spike extends Obstacle {
      */
     public Spike(String name, Vector2D currentPosition, int height, int width, String iconPath) {
     	setName(name);
+    	setInitialPosition(currentPosition.copy());
     	setCurrentPosition(currentPosition);
     	setHeight(height);
     	setWidth(width);

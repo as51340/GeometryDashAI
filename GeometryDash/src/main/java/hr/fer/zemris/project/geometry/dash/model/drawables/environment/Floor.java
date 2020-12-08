@@ -31,6 +31,7 @@ public class Floor extends Obstacle{
 	 * @param position
 	 */
     public Floor(Vector2D position) {
+    	setInitialPosition(position.copy());
         setCurrentPosition(position);
         setName("Floor");
     }

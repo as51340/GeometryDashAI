@@ -18,6 +18,7 @@ public class LeftSpike extends Obstacle {
 
     //note: position here is lower left corner!
     public LeftSpike(Vector2D position, String uriIcon) {
+    	setInitialPosition(position.copy());;
         setCurrentPosition(position);
         this.setWidth(GameConstants.iconHeight); //visina trokuta
         this.setHeight((int) (GameConstants.iconHeight * Math.sqrt(3) / 2)); // baza trokuta
@@ -36,6 +37,7 @@ public class LeftSpike extends Obstacle {
      */
     public LeftSpike(String name, Vector2D currentPosition, int height, int width, String iconPath) {
         setName(name);
+        setInitialPosition(currentPosition.copy());;
         setCurrentPosition(currentPosition);
         setHeight(height);
         setWidth(width);
