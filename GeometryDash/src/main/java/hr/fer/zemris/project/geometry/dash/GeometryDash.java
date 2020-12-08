@@ -112,9 +112,8 @@ public class GeometryDash extends Application {
 	
 	public static Scene createScaledScene(Node root, Stage stage) {
         // Set a default "standard" or "100%" resolution
-		Stage currentStage = (Stage)Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
-        double origW = currentStage != null ? currentStage.getScene().getWidth() : GameConstants.WIDTH;
-        double origH = currentStage != null ? currentStage.getScene().getHeight() : GameConstants.HEIGHT;
+        double origW = GameConstants.WIDTH;
+        double origH = GameConstants.HEIGHT;
 
         // Place the Parent in a StackPane, which will keep it centered
         StackPane rootPane = new StackPane();

@@ -109,15 +109,17 @@ public class GameEngine implements SoundSystem {
 	 * User listener
 	 */
 	private UserListener userListener;
+	
+	/**
+	 * Time when gameLoop started
+	 */
+	private long startTime;
 
 	/**
 	 * Basic constructor that sets game's title Creates game loop and event handler
 	 * 
 	 * @param title Game's title
 	 */
-	
-	private Stage primaryStage;
-	
 	public GameEngine(int fps, String title, int width, int height) {
 		this.title = title;
 		this.width = width;
@@ -241,6 +243,7 @@ public class GameEngine implements SoundSystem {
 	 * Starts game loop
 	 */
 	public void start() {
+		this.startTime = System.currentTimeMillis();
 		gameLoop.play();
 	}
 
@@ -271,12 +274,15 @@ public class GameEngine implements SoundSystem {
 			if (gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.PRACTISE_MODE_PLAYING) {
 				if(!gameWorld.update()) {
 					try {
-						gameLoop.stop();				
-						gameWorld.getPlayerListener().playerIsDead(settings.getOptions(), this);
+						double time = System.currentTimeMillis() - this.startTime;
+						gameLoop.stop();	
+						gameWorld.getLevelManager().getCurrentLevel().setTotalAttempts();
+						gameWorld.getPlayerListener().playerIsDead(settings.getOptions(), this, time);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
+					
 				//tu nekako stopiraj
 			} else if (gameState == GameState.LEVEL_EDITOR_MODE) {
 //				Thread updateThread = DaemonicThreadFactory.getInstance().newThread(() -> {
@@ -340,11 +346,6 @@ public class GameEngine implements SoundSystem {
 		stage.setTitle(this.title);
 		stage.setWidth(this.width);
 		stage.setHeight(this.height);
-		this.primaryStage = stage;
-	}
-	
-	public Stage getPrimaryStage() {
-		return primaryStage;
 	}
 
 	@Override

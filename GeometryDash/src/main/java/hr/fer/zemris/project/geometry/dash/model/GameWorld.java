@@ -28,6 +28,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Duration;
 
 /**
  * Manages all current objects on the scene.
@@ -349,7 +350,7 @@ public class GameWorld {
          * @throws IOException 
          */
         @Override
-        public void playerIsDead(Options options, GameEngine gameEngine) throws IOException {
+        public void playerIsDead(Options options, GameEngine gameEngine, double time) throws IOException {
             if (options.isAutoRetry()) { // ako je auto retry onda sve kreni ispocetka
             	gameEngine.reset();
             } else { //ako ne otvori scenu u kojoj će moć izabrat da li želi restart ili u game menu
@@ -360,7 +361,13 @@ public class GameWorld {
             	Stage stage = (Stage)Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
             	Pane rootPane = stage == null ? null : (Pane)stage.getScene().getRoot();
             	controller.setPreviousSceneRoot(rootPane);
-            	controller.showInformation(Long.toString(levelManager.getCurrentLevel().getTotalJumps()));
+            	controller.showInformation(
+            			levelManager.getCurrentLevel().getLevelName(),
+            			Long.toString(levelManager.getCurrentLevel().getTotalAttempts()),
+            			levelManager.getCurrentLevel().getLevelPercentagePassNormalMode(),
+            			Long.toString(levelManager.getCurrentLevel().getTotalJumps()),
+            			time
+            			);
             }
         }
 
