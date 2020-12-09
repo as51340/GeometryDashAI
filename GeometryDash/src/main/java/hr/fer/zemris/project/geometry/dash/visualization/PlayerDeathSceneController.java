@@ -18,13 +18,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class PlayerDeathSceneController extends MenuController {
 	
 	@FXML
-	Label totalJumps, levelName, attempt, time;
+	Label totalJumps, attempt, time;
+	
+	@FXML
+	Text levelName;
 	
 	@FXML
 	ProgressBar progressBar;
