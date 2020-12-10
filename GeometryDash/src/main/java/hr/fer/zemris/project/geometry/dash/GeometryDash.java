@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * From where application starts
@@ -77,6 +78,7 @@ public class GeometryDash extends Application {
     	scene.setOnKeyPressed((e) -> {
     		if(e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W) {
         		gameEngine.getGameWorld().getPlayerListener().playerJumped();
+        		gameEngine.getGameWorld().getLevelManager().getCurrentLevel().setTotalJumps();
         		gameEngine.getUserListener().playerJumped();
     		}
     	});
@@ -84,6 +86,7 @@ public class GeometryDash extends Application {
     	scene.setOnMouseClicked((e) -> {
     		if(e.getButton() == MouseButton.PRIMARY) {
         		gameEngine.getGameWorld().getPlayerListener().playerJumped();
+        		gameEngine.getGameWorld().getLevelManager().getCurrentLevel().setTotalJumps();
         		gameEngine.getUserListener().playerJumped();
     		}
     	});
@@ -107,7 +110,7 @@ public class GeometryDash extends Application {
 	    primaryStage.show();
 	}
 	
-	private static Scene createScaledScene(Node root, Stage stage) {
+	public static Scene createScaledScene(Node root, Stage stage) {
         // Set a default "standard" or "100%" resolution
         double origW = GameConstants.WIDTH;
         double origH = GameConstants.HEIGHT;

@@ -6,12 +6,15 @@ import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 //TODO why to use specific width - every platform is 45
 public class Platform extends Obstacle {
 
     public Platform(Vector2D position, int width, String image) {
         this(position, image);
+    	setInitialPosition(position.copy());;
         setHeight(GameConstants.iconHeight);
         setWidth(width);
         setName("Platform");
@@ -23,6 +26,7 @@ public class Platform extends Obstacle {
     }
 
     public Platform(Vector2D position, String image) {
+    	setInitialPosition(position.copy());
         setCurrentPosition(position);
         setIconPath(image);
         setIcon(Utils.loadIcon(image, GameConstants.iconWidth, GameConstants.iconHeight));
@@ -39,6 +43,7 @@ public class Platform extends Obstacle {
      */
     public Platform(String name, Vector2D currentPosition, int height, int width, String iconPath) {
         setName(name);
+        setInitialPosition(currentPosition.copy());
         setCurrentPosition(currentPosition);
         setHeight(height);
         setWidth(width);
@@ -46,8 +51,15 @@ public class Platform extends Obstacle {
         setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
     }
 
+    //provjerava da li se playerov gornje lijevi ili desni kut nalazi "u" platformi
+    //tj da li ju je lupio od dole
     @Override
     public boolean checkCollisions(Player player) {
+//        Vector2D playerUL = player.getCurrentPosition();
+//        Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
+//
+//        return contains(playerUL) || contains(playerUR);
+//
         Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
         double xDiff = centerDiff.getX();
         double yDiff = centerDiff.getY();

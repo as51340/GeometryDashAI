@@ -59,6 +59,12 @@
 	-fx-text-fill: #ffb900;	
 }
 
+.smallLabel {
+	-fx-font-family: 'Pusab';
+	-fx-font-size: 48px;
+	-fx-text-fill: #ffb900;	
+}
+
 .registerLabel {
 	-fx-font-family: 'Pusab';
 	-fx-font-size: 30px;

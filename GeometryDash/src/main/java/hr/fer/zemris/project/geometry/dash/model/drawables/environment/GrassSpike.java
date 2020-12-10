@@ -10,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class GrassSpike extends Obstacle {
 
     public GrassSpike(Vector2D position, String uriIcon) {
+    	setInitialPosition(position.copy());
         setCurrentPosition(position);
         this.setWidth(GameConstants.iconWidth);
         this.setHeight(GameConstants.iconHeight);
@@ -29,6 +30,7 @@ public class GrassSpike extends Obstacle {
      */
     public GrassSpike(String name, Vector2D currentPosition, int height, int width, String iconPath) {
         setName(name);
+        setInitialPosition(currentPosition.copy());
         setCurrentPosition(currentPosition);
         setHeight(height);
         setWidth(width);

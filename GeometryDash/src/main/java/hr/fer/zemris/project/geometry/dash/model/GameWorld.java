@@ -1,8 +1,10 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.*;
@@ -16,10 +18,17 @@ import hr.fer.zemris.project.geometry.dash.model.serialization.GameObjectDeseria
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Options;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
+import hr.fer.zemris.project.geometry.dash.visualization.PlayerDeathSceneController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.util.Duration;
 
 /**
  * Manages all current objects on the scene.
@@ -191,6 +200,11 @@ public class GameWorld {
             return false;
         }
         renderer.render();
+        if (player.initialPosition.getX() != 0) {
+        	Scanner sc = new Scanner(System.in);
+        	sc.next();
+        	sc.close();
+        };
         return true;
     }
 
@@ -198,9 +212,7 @@ public class GameWorld {
         for (GameObject gameObject : levelManager.getCurrentLevel().getLevelData()) {
             if (gameObject instanceof Obstacle) {
                 if (((Obstacle) gameObject).checkCollisions((Player) player)) {
-                    renderer.getCamera().setPosition(new Vector2D(-10, 0));
-                    player.setCurrentPosition(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5));
-//                    return true;
+                	return true;
                 }
             }
         }
@@ -301,16 +313,27 @@ public class GameWorld {
 
         /**
          * Player is dead
+         * @throws IOException 
          */
         @Override
-        public void playerIsDead(Options options) {
-            // TODO otkriti kako ovo iskoristiti
-            // iskoristiti na nacin da se poziva ta metoda kad player umre pa da otvori ili ne otvori scena ovisno o postavkama
-            // treba ti referenca na optionse jer ti je tamo zapisano što korisnik zeli da mu se otvori
+        public void playerIsDead(Options options, GameEngine gameEngine, double time) throws IOException {
             if (options.isAutoRetry()) { // ako je auto retry onda sve kreni ispocetka
-
+            	gameEngine.reset();
             } else { //ako ne otvori scenu u kojoj će moć izabrat da li želi restart ili u game menu
-
+            	FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "PlayerDeathScene.fxml"));
+            	loader.load();
+            	PlayerDeathSceneController controller = loader.<PlayerDeathSceneController>getController();
+            	controller.setGameEngine(gameEngine);
+            	Stage stage = (Stage)Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
+            	Pane rootPane = stage == null ? null : (Pane)stage.getScene().getRoot();
+            	controller.setPreviousSceneRoot(rootPane);
+            	controller.showInformation(
+            			levelManager.getCurrentLevel().getLevelName(),
+            			Long.toString(levelManager.getCurrentLevel().getTotalAttempts()),
+            			levelManager.getCurrentLevel().getLevelPercentagePassNormalMode(),
+            			Long.toString(levelManager.getCurrentLevel().getTotalJumps()),
+            			time
+            			);
             }
         }
 

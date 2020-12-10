@@ -47,6 +47,7 @@ public class Player extends GameObject {
      * Player's constructor
      */
     public Player(double rotation, Vector2D speed, String icon) {
+    	setInitialPosition(new Vector2D(0, 0));
         this.rotation = rotation;
         this.speed = speed;
         setIcon(Utils.loadIcon(icon, GameConstants.iconWidth, GameConstants.iconHeight));
@@ -125,6 +126,7 @@ public class Player extends GameObject {
      * @param position
      */
     public Player(Vector2D position, Vector2D speed) {
+    	setInitialPosition(position.copy());
         setCurrentPosition(position);
         rotatingPoint = position.copy();
         setIcon(CharactersSelector.selectedCharacter.getIcon());
@@ -200,9 +202,9 @@ public class Player extends GameObject {
 //			System.err.println("Stojim: " + getRotation());	// za testiranje
         }
 
-        System.out.println("Player x: " + rotatingPoint.getX());
-        System.out.println("Player y: " + rotatingPoint.getY());
-        System.out.println("Rotation: " + getRotation());
+//        System.out.println("Player x: " + rotatingPoint.getX());
+//        System.out.println("Player y: " + rotatingPoint.getY());
+//        System.out.println("Rotation: " + getRotation());
         Rotate r = new Rotate(getRotation(), getCurrentPosition().getX() + GameConstants.iconWidth / 2.0, getCurrentPosition().getY() + GameConstants.iconHeight / 2.0);
         graphicsContext.save();
         graphicsContext.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
