@@ -280,8 +280,8 @@ public class GameEngine implements SoundSystem {
 						double time = System.currentTimeMillis() - this.startTime;
 						gameLoop.stop();	
 						gameWorld.getLevelManager().getCurrentLevel().setTotalAttempts();
-						gameWorld.getLevelManager().getCurrentLevel().resetTotalJumps();
 						gameWorld.getPlayerListener().playerIsDead(settings.getOptions(), this, time);
+						gameWorld.getLevelManager().getCurrentLevel().resetTotalJumps();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
