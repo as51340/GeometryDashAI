@@ -275,6 +275,10 @@ public class GameEngine implements SoundSystem {
 		// fps as value
 		return new KeyFrame(frameTime, event -> {
 			if (gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.PRACTISE_MODE_PLAYING) {
+				Player player = (Player) getGameWorld().getPlayer();
+				if (player.isJumpIntent()) {
+					getGameWorld().getLevelManager().getCurrentLevel().setTotalJumps();
+				}
 				if(!gameWorld.update()) {
 					try {
 						double time = System.currentTimeMillis() - this.startTime;

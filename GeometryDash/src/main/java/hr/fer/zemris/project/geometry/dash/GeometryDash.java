@@ -78,7 +78,6 @@ public class GeometryDash extends Application {
     	scene.setOnKeyPressed((e) -> {
     		if(e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W || e.getCode() == KeyCode.SPACE) {
         		gameEngine.getGameWorld().getPlayerListener().playerJumped();
-        		gameEngine.getGameWorld().getLevelManager().getCurrentLevel().setTotalJumps();
         		gameEngine.getUserListener().playerJumped();
     		}
     	});
