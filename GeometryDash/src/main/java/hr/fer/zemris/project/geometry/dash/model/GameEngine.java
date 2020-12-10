@@ -254,8 +254,11 @@ public class GameEngine implements SoundSystem {
 		((Floor)getGameWorld().getFloor()).setCamera(newCamera);
 		getGameWorld().getRenderer().getGameObjects().forEach(o -> {
 			o.setCurrentPosition(o.initialPosition.copy());
+			if (o instanceof Player) {
+				((Player)o).setRotation(0);
+				((Player)o).setSpeed(new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
+			}
 		});
-		createGameLoop();
 		start();
 	}
 
@@ -277,8 +280,8 @@ public class GameEngine implements SoundSystem {
 						double time = System.currentTimeMillis() - this.startTime;
 						gameLoop.stop();	
 						gameWorld.getLevelManager().getCurrentLevel().setTotalAttempts();
+						gameWorld.getLevelManager().getCurrentLevel().resetTotalJumps();
 						gameWorld.getPlayerListener().playerIsDead(settings.getOptions(), this, time);
-						getGameWorld().getLevelManager().getCurrentLevel().resetTotalJumps();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
