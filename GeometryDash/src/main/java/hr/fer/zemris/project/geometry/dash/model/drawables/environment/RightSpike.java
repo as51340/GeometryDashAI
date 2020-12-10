@@ -47,10 +47,12 @@ public class RightSpike extends Obstacle {
         Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
         double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
         double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
+//      LEGACY, ne radi bas lijepo
+//        return  (((Math.abs(yDiff) - xDiff) <= getHeight()) && xDiff < getHeight() * 5 / 6.0
+//                && Math.abs(xDiff) <= getHeight() * 0.9 && Math.abs(yDiff) <= getHeight()*0.9);
 
-        return  ((((2 * Math.abs(yDiff)) - xDiff) <= getHeight()) && Math.abs(xDiff) <= getHeight()
-                && Math.abs(yDiff) <= getHeight() * 0.9);
-
+        return  ((((1.2 * Math.abs(yDiff)) - xDiff) <= getHeight()) && Math.abs(xDiff) <= getHeight() * 0.9
+                && Math.abs(yDiff) <= getHeight() * 0.85 && yDiff < getHeight() * 0.8);
     }
 
     @Override

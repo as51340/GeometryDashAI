@@ -47,7 +47,7 @@ public class Spike extends Obstacle {
 		double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
 		double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
 
-		return  ((( Math.abs(xDiff) + yDiff) <= getHeight()) && yDiff > getHeight() / -3.15
+		return  ((( Math.abs(xDiff) + yDiff) <= getHeight()) && yDiff > getHeight() / -2.0
 				&& Math.abs(yDiff) <= getHeight() * 0.85 && Math.abs(xDiff) <= getHeight()*0.9);
 
     }
