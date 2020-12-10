@@ -16,6 +16,7 @@ public class RightSpike extends Obstacle {
     //note: position here is lower left corner!
     public RightSpike(Vector2D position, String uriIcon) {
         setCurrentPosition(position);
+        setInitialPosition(position.copy());
         this.setWidth(GameConstants.iconWidth); //visina trokuta
         this.setHeight(GameConstants.iconHeight); // baza trokuta
         setIconPath(uriIcon);
@@ -34,6 +35,7 @@ public class RightSpike extends Obstacle {
     public RightSpike(String name, Vector2D currentPosition, int height, int width, String iconPath) {
         setName(name);
         setCurrentPosition(currentPosition);
+        setInitialPosition( currentPosition.copy());
         setHeight(height);
         setWidth(width);
         setIconPath(iconPath);
