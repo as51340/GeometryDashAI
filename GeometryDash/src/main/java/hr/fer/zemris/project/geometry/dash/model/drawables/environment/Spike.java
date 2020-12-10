@@ -10,7 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class Spike extends Obstacle {
 	@Override
 	public Vector2D getCenterPosition() {
-		return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, getHeight()/2.0));
+		return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, getHeight()*2.0/3.0));
 	}
 
 	public Spike(Vector2D position, String uriIcon) {
@@ -47,7 +47,7 @@ public class Spike extends Obstacle {
 		double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
 		double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
 
-		return  (((2 * Math.abs(xDiff) + yDiff) <= getHeight()) && Math.abs(yDiff) <= getHeight() * 0.85 && Math.abs(xDiff) <= getHeight());
+		return  ((( Math.abs(xDiff) + yDiff) <= getHeight()) && Math.abs(yDiff) <= getHeight() * 0.85 && Math.abs(xDiff) <= getHeight()*2);
 
     }
 
@@ -58,7 +58,7 @@ public class Spike extends Obstacle {
 
 	@Override
 	public GameObject copy() {
-		return new Spike(getCurrentPosition().copy(), new String(getIconPath()));
+		return new Spike(getCurrentPosition().copy(), getIconPath());
 	}
 
 }
