@@ -175,7 +175,7 @@ public class GameWorld {
         levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X + 33 * GameConstants.iconHeight, GameConstants.floorPosition_Y + 3), GameConstants.spikeImage));
         levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X + 30 * GameConstants.iconHeight, GameConstants.floorPosition_Y + 3), GameConstants.spikeImage));
         levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X + 25 * GameConstants.iconHeight, GameConstants.floorPosition_Y + 3), GameConstants.spikeImage));
-        levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X + 20 * GameConstants.iconHeight, GameConstants.floorPosition_Y + 3), GameConstants.spikeImage));
+        levelObjects.add(new Spike(new Vector2D(GameConstants.playerPosition_X + 20 * GameConstants.iconHeight, GameConstants.floorPosition_Y + 3 - GameConstants.iconHeight), GameConstants.spikeImage));
 
         levelObjects.add(player);
         levelObjects.add(floor);
