@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.NoSuchElementException;
 
-import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Block;
-import hr.fer.zemris.project.geometry.dash.model.drawables.environment.GrassSpike;
-import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Platform;
-import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Spike;
+import hr.fer.zemris.project.geometry.dash.model.drawables.environment.*;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
@@ -134,6 +131,8 @@ public class Utils {
 			case "Block" -> retObject = createBlock(objPosition, height, width, uriIcon);
 			case "Platform" -> retObject = createPlatform(objPosition, height, width, uriIcon);
 			case "Spike" -> retObject = createSpike(objPosition, height, width, uriIcon);
+			case "LeftSpike" -> retObject = createLeftSpike(objPosition, height, width, uriIcon);
+			case "RightSpike" -> retObject = createRightSpike(objPosition, height, width, uriIcon);
 			case "GrassSpike" -> retObject = createGrassSpike(objPosition, height, width, uriIcon);
 			// TODO case "Floor"
 			default -> throw new IllegalArgumentException("Unsupported object type!");
@@ -161,7 +160,25 @@ public class Utils {
 	private static Spike createSpike(Vector2D objPosition, int height, int width, String uriIcon) {
 		return new Spike("Spike", objPosition, height, width, uriIcon);
 	}
-	
+
+	/**
+	 * Creates left spike
+	 * @param uriIcon path to icon
+	 * @return created {@linkplain hr.fer.zemris.project.geometry.dash.model.drawables.environment.LeftSpike}
+	 */
+	private static LeftSpike createLeftSpike(Vector2D objPosition, int height, int width, String uriIcon) {
+		return new LeftSpike("LeftSpike", objPosition, height, width, uriIcon);
+	}
+
+	/**
+	 * Creates left spike
+	 * @param uriIcon path to icon
+	 * @return created {@linkplain hr.fer.zemris.project.geometry.dash.model.drawables.environment.LeftSpike}
+	 */
+	private static RightSpike createRightSpike(Vector2D objPosition, int height, int width, String uriIcon) {
+		return new RightSpike("RightSpike", objPosition, height, width, uriIcon);
+	}
+
 	/**
 	 * Creates platform
 	 * @param uriIcon path to icon

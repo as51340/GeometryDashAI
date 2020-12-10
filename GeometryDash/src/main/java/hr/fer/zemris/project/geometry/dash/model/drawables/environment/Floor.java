@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 /**
  * Floor object
- * @author Andi Škrgat
+ * @author Andi Skrgat
  *
  */
 public class Floor extends Obstacle{
@@ -31,6 +31,7 @@ public class Floor extends Obstacle{
 	 * @param position
 	 */
     public Floor(Vector2D position) {
+    	setInitialPosition(position.copy());
         setCurrentPosition(position);
         setName("Floor");
     }
@@ -39,11 +40,7 @@ public class Floor extends Obstacle{
     public boolean checkCollisions(Player player) {
         return false;
     }
-   
-    @Override
-    public boolean contains(Vector2D p) {
-        return false;
-    }
+
     
 	@Override
 	public void draw(GraphicsContext graphicsContext) {

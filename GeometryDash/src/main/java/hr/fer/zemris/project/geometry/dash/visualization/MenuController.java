@@ -18,8 +18,8 @@ import javafx.util.Duration;
 
 public class MenuController {
 	
-	private static final int MENU_TRANSITION_DURATION = 500;
-	private static final double OVERLAY_OPACITY = 0.5;
+	protected static final int MENU_TRANSITION_DURATION = 500;
+	protected static final double OVERLAY_OPACITY = 0.5;
 	
 	private Pane previousSceneRootPane;
 	
