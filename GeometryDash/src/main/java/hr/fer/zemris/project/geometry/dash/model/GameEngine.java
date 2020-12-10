@@ -278,6 +278,7 @@ public class GameEngine implements SoundSystem {
 						gameLoop.stop();	
 						gameWorld.getLevelManager().getCurrentLevel().setTotalAttempts();
 						gameWorld.getPlayerListener().playerIsDead(settings.getOptions(), this, time);
+						getGameWorld().getLevelManager().getCurrentLevel().resetTotalJumps();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

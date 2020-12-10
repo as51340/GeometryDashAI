@@ -82,6 +82,13 @@ public class Level {
 	}
 
 	/**
+	 * resets totalJumps
+	 */
+	public void resetTotalJumps() {
+		this.totalJumps = 0;
+	}
+
+	/**
 	 * @return the levelPercentagePassNormalMode
 	 */
 	public short getLevelPercentagePassNormalMode() {
