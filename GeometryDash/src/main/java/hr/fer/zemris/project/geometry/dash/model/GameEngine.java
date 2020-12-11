@@ -45,6 +45,9 @@ import javafx.util.Duration;
  */
 public class GameEngine implements SoundSystem {
 
+	private static final GameEngine GAME_ENGINE = new GameEngine(60, "GeometryDashAI",
+			GameConstants.WIDTH, GameConstants.HEIGHT);
+	
 	/**
 	 * Frames per second, default value is 60
 	 */
@@ -114,13 +117,21 @@ public class GameEngine implements SoundSystem {
 	 * Time when gameLoop started
 	 */
 	private long startTime;
+	
+	/**
+	 * Always returns same instance of game engine
+	 * @return
+	 */
+	public static GameEngine getInstance() {
+		return GAME_ENGINE;
+	}
 
 	/**
 	 * Basic constructor that sets game's title Creates game loop and event handler
 	 * 
 	 * @param title Game's title
 	 */
-	public GameEngine(int fps, String title, int width, int height) {
+	private GameEngine(int fps, String title, int width, int height) {
 		this.title = title;
 		this.width = width;
 		this.height = height;
@@ -133,6 +144,7 @@ public class GameEngine implements SoundSystem {
 		userListener = new UserListenerImpl();
 		createGameLoop();
 	}
+	
 
 	/**
 	 * @return the levelManager
@@ -274,7 +286,7 @@ public class GameEngine implements SoundSystem {
 		// time between update will be approx. 16.67ms, for 10ms we have to provide 100
 		// fps as value
 		return new KeyFrame(frameTime, event -> {
-			if (gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.PRACTISE_MODE_PLAYING) {
+			if (gameState == GameState.NORMAL_MODE_PLAYING ) {
 				Player player = (Player) getGameWorld().getPlayer();
 				if (player.isJumpIntent()) {
 					getGameWorld().getLevelManager().getCurrentLevel().setTotalJumps();
@@ -282,9 +294,9 @@ public class GameEngine implements SoundSystem {
 				if(!gameWorld.update()) {
 					try {
 						double time = System.currentTimeMillis() - this.startTime;
-						gameLoop.stop();	
+						gameLoop.stop();
 						gameWorld.getLevelManager().getCurrentLevel().setTotalAttempts();
-						gameWorld.getPlayerListener().playerIsDead(settings.getOptions(), this, time);
+						gameWorld.getPlayerListener().playerIsDead(time);
 						gameWorld.getLevelManager().getCurrentLevel().resetTotalJumps();
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -391,18 +403,7 @@ public class GameEngine implements SoundSystem {
 			// TODO Auto-generated method stub
 
 		}
-
-		@Override
-		public void practiseModePlayingEntered() {
-			gameState = GameState.PRACTISE_MODE_PLAYING;
-		}
-
-		@Override
-		public void practiseModePlayingExited() {
-			// TODO Auto-generated method stub
-
-		}
-
+		
 		@Override
 		public void normalModePlayingStarted() {
 			gameState = GameState.NORMAL_MODE_PLAYING;

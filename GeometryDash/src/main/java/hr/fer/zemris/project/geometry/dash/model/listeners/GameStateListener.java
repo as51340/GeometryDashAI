@@ -32,16 +32,6 @@ public interface GameStateListener {
 	void characterSelectorModeExited();
 	
 	/**
-	 * Started practise mode
-	 */
-	void practiseModePlayingEntered();
-	
-	/**
-	 * Exited from practise mode
-	 */
-	void practiseModePlayingExited();
-	
-	/**
 	 * Started normal mode
 	 */
 	void normalModePlayingStarted();

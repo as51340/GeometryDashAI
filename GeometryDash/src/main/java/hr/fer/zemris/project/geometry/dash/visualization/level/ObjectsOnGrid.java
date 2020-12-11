@@ -86,6 +86,7 @@ public class ObjectsOnGrid implements Drawable{
 	 */
 	public void clear() {
 		listGameObjects.clear();
+		positionToObject.clear();
 	}
 	
 	/**
@@ -94,6 +95,7 @@ public class ObjectsOnGrid implements Drawable{
 	 */
 	public void remove(GameObject gameObject) {
 		listGameObjects.remove(gameObject);
+		positionToObject.remove(gameObject.getCurrentPosition(), gameObject);
 	}
 	
 	/**
@@ -121,5 +123,8 @@ public class ObjectsOnGrid implements Drawable{
 	 */
 	public void loadObjectsOnScreen(Set<GameObject> loadedObjects) {
 		listGameObjects = loadedObjects;
+		for(GameObject go: loadedObjects) {
+			positionToObject.put(go.getCurrentPosition(), go);
+		}
 	}
 }

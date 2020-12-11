@@ -206,4 +206,9 @@ public class GameConstants {
      * 
      */
     public static final int TRANSITION_DURATION = 300;
+    
+    /**
+     * Level ending offset
+     */
+    public static final int LEVEL_END_OFFSET = 200;
 }

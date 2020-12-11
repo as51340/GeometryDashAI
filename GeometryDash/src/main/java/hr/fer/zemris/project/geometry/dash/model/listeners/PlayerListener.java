@@ -3,6 +3,7 @@ package hr.fer.zemris.project.geometry.dash.model.listeners;
 import java.io.IOException;
 
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
+import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.settings.Options;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -33,11 +34,17 @@ public interface PlayerListener{
 	 * Player is dead
 	 * @throws IOException 
 	 */
-	void playerIsDead(Options options, GameEngine gameEngine, double time) throws IOException;
+	void playerIsDead(double time) throws IOException;
 	
 	/**
 	 * Performs action when player jumps
 	 */
 	void playerJumped();
+	
+	/**
+	 * Sets playing mode
+	 * @param playingMode playing mode
+	 */
+	void playerCreated(PlayingMode playingMode);
 	
 }

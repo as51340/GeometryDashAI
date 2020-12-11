@@ -6,6 +6,7 @@ import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.listeners.LoggedInListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.visualization.ai.AIOptionsController;
 import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditorSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,6 +66,9 @@ public class BackgroundSceneController {
 
 	@FXML
 	private ImageView nextBackgroundMusic;
+	
+	@FXML
+    private ImageView play_ai;
 
 	/**
 	 * Reference to the game engine
@@ -120,12 +124,11 @@ public class BackgroundSceneController {
 	@FXML
 	private void playButtonClicked(MouseEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource(GameConstants.pathToVisualization + "level/ChooseLevelScene.fxml"));
+				getClass().getResource(GameConstants.pathToVisualization + "ChoosePlayerScene.fxml"));
 		loader.load();
-		ChooseLevelController controller = loader.getController();
+		ChoosePlayerController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
 		//gameEngine.getSettings().getBackgroundMusicPlayer().stop();
-		controller.setGameEngine(gameEngine);
 	}
 
 	@FXML
@@ -138,17 +141,24 @@ public class BackgroundSceneController {
 		controller.setListeners();
 		controller.setGameEngine(gameEngine);
 		gameEngine.getGameStateListener().levelEditorModeEntered(controller.getGraphicsContext());
-		gameEngine.start();
+//		gameEngine.start();
 	}
 	
 	@FXML
 	private void logoutButtonClicked(MouseEvent event) throws IOException {
 		gameEngine.getUserListener().logout();
 		logout.setVisible(false);
-		logout.setMouseTransparent(true);
-		
+		logout.setMouseTransparent(true);	
 		logoutOverlay.setVisible(true);
 	}
+	
+    @FXML
+    void aiClicked(MouseEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "AI/AIOptionsScene.fxml"));
+    	loader.load();
+    	AIOptionsController controller = loader.getController();
+    	controller.setPreviousSceneRoot(rootPane);
+    }
 	
 	@FXML
 	private void removeOverlay(MouseEvent event) throws IOException {

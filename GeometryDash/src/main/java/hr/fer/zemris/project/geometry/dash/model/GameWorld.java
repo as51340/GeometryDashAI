@@ -15,6 +15,8 @@ import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
 import hr.fer.zemris.project.geometry.dash.model.serialization.GameObjectDeserializer;
+import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
+import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Options;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
@@ -148,12 +150,12 @@ public class GameWorld {
     private void createScene() {
         player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
         floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
-        //Set<GameObject> levelObjects = new GameObjectDeserializer(GameConstants.levelToWorldOffset).deserialize(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, "Level1"));
+        Set<GameObject> levelObjects = new SerializationOfObjects(GsonFactory.createGameObjectGson(50)).deserializeGameObjects(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, "TempLevel"));
         // when we create choose level scene then we will change these lines, maybe create scene will be public and will receive levelName
         // and level manager will have from start predefines levels, you can call levelManeger.startLevelWithName(levelName);
         // but for testing it's okay
 
-        Set<GameObject> levelObjects = new HashSet<>();
+//        Set<GameObject> levelObjects = new HashSet<>();
 
         levelObjects.add(player);
         levelObjects.add(floor);
@@ -245,7 +247,14 @@ public class GameWorld {
 
         //prolazi sve gameObjects na levelu i ako je neki od njih blok ili platforma te ako je player na njemu kaze
         //playeru da smije skociti
+        boolean finished = true;
         for (GameObject gameObject : levelManager.getCurrentLevel().getLevelData()) {
+        	if(gameObject.getCurrentPosition().getX() + GameConstants.LEVEL_END_OFFSET> player.getCurrentPosition().getX()) {
+        		finished = false;
+        	}
+        	if(finished == true) {
+        		System.out.println("Zavrsen level!");
+        	}
             if (gameObject instanceof Block) {
                 if (((Block) gameObject).playerIsOn((Player) player)) {
                     ((Player) player).touchesGround();
@@ -288,20 +297,22 @@ public class GameWorld {
         public void playerIsOnFloor() {
             // TODO otkriti kako ovo iskoristiti
         }
+        
+        
 
         /**
          * Player is dead
          * @throws IOException 
          */
         @Override
-        public void playerIsDead(Options options, GameEngine gameEngine, double time) throws IOException {
-            if (options.isAutoRetry()) { // ako je auto retry onda sve kreni ispocetka
-            	gameEngine.reset();
+        public void playerIsDead(double time) throws IOException {
+            if (GameEngine.getInstance().getSettings().getOptions().isAutoRetry()) { // ako je auto retry onda sve kreni ispocetka
+            	GameEngine.getInstance().reset();
             } else { //ako ne otvori scenu u kojoj će moć izabrat da li želi restart ili u game menu
             	FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "PlayerDeathScene.fxml"));
             	loader.load();
             	PlayerDeathSceneController controller = loader.<PlayerDeathSceneController>getController();
-            	controller.setGameEngine(gameEngine);
+            	controller.setGameEngine(GameEngine.getInstance());
             	Stage stage = (Stage)Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
             	Pane rootPane = stage == null ? null : (Pane)stage.getScene().getRoot();
             	controller.setPreviousSceneRoot(rootPane);
@@ -319,6 +330,11 @@ public class GameWorld {
         public void playerJumped() {
             ((Player) player).jump();
         }
+
+		@Override
+		public void playerCreated(PlayingMode playingMode) {
+			((Player) player).setPlayingMode(playingMode);
+		}
 
     }
 

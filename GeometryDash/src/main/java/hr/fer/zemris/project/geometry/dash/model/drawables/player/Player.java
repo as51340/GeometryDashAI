@@ -3,6 +3,7 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.player;
 
 import com.google.gson.annotations.Expose;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
+import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
@@ -16,6 +17,7 @@ import javafx.scene.transform.Rotate;
  * @author Damjan, Andi
  */
 public class Player extends GameObject {
+	
     private double gravityTimer = GameConstants.gravity_Y;
 
     /**
@@ -23,6 +25,8 @@ public class Player extends GameObject {
      */
     @Expose
     private double rotation;
+    
+    
 
     /**
      * Flag that signifies the player wants to jump
@@ -42,6 +46,11 @@ public class Player extends GameObject {
     private Vector2D speed;
 
     private Vector2D rotatingPoint;
+    
+    /**
+     * Specifies type of player
+     */
+    private PlayingMode playingMode;
 
     /**
      * Player's constructor
@@ -121,6 +130,20 @@ public class Player extends GameObject {
     }
 
     /**
+	 * @return the playingMode
+	 */
+	public PlayingMode getPlayingMode() {
+		return playingMode;
+	}
+
+	/**
+	 * @param playingMode the playingMode to set
+	 */
+	public void setPlayingMode(PlayingMode playingMode) {
+		this.playingMode = playingMode;
+	}
+
+	/**
      * Constructs a <code>Player</code>
      *
      * @param position

@@ -31,7 +31,7 @@ import javafx.stage.Window;
  */
 public class GeometryDash extends Application {
 
-	private GameEngine gameEngine = new GameEngine(100, "Geometry Dash", GameConstants.WIDTH, GameConstants.HEIGHT);
+	private GameEngine gameEngine = GameEngine.getInstance();
 	
 	private void loadGameMenu(Stage primaryStage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
@@ -119,8 +119,8 @@ public class GeometryDash extends Application {
     public void start(Stage primaryStage) throws IOException {
 
 //    	loadLevelEditor(primaryStage);
-//		loadGameMenu(primaryStage);
-    	loadMain(primaryStage);
+    	loadGameMenu(primaryStage);
+//    	loadMain(primaryStage);
 
 //    	tester
 //		Media media = new Media(getClass().getResource(GameConstants.pathToSongs + "BlahBlahBlah.mp3").toExternalForm());
