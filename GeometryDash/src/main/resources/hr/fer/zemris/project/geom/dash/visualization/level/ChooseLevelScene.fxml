@@ -1,44 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.ChooseLevelController">
+<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.ChooseLevelController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="733.0" stroke="BLACK" strokeType="INSIDE" width="1292.0" />
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: mediumblue;">
+      <Rectangle fx:id="chooseLevelBackground" fill="#051479" height="733.0" layoutX="4.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1292.0" />
+      <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <ImageView fitHeight="437.0" fitWidth="885.0" layoutX="198.0" layoutY="-386.0">
+            <ImageView fx:id="floor1" fitHeight="125.0" layoutX="-162.0" layoutY="601.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../static/frame.png" />
+                  <Image url="@../../static/dash_floor.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="backButton" fitHeight="82.0" fitWidth="73.0" layoutX="14.0" layoutY="21.0" onMouseClicked="#backButtonClicked" styleClass="menu-button">
+            <ImageView fx:id="floor2" fitHeight="125.0" layoutX="372.0" layoutY="601.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../static/back_btn.png" />
+                  <Image url="@../../static/dash_floor.jpg" />
                </image>
             </ImageView>
-            <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#1a2632" height="200.0" layoutX="255.0" layoutY="160.0" opacity="0.44" stroke="BLACK" strokeType="INSIDE" width="796.0" />
-            <Line fx:id="line" endX="-243.0" layoutX="548.0" layoutY="599.0" startX="476.0" stroke="WHITE" strokeLineCap="ROUND" strokeMiterLimit="50.0" strokeWidth="3.0">
+            <ImageView fx:id="floor3" fitHeight="125.0" layoutX="906.0" layoutY="601.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../static/dash_floor.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Rectangle fx:id="floorOverlay" blendMode="OVERLAY" fill="#051479" height="120.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1292.0" StackPane.alignment="BOTTOM_CENTER" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#1a2632" height="200.0" onMouseClicked="#levelRectangleClicked" opacity="0.44" stroke="BLACK" strokeType="INSIDE" styleClass="menu-button" width="800.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="150.0" />
+            <StackPane fx:id="levelNameAndPaginationPane" prefHeight="720.0" prefWidth="1280.0">
+               <children>
+                  <Text fx:id="levelName" fill="WHITE" stroke="BLACK" strokeWidth="2.0" styleClass="text-font" text="LevelName" translateY="-110.0" StackPane.alignment="CENTER">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </Text>
+                  <FlowPane fx:id="paginationPane" alignment="BOTTOM_CENTER" columnHalignment="CENTER" hgap="15.0" prefHeight="200.0" prefWidth="200.0" translateY="-52.0" />
+               </children>
+            </StackPane>
+            <ImageView fx:id="backButton" fitHeight="67.0" fitWidth="57.0" onMouseClicked="#backButtonClicked" styleClass="menu-button" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="35.0">
+               <image>
+                  <Image url="@../../static/back_btn_green.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="75.0" fitWidth="720.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="280.0">
+               <image>
+                  <Image url="@../../static/decoration_top.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="56.0" fitWidth="60.0" onMouseClicked="#infoButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="35.0">
+               <image>
+                  <Image url="@../../static/info_btn.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="50.0" layoutY="285.0" onMouseClicked="#previousButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.bottomAnchor="285.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="285.0">
+               <image>
+                  <Image url="@../../static/left_btn.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#nextButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.bottomAnchor="285.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="285.0">
+               <image>
+                  <Image url="@../../static/right_btn.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+               <image>
+                  <Image url="@../../static/decoration_left.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <image>
+                  <Image url="@../../static/decoration_right.png" />
+               </image>
+            </ImageView>
+            <Text fill="WHITE" stroke="BLACK" strokeWidth="2.0" styleClass="text-font" text="Normal Mode" AnchorPane.bottomAnchor="260.0" AnchorPane.leftAnchor="320.0">
+               <font>
+                  <Font size="50.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Text>
+            <Label fx:id="percentage" styleClass="smallLabel" text="0%" AnchorPane.bottomAnchor="260.0" AnchorPane.leftAnchor="750.0" />
+            <ProgressBar fx:id="progressBar" prefHeight="30.0" prefWidth="640.0" progress="0.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="320.0" />
+            <Line endX="-243.0" layoutX="548.0" layoutY="599.0" startX="476.0" stroke="WHITE" strokeLineCap="ROUND" strokeMiterLimit="50.0" strokeWidth="3.0">
                <effect>
                   <BoxBlur height="0.0" iterations="2" width="133.57" />
                </effect>
             </Line>
-            <ImageView fx:id="previousLevel" fitHeight="100.0" fitWidth="100.0" layoutX="1.0" layoutY="313.0" onMouseClicked="#previousButtonClicked">
-               <image>
-                  <Image url="@../../static/leftarrow.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="nextLevel" fitHeight="100.0" fitWidth="80.0" layoutX="1173.0" layoutY="310.0" onMouseClicked="#nextButtonClicked">
-               <image>
-                  <Image url="@../../static/rightarrow.png" />
-               </image>
-            </ImageView>
          </children>
       </AnchorPane>
       <Rectangle fx:id="overlayBlack" height="720.0" mouseTransparent="true" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="1280.0" StackPane.alignment="TOP_LEFT" />

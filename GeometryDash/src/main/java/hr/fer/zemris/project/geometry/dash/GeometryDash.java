@@ -38,13 +38,9 @@ public class GeometryDash extends Application {
     	Parent root = fxmlLoader.load();
 
 		BackgroundSceneController controller = fxmlLoader.<BackgroundSceneController>getController();
-        Scene scene = createScaledScene(root, primaryStage);
-        
-        controller.setGameEngine(gameEngine);
         controller.init();
-    	gameEngine.createStageFromData(primaryStage);
-//    	gameEngine.start();
-
+        
+        Scene scene = createScaledScene(root, primaryStage);
 		primaryStage.setTitle("Geometry Dash");
 		primaryStage.setScene(scene);
 	    primaryStage.show();
@@ -53,8 +49,10 @@ public class GeometryDash extends Application {
 	private void loadMain(Stage primaryStage) throws IOException {
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "GameScene.fxml"));
     	Parent root = fxmlLoader.load();
+    	
     	GameSceneController controller = fxmlLoader.<GameSceneController>getController();
-    	controller.setGameEngine(gameEngine);
+    	gameEngine.getGameWorld().createScene("TempLevel");
+    	controller.init();
     	
     	Scene scene = createScaledScene(root, primaryStage);
     	
@@ -72,20 +70,9 @@ public class GeometryDash extends Application {
     		}
     	});
         
-    	gameEngine.createStageFromData(primaryStage);
+    	gameEngine.getGameStateListener().normalModePlayingStarted();
     	gameEngine.start();
     	
-        double origW = GameConstants.WIDTH;
-        double origH = GameConstants.HEIGHT;
-    	root.scaleXProperty().bind(scene.widthProperty().divide(origW));
-        root.scaleYProperty().bind(scene.heightProperty().divide(origH));
-    	double ratio = (double) GameConstants.HEIGHT / GameConstants.WIDTH;
-        primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(ratio));
-        primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(ratio));
-        gameEngine.getGameStateListener().normalModePlayingStarted();
-    	gameEngine.createStageFromData(primaryStage);
-    	gameEngine.start();
-    	primaryStage.setResizable(true);
     	primaryStage.setTitle("Geometry Dash");
 		primaryStage.setScene(scene);
 	    primaryStage.show();

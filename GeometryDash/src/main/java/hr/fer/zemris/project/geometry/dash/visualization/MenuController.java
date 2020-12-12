@@ -32,7 +32,7 @@ public class MenuController {
     @FXML
     protected StackPane rootPane;
 
-    protected GameEngine gameEngine;
+    protected GameEngine gameEngine = GameEngine.getInstance();
     
     protected LoggedInListener listener;
     
@@ -78,10 +78,6 @@ public class MenuController {
         fadeTransitionReverse.setToValue(0.0);
         fadeTransitionReverse.play();
     }
-    
-	public void setGameEngine(GameEngine gameEngine) {
-		this.gameEngine = gameEngine;
-	}
 	
 	public void setListener(LoggedInListener listener) {
 		this.listener = listener;

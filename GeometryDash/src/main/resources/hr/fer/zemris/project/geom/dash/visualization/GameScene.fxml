@@ -28,7 +28,27 @@
             </ImageView>
          </children>
       </Pane>
+      <Pane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <ImageView fx:id="floor1" fitWidth="850.0" layoutY="590.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../static/dash_floor.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="floor2" fitWidth="850.0" layoutX="848.0" layoutY="590.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../static/dash_floor.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="floor3" fitWidth="850.0" layoutX="1696.0" layoutY="590.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../static/dash_floor.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
       <Rectangle fx:id="overlay" blendMode="OVERLAY" fill="WHITE" height="760.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" StackPane.alignment="TOP_LEFT" />
       <Canvas fx:id="canvas" height="720.0" layoutY="30.0" width="1280.0" />
+      <Rectangle fx:id="overlayBlack" height="720.0" mouseTransparent="true" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="1280.0" StackPane.alignment="TOP_LEFT" />
    </children>
 </StackPane>

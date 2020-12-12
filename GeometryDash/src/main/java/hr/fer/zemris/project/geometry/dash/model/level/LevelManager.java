@@ -1,14 +1,21 @@
 package hr.fer.zemris.project.geometry.dash.model.level;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
+import hr.fer.zemris.project.geometry.dash.model.io.ZipUtil;
+import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
+import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
+import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.LevelMusicPlayer;
-import hr.fer.zemris.project.geometry.dash.visualization.level.ObjectsOnGrid;
 
 /**
  * @author Andi Škrgat
@@ -34,8 +41,25 @@ public class LevelManager {
 	/**
 	 * Constructor that loads all initial levels created from the start
 	 */
-	public LevelManager() {
+	public LevelManager(GameObject player, GameObject floor) {
 		allLevels = new HashSet<Level>();
+		
+		try (Stream<Path> paths = Files.list(Paths.get(GameConstants.pathToLevelsFolder))) {
+		    paths
+		    .filter(Files::isRegularFile)
+		    .filter(path -> path.toString().toLowerCase().endsWith(".zip"))
+		    .forEach(path -> {
+		    	String levelName = path.getFileName().toString().substring(0, path.getFileName().toString().lastIndexOf("."));
+		        Set<GameObject> levelObjects = new SerializationOfObjects(
+		        	GsonFactory.createGameObjectGson(50)).deserializeGameObjects(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, levelName)
+		        );
+		        levelObjects.add(player);
+		        levelObjects.add(floor);
+		        addLevel(levelName, levelObjects);
+		    });
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 
 	/**

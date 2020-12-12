@@ -27,6 +27,15 @@ public class BackgroundSceneController {
 
 	@FXML
 	private ImageView background3;
+	
+    @FXML
+    private ImageView floor1;
+
+    @FXML
+    private ImageView floor2;
+
+    @FXML
+    private ImageView floor3;
 
 	@FXML
 	private Rectangle overlay;
@@ -73,7 +82,7 @@ public class BackgroundSceneController {
 	/**
 	 * Reference to the game engine
 	 */
-	private GameEngine gameEngine;
+	private GameEngine gameEngine = GameEngine.getInstance();
 	
 	private LoggedInListener listener;
 
@@ -85,7 +94,6 @@ public class BackgroundSceneController {
 		loader.load();
 		SettingsSceneController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
-		controller.setGameEngine(gameEngine);
 		controller.setListener(listener);
 	}
 
@@ -96,7 +104,6 @@ public class BackgroundSceneController {
 		loader.load();
 		AchievementsSceneController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
-		controller.setGameEngine(gameEngine);
 		controller.init();
 	}
 
@@ -107,7 +114,6 @@ public class BackgroundSceneController {
 		loader.load();
 		StatsSceneController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
-		controller.setGameEngine(gameEngine);
 		controller.init();
 	}
 
@@ -118,7 +124,6 @@ public class BackgroundSceneController {
 		loader.load();
 		CharacterSelectController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
-		controller.setGameEngine(gameEngine);
 	}
 
 	@FXML
@@ -168,6 +173,7 @@ public class BackgroundSceneController {
 	@FXML
 	public void initialize() {
 		Utils.animateBackground(overlay, background1, background2, background3);
+		Utils.animateFloor(overlay, floor1, floor2, floor3);
 	}
 	
 	public void init() {
@@ -178,14 +184,6 @@ public class BackgroundSceneController {
 			logout.setVisible(true);
 			logout.setMouseTransparent(false);
 		};
-	}
-
-	/**
-	 * Sets game engine
-	 * @param gameEngine
-	 */
-	public void setGameEngine(GameEngine gameEngine) {
-		this.gameEngine = gameEngine;
 	}
 
 	@FXML

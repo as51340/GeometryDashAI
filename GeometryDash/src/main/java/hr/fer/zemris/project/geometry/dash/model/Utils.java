@@ -37,6 +37,8 @@ public class Utils {
 	
 	private static final int BACKGROUND_WIDTH = 800;
 	private static final int BACKGROUND_TRANSITION_DURATION = 30000;
+	private static final int FLOOR_WIDTH = 850;
+	private static final int FLOOR_TRANSITION_DURATION = 5000;
 	private static final int COLOR_TRANSITION_DURATION = 7000;
 
 	/**
@@ -205,10 +207,20 @@ public class Utils {
 	 * @param background3 third background
 	 */
 	public static void animateBackground(Shape overlay, ImageView background1, ImageView background2, ImageView background3) {
+		animate(overlay, background1, background2, background3, BACKGROUND_TRANSITION_DURATION, BACKGROUND_WIDTH);
+	}
+	
+	public static void animateFloor(Shape overlay, ImageView floor1, ImageView floor2, ImageView floor3) {
+		animate(overlay, floor1, floor2, floor3, FLOOR_TRANSITION_DURATION, FLOOR_WIDTH);
+	}
+	
+	private static void animate(Shape overlay, ImageView background1, ImageView background2, ImageView background3,
+			int translateDuration, int imageWidth) {
+		
 		ParallelTransition backgroundCyclingAnimation = new ParallelTransition(
-			createBackgroundTransition(background1), 
-			createBackgroundTransition(background2), 
-			createBackgroundTransition(background3)
+			createBackgroundTransition(background1, translateDuration, imageWidth), 
+			createBackgroundTransition(background2, translateDuration, imageWidth), 
+			createBackgroundTransition(background3, translateDuration, imageWidth)
 		);
 		backgroundCyclingAnimation.setCycleCount(Animation.INDEFINITE);
 		backgroundCyclingAnimation.play();
@@ -231,12 +243,12 @@ public class Utils {
 	 * @param background background to translate
 	 * @return TranslateTransition for sent background
 	 */
-	private static TranslateTransition createBackgroundTransition(Node background) {
+	private static TranslateTransition createBackgroundTransition(Node background, int duration, int width) {
 		TranslateTransition transition = new TranslateTransition(
-			Duration.millis(BACKGROUND_TRANSITION_DURATION), background
+			Duration.millis(duration), background
 		);
 		transition.setFromX(0);
-		transition.setToX(-BACKGROUND_WIDTH);
+		transition.setToX(-width);
 		transition.setInterpolator(Interpolator.LINEAR);
 		return transition;
 	}

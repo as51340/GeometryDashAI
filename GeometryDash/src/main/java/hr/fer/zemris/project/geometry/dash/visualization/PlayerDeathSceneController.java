@@ -59,38 +59,53 @@ public class PlayerDeathSceneController extends MenuController {
         fadeTransitionReverse.setToValue(0.0);
         fadeTransitionReverse.play();
 		//((Stage)retryButton.getScene().getWindow()).close();
+        
+        // otherwise up and space keys won't work after clicking on retry button
+    	rootPane.getScene().getRoot().requestFocus();
+    	
 		gameEngine.reset();
-		
+		gameEngine.start();
 	}
 	
 	@FXML
 	private void mainMenuAction(ActionEvent event) throws IOException {
+		gameEngine.reset();
+		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
     	Parent root = loader.load();
     	
     	Stage stage = (Stage)(menuButton.getScene().getWindow());
     	Scene scene = GeometryDash.createScaledScene(root, stage);
-    	BackgroundSceneController controller = loader.<BackgroundSceneController>getController();
-    	controller.setGameEngine(gameEngine);
+    	
+    	// otherwise window will reset its size to default; this will keep current window width and height
+    	double width = menuButton.getScene().getWidth();
+    	double height = menuButton.getScene().getHeight();
+    	stage.setWidth(width);
+    	stage.setHeight(height);
+    	
+		BackgroundSceneController controller = loader.<BackgroundSceneController>getController();
+        controller.init();
     	
     	stage.setScene(scene);
-    	stage.sizeToScene();
-    	
 	}
 	
 	@FXML
 	private void chooseLevelAction(ActionEvent event) throws IOException {
-//		FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "ChooseLevelScene.fxml"));
-//		Parent root = loader.load();
-//		
-//		Stage stage = (Stage)(chooseLevelButton.getScene().getWindow());
-//		Scene scene = GeometryDash.createScaledScene(root, stage);
-//		ChooseLevelSceneController controller = loader.<ChooseLevelSceneController>.getController();
-//		controller.setGameEngine(gameEngine);
-//		
-//		stage.setScene(scene);
-//		stage.sizeToScene();
-		System.out.println("CHOOSE LEVEL");
+		gameEngine.reset();
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "level/ChooseLevelScene.fxml"));
+		Parent root = loader.load();
+		
+		Stage stage = (Stage)(chooseLevelButton.getScene().getWindow());
+		Scene scene = GeometryDash.createScaledScene(root, stage);
+		
+    	// otherwise window will reset its size to default; this will keep current window width and height
+    	double width = chooseLevelButton.getScene().getWidth();
+    	double height = chooseLevelButton.getScene().getHeight();
+    	stage.setWidth(width);
+    	stage.setHeight(height);
+		
+		stage.setScene(scene);
 	}
 	
 	public void showInformation(String levelName, String attempt, short percentage, String totalJumps, double time) {

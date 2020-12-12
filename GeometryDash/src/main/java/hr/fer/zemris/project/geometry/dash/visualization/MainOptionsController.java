@@ -15,7 +15,7 @@ public class MainOptionsController {
 	
 	private Pane previousSceneRootPane;
 	
-	protected GameEngine gameEngine;
+	protected GameEngine gameEngine = GameEngine.getInstance();
 	
     @FXML
     private StackPane rootPane;
@@ -62,7 +62,4 @@ public class MainOptionsController {
         fadeTransition1.play();
     }
     
-	public void setGameEngine(GameEngine gameEngine) {
-		this.gameEngine = gameEngine;
-	}
 }

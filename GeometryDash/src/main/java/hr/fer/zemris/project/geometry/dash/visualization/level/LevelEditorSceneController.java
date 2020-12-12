@@ -627,9 +627,9 @@ public class LevelEditorSceneController extends MainOptionsController {
 					.serialize(gameEngine.getLevelEditor().getGridAttaching().getObjectsOnGrid().getListGameObjects());
 			String savedTo = ZipUtil.saveToZipFile(GameConstants.pathToLevelsFolder, json, fileToSave);
 			if (savedTo != null) {
-				gameEngine.getLevelManager().addLevel(savedTo,
+				gameEngine.getGameWorld().getLevelManager().addLevel(savedTo,
 						gameEngine.getLevelEditor().getGridAttaching().getObjectsOnGrid().getListGameObjects());
-				level = gameEngine.getLevelManager().getLevelByName(savedTo);
+				level = gameEngine.getGameWorld().getLevelManager().getLevelByName(savedTo);
 			}
 		}
 

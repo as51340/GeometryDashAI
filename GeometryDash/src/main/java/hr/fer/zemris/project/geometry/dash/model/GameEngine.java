@@ -140,18 +140,18 @@ public class GameEngine implements SoundSystem {
 		gameWorld = new GameWorld(); // for now list of obstacles is empty, not focus on that currently
 		levelEditor = new LevelEditor();
 		gameStateListener = new DefaultGameStateListener();
-		levelManager = new LevelManager();
+//		levelManager = new LevelManager();
 		userListener = new UserListenerImpl();
 		createGameLoop();
 	}
 	
 
-	/**
-	 * @return the levelManager
-	 */
-	public LevelManager getLevelManager() {
-		return levelManager;
-	}
+//	/**
+//	 * @return the levelManager
+//	 */
+//	public LevelManager getLevelManager() {
+//		return levelManager;
+//	}
 
 	/**
 	 * @return the gameWorld
@@ -271,7 +271,7 @@ public class GameEngine implements SoundSystem {
 				((Player)o).setSpeed(new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
 			}
 		});
-		start();
+//		start();
 	}
 
 	/**

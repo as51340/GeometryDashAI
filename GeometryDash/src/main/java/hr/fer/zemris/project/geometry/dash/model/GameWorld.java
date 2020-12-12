@@ -134,34 +134,30 @@ public class GameWorld {
      * Initializes characters selector and creates scene for playing. Temporary for testing collisions and jumping on platforms
      */
     public GameWorld() {
-        charactersSelector = new CharactersSelector();
-        levelManager = new LevelManager();
-        playerListener = new WorldPlayerListener();
-        createScene();
+    	charactersSelector = new CharactersSelector();
+    	playerListener = new WorldPlayerListener();
+    	
+        player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
+        floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
+        
+        levelManager = new LevelManager(player, floor);
     }
 
-    public void reset() {
-        createScene();
+    public void reset(String levelName) {
+        createScene(levelName);
     }
 
     /**
      * Creates temporary scene
      */
-    private void createScene() {
-        player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
-        floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
-        Set<GameObject> levelObjects = new SerializationOfObjects(GsonFactory.createGameObjectGson(50)).deserializeGameObjects(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, "TempLevel"));
+    public void createScene(String levelName) {
         // when we create choose level scene then we will change these lines, maybe create scene will be public and will receive levelName
         // and level manager will have from start predefines levels, you can call levelManeger.startLevelWithName(levelName);
         // but for testing it's okay
-
-//        Set<GameObject> levelObjects = new HashSet<>();
-
-        levelObjects.add(player);
-        levelObjects.add(floor);
-
-        levelManager.addLevel("Level1", levelObjects);
-        levelManager.startLevelWithName("Level1");
+    	
+        Set<GameObject> levelObjects = levelManager.getLevelByName(levelName).getGameObjects();
+        levelManager.startLevelWithName(levelName);
+        
         renderer = new Renderer(levelObjects);
         ((Floor) floor).setCamera(renderer.getCamera());
     }
@@ -312,9 +308,8 @@ public class GameWorld {
             	FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "PlayerDeathScene.fxml"));
             	loader.load();
             	PlayerDeathSceneController controller = loader.<PlayerDeathSceneController>getController();
-            	controller.setGameEngine(GameEngine.getInstance());
             	Stage stage = (Stage)Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
-            	Pane rootPane = stage == null ? null : (Pane)stage.getScene().getRoot();
+            	Pane rootPane = stage == null ? null : (Pane)stage.getScene().lookup("#rootPane");
             	controller.setPreviousSceneRoot(rootPane);
             	controller.showInformation(
             			levelManager.getCurrentLevel().getLevelName(),
