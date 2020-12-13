@@ -151,7 +151,7 @@ public class Utils {
 	 * @return created {@linkplain GrassSpike}
 	 */
 	private static GrassSpike createGrassSpike(Vector2D objPosition,  String uriIcon) {
-		return new GrassSpike("GrassSpike", objPosition,  uriIcon);
+		return new GrassSpike( objPosition,  uriIcon);
 	}
 	
 	/**
@@ -160,7 +160,7 @@ public class Utils {
 	 * @return created {@linkplain Spike}
 	 */
 	private static Spike createSpike(Vector2D objPosition,  String uriIcon) {
-		return new Spike("Spike", objPosition,  uriIcon);
+		return new Spike( objPosition,  uriIcon);
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class Utils {
 	 * @return created {@linkplain hr.fer.zemris.project.geometry.dash.model.drawables.environment.LeftSpike}
 	 */
 	private static LeftSpike createLeftSpike(Vector2D objPosition,  String uriIcon) {
-		return new LeftSpike("LeftSpike", objPosition,  uriIcon);
+		return new LeftSpike( objPosition,  uriIcon);
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class Utils {
 	 * @return created {@linkplain hr.fer.zemris.project.geometry.dash.model.drawables.environment.LeftSpike}
 	 */
 	private static RightSpike createRightSpike(Vector2D objPosition, String uriIcon) {
-		return new RightSpike("RightSpike", objPosition,  uriIcon);
+		return new RightSpike( objPosition,  uriIcon);
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class Utils {
 	 * @return created {@linkplain Platform}
 	 */
 	private static Platform createPlatform(Vector2D objPosition, String uriIcon) {
-		return new Platform("Platform", objPosition, uriIcon);
+		return new Platform( objPosition, uriIcon);
 	}
 	
 	/**
@@ -196,7 +196,7 @@ public class Utils {
 	 * @return created {@linkplain Block}
 	 */
 	private static Block createBlock(Vector2D objPosition,  String uriIcon) {
-		return new Block("Block", objPosition, uriIcon);
+		return new Block( objPosition, uriIcon);
 	}
 	
 	/**

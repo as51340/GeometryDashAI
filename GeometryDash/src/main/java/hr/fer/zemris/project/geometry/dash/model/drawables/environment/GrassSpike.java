@@ -9,30 +9,13 @@ import javafx.scene.canvas.GraphicsContext;
 public class GrassSpike extends Obstacle {
 
     public GrassSpike(Vector2D position, String uriIcon) {
-    	setInitialPosition(position.copy());
+        setInitialPosition(position.copy());
         setCurrentPosition(position);
-        this.setWidth(GameConstants.iconWidth);
-        this.setHeight(GameConstants.iconHeight);
+        setWidth(GameConstants.iconWidth);
+        setHeight(GameConstants.iconHeight);
         setIcon(uriIcon);
         setIconPath(uriIcon);
         setName("GrassSpike");
-    }
-
-    /**
-     * Constructor that accepts all {@linkplain GameObject}'s parameters
-     *
-     * @param name            object name
-     * @param currentPosition current position
-     * @param iconPath        path to icon
-     */
-    public GrassSpike(String name, Vector2D currentPosition, String iconPath) {
-        setName(name);
-        setInitialPosition(currentPosition.copy());
-        setCurrentPosition(currentPosition);
-        setHeight(GameConstants.iconHeight);
-        setWidth(GameConstants.iconWidth);
-        setIconPath(iconPath);
-        setIcon(iconPath);
     }
 
     /**
@@ -42,7 +25,7 @@ public class GrassSpike extends Obstacle {
      */
     @Override
     public Vector2D getCenterPosition() {
-        return this.getCurrentPosition().translated(new Vector2D(this.getWidth() / 2.0, this.getHeight() * 0.75 ));
+        return this.getCurrentPosition().translated(new Vector2D(this.getWidth() / 2.0, this.getHeight() * 0.75));
     }
 
     @Override
@@ -51,7 +34,7 @@ public class GrassSpike extends Obstacle {
         double xDiff = centerDiff.getX();
         double yDiff = centerDiff.getY();
 
-        return Math.abs(xDiff) <= 4.0*getWidth()/5.0 && Math.abs(yDiff) <=  getHeight() / 2.0;
+        return Math.abs(xDiff) <= 4.0 * getWidth() / 5.0 && Math.abs(yDiff) <= getHeight() / 2.0;
     }
 
     @Override

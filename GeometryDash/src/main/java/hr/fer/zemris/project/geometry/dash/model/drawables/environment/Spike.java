@@ -15,28 +15,11 @@ public class Spike extends Obstacle {
     public Spike(Vector2D position, String uriIcon) {
         setInitialPosition(position.copy());
         setCurrentPosition(position);
-        this.setWidth(GameConstants.iconWidth); //stranica a
-        this.setHeight(GameConstants.iconHeight); // visina trokuta
+        setWidth(GameConstants.iconWidth); //stranica a
+        setHeight(GameConstants.iconHeight); // visina trokuta
         setIconPath(uriIcon);
         setIcon(uriIcon);
         setName("Spike");
-    }
-
-    /**
-     * Constructor that accepts all {@linkplain GameObject}'s parameters
-     *
-     * @param name            object name
-     * @param currentPosition current position
-     * @param iconPath        path to icon
-     */
-    public Spike(String name, Vector2D currentPosition, String iconPath) {
-        setName(name);
-        setInitialPosition(currentPosition.copy());
-        setCurrentPosition(currentPosition);
-        setHeight(GameConstants.iconHeight);
-        setWidth(GameConstants.iconWidth);
-        setIconPath(iconPath);
-        setIcon(iconPath);
     }
 
     @Override

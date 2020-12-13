@@ -28,23 +28,6 @@ public class Block extends Obstacle {
         setName("Block");
     }
 
-    /**
-     * Constructor that accepts all {@linkplain GameObject}'s parameters
-     *
-     * @param name            object name
-     * @param currentPosition current position
-     * @param iconPath        path to icon
-     */
-    public Block(String name, Vector2D currentPosition, String iconPath) {
-        setName(name);
-        setInitialPosition(currentPosition.copy());
-        setCurrentPosition(currentPosition);
-        setHeight(GameConstants.iconHeight);
-        setWidth(GameConstants.iconWidth);
-        setIconPath(iconPath);
-        setIcon(iconPath);
-    }
-
 
     public boolean playerIsOn(Player player) {
         Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
