@@ -82,10 +82,30 @@ public class GameConstants {
     public static final String blockImage = "/hr/fer/zemris/project/geom/dash/obstacles/block/blue.png";
 
     /**
+     * Path to spike image
+     */
+    public static final String spikeImage = "/hr/fer/zemris/project/geom/dash/obstacles/spike/blue.png";
+
+    /**
+     * Path to left spike image
+     */
+    public static final String leftSpikeImage = "/hr/fer/zemris/project/geom/dash/obstacles/spike/blueLeft.png";
+
+    /**
+     * Path to right spike image
+     */
+    public static final String rightSpikeImage = "/hr/fer/zemris/project/geom/dash/obstacles/spike/blueRight.png";
+
+    /**
      * 	Path to platform image
      */
     public static final String platformImage = "/hr/fer/zemris/project/geom/dash/obstacles/platform/blue.png";
-    
+
+    /**
+     * 	Path to grass spike image
+     */
+    public static final String grassImage = "/hr/fer/zemris/project/geom/dash/obstacles/grassspike/blue.png";
+
     /**
      * Offset camera to ground
      */
@@ -94,7 +114,7 @@ public class GameConstants {
     /**
      * Gravity constant
      */
-    public static final int gravity_Y = 2500;
+    public static final int gravity_Y = 2400;
     
     /**
      * Accelaration in x direction
@@ -109,7 +129,7 @@ public class GameConstants {
     /**
      * Jumping offset
      */
-    public static final int playerJumpingOffset = -750;
+    public static final int playerJumpingOffset = -1000;
     
     /**
      * Cell width for level editor
@@ -149,12 +169,12 @@ public class GameConstants {
     /**
      * Player's final speed in y direction
      */
-    public static final int playerFinalSpeed_Y=400;
+    public static final int playerFinalSpeed_Y=500;
     
     /**
      * Player's final speed in y direction
      */
-    public static final int playerFinalSpeed_X=150;
+    public static final int playerFinalSpeed_X=200;
     
     /**
      * Path to zip file
@@ -169,7 +189,7 @@ public class GameConstants {
     /**
      * Player's rotation
      */
-    public static final double playerRotationSpeed = 300.0;
+    public static final double playerRotationSpeed = 250.0;
     
     /**
 <<<<<<< HEAD
@@ -186,4 +206,9 @@ public class GameConstants {
      * 
      */
     public static final int TRANSITION_DURATION = 300;
+    
+    /**
+     * Level ending offset
+     */
+    public static final int LEVEL_END_OFFSET = 200;
 }

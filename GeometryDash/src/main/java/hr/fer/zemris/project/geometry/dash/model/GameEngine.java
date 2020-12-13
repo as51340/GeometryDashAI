@@ -1,8 +1,17 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
 import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
+import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Floor;
+import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.hash.HashUtil;
 import hr.fer.zemris.project.geometry.dash.model.io.FileIO;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
@@ -17,6 +26,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -31,6 +41,9 @@ import javafx.util.Duration;
  */
 public class GameEngine implements SoundSystem {
 
+	private static final GameEngine GAME_ENGINE = new GameEngine(60, "GeometryDashAI",
+			GameConstants.WIDTH, GameConstants.HEIGHT);
+	
 	/**
 	 * Frames per second, default value is 60
 	 */
@@ -101,12 +114,24 @@ public class GameEngine implements SoundSystem {
 	 */
 	private CharactersSelector defaultSelector;
 
+	 * Time when gameLoop started
+	 */
+	private long startTime;
+	
+	/**
+	 * Always returns same instance of game engine
+	 * @return
+	 */
+	public static GameEngine getInstance() {
+		return GAME_ENGINE;
+	}
+
 	/**
 	 * Basic constructor that sets game's title Creates game loop and event handler
 	 * 
 	 * @param title Game's title
 	 */
-	public GameEngine(int fps, String title, int width, int height) {
+	private GameEngine(int fps, String title, int width, int height) {
 		this.title = title;
 		this.width = width;
 		this.height = height;
@@ -122,6 +147,7 @@ public class GameEngine implements SoundSystem {
 		
 		gameWorld.setCharacterSelector(defaultSelector);
 	}
+	
 
 	/**
 	 * @return the levelManager
@@ -239,11 +265,23 @@ public class GameEngine implements SoundSystem {
 	 * Starts game loop
 	 */
 	public void start() {
+		this.startTime = System.currentTimeMillis();
 		gameLoop.play();
 	}
 
 	public void reset() {
 		// TODO find how to completely reset a GameWorld
+		Camera newCamera = getGameWorld().getRenderer().getCamera();
+		newCamera.setPosition(new Vector2D(0, 0));
+		((Floor)getGameWorld().getFloor()).setCamera(newCamera);
+		getGameWorld().getRenderer().getGameObjects().forEach(o -> {
+			o.setCurrentPosition(o.initialPosition.copy());
+			if (o instanceof Player) {
+				((Player)o).setRotation(0);
+				((Player)o).setSpeed(new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
+			}
+		});
+		start();
 	}
 
 	/**
@@ -258,10 +296,23 @@ public class GameEngine implements SoundSystem {
 		// time between update will be approx. 16.67ms, for 10ms we have to provide 100
 		// fps as value
 		return new KeyFrame(frameTime, event -> {
-			if (gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.PRACTISE_MODE_PLAYING) {
-				if(!gameWorld.update()) {
-					gameWorld.getPlayerListener().playerIsDead(settings.getOptions());
+			if (gameState == GameState.NORMAL_MODE_PLAYING ) {
+				Player player = (Player) getGameWorld().getPlayer();
+				if (player.isJumpIntent()) {
+					getGameWorld().getLevelManager().getCurrentLevel().setTotalJumps();
 				}
+				if(!gameWorld.update()) {
+					try {
+						double time = System.currentTimeMillis() - this.startTime;
+						gameLoop.stop();
+						gameWorld.getLevelManager().getCurrentLevel().setTotalAttempts();
+						gameWorld.getPlayerListener().playerIsDead(time);
+						gameWorld.getLevelManager().getCurrentLevel().resetTotalJumps();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+					
 				//tu nekako stopiraj
 			} else if (gameState == GameState.LEVEL_EDITOR_MODE) {
 //				Thread updateThread = DaemonicThreadFactory.getInstance().newThread(() -> {
@@ -362,18 +413,7 @@ public class GameEngine implements SoundSystem {
 			// TODO Auto-generated method stub
 
 		}
-
-		@Override
-		public void practiseModePlayingEntered() {
-			gameState = GameState.PRACTISE_MODE_PLAYING;
-		}
-
-		@Override
-		public void practiseModePlayingExited() {
-			// TODO Auto-generated method stub
-
-		}
-
+		
 		@Override
 		public void normalModePlayingStarted() {
 			gameState = GameState.NORMAL_MODE_PLAYING;
@@ -463,5 +503,4 @@ public class GameEngine implements SoundSystem {
 		}
 
 	}
-
 }

@@ -18,102 +18,76 @@ public class Block extends Obstacle {
 
     /**
      * Constructs a <code>Block</code>.
+     *
      * @param position position of the block.
-     * @param image    image of the block.
      */
     public Block(Vector2D position, String iconPath) {
+    	setInitialPosition(position.copy());
         setCurrentPosition(position);
         setHeight(GameConstants.iconHeight);
-        setWidth(GameConstants.iconHeight);
+        setWidth(GameConstants.iconWidth);
         setIconPath(iconPath);
         setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
         setName("Block");
     }
-    
-    /**
-     * Constructor that accepts all {@linkplain GameObject}'s parameters 
-     * @param name object name
+
+	/**
+     * Constructor that accepts all {@linkplain GameObject}'s parameters
+     *
+     * @param name            object name
      * @param currentPosition current position
-     * @param height height
-     * @param width width
-     * @param iconPath path to icon
+     * @param height          height
+     * @param width           width
+     * @param iconPath        path to icon
      */
     public Block(String name, Vector2D currentPosition, int height, int width, String iconPath) {
-    	setName(name);
-    	setCurrentPosition(currentPosition);
-    	setHeight(height);
-    	setWidth(width);
-    	setIconPath(iconPath);
-    	setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
-    }
-    
-    
-    //za jednu tocku provjerava je li između lijeve i desne strane bloka
-    @Override
-    public boolean contains(Vector2D p) {
-        return (p.getX() >= getCurrentPosition().getX() && p.getX() <= (getCurrentPosition().getX() + getWidth())
-                && p.getY() > getCurrentPosition().getY() && p.getY() < (getCurrentPosition().getY() + getHeight()));
+        setName(name);
 
+        setInitialPosition(currentPosition.copy());
+        setCurrentPosition(currentPosition);
+        setHeight(height);
+        setWidth(width);
+        setIconPath(iconPath);
+        setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
     }
 
-    //provjerava je li player down left i down right corner izmedu up left i up right cornera blocka
-    //trenutno mozda problem ako imamo piramidicu blokova jer player ne umre ako takve lijevi rub gornjeg bloka
+
     public boolean playerIsOn(Player player) {
-        Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0, player.getHeight()));
-        Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
-        Vector2D playerUL = player.getCurrentPosition();
-        Vector2D blockUL = this.getCurrentPosition();
-        Vector2D blockUR = this.getCurrentPosition().translated(new Vector2D(getWidth(), 0));
+        Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
+        double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
+        double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
 
-//        iskljuceno zbog testiranja
-//        return playerDL.getY() >= blockUL.getY()
-//                && playerUL.getY() < this.getCurrentPosition().getY() + this.getHeight()
-//                && ((playerDR.getX() >= blockUL.getX()
-//                && playerDR.getX() <= blockUR.getX())
-//                || (playerDL.getX() >= blockUL.getX()
-//                && playerDL.getX() <= blockUR.getX()));
+        if (yDiff <= getHeight() + 2) {
+            if (xDiff <= getWidth()) {
+            // ON ZIZI (zivi al na meg jeziku)
+            return Math.abs(xDiff) <= Math.abs(yDiff) && yDiff >= 0;
+            }
+        }
+        return false;
+    }
 
-		return (contains(playerDR) || contains(playerDL)) && checkPlayerAngle(player);
-
-	}
-
-    //provjerava je li UR corner ili DR corner "u" bloku
-    //TODO promijeni kao provjeru s pravcima
     @Override
     public boolean checkCollisions(Player player) {
-        Vector2D playerUR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), 0));
-        Vector2D playerUL = player.getCurrentPosition();
-        Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
-        Vector2D obstacleUL = this.getCurrentPosition();
+        // od koord. centra blocka (generalno vece) se oduzmu koord. centra playera (generalno manje)
+        Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
+        double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
+        double yDiff = centerDiff.getY();   // ako je yDiff pozitivan, player se nalazi ~iznad blocka
 
-//        iskoljuceno zbog testiranja
-//        if(contains(playerUR) || contains(playerUL)) return true;
-//        else if (playerDR.getX() >= getCurrentPosition().getX() && playerDR.getX() <= getCurrentPosition().getX() + getWidth()
-//                && playerDR.getY() >= 6.0/5.0*getCurrentPosition().getY() && playerDR.getY() <= getCurrentPosition().getY() + getHeight()){
-//            return true;
-//        }
+        if (Math.hypot(xDiff, yDiff) <= getWidth()) {
+            return !(Math.abs(xDiff) <= Math.abs(yDiff) && yDiff >= 0);
+        }
 
-		return (contains(playerUR) || contains(playerUL) || contains(playerDR)) && !checkPlayerAngle(player);
-
-//        return false;
+        return false;
 
     }
-
-    private boolean checkPlayerAngle(Player player) {
-    	double yCrit = player.getCurrentPosition().getX()
-				- this.getCurrentPosition().getX()
-				+ this.getCurrentPosition().getY();
-
-    	return player.getCurrentPosition().getY() < yCrit;
-	}
 
     @Override
     public void draw(GraphicsContext graphicsContext) {
         graphicsContext.drawImage(getIcon(), getCurrentPosition().getX(), getCurrentPosition().getY());
     }
 
-	@Override
-	public GameObject copy() {
-		return new Block(getCurrentPosition().copy(), new String(getIconPath()));
-	}
+    @Override
+    public GameObject copy() {
+        return new Block(getCurrentPosition().copy(), new String(getIconPath()));
+    }
 }

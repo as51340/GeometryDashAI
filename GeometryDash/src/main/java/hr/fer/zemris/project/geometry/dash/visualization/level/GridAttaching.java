@@ -54,6 +54,8 @@ public class GridAttaching implements Drawable, Changeable{
 	 */
 	private boolean removeIntent;
 	
+	private Vector2D tempPosition;
+	
 	/**
 	 * Constructor
 	 * @param mouseHandler mouse listener
@@ -69,7 +71,8 @@ public class GridAttaching implements Drawable, Changeable{
 	@Override
 	public void update() {
 		double x = Math.floor((mouseHandler.getMouse_x() + mouseHandler.getDeltaDrag_x() + camera.getPosition().getX()) / GameConstants.iconWidth);
-		double y = Math.floor((mouseHandler.getMouse_y() + mouseHandler.getDeltaDrag_y() + camera.getPosition().getY() - 27) / GameConstants.iconHeight);
+		double y = Math.floor((mouseHandler.getMouse_y() + mouseHandler.getDeltaDrag_y() + camera.getPosition().getY() + 20) / GameConstants.iconHeight);
+		tempPosition = new Vector2D(x * GameConstants.iconWidth, y * GameConstants.iconHeight);
 		position.setX(x*GameConstants.iconWidth - camera.getPosition().getX());
 		position.setY(y*GameConstants.iconHeight - camera.getPosition().getY());
 		if(removeIntent == true && mouseHandler.getMousePressedButton() == MouseButton.PRIMARY  && this.position.getY() < GameConstants.floorPosition_Y) {
@@ -77,10 +80,9 @@ public class GridAttaching implements Drawable, Changeable{
 			objectsOnGrid.remove(positionToRemove);
 		}
 		else if(currObj != null && mouseHandler.getMousePressedButton() == MouseButton.PRIMARY  && 
-				this.position.getY() < GameConstants.floorPosition_Y && objectsOnGrid.getObjectFromPosition(this.position) == null) {
-			Vector2D newPosition = new Vector2D(x*GameConstants.iconWidth, y * GameConstants.iconHeight);
+				this.position.getY() < GameConstants.floorPosition_Y && objectsOnGrid.getObjectFromPosition(tempPosition) == null) {
 			GameObject newGameObject = currObj.copy();
-			newGameObject.setCurrentPosition(newPosition);
+			newGameObject.setCurrentPosition(tempPosition);
 			objectsOnGrid.addGameObject(newGameObject);
 		}
 	}
@@ -88,7 +90,7 @@ public class GridAttaching implements Drawable, Changeable{
 	@Override
 	public void draw(GraphicsContext graphicsContext) {
 		graphicsContext.setGlobalAlpha(0.5);
-		if(currObj != null && this.position.getY() < GameConstants.floorPosition_Y && objectsOnGrid.getObjectFromPosition(this.position) == null) { //draw only if it is above ground
+		if(currObj != null && this.position.getY() < GameConstants.floorPosition_Y && objectsOnGrid.getObjectFromPosition(tempPosition) == null) { //draw only if it is above ground
 			graphicsContext.drawImage(currObj.getIcon(), this.position.getX(), this.position.getY());	
 		}
 		graphicsContext.setGlobalAlpha(1);	

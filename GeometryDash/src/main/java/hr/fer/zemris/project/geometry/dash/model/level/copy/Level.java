@@ -1,4 +1,4 @@
-package hr.fer.zemris.project.geometry.dash.model.level;
+package hr.fer.zemris.project.geometry.dash.model.level.copy;
 
 import java.util.List;
 import java.util.Set;
