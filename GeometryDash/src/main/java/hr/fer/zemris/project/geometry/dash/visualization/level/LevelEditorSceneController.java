@@ -37,7 +37,16 @@ import javafx.scene.shape.Rectangle;
 public class LevelEditorSceneController extends MainOptionsController {
 	
 	@FXML
-	private Rectangle background;
+	private ImageView background1;
+
+	@FXML
+	private ImageView background2;
+
+	@FXML
+	private ImageView background3;
+
+	@FXML
+	private Rectangle overlay;
 	
 	@FXML
 	private AnchorPane anchorPane;
@@ -149,7 +158,7 @@ public class LevelEditorSceneController extends MainOptionsController {
 
 	@FXML
 	public void initialize() {
-
+		Utils.animateBackground(overlay, background1, background2, background3);
 	}
 
 	/**
