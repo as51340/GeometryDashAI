@@ -1,6 +1,5 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
-import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
@@ -14,8 +13,6 @@ import javafx.util.Duration;
 public class MainOptionsController {
 	
 	private Pane previousSceneRootPane;
-	
-	protected GameEngine gameEngine = GameEngine.getInstance();
 	
     @FXML
     private StackPane rootPane;

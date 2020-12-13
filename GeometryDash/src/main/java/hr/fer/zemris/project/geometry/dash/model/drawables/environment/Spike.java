@@ -2,7 +2,6 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
-import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,7 +18,7 @@ public class Spike extends Obstacle {
 		this.setWidth(GameConstants.iconWidth); //stranica a
 		this.setHeight(GameConstants.iconHeight); // visina trokuta
 		setIconPath(uriIcon);
-		setIcon(Utils.loadIcon(uriIcon, GameConstants.iconWidth, GameConstants.iconHeight));
+		setIcon(uriIcon);
 		setName("Spike");
 	}
 	
@@ -38,7 +37,7 @@ public class Spike extends Obstacle {
     	setHeight(height);
     	setWidth(width);
     	setIconPath(iconPath);
-    	setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
+    	setIcon(iconPath);
     }
 	
 	@Override

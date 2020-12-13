@@ -55,12 +55,6 @@
          </children>
       </Pane>
       <Rectangle fx:id="overlay" blendMode="OVERLAY" fill="WHITE" height="760.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" StackPane.alignment="TOP_LEFT" />
-      <AnchorPane fx:id="logoutOverlay" onMouseClicked="#removeOverlay" visible="false">
-         <children>
-            <Rectangle height="720.0" opacity="0.9" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
-            <Label layoutX="365.0" layoutY="341.0" style="-fx-font-size: 50;" text="You are logged out!" />
-         </children>
-      </AnchorPane>
       <Line fx:id="line" endX="-243.0" startX="476.0" stroke="WHITE" strokeLineCap="ROUND" strokeMiterLimit="50.0" strokeWidth="3.0" translateY="170.0" StackPane.alignment="CENTER">
          <effect>
             <BoxBlur height="0.0" iterations="2" width="133.57" />
@@ -147,6 +141,12 @@
                   <Image url="@../static/play_ai.png" />
                </image>
             </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="logoutOverlay" onMouseClicked="#removeOverlay" visible="false">
+         <children>
+            <Rectangle height="720.0" opacity="0.9" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1280.0" />
+            <Label layoutX="365.0" layoutY="341.0" style="-fx-font-size: 50;" text="You are logged out!" />
          </children>
       </AnchorPane>
    </children>

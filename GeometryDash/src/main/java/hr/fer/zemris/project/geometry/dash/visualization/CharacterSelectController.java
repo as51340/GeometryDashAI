@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
@@ -44,9 +45,20 @@ public class CharacterSelectController extends MainOptionsController {
     @FXML
     public void initialize() {
     	Utils.animateBackground(overlay, background1, background2, background3);
+    }
+    
+    public void init() {  	
+    	CharactersSelector selector;
     	
-    	//CharactersSelector selector = gameEngine.getGameWorld().getCharactersSelector();
-    	CharactersSelector selector = new CharactersSelector();
+    	if(GameEngine.getInstance().getSession() == null) {
+    		selector = GameEngine.getInstance().getDefaultCharacterSelector();
+    	} else {
+    		selector = GameEngine.getInstance().getSession().getSelector();
+    	}
+    	
+    	selectedCharacter.setImage(
+    			Utils.loadIcon(GameConstants.pathToIcons + selector.getSelectedCharacter().getUri(), SELECTED_ICON_SIZE, SELECTED_ICON_SIZE));
+    	
     	int x = 0, y = 0;
     	
     	for(CharacterObject character : selector.getAllCharacters()) {
@@ -60,7 +72,7 @@ public class CharacterSelectController extends MainOptionsController {
     			characterImage.getStyleClass().add("menu-button");
         		characterImage.addEventHandler(MOUSE_CLICKED, e -> {
         			selectedCharacter.setImage(Utils.loadIcon(GameConstants.pathToIcons + character.getUri(), SELECTED_ICON_SIZE, SELECTED_ICON_SIZE));
-        			CharactersSelector.selectedCharacter = character;
+        			selector.setSelectedCharacter(character);
         		});
     		}
     		

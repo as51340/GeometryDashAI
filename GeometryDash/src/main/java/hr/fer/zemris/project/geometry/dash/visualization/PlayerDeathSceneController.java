@@ -3,6 +3,7 @@ package hr.fer.zemris.project.geometry.dash.visualization;
 import java.io.IOException;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -63,13 +64,13 @@ public class PlayerDeathSceneController extends MenuController {
         // otherwise up and space keys won't work after clicking on retry button
     	rootPane.getScene().getRoot().requestFocus();
     	
-		gameEngine.reset();
-		gameEngine.start();
+		GameEngine.getInstance().reset();
+		GameEngine.getInstance().start();
 	}
 	
 	@FXML
 	private void mainMenuAction(ActionEvent event) throws IOException {
-		gameEngine.reset();
+		GameEngine.getInstance().reset();
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
     	Parent root = loader.load();
@@ -91,10 +92,18 @@ public class PlayerDeathSceneController extends MenuController {
 	
 	@FXML
 	private void chooseLevelAction(ActionEvent event) throws IOException {
-		gameEngine.reset();
+		GameEngine.getInstance().reset();
 		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "level/ChooseLevelScene.fxml"));
-		Parent root = loader.load();
+		// needed so that back button in ChooseLevelScene works after coming back from level 
+		FXMLLoader backgroundSceneLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
+    	Parent root = backgroundSceneLoader.load();
+		BackgroundSceneController backgroundSceneController = backgroundSceneLoader.<BackgroundSceneController>getController();
+		backgroundSceneController.init();
+		
+		FXMLLoader chooseLevelSceneloader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "level/ChooseLevelScene.fxml"));
+		chooseLevelSceneloader.load();
+    	ChooseLevelController chooseLevelSceneController = chooseLevelSceneloader.getController();
+    	chooseLevelSceneController.setPreviousSceneRoot(backgroundSceneController.getRootPane());
 		
 		Stage stage = (Stage)(chooseLevelButton.getScene().getWindow());
 		Scene scene = GeometryDash.createScaledScene(root, stage);

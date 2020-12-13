@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.visualization.settings.controllers;
 
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.settings.Options;
 import hr.fer.zemris.project.geometry.dash.visualization.MenuController;
 import javafx.collections.ObservableList;
@@ -19,7 +20,7 @@ public class OptionsSceneController extends MenuController {
 	public void init() {
 		ObservableList<Node> childrens = optionGrid.getChildren();
 
-		Options options = gameEngine.getSettings().getOptions();
+		Options options = GameEngine.getInstance().getSettings().getOptions();
 	    for (Node node : childrens) 
 	    	if(node instanceof CheckBox) {
 	    		CheckBox check = (CheckBox) node;

@@ -1,9 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -12,25 +9,17 @@ import hr.fer.zemris.project.geometry.dash.model.io.ZipUtil;
 import hr.fer.zemris.project.geometry.dash.model.listeners.PlayerListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
-import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
-import hr.fer.zemris.project.geometry.dash.model.serialization.GameObjectDeserializer;
 import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
 import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
-import hr.fer.zemris.project.geometry.dash.model.settings.Options;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 import hr.fer.zemris.project.geometry.dash.visualization.PlayerDeathSceneController;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.util.Duration;
 
 /**
  * Manages all current objects on the scene.
@@ -48,11 +37,6 @@ public class GameWorld {
      * Reference to the {@linkplain LevelManager}
      */
     private LevelManager levelManager;
-
-    /**
-     * {@linkplain CharactersSelector}
-     */
-    private CharactersSelector charactersSelector;
 
     /**
      * Graphics context TODO documentation
@@ -73,6 +57,11 @@ public class GameWorld {
      * Renderer
      */
     private Renderer renderer;
+    
+    /**
+     * Current CharacterSelector
+     */
+    private CharactersSelector selector;
 
     /**
      * @return the graphics
@@ -93,13 +82,6 @@ public class GameWorld {
      */
     public LevelManager getLevelManager() {
         return levelManager;
-    }
-
-    /**
-     * @return characters selector
-     */
-    public CharactersSelector getCharactersSelector() {
-        return charactersSelector;
     }
 
     /**
@@ -130,11 +112,14 @@ public class GameWorld {
         return playerListener;
     }
 
-    /**
-     * Initializes characters selector and creates scene for playing. Temporary for testing collisions and jumping on platforms
+	public void setCharacterSelector(CharactersSelector selector) {
+		this.selector = selector;
+	}
+	
+	/**
+     * Initializes creates scene for playing. Temporary for testing collisions and jumping on platforms
      */
     public GameWorld() {
-    	charactersSelector = new CharactersSelector();
     	playerListener = new WorldPlayerListener();
     	
         player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
@@ -155,6 +140,7 @@ public class GameWorld {
         // and level manager will have from start predefines levels, you can call levelManeger.startLevelWithName(levelName);
         // but for testing it's okay
     	
+    	player.setIcon(GameConstants.pathToIcons + selector.getSelectedCharacter().getUri());
         Set<GameObject> levelObjects = levelManager.getLevelByName(levelName).getGameObjects();
         levelManager.startLevelWithName(levelName);
         

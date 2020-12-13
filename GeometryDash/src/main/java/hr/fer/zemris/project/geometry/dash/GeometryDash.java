@@ -2,29 +2,18 @@ package hr.fer.zemris.project.geometry.dash;
 import java.io.IOException;
 
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
-import hr.fer.zemris.project.geometry.dash.model.GameWorld;
-import hr.fer.zemris.project.geometry.dash.model.Utils;
-import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
-import hr.fer.zemris.project.geometry.dash.model.settings.music.BackgroundMusicPlayer;
 import hr.fer.zemris.project.geometry.dash.visualization.BackgroundSceneController;
 import hr.fer.zemris.project.geometry.dash.visualization.GameSceneController;
-import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditorSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 /**
  * From where application starts
@@ -36,11 +25,11 @@ public class GeometryDash extends Application {
 	private void loadGameMenu(Stage primaryStage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
     	Parent root = fxmlLoader.load();
+    	Scene scene = createScaledScene(root, primaryStage);
 
 		BackgroundSceneController controller = fxmlLoader.<BackgroundSceneController>getController();
         controller.init();
         
-        Scene scene = createScaledScene(root, primaryStage);
 		primaryStage.setTitle("Geometry Dash");
 		primaryStage.setScene(scene);
 	    primaryStage.show();
@@ -104,8 +93,7 @@ public class GeometryDash extends Application {
 	
     @Override
     public void start(Stage primaryStage) throws IOException {
-
-//    	loadLevelEditor(primaryStage);
+    	
     	loadGameMenu(primaryStage);
 //    	loadMain(primaryStage);
 

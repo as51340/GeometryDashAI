@@ -11,6 +11,7 @@ import com.google.gson.JsonParseException;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.Session;
 import hr.fer.zemris.project.geometry.dash.model.settings.Account;
+import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 import hr.fer.zemris.project.geometry.dash.model.stats.Stats;
 
 /**
@@ -38,7 +39,9 @@ public class SessionDeserializer  implements JsonDeserializer<Session>{
 		short dislikedLevels = stats.get("dislikedLevels").getAsShort();
 		short ratedLevels = stats.get("ratedLevels").getAsShort();
 		Stats statsCls = new Stats(totalJumps, totalAttempts, completedLevels, likedLevels, dislikedLevels, ratedLevels);
-		Session session = new Session(accountCls, statsCls);
+		//TODO deserialize selector
+		CharactersSelector selectorCls = new CharactersSelector();
+		Session session = new Session(accountCls, statsCls, selectorCls);
 		return session;
 	}
 }

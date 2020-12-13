@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
@@ -124,6 +125,7 @@ public class BackgroundSceneController {
 		loader.load();
 		CharacterSelectController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
+		controller.init();
 	}
 
 	@FXML
@@ -144,14 +146,13 @@ public class BackgroundSceneController {
 		LevelEditorSceneController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
 		controller.setListeners();
-		controller.setGameEngine(gameEngine);
-		gameEngine.getGameStateListener().levelEditorModeEntered(controller.getGraphicsContext());
-//		gameEngine.start();
+		GameEngine.getInstance().getGameStateListener().levelEditorModeEntered(controller.getGraphicsContext());
+		GameEngine.getInstance().start();
 	}
 	
 	@FXML
 	private void logoutButtonClicked(MouseEvent event) throws IOException {
-		gameEngine.getUserListener().logout();
+		GameEngine.getInstance().getUserListener().logout();
 		logout.setVisible(false);
 		logout.setMouseTransparent(true);	
 		logoutOverlay.setVisible(true);
@@ -177,8 +178,8 @@ public class BackgroundSceneController {
 	}
 	
 	public void init() {
-		logout.setVisible(gameEngine.getSession() != null);
-		logout.setMouseTransparent(gameEngine.getSession() == null);
+		logout.setVisible(GameEngine.getInstance().getSession() != null);
+		logout.setMouseTransparent(GameEngine.getInstance().getSession() == null);
 		
 		listener = () -> {
 			logout.setVisible(true);
@@ -188,16 +189,21 @@ public class BackgroundSceneController {
 
 	@FXML
 	void nextBackgroundMusicClicked(MouseEvent event) {
-		gameEngine.getSettings().getBackgroundMusicPlayer().next();
+		GameEngine.getInstance().getSettings().getBackgroundMusicPlayer().next();
 	}
 
 	@FXML
 	void startBackgroundMusicClicked(MouseEvent event) {
-		gameEngine.getSettings().getBackgroundMusicPlayer().start();
+		GameEngine.getInstance().getSettings().getBackgroundMusicPlayer().start();
 	}
 
 	@FXML
 	void stopBackgroundMusicClicked(MouseEvent event) {
-		gameEngine.getSettings().getBackgroundMusicPlayer().stop();
+		GameEngine.getInstance().getSettings().getBackgroundMusicPlayer().stop();
 	}
+	
+	public Pane getRootPane() {
+		return rootPane;
+	}
+	
 }

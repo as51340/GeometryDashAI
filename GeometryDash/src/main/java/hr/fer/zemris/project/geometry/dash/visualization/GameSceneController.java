@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -43,7 +44,7 @@ public class GameSceneController extends MainOptionsController {
 	}
 	
 	public void init() {
-		gameEngine.getGameWorld().getRenderer().setGraphicsContext(canvas.getGraphicsContext2D());
+		GameEngine.getInstance().getGameWorld().getRenderer().setGraphicsContext(canvas.getGraphicsContext2D());
 	}
 	
 }
