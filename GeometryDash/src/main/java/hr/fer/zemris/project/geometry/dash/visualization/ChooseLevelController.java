@@ -6,11 +6,13 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -21,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class ChooseLevelController extends MainOptionsController {
 	
@@ -133,8 +136,12 @@ public class ChooseLevelController extends MainOptionsController {
     }
 
     @FXML
-    private void levelRectangleClicked() throws IOException {		
-		Scene scene = rootPane.getScene();
+    private void levelRectangleClicked() throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "GameScene.fxml"));
+		Parent root = loader.load();
+    	
+		Stage stage = (Stage) rootPane.getScene().getWindow();
+		Scene scene = GeometryDash.createScaledScene(root, stage);
 		scene.getRoot().requestFocus();
 		
     	scene.setOnKeyPressed((e) -> {
@@ -151,13 +158,18 @@ public class ChooseLevelController extends MainOptionsController {
     		}
     	});
     	
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "GameScene.fxml"));
-		loader.load();
 		GameSceneController controller = loader.getController();
-		
 		gameEngine.getGameWorld().createScene(levels.get(levelIndex).getLevelName());
-		controller.setPreviousSceneRoot(rootPane);
+//		controller.setPreviousSceneRoot(rootPane);
 		controller.init();
+		
+    	// otherwise window will reset its size to default; this will keep current window width and height
+    	double width = rootPane.getScene().getWidth();
+    	double height = rootPane.getScene().getHeight();
+    	stage.setWidth(width);
+    	stage.setHeight(height);
+    	
+		stage.setScene(scene);
 		
         gameEngine.getGameStateListener().normalModePlayingStarted();
 		gameEngine.start();
