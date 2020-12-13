@@ -159,7 +159,7 @@ public class BackgroundSceneController {
 	}
 	
     @FXML
-    void aiClicked(MouseEvent event) throws IOException {
+    private void aiClicked(MouseEvent event) throws IOException {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "AI/AIOptionsScene.fxml"));
     	loader.load();
     	AIOptionsController controller = loader.getController();
