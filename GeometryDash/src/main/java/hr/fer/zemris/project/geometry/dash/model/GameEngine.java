@@ -1,14 +1,8 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
-import java.util.ArrayList;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
 import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
-import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.hash.HashUtil;
 import hr.fer.zemris.project.geometry.dash.model.io.FileIO;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
@@ -16,15 +10,12 @@ import hr.fer.zemris.project.geometry.dash.model.listeners.GameStateListener;
 import hr.fer.zemris.project.geometry.dash.model.listeners.UserListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Settings;
+import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 import hr.fer.zemris.project.geometry.dash.model.settings.music.SoundSystem;
-import hr.fer.zemris.project.geometry.dash.threads.DaemonicThreadFactory;
-import hr.fer.zemris.project.geometry.dash.visualization.level.GridAttaching;
 import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditor;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -104,6 +95,11 @@ public class GameEngine implements SoundSystem {
 	 * User listener
 	 */
 	private UserListener userListener;
+	
+	/**
+	 * CharacterSelector for when user is not logged in
+	 */
+	private CharactersSelector defaultSelector;
 
 	/**
 	 * Basic constructor that sets game's title Creates game loop and event handler
@@ -121,7 +117,10 @@ public class GameEngine implements SoundSystem {
 		gameStateListener = new DefaultGameStateListener();
 		levelManager = new LevelManager();
 		userListener = new UserListenerImpl();
+		defaultSelector = new CharactersSelector();
 		createGameLoop();
+		
+		gameWorld.setCharacterSelector(defaultSelector);
 	}
 
 	/**
@@ -229,6 +228,13 @@ public class GameEngine implements SoundSystem {
 		return userListener;
 	}
 
+	/**
+	 * @return default character selector when user is not logged in
+	 */
+	public CharactersSelector getDefaultCharacterSelector() {
+		return defaultSelector;
+	}
+	
 	/**
 	 * Starts game loop
 	 */

@@ -13,7 +13,7 @@ public class CharactersSelector {
 	/**
 	 * Currently selected character for playing, is this the smartest way
 	 */
-	public static CharacterObject selectedCharacter;
+	private CharacterObject selectedCharacter;
 	
 	/**
 	 * All characters 
@@ -96,6 +96,22 @@ public class CharactersSelector {
 	 */
 	public CharacterObject getSelectedCharacter() {
 		return selectedCharacter;
+	}
+
+	/**
+	 * Sets currently selected character
+	 * @param selectedCharacter
+	 */
+	public void setSelectedCharacter(CharacterObject selectedCharacter) {
+		this.selectedCharacter = selectedCharacter;
+	}
+	
+	/**
+	 * Unlocks character.
+	 * @param i
+	 */
+	public void unlockCharacter(int i) {
+		allCharacters.get(i).setLocked(false);
 	}
 	
 

@@ -44,9 +44,20 @@ public class CharacterSelectController extends MainOptionsController {
     @FXML
     public void initialize() {
     	Utils.animateBackground(overlay, background1, background2, background3);
+    }
+    
+    public void init() {  	
+    	CharactersSelector selector;
     	
-    	//CharactersSelector selector = gameEngine.getGameWorld().getCharactersSelector();
-    	CharactersSelector selector = new CharactersSelector();
+    	if(gameEngine.getSession() == null) {
+    		selector = gameEngine.getDefaultCharacterSelector();
+    	} else {
+    		selector = gameEngine.getSession().getSelector();
+    	}
+    	
+    	selectedCharacter.setImage(
+    			Utils.loadIcon(GameConstants.pathToIcons + selector.getSelectedCharacter().getUri(), SELECTED_ICON_SIZE, SELECTED_ICON_SIZE));
+    	
     	int x = 0, y = 0;
     	
     	for(CharacterObject character : selector.getAllCharacters()) {
@@ -60,7 +71,7 @@ public class CharacterSelectController extends MainOptionsController {
     			characterImage.getStyleClass().add("menu-button");
         		characterImage.addEventHandler(MOUSE_CLICKED, e -> {
         			selectedCharacter.setImage(Utils.loadIcon(GameConstants.pathToIcons + character.getUri(), SELECTED_ICON_SIZE, SELECTED_ICON_SIZE));
-        			CharactersSelector.selectedCharacter = character;
+        			selector.setSelectedCharacter(character);
         		});
     		}
     		

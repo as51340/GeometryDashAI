@@ -2,12 +2,12 @@ package hr.fer.zemris.project.geometry.dash.model;
 
 import com.google.gson.annotations.Expose;
 
-import hr.fer.zemris.project.geometry.dash.model.listeners.UserListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.Account;
+import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 import hr.fer.zemris.project.geometry.dash.model.stats.Stats;
 
 /**
- * Stores session informations about user, his statistic and whether or not is some user logged.
+ * Stores session informations about user, his statistic, characters and whether or not is some user logged.
  * @author Andi �krgat
  *
  */
@@ -25,6 +25,12 @@ public class Session {
 	@Expose
 	private Stats stats;
 	
+	/**
+	 * User characters
+	 */
+	@Expose
+	private CharactersSelector selector;
+	
 	
 	/**
 	 * Create new session
@@ -36,12 +42,14 @@ public class Session {
 	public Session(String firstName, String lastName, String username, String password) {
 		this.account = new Account(firstName, lastName, username, password);		
 		stats = new Stats();
+		selector = new CharactersSelector();
 	}
 	
-	public Session(Account account, Stats stats) {
+	public Session(Account account, Stats stats, CharactersSelector selector) {
 		super();
 		this.account = account;
 		this.stats = stats;
+		this.selector = selector;
 	}
 
 
@@ -60,6 +68,11 @@ public class Session {
 		return stats;
 	}
 	
-	
+	/**
+	 * @return the selector
+	 */
+	public CharactersSelector getSelector() {
+		return selector;
+	}
 	
 }

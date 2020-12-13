@@ -115,6 +115,7 @@ public class BackgroundSceneController {
 		CharacterSelectController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
 		controller.setGameEngine(gameEngine);
+		controller.init();
 	}
 
 	@FXML

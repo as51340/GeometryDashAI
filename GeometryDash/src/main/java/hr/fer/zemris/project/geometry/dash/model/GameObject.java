@@ -3,9 +3,7 @@ package hr.fer.zemris.project.geometry.dash.model;
 import com.google.gson.annotations.Expose;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 /**
  * Game object. Every game object has its current position, width, height, speed and icon
