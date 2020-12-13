@@ -28,7 +28,7 @@ public class Block extends Obstacle {
         setName("Block");
     }
 
-
+    @Override
     public boolean playerIsOn(Player player) {
         Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
         double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka

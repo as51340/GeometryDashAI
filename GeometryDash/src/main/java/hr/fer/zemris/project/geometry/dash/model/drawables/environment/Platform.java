@@ -38,7 +38,7 @@ public class Platform extends Obstacle {
         return Math.abs(xDiff) <= getWidth() && Math.abs(yDiff) <= getHeight() / 2.0;
     }
 
-    //provjerava je li player na platformi
+    @Override
     public boolean playerIsOn(Player player) {
         Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0, player.getHeight()));
         Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
@@ -47,7 +47,6 @@ public class Platform extends Obstacle {
 
         return playerDL.getY() >= this.getCurrentPosition().getY()
                 && playerDL.getY() <= this.getCurrentPosition().getY() + this.getHeight() / 2.0
-                // ^^^ this used to be UL, which makes collisions impossible
                 && ((playerDR.getX() > platformUL.getX()
                 && playerDR.getX() < platformUR.getX())
                 || (playerDL.getX() > platformUL.getX()

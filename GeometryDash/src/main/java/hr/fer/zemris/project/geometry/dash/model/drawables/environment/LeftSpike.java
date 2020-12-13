@@ -46,4 +46,8 @@ public class LeftSpike extends Obstacle {
         return new Spike(getCurrentPosition().copy(), getIconPath());
     }
 
+    @Override
+    public boolean playerIsOn(Player player) {
+        return false;
+    }
 }

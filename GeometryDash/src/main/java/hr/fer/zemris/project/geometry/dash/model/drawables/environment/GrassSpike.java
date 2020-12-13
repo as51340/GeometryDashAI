@@ -46,4 +46,9 @@ public class GrassSpike extends Obstacle {
     public GameObject copy() {
         return new GrassSpike(getCurrentPosition().copy(), getIconPath());
     }
+
+    @Override
+    public boolean playerIsOn(Player player) {
+        return false;
+    }
 }
