@@ -1,9 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.model.settings.character;
 
-import hr.fer.zemris.project.geometry.dash.model.Utils;
-import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
-import javafx.scene.image.Image;
-
+import com.google.gson.annotations.Expose;
 
 /**
  * Represents character in game. Every character in game has icon and can be locked or unlocked from the beginning of the game
@@ -12,18 +9,15 @@ import javafx.scene.image.Image;
 public class CharacterObject {
 	
 	/**
-	 * {@linkplain ImageIcon}
-	 */
-	private Image icon;
-	
-	/**
 	 * Uri to icon photo
 	 */
+	@Expose
 	private String uri;
 	
 	/**
 	 * Not all characters are available from the beginning
 	 */
+	@Expose
 	private boolean locked;
 	
 	/**
@@ -32,21 +26,8 @@ public class CharacterObject {
 	 * @param locked Not all characters are unlocked from the start of the game
 	 */
 	public CharacterObject(String uri, boolean locked) {
-		this.icon = loadIcon(uri);
 		this.locked = locked;
 		this.uri = uri;
-	}
-	
-	/**
-	 * Loads icon with the help of {@linkplain Utils} class
-	 * @param uri path to the icon
-	 * @return loaded icon
-	 */
-	private Image loadIcon(String uri) {
-
-		//return Utils.loadIcon(GameConstants.pathToIcons + uri);
-
-		return Utils.loadIcon(GameConstants.pathToIcons + uri, GameConstants.iconWidth, GameConstants.iconHeight);
 	}
 	
 	/**
@@ -62,13 +43,6 @@ public class CharacterObject {
 	public void setLocked(boolean locked) {
 		this.locked = locked;
 	}
-
-	/**
-	 * @return the icon
-	 */
-	public Image getIcon() {
-		return icon;
-	}
 	
 	/**
 	 * @return the icon uri
@@ -77,5 +51,4 @@ public class CharacterObject {
 		return uri;
 	}
 	
-
 }

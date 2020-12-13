@@ -52,8 +52,6 @@ public class Session {
 		this.selector = selector;
 	}
 
-
-
 	/**
 	 *  @return the account
 	 */

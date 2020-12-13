@@ -6,7 +6,6 @@ import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.listeners.LoggedInListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
-import hr.fer.zemris.project.geometry.dash.visualization.ai.AIOptionsController;
 import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditorSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -69,11 +68,6 @@ public class BackgroundSceneController {
 	
 	@FXML
     private ImageView play_ai;
-
-	/**
-	 * Reference to the game engine
-	 */
-	private GameEngine gameEngine;
 	
 	private LoggedInListener listener;
 
@@ -85,7 +79,6 @@ public class BackgroundSceneController {
 		loader.load();
 		SettingsSceneController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
-		controller.setGameEngine(gameEngine);
 		controller.setListener(listener);
 	}
 
@@ -96,7 +89,6 @@ public class BackgroundSceneController {
 		loader.load();
 		AchievementsSceneController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
-		controller.setGameEngine(gameEngine);
 		controller.init();
 	}
 
@@ -107,7 +99,6 @@ public class BackgroundSceneController {
 		loader.load();
 		StatsSceneController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
-		controller.setGameEngine(gameEngine);
 		controller.init();
 	}
 
@@ -118,7 +109,6 @@ public class BackgroundSceneController {
 		loader.load();
 		CharacterSelectController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
-		controller.setGameEngine(gameEngine);
 		controller.init();
 	}
 
@@ -127,8 +117,8 @@ public class BackgroundSceneController {
 		FXMLLoader loader = new FXMLLoader(
 				getClass().getResource(GameConstants.pathToVisualization + "ChoosePlayerScene.fxml"));
 		loader.load();
-		ChoosePlayerController controller = loader.getController();
-		controller.setPreviousSceneRoot(rootPane);
+		//ChoosePlayerController controller = loader.getController();
+		//controller.setPreviousSceneRoot(rootPane);
 		//gameEngine.getSettings().getBackgroundMusicPlayer().stop();
 	}
 
@@ -140,14 +130,13 @@ public class BackgroundSceneController {
 		LevelEditorSceneController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
 		controller.setListeners();
-		controller.setGameEngine(gameEngine);
-		gameEngine.getGameStateListener().levelEditorModeEntered(controller.getGraphicsContext());
+		GameEngine.getInstance().getGameStateListener().levelEditorModeEntered(controller.getGraphicsContext());
 //		gameEngine.start();
 	}
 	
 	@FXML
 	private void logoutButtonClicked(MouseEvent event) throws IOException {
-		gameEngine.getUserListener().logout();
+		GameEngine.getInstance().getUserListener().logout();
 		logout.setVisible(false);
 		logout.setMouseTransparent(true);	
 		logoutOverlay.setVisible(true);
@@ -157,8 +146,8 @@ public class BackgroundSceneController {
     void aiClicked(MouseEvent event) throws IOException {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "AI/AIOptionsScene.fxml"));
     	loader.load();
-    	AIOptionsController controller = loader.getController();
-    	controller.setPreviousSceneRoot(rootPane);
+    	//AIOptionsController controller = loader.getController();
+    	//controller.setPreviousSceneRoot(rootPane);
     }
 	
 	@FXML
@@ -172,8 +161,8 @@ public class BackgroundSceneController {
 	}
 	
 	public void init() {
-		logout.setVisible(gameEngine.getSession() != null);
-		logout.setMouseTransparent(gameEngine.getSession() == null);
+		logout.setVisible(GameEngine.getInstance().getSession() != null);
+		logout.setMouseTransparent(GameEngine.getInstance().getSession() == null);
 		
 		listener = () -> {
 			logout.setVisible(true);
@@ -181,26 +170,18 @@ public class BackgroundSceneController {
 		};
 	}
 
-	/**
-	 * Sets game engine
-	 * @param gameEngine
-	 */
-	public void setGameEngine(GameEngine gameEngine) {
-		this.gameEngine = gameEngine;
-	}
-
 	@FXML
 	void nextBackgroundMusicClicked(MouseEvent event) {
-		gameEngine.getSettings().getBackgroundMusicPlayer().next();
+		GameEngine.getInstance().getSettings().getBackgroundMusicPlayer().next();
 	}
 
 	@FXML
 	void startBackgroundMusicClicked(MouseEvent event) {
-		gameEngine.getSettings().getBackgroundMusicPlayer().start();
+		GameEngine.getInstance().getSettings().getBackgroundMusicPlayer().start();
 	}
 
 	@FXML
 	void stopBackgroundMusicClicked(MouseEvent event) {
-		gameEngine.getSettings().getBackgroundMusicPlayer().stop();
+		GameEngine.getInstance().getSettings().getBackgroundMusicPlayer().stop();
 	}
 }

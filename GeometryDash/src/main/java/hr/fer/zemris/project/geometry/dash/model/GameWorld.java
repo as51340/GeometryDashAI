@@ -1,9 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -13,23 +10,16 @@ import hr.fer.zemris.project.geometry.dash.model.listeners.PlayerListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
-import hr.fer.zemris.project.geometry.dash.model.serialization.GameObjectDeserializer;
 import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
 import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
-import hr.fer.zemris.project.geometry.dash.model.settings.Options;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 import hr.fer.zemris.project.geometry.dash.visualization.PlayerDeathSceneController;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.util.Duration;
 
 /**
  * Manages all current objects on the scene.
@@ -144,7 +134,7 @@ public class GameWorld {
      */
     private void createScene() {
         player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
-        player.setIcon(selector.getSelectedCharacter().getIcon());
+        player.setIcon(selector.getSelectedCharacter().getUri());
         floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
         Set<GameObject> levelObjects = new SerializationOfObjects(GsonFactory.createGameObjectGson(50)).deserializeGameObjects(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, "TempLevel"));
         // when we create choose level scene then we will change these lines, maybe create scene will be public and will receive levelName
@@ -308,7 +298,6 @@ public class GameWorld {
             	FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "PlayerDeathScene.fxml"));
             	loader.load();
             	PlayerDeathSceneController controller = loader.<PlayerDeathSceneController>getController();
-            	controller.setGameEngine(GameEngine.getInstance());
             	Stage stage = (Stage)Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
             	Pane rootPane = stage == null ? null : (Pane)stage.getScene().getRoot();
             	controller.setPreviousSceneRoot(rootPane);

@@ -3,6 +3,7 @@ package hr.fer.zemris.project.geometry.dash.visualization;
 import java.io.IOException;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -59,7 +60,7 @@ public class PlayerDeathSceneController extends MenuController {
         fadeTransitionReverse.setToValue(0.0);
         fadeTransitionReverse.play();
 		//((Stage)retryButton.getScene().getWindow()).close();
-		gameEngine.reset();
+        GameEngine.getInstance().reset();
 		
 	}
 	
@@ -70,8 +71,6 @@ public class PlayerDeathSceneController extends MenuController {
     	
     	Stage stage = (Stage)(menuButton.getScene().getWindow());
     	Scene scene = GeometryDash.createScaledScene(root, stage);
-    	BackgroundSceneController controller = loader.<BackgroundSceneController>getController();
-    	controller.setGameEngine(gameEngine);
     	
     	stage.setScene(scene);
     	stage.sizeToScene();

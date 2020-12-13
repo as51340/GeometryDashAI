@@ -3,8 +3,7 @@ package hr.fer.zemris.project.geometry.dash.model;
 import com.google.gson.annotations.Expose;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.chart.ValueAxis;
+import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.image.Image;
 
 /**
@@ -125,8 +124,8 @@ public abstract class GameObject implements Drawable {
      *
      * @param icon
      */
-    public void setIcon(Image icon) {
-        this.icon = icon;
+    public void setIcon(String uri) {
+        this.icon = Utils.loadIcon(GameConstants.pathToIcons + uri, GameConstants.iconWidth, GameConstants.iconHeight);
     }
 
 

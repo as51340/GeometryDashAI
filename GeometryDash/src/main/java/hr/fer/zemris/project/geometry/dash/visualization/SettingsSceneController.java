@@ -69,7 +69,6 @@ public class SettingsSceneController extends MenuController{
     	AccountSceneController controller = loader.getController();
     	
     	controller.setPreviousSceneRoot(this.rootPane);
-    	controller.setGameEngine(gameEngine);
     	controller.setListener(listener);
     	controller.init();
     }
@@ -82,7 +81,6 @@ public class SettingsSceneController extends MenuController{
     	loader.load();
     	HowToPlaySceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
-    	controller.setGameEngine(gameEngine);
     }
 	
 	@FXML
@@ -93,7 +91,6 @@ public class SettingsSceneController extends MenuController{
     	loader.load();
     	RateSceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
-    	controller.setGameEngine(gameEngine);
     }
 	
 	@FXML
@@ -104,7 +101,6 @@ public class SettingsSceneController extends MenuController{
     	loader.load();
     	SongsSceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
-    	controller.setGameEngine(gameEngine);
     }
 	
 	@FXML
@@ -115,7 +111,6 @@ public class SettingsSceneController extends MenuController{
     	loader.load();
     	HelpSceneController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
-    	controller.setGameEngine(gameEngine);
     }
 	
 	@FXML
@@ -126,7 +121,6 @@ public class SettingsSceneController extends MenuController{
 		loader.load();	
 		OptionsSceneController controller = loader.<OptionsSceneController>getController();
 		controller.setPreviousSceneRoot(rootPane);
-		controller.setGameEngine(gameEngine);
     	controller.init();	
     }
 

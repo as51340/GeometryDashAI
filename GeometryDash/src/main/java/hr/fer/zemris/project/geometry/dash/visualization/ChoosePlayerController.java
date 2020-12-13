@@ -60,8 +60,6 @@ public class ChoosePlayerController extends MenuController{
     	loader.load();
     	ChooseLevelController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
-    	//makni ovo ASAP
-    	controller.setGameEngine(GameEngine.getInstance());
     }
     
 

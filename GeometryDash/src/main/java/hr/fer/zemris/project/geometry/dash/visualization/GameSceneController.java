@@ -31,17 +31,11 @@ public class GameSceneController {
 	
 	@FXML
     private StackPane rootPane;
-
-	/**
-	 * Reference to the game engine
-	 */
-	private GameEngine gameEngine;
 	
 	private Map<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 
-	public void setGameEngine(GameEngine gameEngine) {
-		this.gameEngine = gameEngine;
-		this.gameEngine.getGameWorld().getRenderer().setGraphicsContext(canvas.getGraphicsContext2D());
+	public void setGameEngine() {
+		GameEngine.getInstance().getGameWorld().getRenderer().setGraphicsContext(canvas.getGraphicsContext2D());
 	}
 	
 	@FXML

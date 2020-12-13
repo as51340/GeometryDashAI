@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.stats.Stats;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +23,7 @@ public class AchievementsSceneController extends MenuController {
 	private ObservableList<Text> obsList;
 	
 	public void init() {
-		if(gameEngine.getSession() != null) {
+		if(GameEngine.getInstance().getSession() != null) {
 			fillList();
 			notLoggedIn.setVisible(false);
 			achievementsList.setVisible(true);
@@ -34,7 +35,7 @@ public class AchievementsSceneController extends MenuController {
 
 	private void fillList() {
 		obsList = FXCollections.observableArrayList();
-		Stats stats = gameEngine.getSession().getStats();
+		Stats stats = GameEngine.getInstance().getSession().getStats();
 		
 		obsList.add(new Text("Total jumps:                  " + stats.getTotalJumps()));
 		obsList.add(new Text("Total attempts:               " + stats.getTotalAttempts()));

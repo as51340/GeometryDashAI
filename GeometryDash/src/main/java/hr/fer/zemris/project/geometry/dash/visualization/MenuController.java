@@ -1,6 +1,5 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
-import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.listeners.LoggedInListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.animation.FadeTransition;
@@ -31,8 +30,6 @@ public class MenuController {
     
     @FXML
     protected StackPane rootPane;
-
-    protected GameEngine gameEngine;
     
     protected LoggedInListener listener;
     
@@ -78,10 +75,6 @@ public class MenuController {
         fadeTransitionReverse.setToValue(0.0);
         fadeTransitionReverse.play();
     }
-    
-	public void setGameEngine(GameEngine gameEngine) {
-		this.gameEngine = gameEngine;
-	}
 	
 	public void setListener(LoggedInListener listener) {
 		this.listener = listener;

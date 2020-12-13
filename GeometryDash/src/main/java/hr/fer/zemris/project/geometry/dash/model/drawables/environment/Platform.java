@@ -2,12 +2,9 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
-import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 //TODO why to use specific width - every platform is 45
 public class Platform extends Obstacle {
@@ -29,7 +26,7 @@ public class Platform extends Obstacle {
     	setInitialPosition(position.copy());
         setCurrentPosition(position);
         setIconPath(image);
-        setIcon(Utils.loadIcon(image, GameConstants.iconWidth, GameConstants.iconHeight));
+        setIcon(image);
     }
 
     /**
@@ -48,7 +45,7 @@ public class Platform extends Obstacle {
         setHeight(height);
         setWidth(width);
         setIconPath(iconPath);
-        setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
+        setIcon(iconPath);
     }
 
     //provjerava da li se playerov gornje lijevi ili desni kut nalazi "u" platformi

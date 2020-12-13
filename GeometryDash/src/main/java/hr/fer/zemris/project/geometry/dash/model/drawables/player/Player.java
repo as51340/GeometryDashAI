@@ -1,13 +1,11 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.player;
 
-
 import com.google.gson.annotations.Expose;
+
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
-import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
-import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.transform.Rotate;
 
@@ -25,8 +23,6 @@ public class Player extends GameObject {
      */
     @Expose
     private double rotation;
-    
-    
 
     /**
      * Flag that signifies the player wants to jump
@@ -59,7 +55,7 @@ public class Player extends GameObject {
     	setInitialPosition(new Vector2D(0, 0));
         this.rotation = rotation;
         this.speed = speed;
-        setIcon(Utils.loadIcon(icon, GameConstants.iconWidth, GameConstants.iconHeight));
+        setIcon(icon);
     }
 
     public Vector2D getRotatingPoint() {
@@ -152,7 +148,6 @@ public class Player extends GameObject {
     	setInitialPosition(position.copy());
         setCurrentPosition(position);
         rotatingPoint = position.copy();
-        setIcon(CharactersSelector.selectedCharacter.getIcon());
         this.setWidth(GameConstants.iconWidth);
         this.setHeight(GameConstants.iconHeight);
         setSpeed(speed);

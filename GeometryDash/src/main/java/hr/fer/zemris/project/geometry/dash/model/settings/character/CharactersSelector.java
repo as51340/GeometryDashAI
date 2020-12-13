@@ -3,6 +3,8 @@ package hr.fer.zemris.project.geometry.dash.model.settings.character;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Keeps all characters loaded from resources
  * @author Andi Škrgat
@@ -13,11 +15,13 @@ public class CharactersSelector {
 	/**
 	 * Currently selected character for playing, is this the smartest way
 	 */
+	@Expose
 	private CharacterObject selectedCharacter;
 	
 	/**
 	 * All characters 
 	 */
+	@Expose
 	private List<CharacterObject> allCharacters;
 	
 	/**

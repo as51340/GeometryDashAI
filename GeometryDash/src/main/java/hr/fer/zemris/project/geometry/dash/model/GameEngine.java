@@ -1,11 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
@@ -26,7 +21,6 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -114,6 +108,7 @@ public class GameEngine implements SoundSystem {
 	 */
 	private CharactersSelector defaultSelector;
 
+	/*
 	 * Time when gameLoop started
 	 */
 	private long startTime;
@@ -137,7 +132,7 @@ public class GameEngine implements SoundSystem {
 		this.height = height;
 		this.fps = fps;
 		settings = new Settings();
-		gameWorld = new GameWorld(); // for now list of obstacles is empty, not focus on that currently
+		//gameWorld = new GameWorld(); // for now list of obstacles is empty, not focus on that currently
 		levelEditor = new LevelEditor();
 		gameStateListener = new DefaultGameStateListener();
 		levelManager = new LevelManager();
@@ -145,7 +140,7 @@ public class GameEngine implements SoundSystem {
 		defaultSelector = new CharactersSelector();
 		createGameLoop();
 		
-		gameWorld.setCharacterSelector(defaultSelector);
+		//gameWorld.setCharacterSelector(defaultSelector);
 	}
 	
 
@@ -161,6 +156,11 @@ public class GameEngine implements SoundSystem {
 	 */
 	public GameWorld getGameWorld() {
 		return gameWorld;
+	}
+	
+	public void setGameWorld() {
+		gameWorld = new GameWorld();
+		gameWorld.setCharacterSelector(session == null ? defaultSelector : session.getSelector());
 	}
 
 	/**

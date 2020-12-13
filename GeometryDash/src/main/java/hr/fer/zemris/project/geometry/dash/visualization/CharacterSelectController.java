@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharacterObject;
@@ -49,10 +50,10 @@ public class CharacterSelectController extends MainOptionsController {
     public void init() {  	
     	CharactersSelector selector;
     	
-    	if(gameEngine.getSession() == null) {
-    		selector = gameEngine.getDefaultCharacterSelector();
+    	if(GameEngine.getInstance().getSession() == null) {
+    		selector = GameEngine.getInstance().getDefaultCharacterSelector();
     	} else {
-    		selector = gameEngine.getSession().getSelector();
+    		selector = GameEngine.getInstance().getSession().getSelector();
     	}
     	
     	selectedCharacter.setImage(

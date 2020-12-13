@@ -333,7 +333,7 @@ public class LevelEditorSceneController extends MainOptionsController {
 	 */
 	private void setOnMousePressed() {
 		grid.getScene().setOnMousePressed((e) -> {
-			gameEngine.getLevelEditor().getMouseHandler().setMousePressedButton(e.getButton());
+			GameEngine.getInstance().getLevelEditor().getMouseHandler().setMousePressedButton(e.getButton());
 		});
 	}
 
@@ -342,8 +342,8 @@ public class LevelEditorSceneController extends MainOptionsController {
 	 */
 	private void setOnMouseMoved() {
 		grid.getScene().setOnMouseMoved((e) -> {
-			gameEngine.getLevelEditor().getMouseHandler().setMouse_x(e.getX());
-			gameEngine.getLevelEditor().getMouseHandler().setMouse_y(e.getY());
+			GameEngine.getInstance().getLevelEditor().getMouseHandler().setMouse_x(e.getX());
+			GameEngine.getInstance().getLevelEditor().getMouseHandler().setMouse_y(e.getY());
 		});
 	}
 
@@ -352,11 +352,11 @@ public class LevelEditorSceneController extends MainOptionsController {
 	 */
 	private void setOnMouseDragged() {
 		grid.getScene().setOnMouseDragged((e) -> {
-			gameEngine.getLevelEditor().getMouseHandler().setMouseDragged(true);
-			gameEngine.getLevelEditor().getMouseHandler()
-					.setDeltaDrag_x(e.getX() - gameEngine.getLevelEditor().getMouseHandler().getMouse_x());
-			gameEngine.getLevelEditor().getMouseHandler()
-					.setDeltaDrag_y(e.getY() - gameEngine.getLevelEditor().getMouseHandler().getMouse_y());
+			GameEngine.getInstance().getLevelEditor().getMouseHandler().setMouseDragged(true);
+			GameEngine.getInstance().getLevelEditor().getMouseHandler()
+					.setDeltaDrag_x(e.getX() - GameEngine.getInstance().getLevelEditor().getMouseHandler().getMouse_x());
+			GameEngine.getInstance().getLevelEditor().getMouseHandler()
+					.setDeltaDrag_y(e.getY() - GameEngine.getInstance().getLevelEditor().getMouseHandler().getMouse_y());
 		});
 	}
 
@@ -365,9 +365,9 @@ public class LevelEditorSceneController extends MainOptionsController {
 	 */
 	private void setOnMouseReleased() {
 		grid.getScene().setOnMouseReleased((e) -> {
-			gameEngine.getLevelEditor().getMouseHandler().setMousePressedButton(null);
-			gameEngine.getLevelEditor().getMouseHandler().setDeltaDrag_x(0);
-			gameEngine.getLevelEditor().getMouseHandler().setDeltaDrag_y(0);
+			GameEngine.getInstance().getLevelEditor().getMouseHandler().setMousePressedButton(null);
+			GameEngine.getInstance().getLevelEditor().getMouseHandler().setDeltaDrag_x(0);
+			GameEngine.getInstance().getLevelEditor().getMouseHandler().setDeltaDrag_y(0);
 		});
 	}
 
@@ -376,15 +376,6 @@ public class LevelEditorSceneController extends MainOptionsController {
 	 */
 	public GraphicsContext getGraphicsContext() {
 		return grid.getGraphicsContext2D();
-	}
-
-	/**
-	 * Sets game engine to the controller
-	 * 
-	 * @param gameEngine
-	 */
-	public void setGameEngine(GameEngine gameEngine) {
-		this.gameEngine = gameEngine;
 	}
 
 	/**
@@ -570,13 +561,6 @@ public class LevelEditorSceneController extends MainOptionsController {
 	}
 
 	/**
-	 * @return the gameEngine
-	 */
-	public GameEngine getGameEngine() {
-		return gameEngine;
-	}
-
-	/**
 	 * Listens for changes on level editor and updates corresponding class
 	 * {@linkplain GridAttaching}
 	 * 
@@ -598,14 +582,14 @@ public class LevelEditorSceneController extends MainOptionsController {
 
 		@Override
 		public void newObjectSelected(GameObject gameObject) {
-			getGameEngine().getLevelEditor().getGridAttaching().setCurrObj(gameObject);
-			gameEngine.getLevelEditor().getGridAttaching().setRemoveIntent(false);
+			GameEngine.getInstance().getLevelEditor().getGridAttaching().setCurrObj(gameObject);
+			GameEngine.getInstance().getLevelEditor().getGridAttaching().setRemoveIntent(false);
 		}
 
 		@Override
 		public void newColorSelected(String color) {
-			getGameEngine().getLevelEditor().getGridAttaching().setCurrObj(null);
-			gameEngine.getLevelEditor().getGridAttaching().setRemoveIntent(false);
+			GameEngine.getInstance().getLevelEditor().getGridAttaching().setCurrObj(null);
+			GameEngine.getInstance().getLevelEditor().getGridAttaching().setRemoveIntent(false);
 			addBlock.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "block/" + color + ".png",
 					GameConstants.iconWidth, GameConstants.iconHeight));
 			addGrass.setImage(Utils.loadIcon(GameConstants.pathToObstacles + "grassspike/" + color + ".png",
@@ -622,39 +606,39 @@ public class LevelEditorSceneController extends MainOptionsController {
 
 		@Override
 		public void saveLevel(String fileToSave) {
-			gameEngine.getLevelEditor().getGridAttaching().setRemoveIntent(false);
+			GameEngine.getInstance().getLevelEditor().getGridAttaching().setRemoveIntent(false);
 			String json = serializeUtil
-					.serialize(gameEngine.getLevelEditor().getGridAttaching().getObjectsOnGrid().getListGameObjects());
+					.serialize(GameEngine.getInstance().getLevelEditor().getGridAttaching().getObjectsOnGrid().getListGameObjects());
 			String savedTo = ZipUtil.saveToZipFile(GameConstants.pathToLevelsFolder, json, fileToSave);
 			if (savedTo != null) {
-				gameEngine.getLevelManager().addLevel(savedTo,
-						gameEngine.getLevelEditor().getGridAttaching().getObjectsOnGrid().getListGameObjects());
-				level = gameEngine.getLevelManager().getLevelByName(savedTo);
+				GameEngine.getInstance().getLevelManager().addLevel(savedTo,
+						GameEngine.getInstance().getLevelEditor().getGridAttaching().getObjectsOnGrid().getListGameObjects());
+				level = GameEngine.getInstance().getLevelManager().getLevelByName(savedTo);
 			}
 		}
 
 		@Override
 		public void loadLevel() {
-			gameEngine.getLevelEditor().getGridAttaching().setRemoveIntent(false);
+			GameEngine.getInstance().getLevelEditor().getGridAttaching().setRemoveIntent(false);
 			String jsonFromFile = ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, null);
 			Set<GameObject> loadedObjects = (Set<GameObject>) serializeUtil.deserializeGameObjects(jsonFromFile);
 			if(loadedObjects != null) {
 				reset();
-				gameEngine.getLevelEditor().getGridAttaching().getObjectsOnGrid().loadObjectsOnScreen(loadedObjects);	
+				GameEngine.getInstance().getLevelEditor().getGridAttaching().getObjectsOnGrid().loadObjectsOnScreen(loadedObjects);	
 			}
 		}
 
 		@Override
 		public void reset() {
-			gameEngine.getLevelEditor().getGridAttaching().setRemoveIntent(false);
-			gameEngine.getLevelEditor().getGridAttaching().getObjectsOnGrid().clear();
+			GameEngine.getInstance().getLevelEditor().getGridAttaching().setRemoveIntent(false);
+			GameEngine.getInstance().getLevelEditor().getGridAttaching().getObjectsOnGrid().clear();
 			level = null;
 		}
 
 		@Override
 		public void remove() {
-			gameEngine.getLevelEditor().getGridAttaching().setCurrObj(null);
-			gameEngine.getLevelEditor().getGridAttaching().setRemoveIntent(true);
+			GameEngine.getInstance().getLevelEditor().getGridAttaching().setCurrObj(null);
+			GameEngine.getInstance().getLevelEditor().getGridAttaching().setRemoveIntent(true);
 		}
 	}
 }

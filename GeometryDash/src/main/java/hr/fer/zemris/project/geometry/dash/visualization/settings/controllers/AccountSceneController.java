@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.visualization.settings.controllers;
 
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.visualization.MenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -44,7 +45,7 @@ public class AccountSceneController extends MenuController {
 		
 	@FXML
 	private void registerButtonClicked(MouseEvent event) {
-		gameEngine.getUserListener().register(firstName.getText(), lastName.getText(), username.getText(), password.getText());
+		GameEngine.getInstance().getUserListener().register(firstName.getText(), lastName.getText(), username.getText(), password.getText());
 		listener.loggedIn();
 		registerPane.setVisible(false);
 		loggedInPane.setVisible(true);
@@ -54,11 +55,11 @@ public class AccountSceneController extends MenuController {
 	@FXML
 	
 	private void logInButtonClicked(MouseEvent event) {
-		boolean logged = gameEngine.getUserListener().login(usernameLogIn.getText(), passwordLogIn.getText());
+		boolean logged = GameEngine.getInstance().getUserListener().login(usernameLogIn.getText(), passwordLogIn.getText());
 		logInPane.setVisible(false);
 		loggedInPane.setVisible(true);
 		if(logged == true) {
-			welcomeLabel.setText("Welcome " + gameEngine.getSession().getAccount().getUsername());
+			welcomeLabel.setText("Welcome " + GameEngine.getInstance().getSession().getAccount().getUsername());
 			listener.loggedIn();
 		} else {
 			welcomeLabel.setText("Unknown user!");
@@ -78,7 +79,7 @@ public class AccountSceneController extends MenuController {
 	}
 	
 	public void init() {
-		if(gameEngine.getSession() == null) {
+		if(GameEngine.getInstance().getSession() == null) {
 			loggedInPane.setVisible(false);
 			registerPane.setVisible(false);
 			logInPane.setVisible(false);
@@ -86,7 +87,7 @@ public class AccountSceneController extends MenuController {
 			notLoggedInPane.setVisible(false);
 			registerPane.setVisible(false);
 			logInPane.setVisible(false);
-			welcomeLabel.setText("Welcome " + gameEngine.getSession().getAccount().getUsername());
+			welcomeLabel.setText("Welcome " + GameEngine.getInstance().getSession().getAccount().getUsername());
 		}
 	}
 

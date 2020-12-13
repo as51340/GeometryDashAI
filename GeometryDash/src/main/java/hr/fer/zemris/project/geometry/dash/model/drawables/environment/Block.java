@@ -2,12 +2,9 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
-import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 /**
  * Class represents a 1x1 block obstacle.
@@ -27,7 +24,7 @@ public class Block extends Obstacle {
         setHeight(GameConstants.iconHeight);
         setWidth(GameConstants.iconWidth);
         setIconPath(iconPath);
-        setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
+        setIcon(iconPath);
         setName("Block");
     }
 
@@ -48,7 +45,7 @@ public class Block extends Obstacle {
         setHeight(height);
         setWidth(width);
         setIconPath(iconPath);
-        setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
+        setIcon(iconPath);
     }
 
 

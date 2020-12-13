@@ -2,7 +2,6 @@ package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
-import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
@@ -20,7 +19,7 @@ public class LeftSpike extends Obstacle {
         this.setWidth(GameConstants.iconWidth); //visina trokuta
         this.setHeight(GameConstants.iconHeight); // baza trokuta
         setIconPath(uriIcon);
-        setIcon(Utils.loadIcon(uriIcon, GameConstants.iconWidth, GameConstants.iconHeight));
+        setIcon(uriIcon);
         setName("LeftSpike");
     }
 
@@ -39,7 +38,7 @@ public class LeftSpike extends Obstacle {
         setHeight(height);
         setWidth(width);
         setIconPath(iconPath);
-        setIcon(Utils.loadIcon(iconPath, GameConstants.iconWidth, GameConstants.iconHeight));
+        setIcon(iconPath);
     }
 
     @Override
