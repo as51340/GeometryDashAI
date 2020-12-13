@@ -38,9 +38,9 @@
                   <Image url="@../../static/back_btn.png" />
                </image>
             </ImageView>
-            <Button fx:id="neuralNetworkGeneticButton" layoutX="282.0" layoutY="180.0" mnemonicParsing="false" prefWidth="700.0" text="Artifical neural network genetic algorithm" textAlignment="CENTER" wrapText="true" />
-            <Button fx:id="elmanNeuralNetworkGeneticButton" layoutX="282.0" layoutY="320.0" mnemonicParsing="false" prefWidth="700.0" text="Elman artificial neural network genetic algorithm" textAlignment="CENTER" wrapText="true" />
-            <Button fx:id="geneticProgrammingButton" layoutX="429.0" layoutY="487.0" mnemonicParsing="false" text="Genetic programming" wrapText="true" />
+            <Button fx:id="neuralNetworkGeneticButton" layoutX="282.0" layoutY="180.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="700.0" styleClass="menu-button" text="Artifical neural network genetic algorithm" textAlignment="CENTER" wrapText="true" AnchorPane.topAnchor="180.0" />
+            <Button fx:id="elmanNeuralNetworkGeneticButton" layoutX="282.0" layoutY="320.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="700.0" styleClass="menu-button" text="Elman artificial neural network genetic algorithm" textAlignment="CENTER" wrapText="true" AnchorPane.topAnchor="320.0" />
+            <Button fx:id="geneticProgrammingButton" layoutX="406.0" layoutY="458.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="450.0" styleClass="menu-button" text="Genetic programming" wrapText="true" AnchorPane.topAnchor="460.0" />
          </children>
       </AnchorPane>
    </children>

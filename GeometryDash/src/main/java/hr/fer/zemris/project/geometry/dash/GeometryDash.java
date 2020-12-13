@@ -58,6 +58,7 @@ public class GeometryDash extends Application {
     	gameEngine.createStageFromData(primaryStage);
     	gameEngine.start();
         gameEngine.getGameStateListener().normalModePlayingStarted();
+        gameEngine.setGameWorld();
 
     	primaryStage.setTitle("Geometry Dash");
 		primaryStage.setScene(scene);

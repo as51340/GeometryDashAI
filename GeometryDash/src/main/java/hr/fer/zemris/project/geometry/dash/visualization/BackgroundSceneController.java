@@ -6,6 +6,7 @@ import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import hr.fer.zemris.project.geometry.dash.model.listeners.LoggedInListener;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.visualization.ai.AIOptionsController;
 import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditorSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -117,9 +118,9 @@ public class BackgroundSceneController {
 		FXMLLoader loader = new FXMLLoader(
 				getClass().getResource(GameConstants.pathToVisualization + "ChoosePlayerScene.fxml"));
 		loader.load();
-		//ChoosePlayerController controller = loader.getController();
-		//controller.setPreviousSceneRoot(rootPane);
-		//gameEngine.getSettings().getBackgroundMusicPlayer().stop();
+		ChoosePlayerController controller = loader.getController();
+		controller.setPreviousSceneRoot(rootPane);
+		//GameEngine.getInstance().getSettings().getBackgroundMusicPlayer().stop();
 	}
 
 	@FXML
@@ -143,11 +144,11 @@ public class BackgroundSceneController {
 	}
 	
     @FXML
-    void aiClicked(MouseEvent event) throws IOException {
+    private void aiClicked(MouseEvent event) throws IOException {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "AI/AIOptionsScene.fxml"));
     	loader.load();
-    	//AIOptionsController controller = loader.getController();
-    	//controller.setPreviousSceneRoot(rootPane);
+    	AIOptionsController controller = loader.getController();
+    	controller.setPreviousSceneRoot(rootPane);
     }
 	
 	@FXML

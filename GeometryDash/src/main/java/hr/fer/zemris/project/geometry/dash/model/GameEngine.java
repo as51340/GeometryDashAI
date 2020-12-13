@@ -161,6 +161,7 @@ public class GameEngine implements SoundSystem {
 	public void setGameWorld() {
 		gameWorld = new GameWorld();
 		gameWorld.setCharacterSelector(session == null ? defaultSelector : session.getSelector());
+		gameWorld.createScene();
 	}
 
 	/**

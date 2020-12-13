@@ -122,7 +122,7 @@ public class GameWorld {
     public GameWorld() {
         levelManager = new LevelManager();
         playerListener = new WorldPlayerListener();
-        createScene();
+        //createScene();
     }
 
     public void reset() {
@@ -132,7 +132,7 @@ public class GameWorld {
     /**
      * Creates temporary scene
      */
-    private void createScene() {
+    public void createScene() {
         player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
         player.setIcon(selector.getSelectedCharacter().getUri());
         floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));

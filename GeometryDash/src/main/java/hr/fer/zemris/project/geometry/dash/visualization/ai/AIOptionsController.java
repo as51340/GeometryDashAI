@@ -23,16 +23,7 @@ import javafx.scene.shape.Rectangle;
 public class AIOptionsController extends MenuController{
 
     @FXML
-    private StackPane rootPane;
-
-    @FXML
-    private Rectangle overlay;
-
-    @FXML
     private AnchorPane centerPane;
-
-    @FXML
-    private ImageView backButton;
 
     @FXML
     private Button neuralNetworkGeneticButton;
