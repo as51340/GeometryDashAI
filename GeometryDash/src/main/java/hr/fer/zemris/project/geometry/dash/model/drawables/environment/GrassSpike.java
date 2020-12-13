@@ -23,16 +23,14 @@ public class GrassSpike extends Obstacle {
      *
      * @param name            object name
      * @param currentPosition current position
-     * @param height          height
-     * @param width           width
      * @param iconPath        path to icon
      */
-    public GrassSpike(String name, Vector2D currentPosition, int height, int width, String iconPath) {
+    public GrassSpike(String name, Vector2D currentPosition, String iconPath) {
         setName(name);
         setInitialPosition(currentPosition.copy());
         setCurrentPosition(currentPosition);
-        setHeight(height);
-        setWidth(width);
+        setHeight(GameConstants.iconHeight);
+        setWidth(GameConstants.iconWidth);
         setIconPath(iconPath);
         setIcon(iconPath);
     }

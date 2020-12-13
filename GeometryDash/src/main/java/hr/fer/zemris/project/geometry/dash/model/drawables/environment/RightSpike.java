@@ -31,12 +31,12 @@ public class RightSpike extends Obstacle {
      * @param width width
      * @param iconPath path to icon
      */
-    public RightSpike(String name, Vector2D currentPosition, int height, int width, String iconPath) {
+    public RightSpike(String name, Vector2D currentPosition, String iconPath) {
         setName(name);
         setCurrentPosition(currentPosition);
         setInitialPosition( currentPosition.copy());
-        setHeight(height);
-        setWidth(width);
+        setHeight(GameConstants.iconHeight);
+        setWidth(GameConstants.iconWidth);
         setIconPath(iconPath);
         setIcon(iconPath);
     }

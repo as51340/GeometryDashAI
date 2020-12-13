@@ -11,9 +11,9 @@ public class Platform extends Obstacle {
 
     public Platform(Vector2D position, int width, String image) {
         this(position, image);
-    	setInitialPosition(position.copy());;
+    	setInitialPosition(position.copy());
         setHeight(GameConstants.iconHeight);
-        setWidth(width);
+        setWidth(GameConstants.iconWidth);
         setName("Platform");
     }
 
@@ -25,6 +25,8 @@ public class Platform extends Obstacle {
     public Platform(Vector2D position, String image) {
     	setInitialPosition(position.copy());
         setCurrentPosition(position);
+        setHeight(GameConstants.iconHeight);
+        setWidth(GameConstants.iconWidth);
         setIconPath(image);
         setIcon(image);
     }
@@ -34,16 +36,14 @@ public class Platform extends Obstacle {
      *
      * @param name            object name
      * @param currentPosition current position
-     * @param height          height
-     * @param width           width
      * @param iconPath        path to icon
      */
-    public Platform(String name, Vector2D currentPosition, int height, int width, String iconPath) {
+    public Platform(String name, Vector2D currentPosition, String iconPath) {
         setName(name);
         setInitialPosition(currentPosition.copy());
         setCurrentPosition(currentPosition);
-        setHeight(height);
-        setWidth(width);
+        setHeight(GameConstants.iconHeight);
+        setWidth(GameConstants.iconWidth);
         setIconPath(iconPath);
         setIcon(iconPath);
     }
