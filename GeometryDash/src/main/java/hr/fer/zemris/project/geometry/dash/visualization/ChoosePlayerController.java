@@ -15,19 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
-public class ChoosePlayerController extends MenuController{
-
-    @FXML
-    private StackPane rootPane;
-
-    @FXML
-    private Rectangle overlay;
-
-    @FXML
-    private ListView<?> statsList;
-
-    @FXML
-    private ImageView backButton;
+public class ChoosePlayerController extends MenuController {
 
     @FXML
     private Button playerButton;
@@ -37,6 +25,7 @@ public class ChoosePlayerController extends MenuController{
     
     @FXML
     void onAIClicked(MouseEvent event) throws IOException {
+    	GameEngine.getInstance().setGameWorld();
     	GameEngine.getInstance().getGameWorld().getPlayerListener().playerCreated(
     			GameEngine.getInstance().getSettings()
     			.getOptions().getAIMode());
@@ -45,6 +34,7 @@ public class ChoosePlayerController extends MenuController{
 
     @FXML
     void onPlayerClicked(MouseEvent event) throws IOException {
+    	GameEngine.getInstance().setGameWorld();
     	GameEngine.getInstance().getGameWorld().getPlayerListener().playerCreated(PlayingMode.HUMAN);
     	actionForChoosing();
     }

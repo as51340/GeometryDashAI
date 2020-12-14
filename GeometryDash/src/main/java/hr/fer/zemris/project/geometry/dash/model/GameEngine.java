@@ -132,7 +132,7 @@ public class GameEngine implements SoundSystem {
 		this.height = height;
 		this.fps = fps;
 		settings = new Settings();
-		gameWorld = new GameWorld(); // for now list of obstacles is empty, not focus on that currently
+		//gameWorld = new GameWorld(); // for now list of obstacles is empty, not focus on that currently
 		levelEditor = new LevelEditor();
 		gameStateListener = new DefaultGameStateListener();
 //		levelManager = new LevelManager();
@@ -140,7 +140,7 @@ public class GameEngine implements SoundSystem {
 		defaultSelector = new CharactersSelector();
 		createGameLoop();
 		
-		gameWorld.setCharacterSelector(defaultSelector);
+		//gameWorld.setCharacterSelector(defaultSelector);
 	}
 	
 
