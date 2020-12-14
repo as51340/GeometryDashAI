@@ -47,7 +47,7 @@ public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
 		double x = vectorPosition.get("x").getAsDouble();
 		double y = vectorPosition.get("y").getAsDouble();
 		y += y_offset;
-		return Utils.createObjectFromName(objectName, new Vector2D(x,y), height, width, iconPath);
+		return Utils.createObjectFromName(objectName, new Vector2D(x,y), iconPath);
 	}
 }
 

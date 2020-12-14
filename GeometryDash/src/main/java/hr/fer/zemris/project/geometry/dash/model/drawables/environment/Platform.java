@@ -6,50 +6,24 @@ import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
 
-//TODO why to use specific width - every platform is 45
 public class Platform extends Obstacle {
-
-    public Platform(Vector2D position, int width, String image) {
-        this(position, image);
-    	setInitialPosition(position.copy());;
-        setHeight(GameConstants.iconHeight);
-        setWidth(width);
-        setName("Platform");
-    }
 
     @Override
     public Vector2D getCenterPosition() {
-        return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, getHeight()/6.0));
+        return getCurrentPosition().translated(new Vector2D(getWidth() / 2.0, getHeight() / 6.0));
     }
 
     public Platform(Vector2D position, String image) {
-    	setInitialPosition(position.copy());
+        setInitialPosition(position.copy());
         setCurrentPosition(position);
+        setHeight(GameConstants.iconHeight);
+        setWidth(GameConstants.iconWidth);
         setIconPath(image);
         setIcon(image);
+        setName("Platform");
     }
 
-    /**
-     * Constructor that accepts all {@linkplain GameObject}'s parameters
-     *
-     * @param name            object name
-     * @param currentPosition current position
-     * @param height          height
-     * @param width           width
-     * @param iconPath        path to icon
-     */
-    public Platform(String name, Vector2D currentPosition, int height, int width, String iconPath) {
-        setName(name);
-        setInitialPosition(currentPosition.copy());
-        setCurrentPosition(currentPosition);
-        setHeight(height);
-        setWidth(width);
-        setIconPath(iconPath);
-        setIcon(iconPath);
-    }
 
-    //provjerava da li se playerov gornje lijevi ili desni kut nalazi "u" platformi
-    //tj da li ju je lupio od dole
     @Override
     public boolean checkCollisions(Player player) {
 //        Vector2D playerUL = player.getCurrentPosition();
@@ -61,10 +35,10 @@ public class Platform extends Obstacle {
         double xDiff = centerDiff.getX();
         double yDiff = centerDiff.getY();
 
-        return Math.abs(xDiff)<=getWidth() && Math.abs(yDiff)<=getHeight()/2.0;
+        return Math.abs(xDiff) <= getWidth() && Math.abs(yDiff) <= getHeight() / 2.0;
     }
 
-    //provjerava je li player na platformi
+    @Override
     public boolean playerIsOn(Player player) {
         Vector2D playerDL = player.getCurrentPosition().translated(new Vector2D(0, player.getHeight()));
         Vector2D playerDR = player.getCurrentPosition().translated(new Vector2D(player.getWidth(), player.getHeight()));
@@ -72,8 +46,7 @@ public class Platform extends Obstacle {
         Vector2D platformUR = this.getCurrentPosition().translated(new Vector2D(getWidth(), 0));
 
         return playerDL.getY() >= this.getCurrentPosition().getY()
-                && playerDL.getY() <= this.getCurrentPosition().getY() + this.getHeight()/2.0
-                // ^^^ this used to be UL, which makes collisions impossible
+                && playerDL.getY() <= this.getCurrentPosition().getY() + this.getHeight() / 2.0
                 && ((playerDR.getX() > platformUL.getX()
                 && playerDR.getX() < platformUR.getX())
                 || (playerDL.getX() > platformUL.getX()
@@ -87,7 +60,7 @@ public class Platform extends Obstacle {
 
     @Override
     public GameObject copy() {
-        return new Platform(getCurrentPosition().copy(), this.getWidth(), getIconPath());
+        return new Platform(getCurrentPosition().copy(), getIconPath());
     }
 
 }

@@ -9,7 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class RightSpike extends Obstacle {
     @Override
     public Vector2D getCenterPosition() {
-        return getCurrentPosition().translated(new Vector2D(getWidth()/2.0, getHeight()/2.0));
+        return getCurrentPosition().translated(new Vector2D(getWidth() / 2.0, getHeight() / 2.0));
     }
 
     //note: position here is lower left corner!
@@ -23,24 +23,6 @@ public class RightSpike extends Obstacle {
         setName("RightSpike");
     }
 
-    /**
-     * Constructor that accepts all {@linkplain GameObject}'s parameters
-     * @param name object name
-     * @param currentPosition current position
-     * @param height height
-     * @param width width
-     * @param iconPath path to icon
-     */
-    public RightSpike(String name, Vector2D currentPosition, int height, int width, String iconPath) {
-        setName(name);
-        setCurrentPosition(currentPosition);
-        setInitialPosition( currentPosition.copy());
-        setHeight(height);
-        setWidth(width);
-        setIconPath(iconPath);
-        setIcon(iconPath);
-    }
-
     @Override
     public boolean checkCollisions(Player player) {
         Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
@@ -50,7 +32,7 @@ public class RightSpike extends Obstacle {
 //        return  (((Math.abs(yDiff) - xDiff) <= getHeight()) && xDiff < getHeight() * 5 / 6.0
 //                && Math.abs(xDiff) <= getHeight() * 0.9 && Math.abs(yDiff) <= getHeight()*0.9);
 
-        return  ((((1.2 * Math.abs(yDiff)) - xDiff) <= getHeight()) && Math.abs(xDiff) <= getHeight() * 0.9
+        return ((((1.2 * Math.abs(yDiff)) - xDiff) <= getHeight()) && Math.abs(xDiff) <= getHeight() * 0.9
                 && Math.abs(yDiff) <= getHeight() * 0.85 && yDiff < getHeight() * 0.8);
     }
 
@@ -64,4 +46,8 @@ public class RightSpike extends Obstacle {
         return new Spike(getCurrentPosition().copy(), getIconPath());
     }
 
+    @Override
+    public boolean playerIsOn(Player player) {
+        return false;
+    }
 }

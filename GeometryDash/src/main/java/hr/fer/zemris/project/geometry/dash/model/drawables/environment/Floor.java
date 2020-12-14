@@ -12,55 +12,63 @@ import javafx.scene.canvas.GraphicsContext;
 
 /**
  * Floor object
- * @author Andi Skrgat
  *
+ * @author Andi Skrgat
  */
-public class Floor extends Obstacle{
-	
-	/**
-	 * Ground has to stay with camera, it must not finish
-	 */
-	@Expose
-	private Camera camera;
-	
-	/**
-	 * Constructor that takes its position
-	 * @param position
-	 */
+public class Floor extends Obstacle {
+
+    /**
+     * Ground has to stay with camera, it must not finish
+     */
+    @Expose
+    private Camera camera;
+
+    /**
+     * Constructor that takes its position
+     *
+     * @param position floor position
+     */
     public Floor(Vector2D position) {
-    	setInitialPosition(position.copy());
+        setInitialPosition(position.copy());
         setCurrentPosition(position);
         setName("Floor");
     }
-    
+
     @Override
     public boolean checkCollisions(Player player) {
         return false;
     }
 
-    
-	@Override
-	public void draw(GraphicsContext graphicsContext) {
-		graphicsContext.setLineWidth(4);
-		if(camera != null) { //and it should be
-			setCurrentPosition(new Vector2D(camera.getPosition().getX(), getCurrentPosition().getY()));	
-		}
-		graphicsContext.strokeLine(getCurrentPosition().getX(), getCurrentPosition().getY(), GameConstants.WIDTH + getCurrentPosition().getX(),
-		getCurrentPosition().getY());
-	}
-	
-	/**
-	 * Sets camera
-	 * @param camera
-	 */
-	public void setCamera(Camera camera) {
-		this.camera = camera;
-	}
 
-	@Override
-	public GameObject copy() {
-		return null;
-	}
-	
-    
+    @Override
+    public void draw(GraphicsContext graphicsContext) {
+        graphicsContext.setLineWidth(4);
+        if (camera != null) { //and it should be
+            setCurrentPosition(new Vector2D(camera.getPosition().getX(), getCurrentPosition().getY()));
+        }
+        graphicsContext.strokeLine(getCurrentPosition().getX(), getCurrentPosition().getY(), GameConstants.WIDTH + getCurrentPosition().getX(),
+                getCurrentPosition().getY());
+    }
+
+    /**
+     * Sets camera
+     *
+     * @param camera camera
+     */
+    public void setCamera(Camera camera) {
+        this.camera = camera;
+    }
+
+    @Override
+    public GameObject copy() {
+        return null;
+    }
+
+    @Override
+    public boolean playerIsOn(Player player) {
+        double playerPos_Y = player.getCurrentPosition().getY();
+        double floorPos_Y = getCurrentPosition().getY();
+        return playerPos_Y + GameConstants.playerGroundOffset_Y >= floorPos_Y;
+
+    }
 }

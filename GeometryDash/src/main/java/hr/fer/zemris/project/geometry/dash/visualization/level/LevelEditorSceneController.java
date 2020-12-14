@@ -241,28 +241,28 @@ public class LevelEditorSceneController extends MainOptionsController {
 	private void setActionsForButtons() {
 		addBlock.setOnMouseClicked((e) -> {
 			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Block", new Vector2D(0, 0),
-					GameConstants.iconHeight, GameConstants.iconWidth, createPathToObstacle("block")));
+					createPathToObstacle("block")));
 		});
 		addGrass.setOnMouseClicked((e) -> {
 			levelEditorListener.newObjectSelected(Utils.createObjectFromName("GrassSpike", new Vector2D(0, 0),
-					GameConstants.iconHeight, GameConstants.iconWidth, createPathToObstacle("grassspike")));
+					 createPathToObstacle("grassspike")));
 
 		});
 		addPlatform.setOnMouseClicked((e) -> {
 			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Platform", new Vector2D(0, 0),
-					GameConstants.iconHeight, GameConstants.iconWidth, createPathToObstacle("platform")));
+					 createPathToObstacle("platform")));
 		});
 		addSpike.setOnMouseClicked((e) -> {
 			levelEditorListener.newObjectSelected(Utils.createObjectFromName("Spike", new Vector2D(0, 0),
-					GameConstants.iconHeight, GameConstants.iconWidth, createPathToObstacle("spike")));
+					 createPathToObstacle("spike")));
 		});
 		spikeLeft.setOnMouseClicked((e) -> {
 			levelEditorListener.newObjectSelected(Utils.createObjectFromName("LeftSpike", new Vector2D(0, 0),
-					GameConstants.iconHeight, GameConstants.iconWidth, createPathToObstacleLeft("spike")));
+					 createPathToObstacleLeft("spike")));
 		});
 		spikeRight.setOnMouseClicked((e) -> {
 			levelEditorListener.newObjectSelected(Utils.createObjectFromName("RightSpike", new Vector2D(0, 0),
-					GameConstants.iconHeight, GameConstants.iconWidth, createPathToObstacleRight("spike")));
+					 createPathToObstacleRight("spike")));
 		});
 		blackColor.setOnMouseClicked((e) -> {
 			this.currColor = "black";

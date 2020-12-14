@@ -16,29 +16,11 @@ public class LeftSpike extends Obstacle {
     public LeftSpike(Vector2D position, String uriIcon) {
     	setInitialPosition(position.copy());;
         setCurrentPosition(position);
-        this.setWidth(GameConstants.iconWidth); //visina trokuta
-        this.setHeight(GameConstants.iconHeight); // baza trokuta
+        setWidth(GameConstants.iconWidth); //visina trokuta
+        setHeight(GameConstants.iconHeight); // baza trokuta
         setIconPath(uriIcon);
         setIcon(uriIcon);
         setName("LeftSpike");
-    }
-
-    /**
-     * Constructor that accepts all {@linkplain GameObject}'s parameters
-     * @param name object name
-     * @param currentPosition current position
-     * @param height height
-     * @param width width
-     * @param iconPath path to icon
-     */
-    public LeftSpike(String name, Vector2D currentPosition, int height, int width, String iconPath) {
-        setName(name);
-        setInitialPosition(currentPosition.copy());;
-        setCurrentPosition(currentPosition);
-        setHeight(height);
-        setWidth(width);
-        setIconPath(iconPath);
-        setIcon(iconPath);
     }
 
     @Override
@@ -64,4 +46,8 @@ public class LeftSpike extends Obstacle {
         return new Spike(getCurrentPosition().copy(), getIconPath());
     }
 
+    @Override
+    public boolean playerIsOn(Player player) {
+        return false;
+    }
 }

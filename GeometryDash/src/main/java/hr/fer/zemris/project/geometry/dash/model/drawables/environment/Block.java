@@ -19,7 +19,7 @@ public class Block extends Obstacle {
      * @param position position of the block.
      */
     public Block(Vector2D position, String iconPath) {
-    	setInitialPosition(position.copy());
+        setInitialPosition(position.copy());
         setCurrentPosition(position);
         setHeight(GameConstants.iconHeight);
         setWidth(GameConstants.iconWidth);
@@ -28,27 +28,7 @@ public class Block extends Obstacle {
         setName("Block");
     }
 
-	/**
-     * Constructor that accepts all {@linkplain GameObject}'s parameters
-     *
-     * @param name            object name
-     * @param currentPosition current position
-     * @param height          height
-     * @param width           width
-     * @param iconPath        path to icon
-     */
-    public Block(String name, Vector2D currentPosition, int height, int width, String iconPath) {
-        setName(name);
-
-        setInitialPosition(currentPosition.copy());
-        setCurrentPosition(currentPosition);
-        setHeight(height);
-        setWidth(width);
-        setIconPath(iconPath);
-        setIcon(iconPath);
-    }
-
-
+    @Override
     public boolean playerIsOn(Player player) {
         Vector2D centerDiff = this.getCenterPosition().translated(player.getCenterPosition().reversed());
         double xDiff = centerDiff.getX();   // ako je xDiff pozitivan, player se nalazi ~lijevo od blocka
@@ -56,8 +36,8 @@ public class Block extends Obstacle {
 
         if (yDiff <= getHeight() + 2) {
             if (xDiff <= getWidth()) {
-            // ON ZIZI (zivi al na meg jeziku)
-            return Math.abs(xDiff) <= Math.abs(yDiff) && yDiff >= 0;
+                // ON ZIZI (zivi al na meg jeziku)
+                return Math.abs(xDiff) <= Math.abs(yDiff) && yDiff >= 0;
             }
         }
         return false;

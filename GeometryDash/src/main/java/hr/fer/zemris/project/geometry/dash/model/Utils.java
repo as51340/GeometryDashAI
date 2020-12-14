@@ -127,15 +127,15 @@ public class Utils {
 	 * @param uriIcon path to icon
 	 * @return created {@linkplain GameObject}
 	 */
-	public static GameObject createObjectFromName(String objName, Vector2D objPosition, int height, int width, String uriIcon) {
+	public static GameObject createObjectFromName(String objName, Vector2D objPosition, String uriIcon) {
 		GameObject retObject;
 		switch (objName) {
-			case "Block" -> retObject = createBlock(objPosition, height, width, uriIcon);
-			case "Platform" -> retObject = createPlatform(objPosition, height, width, uriIcon);
-			case "Spike" -> retObject = createSpike(objPosition, height, width, uriIcon);
-			case "LeftSpike" -> retObject = createLeftSpike(objPosition, height, width, uriIcon);
-			case "RightSpike" -> retObject = createRightSpike(objPosition, height, width, uriIcon);
-			case "GrassSpike" -> retObject = createGrassSpike(objPosition, height, width, uriIcon);
+			case "Block" -> retObject = createBlock(objPosition, uriIcon);
+			case "Platform" -> retObject = createPlatform(objPosition, uriIcon);
+			case "Spike" -> retObject = createSpike(objPosition,  uriIcon);
+			case "LeftSpike" -> retObject = createLeftSpike(objPosition, uriIcon);
+			case "RightSpike" -> retObject = createRightSpike(objPosition,  uriIcon);
+			case "GrassSpike" -> retObject = createGrassSpike(objPosition, uriIcon);
 			// TODO case "Floor"
 			default -> throw new IllegalArgumentException("Unsupported object type!");
 			// prije je bilo return null ali mislim da ne bi trebalo biti prihvatljivo
@@ -150,8 +150,8 @@ public class Utils {
 	 * @param uriIcon path to icon
 	 * @return created {@linkplain GrassSpike}
 	 */
-	private static GrassSpike createGrassSpike(Vector2D objPosition, int height, int width, String uriIcon) {
-		return new GrassSpike("GrassSpike", objPosition, height, width, uriIcon);
+	private static GrassSpike createGrassSpike(Vector2D objPosition,  String uriIcon) {
+		return new GrassSpike( objPosition,  uriIcon);
 	}
 	
 	/**
@@ -159,8 +159,8 @@ public class Utils {
 	 * @param uriIcon path to icon
 	 * @return created {@linkplain Spike}
 	 */
-	private static Spike createSpike(Vector2D objPosition, int height, int width, String uriIcon) {
-		return new Spike("Spike", objPosition, height, width, uriIcon);
+	private static Spike createSpike(Vector2D objPosition,  String uriIcon) {
+		return new Spike( objPosition,  uriIcon);
 	}
 
 	/**
@@ -168,8 +168,8 @@ public class Utils {
 	 * @param uriIcon path to icon
 	 * @return created {@linkplain hr.fer.zemris.project.geometry.dash.model.drawables.environment.LeftSpike}
 	 */
-	private static LeftSpike createLeftSpike(Vector2D objPosition, int height, int width, String uriIcon) {
-		return new LeftSpike("LeftSpike", objPosition, height, width, uriIcon);
+	private static LeftSpike createLeftSpike(Vector2D objPosition,  String uriIcon) {
+		return new LeftSpike( objPosition,  uriIcon);
 	}
 
 	/**
@@ -177,8 +177,8 @@ public class Utils {
 	 * @param uriIcon path to icon
 	 * @return created {@linkplain hr.fer.zemris.project.geometry.dash.model.drawables.environment.LeftSpike}
 	 */
-	private static RightSpike createRightSpike(Vector2D objPosition, int height, int width, String uriIcon) {
-		return new RightSpike("RightSpike", objPosition, height, width, uriIcon);
+	private static RightSpike createRightSpike(Vector2D objPosition, String uriIcon) {
+		return new RightSpike( objPosition,  uriIcon);
 	}
 
 	/**
@@ -186,8 +186,8 @@ public class Utils {
 	 * @param uriIcon path to icon
 	 * @return created {@linkplain Platform}
 	 */
-	private static Platform createPlatform(Vector2D objPosition, int height, int width, String uriIcon) {
-		return new Platform("Platform", objPosition, height, width,uriIcon);
+	private static Platform createPlatform(Vector2D objPosition, String uriIcon) {
+		return new Platform( objPosition, uriIcon);
 	}
 	
 	/**
@@ -195,8 +195,8 @@ public class Utils {
 	 * @param uriIcon path to icon
 	 * @return created {@linkplain Block}
 	 */
-	private static Block createBlock(Vector2D objPosition, int height, int width, String uriIcon) {
-		return new Block("Block", objPosition, height, width, uriIcon);
+	private static Block createBlock(Vector2D objPosition,  String uriIcon) {
+		return new Block( objPosition, uriIcon);
 	}
 	
 	/**

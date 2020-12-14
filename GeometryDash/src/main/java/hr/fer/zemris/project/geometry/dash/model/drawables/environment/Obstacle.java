@@ -15,4 +15,6 @@ public abstract class Obstacle extends GameObject {
      */
     public abstract boolean checkCollisions(Player player);
 
+    public abstract boolean playerIsOn(Player player);
+
 }
