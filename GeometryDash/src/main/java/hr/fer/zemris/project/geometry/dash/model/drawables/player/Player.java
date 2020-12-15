@@ -157,7 +157,8 @@ public class Player extends GameObject {
      * Makes the player character "jump" - adds upward force
      */
     public void jump() {
-        if (isTouchingGround) {
+//    	System.out.println("Is touching u jumpu: " + isTouchingGround);
+        if (isTouchingGround) {  	
             jumpIntent = true;
         }
     }
@@ -191,7 +192,6 @@ public class Player extends GameObject {
     @Override
     public void draw(GraphicsContext graphicsContext) {
         if (isTouchingGround) {
-
             if (jumpIntent) {
                 getSpeed().setY(GameConstants.playerJumpingOffset);
                 jumpIntent = false;
@@ -200,6 +200,7 @@ public class Player extends GameObject {
                 getSpeed().setY(0);
             }
         }
+//        System.out.println("Is touching u draw: " + isTouchingGround);
         if (!isTouchingGround) {
             setRotation(getRotation() + GameConstants.playerRotationSpeed* GameConstants.timeBetweenUpdates);
             Vector2D v = getCenterPosition().translated(getCurrentPosition().reversed()).rotated(getRotation());

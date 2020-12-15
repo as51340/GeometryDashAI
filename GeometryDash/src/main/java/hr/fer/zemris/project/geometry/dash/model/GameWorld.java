@@ -159,7 +159,9 @@ public class GameWorld {
         checkPlayerCamera_X();
         checkPlayerCamera_Y();
         checkCameraGround_Y();
-        renderer.render();
+        if(renderer.render()) {
+        	System.out.println("Zavrsen level!");
+        }
         if (player.initialPosition.getX() != 0) {
             Scanner sc = new Scanner(System.in);
             sc.next();
@@ -218,15 +220,10 @@ public class GameWorld {
     private boolean checkCollision() {
 
         ((Player) player).setTouchingGround(false);
-        boolean finished = true;
-
         for (GameObject gameObject : levelManager.getCurrentLevel().getLevelData()) {
-            if (gameObject.getCurrentPosition().getX() + GameConstants.LEVEL_END_OFFSET > player.getCurrentPosition().getX()) {
-                finished = false;
-            }
-            if (finished) {
-                System.out.println("Zavrsen level!");
-            }
+        	if(!(gameObject instanceof Player) && gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() > 100) {
+        		break;
+        	}
             if (gameObject instanceof Obstacle) {
                 Obstacle obstacle = (Obstacle) gameObject;
                 if (obstacle.playerIsOn((Player) player)) {
@@ -238,7 +235,6 @@ public class GameWorld {
                         return true;
                     }
                 }
-
             }
         }
         return false;
@@ -284,6 +280,7 @@ public class GameWorld {
             if (GameEngine.getInstance().getSettings().getOptions().isAutoRetry()) { // ako je auto retry onda sve kreni ispocetka
                 GameEngine.getInstance().reset();
                 GameEngine.getInstance().start();
+                
             } else { //ako ne otvori scenu u kojoj će moć izabrat da li želi restart ili u game menu
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "PlayerDeathScene.fxml"));
                 loader.load();

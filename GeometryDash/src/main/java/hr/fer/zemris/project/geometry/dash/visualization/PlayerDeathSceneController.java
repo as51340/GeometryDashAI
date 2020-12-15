@@ -18,6 +18,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -39,6 +41,7 @@ public class PlayerDeathSceneController extends MenuController {
 	
 	@FXML
 	private void retryAction(ActionEvent event) {
+		GameEngine.getInstance().getUserListener().userStartedPlaying();
     	rootPane.translateYProperty().set(0);
     	
         KeyValue keyValueReverse = new KeyValue(
@@ -62,7 +65,20 @@ public class PlayerDeathSceneController extends MenuController {
 		//((Stage)retryButton.getScene().getWindow()).close();
         
         // otherwise up and space keys won't work after clicking on retry button
-    	rootPane.getScene().getRoot().requestFocus();
+        rootPane.getScene().getRoot().requestFocus();
+//        rootPane.getScene().setOnKeyPressed((e) -> {
+//    		if(e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W || e.getCode() == KeyCode.SPACE) {
+//        		GameEngine.getInstance().getGameWorld().getPlayerListener().playerJumped();
+//        		GameEngine.getInstance().getUserListener().playerJumped();
+//    		}
+//    	});
+//
+//        rootPane.getScene().setOnMouseClicked((e) -> {
+//    		if(e.getButton() == MouseButton.PRIMARY) {
+//    			GameEngine.getInstance().getGameWorld().getPlayerListener().playerJumped();
+//    			GameEngine.getInstance().getUserListener().playerJumped();
+//    		}
+//    	});
     	
 		GameEngine.getInstance().reset();
 		GameEngine.getInstance().start();

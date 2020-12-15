@@ -20,6 +20,8 @@ import hr.fer.zemris.project.geometry.dash.visualization.level.LevelEditor;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.Animation.Status;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -66,7 +68,7 @@ public class GameEngine implements SoundSystem {
 	/**
 	 * Game world
 	 */
-	private GameWorld gameWorld;
+	private GameWorld gameWorld = null;
 
 	/**
 	 * Reference to the level editor
@@ -159,8 +161,10 @@ public class GameEngine implements SoundSystem {
 	}
 	
 	public void setGameWorld() {
-		gameWorld = new GameWorld();
-		gameWorld.setCharacterSelector(session == null ? defaultSelector : session.getSelector());
+		if(gameWorld == null) {
+			gameWorld = new GameWorld();
+			gameWorld.setCharacterSelector(session == null ? defaultSelector : session.getSelector());
+		}
 	}
 
 	/**
@@ -265,8 +269,10 @@ public class GameEngine implements SoundSystem {
 	 * Starts game loop
 	 */
 	public void start() {
-		this.startTime = System.currentTimeMillis();
-		gameLoop.play();
+		if(gameLoop.getStatus() != Status.RUNNING) {
+			this.startTime = System.currentTimeMillis();
+			gameLoop.play();
+		}
 	}
 
 	public void reset() {

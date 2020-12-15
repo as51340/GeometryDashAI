@@ -1,6 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.serialization;
 
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

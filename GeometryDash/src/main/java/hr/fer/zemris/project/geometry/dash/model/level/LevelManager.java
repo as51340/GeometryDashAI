@@ -5,9 +5,11 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Stream;
 
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
@@ -117,6 +119,9 @@ public class LevelManager {
 			if (lev.getLevelName().equals(levelName)) {
 //				levelMusicPlayer.startPlayingSongForLevel(levelName);
 				this.currentLevel = lev;
+				for(GameObject obj: lev.getLevelData()) {
+					System.out.println(obj.getCurrentPosition().getX());
+				}
 				return lev.getLevelData();
 			}
 		}

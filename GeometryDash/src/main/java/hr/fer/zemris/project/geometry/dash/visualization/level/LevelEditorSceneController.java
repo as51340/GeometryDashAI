@@ -14,6 +14,7 @@ import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfOb
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.MainOptionsController;
 import hr.fer.zemris.project.geometry.dash.visualization.level.mouse.MouseHandler;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -25,9 +26,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 /**
  * Controller for level editor.
@@ -158,7 +161,8 @@ public class LevelEditorSceneController extends MainOptionsController {
 
 	@FXML
 	public void initialize() {
-		Utils.animateBackground(overlay, background1, background2, background3);
+		//Utils.animateBackground(overlay, background1, background2, background3);
+		
 	}
 
 	/**
@@ -568,6 +572,13 @@ public class LevelEditorSceneController extends MainOptionsController {
 	public void setPurpleColor(Button purpleColor) {
 		this.purpleColor = purpleColor;
 	}
+	
+	@Override
+	@FXML
+    protected void backButtonClicked(MouseEvent event) {
+       levelEditorListener.newObjectSelected(null);
+       super.backButtonClicked(event);
+    }
 
 	/**
 	 * Listens for changes on level editor and updates corresponding class
@@ -620,6 +631,7 @@ public class LevelEditorSceneController extends MainOptionsController {
 					.serialize(GameEngine.getInstance().getLevelEditor().getGridAttaching().getObjectsOnGrid().getListGameObjects());
 			String savedTo = ZipUtil.saveToZipFile(GameConstants.pathToLevelsFolder, json, fileToSave);
 			if (savedTo != null) {
+				GameEngine.getInstance().setGameWorld();
 				GameEngine.getInstance().getGameWorld().getLevelManager().addLevel(savedTo,
 						GameEngine.getInstance().getLevelEditor().getGridAttaching().getObjectsOnGrid().getListGameObjects());
 				level = GameEngine.getInstance().getGameWorld().getLevelManager().getLevelByName(savedTo);

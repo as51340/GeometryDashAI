@@ -2,7 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model.level;
 
 import java.util.List;
 import java.util.Set;
-
+import java.util.TreeSet;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.listeners.SerializationListener;
 import hr.fer.zemris.project.geometry.dash.visualization.level.ObjectsOnGrid;
@@ -57,8 +57,11 @@ public class Level {
 	 */
 	public Level(String levelName, Set<GameObject> gameObjects) {
 		this.levelName = levelName;
-		this.gameObjects = gameObjects;
-		calculate_last_x();
+		TreeSet<GameObject> treeset = new TreeSet<GameObject>((o1, o2) -> 
+     		Double.compare(o1.getCenterPosition().getX(), o2.getCenterPosition().getX()));
+		treeset.addAll(gameObjects);
+		this.gameObjects = treeset;
+		setLast_x( ( (TreeSet<GameObject>) this.gameObjects).last().getCenterPosition().getX());
 	}
 
 	/**
@@ -188,14 +191,11 @@ public class Level {
 	}
 
 	/**
-	 * Calculates biggest x
+	 * Sets last x
+	 * @param last
 	 */
-	private void calculate_last_x() {
-		for(GameObject obj: gameObjects) {
-			if(obj.getCurrentPosition().getX() > last_x) {
-				last_x = obj.getCurrentPosition().getX();
-			}
-		}
+	public void setLast_x(double last) {
+		this.last_x = last;
 	}
 
 }
