@@ -22,6 +22,15 @@ public class GeometryDash extends Application {
 
 	private GameEngine gameEngine = GameEngine.getInstance();
 	
+	private static Stage primaryStage;
+	
+	/**
+	 * @return {@linkplain Stage}
+	 */
+	public static Stage getStage() {
+		return primaryStage;
+	}
+	
 	private void loadGameMenu(Stage primaryStage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
     	Parent root = fxmlLoader.load();
@@ -91,9 +100,13 @@ public class GeometryDash extends Application {
         return scene;
 	}
 	
+	private void setPrimaryStage(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
+	
     @Override
     public void start(Stage primaryStage) throws IOException {
-    	
+    	setPrimaryStage(primaryStage);
     	loadGameMenu(primaryStage);
 //    	loadMain(primaryStage);
 
