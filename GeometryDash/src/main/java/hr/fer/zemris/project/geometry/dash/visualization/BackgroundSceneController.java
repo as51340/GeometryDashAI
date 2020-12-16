@@ -146,8 +146,7 @@ public class BackgroundSceneController {
 		LevelEditorSceneController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
 		controller.setListeners();
-		GameEngine.getInstance().getGameStateListener().levelEditorModeEntered(controller.getGraphicsContext());
-		GameEngine.getInstance().start();
+		GameEngine.getInstance().getGameStateListener().levelEditorModeEntered(controller.getGraphicsContext());		
 	}
 	
 	@FXML

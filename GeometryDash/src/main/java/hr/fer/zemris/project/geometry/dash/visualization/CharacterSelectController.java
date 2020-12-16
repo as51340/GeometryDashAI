@@ -51,7 +51,7 @@ public class CharacterSelectController extends MainOptionsController {
     	CharactersSelector selector;
     	
     	if(GameEngine.getInstance().getSession() == null) {
-    		selector = GameEngine.getInstance().getDefaultCharacterSelector();
+    		selector = GameEngine.getInstance().getDefaultSelector();
     	} else {
     		selector = GameEngine.getInstance().getSession().getSelector();
     	}

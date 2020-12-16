@@ -137,21 +137,13 @@ public class GameEngine implements SoundSystem {
 		//gameWorld = new GameWorld(); // for now list of obstacles is empty, not focus on that currently
 		levelEditor = new LevelEditor();
 		gameStateListener = new DefaultGameStateListener();
-//		levelManager = new LevelManager();
+		levelManager = new LevelManager();
 		userListener = new UserListenerImpl();
 		defaultSelector = new CharactersSelector();
 		createGameLoop();
 		
 		//gameWorld.setCharacterSelector(defaultSelector);
 	}
-	
-
-//	/**
-//	 * @return the levelManager
-//	 */
-//	public LevelManager getLevelManager() {
-//		return levelManager;
-//	}
 
 	/**
 	 * @return the gameWorld
@@ -163,7 +155,7 @@ public class GameEngine implements SoundSystem {
 	public void setGameWorld() {
 		if(gameWorld == null) {
 			gameWorld = new GameWorld();
-			gameWorld.setCharacterSelector(session == null ? defaultSelector : session.getSelector());
+			this.defaultSelector = session == null ? defaultSelector : session.getSelector();
 		}
 	}
 
@@ -224,13 +216,6 @@ public class GameEngine implements SoundSystem {
 	}
 
 	/**
-	 * @return the gameLoop
-	 */
-	public Timeline getGameLoop() {
-		return gameLoop;
-	}
-
-	/**
 	 * @return the settings
 	 */
 	public Settings getSettings() {
@@ -259,12 +244,12 @@ public class GameEngine implements SoundSystem {
 	}
 
 	/**
-	 * @return default character selector when user is not logged in
+	 * @param defaultSelector the defaultSelector to set
 	 */
-	public CharactersSelector getDefaultCharacterSelector() {
-		return defaultSelector;
+	public void setDefaultSelector(CharactersSelector defaultSelector) {
+		this.defaultSelector = defaultSelector;
 	}
-	
+
 	/**
 	 * Starts game loop
 	 */
@@ -274,12 +259,24 @@ public class GameEngine implements SoundSystem {
 			gameLoop.play();
 		}
 	}
+	
+	/**
+	 * Stops game loop
+	 */
+	public void stop() {
+		if(gameLoop.getStatus() != Status.STOPPED) {
+			gameLoop.stop();
+		}
+	}
 
+	/**
+	 * Resets game world
+	 */
 	public void reset() {
-		// TODO find how to completely reset a GameWorld
+		gameWorld.setDeaths(0);
 		Camera newCamera = getGameWorld().getRenderer().getCamera();
 		newCamera.setPosition(new Vector2D(0, 0));
-		((Floor)getGameWorld().getFloor()).setCamera(newCamera);
+		((Floor)getGameWorld().getFloor()).setCamera(newCamera); //to mozemo u create scene
 		getGameWorld().getRenderer().getGameObjects().forEach(o -> {
 			o.setCurrentPosition(o.initialPosition.copy());
 			if (o instanceof Player) {
@@ -287,7 +284,6 @@ public class GameEngine implements SoundSystem {
 				((Player)o).setSpeed(new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
 			}
 		});
-//		start();
 	}
 
 	/**
@@ -303,23 +299,17 @@ public class GameEngine implements SoundSystem {
 		// fps as value
 		return new KeyFrame(frameTime, event -> {
 			if (gameState == GameState.NORMAL_MODE_PLAYING ) {
-				Player player = (Player) getGameWorld().getPlayer();
-				if (player.isJumpIntent()) {
-					getGameWorld().getLevelManager().getCurrentLevel().setTotalJumps();
-				}
 				if(!gameWorld.update()) {
 					try {
+						stop();
 						double time = System.currentTimeMillis() - this.startTime;
-						gameLoop.stop();
-						gameWorld.getLevelManager().getCurrentLevel().setTotalAttempts();
-						gameWorld.getPlayerListener().playerIsDead(time);
-						gameWorld.getLevelManager().getCurrentLevel().resetTotalJumps();
+						this.levelManager.getCurrentLevel().setTotalAttempts();
+						gameWorld.getGameWorldListener().instanceFinished(time);
+						levelManager.getCurrentLevel().resetTotalJumps();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
-					
-				//tu nekako stopiraj
 			} else if (gameState == GameState.LEVEL_EDITOR_MODE) {
 //				Thread updateThread = DaemonicThreadFactory.getInstance().newThread(() -> {
 					levelEditor.update();
@@ -388,6 +378,22 @@ public class GameEngine implements SoundSystem {
 	public void playKillSound() {
 		// TODO
 	}
+	
+	/**
+	 * @return the levelManager
+	 */
+	public LevelManager getLevelManager() {
+		return levelManager;
+	}
+
+	/**
+	 * @return the defaultSelector
+	 */
+	public CharactersSelector getDefaultSelector() {
+		return defaultSelector;
+	}
+
+
 
 	/**
 	 * Implementation of {@linkplain GameStateListener}
@@ -400,12 +406,13 @@ public class GameEngine implements SoundSystem {
 		public void levelEditorModeEntered(GraphicsContext graphicsContext) {
 			levelEditor.setGraphicsContext(graphicsContext);
 			gameState = GameState.LEVEL_EDITOR_MODE;
+			start();
 		}
 
 		@Override
 		public void levelEditorModeExited() {
-			// TODO Auto-generated method stub
-
+			gameState = null;
+			stop();
 		}
 
 		@Override
@@ -423,15 +430,19 @@ public class GameEngine implements SoundSystem {
 		@Override
 		public void normalModePlayingStarted() {
 			gameState = GameState.NORMAL_MODE_PLAYING;
+			start();
 		}
 
 		@Override
 		public void normalModePlayingExited() {
-			// TODO Auto-generated method stub
-
+			stop();
+			gameWorld = null;
+			gameState = null;
 		}
 	}
 
+	
+	
 	/**
 	 * Implementation of {@linkplain UserListener} interface
 	 * 

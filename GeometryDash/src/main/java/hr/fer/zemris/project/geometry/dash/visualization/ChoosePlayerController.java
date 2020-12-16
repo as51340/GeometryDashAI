@@ -2,6 +2,7 @@ package hr.fer.zemris.project.geometry.dash.visualization;
 
 import java.io.IOException;
 
+import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
@@ -14,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 public class ChoosePlayerController extends MenuController {
 
@@ -23,19 +25,20 @@ public class ChoosePlayerController extends MenuController {
     @FXML
     private Button AIButton;
     
+    /**
+     * Remembers which playing mode was selected
+     */
+    private PlayingMode playingModeSelected;
+    
     @FXML
     void onAIClicked(MouseEvent event) throws IOException {
-    	GameEngine.getInstance().setGameWorld();
-    	GameEngine.getInstance().getGameWorld().getPlayerListener().playerCreated(
-    			GameEngine.getInstance().getSettings()
-    			.getOptions().getAIMode());
+    	this.playingModeSelected = GameEngine.getInstance().getSettings().getOptions().getAIMode();
     	actionForChoosing();
     }
 
     @FXML
     void onPlayerClicked(MouseEvent event) throws IOException {
-    	GameEngine.getInstance().setGameWorld();
-    	GameEngine.getInstance().getGameWorld().getPlayerListener().playerCreated(PlayingMode.HUMAN);
+    	this.playingModeSelected = PlayingMode.HUMAN;
     	actionForChoosing();
     }
     
@@ -48,6 +51,8 @@ public class ChoosePlayerController extends MenuController {
         		getClass().getResource(GameConstants.pathToVisualization + "level/ChooseLevelScene.fxml")
         	);
     	loader.load();
+    	Stage stage = GeometryDash.getStage();
+    	stage.setUserData(playingModeSelected);
     	ChooseLevelController controller = loader.getController();
     	controller.setPreviousSceneRoot(rootPane);
     }

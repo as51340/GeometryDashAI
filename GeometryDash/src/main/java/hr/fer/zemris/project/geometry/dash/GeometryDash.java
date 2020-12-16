@@ -44,38 +44,6 @@ public class GeometryDash extends Application {
 	    primaryStage.show();
 	}
 	
-	private void loadMain(Stage primaryStage) throws IOException {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "GameScene.fxml"));
-    	Parent root = fxmlLoader.load();
-    	
-    	GameSceneController controller = fxmlLoader.<GameSceneController>getController();
-    	gameEngine.getGameWorld().createScene("TempLevel");
-    	controller.init();
-    	
-    	Scene scene = createScaledScene(root, primaryStage);
-    	
-    	scene.setOnKeyPressed((e) -> {
-    		if(e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W || e.getCode() == KeyCode.SPACE) {
-        		gameEngine.getGameWorld().getPlayerListener().playerJumped();
-        		gameEngine.getUserListener().playerJumped();
-    		}
-    	});
-
-    	scene.setOnMouseClicked((e) -> {
-    		if(e.getButton() == MouseButton.PRIMARY) {
-        		gameEngine.getGameWorld().getPlayerListener().playerJumped();
-        		gameEngine.getUserListener().playerJumped();
-    		}
-    	});
-        
-    	gameEngine.getGameStateListener().normalModePlayingStarted();
-    	gameEngine.start();
-    	
-    	primaryStage.setTitle("Geometry Dash");
-		primaryStage.setScene(scene);
-	    primaryStage.show();
-	}
-	
 	public static Scene createScaledScene(Node root, Stage stage) {
         // Set a default "standard" or "100%" resolution
         double origW = GameConstants.WIDTH;
@@ -108,7 +76,6 @@ public class GeometryDash extends Application {
     public void start(Stage primaryStage) throws IOException {
     	setPrimaryStage(primaryStage);
     	loadGameMenu(primaryStage);
-//    	loadMain(primaryStage);
 
 //    	tester
 //		Media media = new Media(getClass().getResource(GameConstants.pathToSongs + "BlahBlahBlah.mp3").toExternalForm());

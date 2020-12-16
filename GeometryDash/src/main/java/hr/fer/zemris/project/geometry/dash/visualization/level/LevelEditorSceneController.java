@@ -577,6 +577,7 @@ public class LevelEditorSceneController extends MainOptionsController {
 	@FXML
     protected void backButtonClicked(MouseEvent event) {
        levelEditorListener.newObjectSelected(null);
+       GameEngine.getInstance().getGameStateListener().levelEditorModeExited();
        super.backButtonClicked(event);
     }
 
@@ -632,9 +633,9 @@ public class LevelEditorSceneController extends MainOptionsController {
 			String savedTo = ZipUtil.saveToZipFile(GameConstants.pathToLevelsFolder, json, fileToSave);
 			if (savedTo != null) {
 				GameEngine.getInstance().setGameWorld();
-				GameEngine.getInstance().getGameWorld().getLevelManager().addLevel(savedTo,
+				GameEngine.getInstance().getLevelManager().addLevel(savedTo,
 						GameEngine.getInstance().getLevelEditor().getGridAttaching().getObjectsOnGrid().getListGameObjects());
-				level = GameEngine.getInstance().getGameWorld().getLevelManager().getLevelByName(savedTo);
+				level = GameEngine.getInstance().getLevelManager().getLevelByName(savedTo);
 			}
 		}
 
@@ -662,4 +663,5 @@ public class LevelEditorSceneController extends MainOptionsController {
 			GameEngine.getInstance().getLevelEditor().getGridAttaching().setRemoveIntent(true);
 		}
 	}
+
 }

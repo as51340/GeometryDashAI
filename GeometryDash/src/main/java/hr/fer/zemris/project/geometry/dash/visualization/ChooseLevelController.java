@@ -8,7 +8,9 @@ import java.util.List;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
+import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
+import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -77,7 +80,7 @@ public class ChooseLevelController extends MainOptionsController {
     
 	@FXML
 	public void initialize() {
-		levels = new ArrayList<>(gameEngine.getGameWorld().getLevelManager().getAllLevels());
+		levels = new ArrayList<>(gameEngine.getLevelManager().getAllLevels());
 		levels.sort(Comparator.comparing(Level::getLevelName));
 		
 		chooseLevelBackground.setFill(colors.get(0));
@@ -131,7 +134,7 @@ public class ChooseLevelController extends MainOptionsController {
 		LevelInfoSceneController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
 		controller.setLevelName(levels.get(levelIndex).getLevelName(), Long.toString(
-			GameEngine.getInstance().getGameWorld().getLevelManager().getLevelByName(levels.get(levelIndex).getLevelName()).getTotalAttempts()
+			GameEngine.getInstance().getLevelManager().getLevelByName(levels.get(levelIndex).getLevelName()).getTotalAttempts()
 		));
     }
 
@@ -144,22 +147,33 @@ public class ChooseLevelController extends MainOptionsController {
 		Scene scene = GeometryDash.createScaledScene(root, stage);
 		scene.getRoot().requestFocus();
 		
-    	scene.setOnKeyPressed((e) -> {
-    		if(e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W || e.getCode() == KeyCode.SPACE) {
-        		gameEngine.getGameWorld().getPlayerListener().playerJumped();
-        		gameEngine.getUserListener().playerJumped();
-    		}
-    	});
+		gameEngine.setGameWorld();
 
-    	scene.setOnMouseClicked((e) -> {
-    		if(e.getButton() == MouseButton.PRIMARY) {
-        		gameEngine.getGameWorld().getPlayerListener().playerJumped();
-        		gameEngine.getUserListener().playerJumped();
-    		}
-    	});
-    	
-		GameSceneController controller = loader.getController();
+		PlayingMode playingMode = (PlayingMode) stage.getUserData();
+		System.out.println(playingMode.toString());	
+		Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
+				new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
+		gameEngine.getGameWorld().addPlayer(player);
 		gameEngine.getGameWorld().createScene(levels.get(levelIndex).getLevelName());
+		if(playingMode == PlayingMode.HUMAN) {
+			System.out.println("Human je");
+			scene.setOnKeyPressed((e) -> {
+	    		if(e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W || e.getCode() == KeyCode.SPACE) {
+	        		player.jump();
+	        		gameEngine.getUserListener().playerJumped();
+	    		}
+	    	});
+	    	scene.setOnMouseClicked((e) -> {
+	    		if(e.getButton() == MouseButton.PRIMARY) {
+	        		player.jump();
+	        		gameEngine.getUserListener().playerJumped();
+	    		}
+	    	});
+		} else {
+			System.out.println("Moram ucitati automatskog igraca iz datoteke");
+		}
+		
+		GameSceneController controller = loader.getController();
 //		controller.setPreviousSceneRoot(rootPane);
 		controller.init();
 		
@@ -172,7 +186,6 @@ public class ChooseLevelController extends MainOptionsController {
 		stage.setScene(scene);
 		
         gameEngine.getGameStateListener().normalModePlayingStarted();
-		gameEngine.start();
     }
 	
 }

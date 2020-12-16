@@ -41,6 +41,7 @@ public class PlayerDeathSceneController extends MenuController {
 	
 	@FXML
 	private void retryAction(ActionEvent event) {
+		GameEngine.getInstance().reset();
 		GameEngine.getInstance().getUserListener().userStartedPlaying();
     	rootPane.translateYProperty().set(0);
     	
@@ -79,14 +80,12 @@ public class PlayerDeathSceneController extends MenuController {
 //    			GameEngine.getInstance().getUserListener().playerJumped();
 //    		}
 //    	});
-    	
-		GameEngine.getInstance().reset();
 		GameEngine.getInstance().start();
 	}
 	
 	@FXML
 	private void mainMenuAction(ActionEvent event) throws IOException {
-		GameEngine.getInstance().reset();
+		GameEngine.getInstance().getGameStateListener().normalModePlayingExited();
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
     	Parent root = loader.load();
@@ -94,7 +93,7 @@ public class PlayerDeathSceneController extends MenuController {
     	Stage stage = (Stage)(menuButton.getScene().getWindow());
     	Scene scene = GeometryDash.createScaledScene(root, stage);
     	
-    	// otherwise window will reset its size to default; this will keep current window width and height
+//    	 otherwise window will reset its size to default; this will keep current window width and height
     	double width = menuButton.getScene().getWidth();
     	double height = menuButton.getScene().getHeight();
     	stage.setWidth(width);
@@ -108,7 +107,7 @@ public class PlayerDeathSceneController extends MenuController {
 	
 	@FXML
 	private void chooseLevelAction(ActionEvent event) throws IOException {
-		GameEngine.getInstance().reset();
+		GameEngine.getInstance().getGameStateListener().normalModePlayingExited();
 		
 		// needed so that back button in ChooseLevelScene works after coming back from level 
 		FXMLLoader backgroundSceneLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
@@ -124,7 +123,7 @@ public class PlayerDeathSceneController extends MenuController {
 		Stage stage = (Stage)(chooseLevelButton.getScene().getWindow());
 		Scene scene = GeometryDash.createScaledScene(root, stage);
 		
-    	// otherwise window will reset its size to default; this will keep current window width and height
+//    	 otherwise window will reset its size to default; this will keep current window width and height
     	double width = chooseLevelButton.getScene().getWidth();
     	double height = chooseLevelButton.getScene().getHeight();
     	stage.setWidth(width);

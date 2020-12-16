@@ -34,6 +34,11 @@ public class Player extends GameObject {
      * Is touching ground
      */
     private boolean isTouchingGround = false;
+    
+    /**
+     * Remembers player's state
+     */
+    private boolean isDead = true;
 
     /**
      * Object's speed
@@ -51,11 +56,13 @@ public class Player extends GameObject {
     /**
      * Player's constructor
      */
-    public Player(double rotation, Vector2D speed, String icon) {
+    public Player(double rotation, Vector2D speed, String icon, PlayingMode playingMode) {
+    	isDead = false;
     	setInitialPosition(new Vector2D(0, 0));
         this.rotation = rotation;
         this.speed = speed;
         setIcon(icon);
+        this.playingMode = playingMode;
     }
 
     public Vector2D getRotatingPoint() {
@@ -144,16 +151,34 @@ public class Player extends GameObject {
      *
      * @param position
      */
-    public Player(Vector2D position, Vector2D speed) {
+    public Player(Vector2D position, Vector2D speed, PlayingMode playingMode) {
+    	isDead = false;
     	setInitialPosition(position.copy());
         setCurrentPosition(position);
         rotatingPoint = position.copy();
         this.setWidth(GameConstants.iconWidth);
         this.setHeight(GameConstants.iconHeight);
         setSpeed(speed);
+        this.playingMode = playingMode;
     }
+    
+    
 
     /**
+	 * @return the isDead
+	 */
+	public boolean isDead() {
+		return isDead;
+	}
+
+	/**
+	 * @param isDead the isDead to set
+	 */
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
+	}
+
+	/**
      * Makes the player character "jump" - adds upward force
      */
     public void jump() {
@@ -234,7 +259,7 @@ public class Player extends GameObject {
 
     @Override
     public GameObject copy() {
-        return new Player(this.rotation, this.speed, this.getIconPath());
+        return new Player(this.rotation, this.speed, this.getIconPath(), this.playingMode);
     }
 
 

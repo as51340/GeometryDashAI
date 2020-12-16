@@ -1,10 +1,14 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeSet;
 
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.*;
+import hr.fer.zemris.project.geometry.dash.model.listeners.GameWorldListener;
 import hr.fer.zemris.project.geometry.dash.model.listeners.PlayerListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
@@ -28,12 +32,17 @@ public class GameWorld {
     /**
      * Reference to the {@linkplain WorldPlayerListener}
      */
-    private final PlayerListener playerListener;
+//    private final PlayerListener playerListener;
+	
+	/**
+     * Reference to the {@linkplain GameWorldListener}
+     */
+	private final GameWorldListener gameWorldListener;
 
     /**
      * Reference to the {@linkplain LevelManager}
      */
-    private final LevelManager levelManager;
+//    private final LevelManager levelManager;
 
     /**
      * Graphics context TODO documentation
@@ -43,22 +52,32 @@ public class GameWorld {
     /**
      * We need to keep reference on the player for camera moving
      */
-    private final GameObject player;
+//    private final GameObject player;
 
     /**
      * Reference on the floor
      */
-    private final GameObject floor;
+    private GameObject floor;
 
     /**
      * Renderer
      */
     private Renderer renderer;
 
+//    /**
+//     * Current CharacterSelector
+//     */
+//    private CharactersSelector selector;
+    
     /**
-     * Current CharacterSelector
+     * List of all players
      */
-    private CharactersSelector selector;
+    private Set<Player> players;
+    
+    /**
+     * Number of death players
+     */
+    private int deaths = 0;
 
     /**
      * @return the graphics
@@ -74,14 +93,28 @@ public class GameWorld {
         this.graphics = graphics;
     }
 
-    /**
-     * @return level manager
-     */
-    public LevelManager getLevelManager() {
-        return levelManager;
-    }
+//    /**
+//     * @return level manager
+//     */
+//    public LevelManager getLevelManager() {
+//        return levelManager;
+//    }
 
     /**
+	 * @return the deaths
+	 */
+	public int getDeaths() {
+		return deaths;
+	}
+
+	/**
+	 * @param deaths the deaths to set
+	 */
+	public void setDeaths(int deaths) {
+		this.deaths = deaths;
+	}
+
+	/**
      * @return get floor
      */
     public GameObject getFloor() {
@@ -93,40 +126,50 @@ public class GameWorld {
      */
     public Renderer getRenderer() {
         return renderer;
-    }
+    }    
+    
+//    /**
+//     * @return player
+//     */
+//    public GameObject getPlayer() {
+//        return player;
+//    }
+
+//    /**
+//     * @return the playerListener
+//     */
+//    public PlayerListener getPlayerListener() {
+//        return playerListener;
+//    }
+
+//    public void setCharacterSelector(CharactersSelector selector) {
+//        this.selector = selector;
+//    }
 
     /**
-     * @return player
-     */
-    public GameObject getPlayer() {
-        return player;
-    }
+	 * @return the gameWorldListener
+	 */
+	public GameWorldListener getGameWorldListener() {
+		return gameWorldListener;
+	}
 
-    /**
-     * @return the playerListener
-     */
-    public PlayerListener getPlayerListener() {
-        return playerListener;
-    }
-
-    public void setCharacterSelector(CharactersSelector selector) {
-        this.selector = selector;
-    }
-
-    /**
+	/**
      * Initializes creates scene for playing. Temporary for testing collisions and jumping on platforms
      */
     public GameWorld() {
-        playerListener = new WorldPlayerListener();
-
-        player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
-        floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
-
-        levelManager = new LevelManager(player, floor);
+       gameWorldListener = new GameWorldListenerImpl();
+       players = new TreeSet<Player>((o1, o2) -> Double.compare(o2.getCurrentPosition().getX(),
+        		o1.getCurrentPosition().getX()));
+//        player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5), new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
+//       levelManager = new LevelManager(player, floor);
     }
-
-    public void reset(String levelName) {
-        createScene(levelName);
+    
+    /**
+     * Adds player to the game world
+     * @param player
+     */
+    public void addPlayer(Player player) {
+    	players.add(player);
     }
 
     /**
@@ -136,14 +179,21 @@ public class GameWorld {
         // when we create choose level scene then we will change these lines, maybe create scene will be public and will receive levelName
         // and level manager will have from start predefines levels, you can call levelManeger.startLevelWithName(levelName);
         // but for testing it's okay
-
-        player.setIcon(GameConstants.pathToIcons + selector.getSelectedCharacter().getUri());
-        Set<GameObject> levelObjects = levelManager.getLevelByName(levelName).getGameObjects();
-        levelManager.startLevelWithName(levelName);
-
+    	for(Player player: players) {
+    		player.setIcon(GameConstants.pathToIcons + GameEngine.getInstance().getDefaultSelector().getSelectedCharacter().getUri());
+    	}
+        Set<GameObject> levelObjects = GameEngine.getInstance().getLevelManager().getLevelByName(levelName).getGameObjects();
+        GameEngine.getInstance().getLevelManager().startLevelWithName(levelName);
+        floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
+        levelObjects.add(floor);
+        for(Player p: players) {
+        	levelObjects.add(p);
+        }
         renderer = new Renderer(levelObjects);
         ((Floor) floor).setCamera(renderer.getCamera());
     }
+    
+    
 
     /**
      * Checks for relations between camera, player and ground
@@ -153,20 +203,23 @@ public class GameWorld {
 //    	System.out.println("Završna x: " + (player.getCurrentPosition().getX() - GameConstants.playerPosition_X + GameConstants.WIDTH));
 //      checkPlayerGround();
 
-        if (checkCollision()) {
-            return false;
+        checkCollision();
+        if(deaths == players.size()) {
+        	return false;
         }
-        checkPlayerCamera_X();
-        checkPlayerCamera_Y();
+        
+        Player player = getMaxPlayer();
+        checkPlayerCamera_X(player);
+        checkPlayerCamera_Y(player);
         checkCameraGround_Y();
         if(renderer.render()) {
-        	System.out.println("Zavrsen level!");
+//        	System.out.println("Zavrsen level!");
         }
-        if (player.initialPosition.getX() != 0) {
-            Scanner sc = new Scanner(System.in);
-            sc.next();
-            sc.close();
-        }
+//        if (player.initialPosition.getX() != 0) {
+//            Scanner sc = new Scanner(System.in);
+//            sc.next();
+//            sc.close();
+//        }
 
         return true;
     }
@@ -195,7 +248,7 @@ public class GameWorld {
     /**
      * Distance player to camera - y coordinate
      */
-    private void checkPlayerCamera_Y() {
+    private void checkPlayerCamera_Y(Player player) {
         double playerPos_Y = player.getCurrentPosition().getY();
         double cameraPos_Y = renderer.getCamera().getPosition().getY();
         if (playerPos_Y - cameraPos_Y > GameConstants.playerPosition_Y) {
@@ -206,108 +259,88 @@ public class GameWorld {
     /**
      * Distance player to camera - x coordinate
      */
-    private void checkPlayerCamera_X() {
-        double playerPos_X = player.getCurrentPosition().getX();
+    private void checkPlayerCamera_X(Player player) {
+    	double playerPos_X = player.getCurrentPosition().getX();
         double cameraPos_X = renderer.getCamera().getPosition().getX();
         if (playerPos_X - cameraPos_X > GameConstants.playerPosition_X) {
             renderer.getCamera().getPosition().setX(playerPos_X - GameConstants.playerPosition_X);
         }
     }
+    
+    
+    /**
+     * @return maximum position of players for following
+     */
+    private Player getMaxPlayer() {
+    	double max = -1;
+    	Player player = null;
+    	for(Player p: players) {
+    		if(p.getCurrentPosition().getX() > max) {
+    			max = p.getCurrentPosition().getX();
+    			player = p;
+    		}
+    	}
+    	return player;
+    }
 
     /**
      * Checks relation between player and ground
      */
-    private boolean checkCollision() {
-
-        ((Player) player).setTouchingGround(false);
-        for (GameObject gameObject : levelManager.getCurrentLevel().getLevelData()) {
-        	if(!(gameObject instanceof Player) && gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() > 100) {
-        		break;
-        	}
-            if (gameObject instanceof Obstacle) {
-                Obstacle obstacle = (Obstacle) gameObject;
-                if (obstacle.playerIsOn((Player) player)) {
-                    ((Player) player).touchesGround();
-                    player.getCurrentPosition().setY(gameObject.getCurrentPosition().getY() - GameConstants.iconHeight);
-                }
-                if (obstacle.checkCollisions((Player) player)) {
-                    if (((Obstacle) gameObject).checkCollisions((Player) player)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+    private void checkCollision() {
+    	for(Player player: players) {
+    		player.setTouchingGround(false);
+    	      for (GameObject gameObject : GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelData()) {
+    	        	if(!(gameObject instanceof Player) && gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() > 100) {
+    	        		break;
+    	        	}
+    	            if (gameObject instanceof Obstacle) {
+    	                Obstacle obstacle = (Obstacle) gameObject;
+    	                if (obstacle.playerIsOn(player)) {
+    	                    player.touchesGround();
+    	                    player.getCurrentPosition().setY(gameObject.getCurrentPosition().getY() - GameConstants.iconHeight);
+    	                }
+    	                if (obstacle.checkCollisions(player)) {
+    	                    if (((Obstacle) gameObject).checkCollisions(player)) {
+    	                    	deaths++;
+    	                    	player.setDead(true);
+    	                    } 
+    	                }
+    	            }
+    	        }
+    	}
     }
 
     /**
-     * A {@link PlayerListener} implementation
+     * Implementation of {@linkplain GameWorldListener}
+     * @author Andi Škrgat
+     *
      */
-    class WorldPlayerListener implements PlayerListener {
+    class GameWorldListenerImpl implements GameWorldListener {
 
-        /**
-         * Player is in the air
-         */
-        @Override
-        public void playerIsInAir() {
-            // TODO otkriti kako ovo iskoristiti
-        }
-
-        /**
-         * Player is on the platform
-         */
-        @Override
-        public void playerIsOnPlatform() {
-            // TODO otkriti kako ovo iskoristiti
-        }
-
-        /**
-         * Player is on the floor
-         */
-        @Override
-        public void playerIsOnFloor() {
-            // TODO otkriti kako ovo iskoristiti
-        }
-
-
-        /**
-         * Player is dead
-         *
-         * @throws IOException
-         */
-        @Override
-        public void playerIsDead(double time) throws IOException {
-            if (GameEngine.getInstance().getSettings().getOptions().isAutoRetry()) { // ako je auto retry onda sve kreni ispocetka
-                GameEngine.getInstance().reset();
-                GameEngine.getInstance().start();
-                
-            } else { //ako ne otvori scenu u kojoj će moć izabrat da li želi restart ili u game menu
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "PlayerDeathScene.fxml"));
-                loader.load();
-                PlayerDeathSceneController controller = loader.<PlayerDeathSceneController>getController();
-                Stage stage = (Stage) Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
-                Pane rootPane = stage == null ? null : (Pane) stage.getScene().lookup("#rootPane");
-                controller.setPreviousSceneRoot(rootPane);
-                controller.showInformation(
-                        levelManager.getCurrentLevel().getLevelName(),
-                        Long.toString(levelManager.getCurrentLevel().getTotalAttempts()),
-                        levelManager.getCurrentLevel().getLevelPercentagePassNormalMode(),
-                        Long.toString(levelManager.getCurrentLevel().getTotalJumps()),
-                        time
-                );
-            }
-        }
-
-        @Override
-        public void playerJumped() {
-            ((Player) player).jump();
-        }
-
-        @Override
-        public void playerCreated(PlayingMode playingMode) {
-            ((Player) player).setPlayingMode(playingMode);
-        }
-
+		@Override
+		public void instanceFinished(double time) throws IOException {
+			GameEngine.getInstance().stop();
+			 if (GameEngine.getInstance().getSettings().getOptions().isAutoRetry()) { // ako je auto retry onda sve kreni ispocetka
+		            GameEngine.getInstance().reset();
+		            GameEngine.getInstance().start();
+		        } else { //ako ne otvori scenu u kojoj će moć izabrat da li želi restart ili u game menu
+		            FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "PlayerDeathScene.fxml"));
+		            loader.load();
+		            PlayerDeathSceneController controller = loader.<PlayerDeathSceneController>getController();
+		            Stage stage = (Stage) Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
+		            Pane rootPane = stage == null ? null : (Pane) stage.getScene().lookup("#rootPane");
+		            controller.setPreviousSceneRoot(rootPane);
+		            controller.showInformation(
+		            		GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelName(),
+		                    Long.toString(GameEngine.getInstance().getLevelManager().getCurrentLevel().getTotalAttempts()),
+		                    GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelPercentagePassNormalMode(),
+		                    Long.toString(GameEngine.getInstance().getLevelManager().getCurrentLevel().getTotalJumps()),
+		                    time
+		            );
+		        }
+		}
+    	
     }
+    
 
 }

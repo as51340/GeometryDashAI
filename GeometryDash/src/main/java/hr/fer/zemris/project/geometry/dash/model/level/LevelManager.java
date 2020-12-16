@@ -13,7 +13,9 @@ import java.util.TreeSet;
 import java.util.stream.Stream;
 
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
+import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Floor;
 import hr.fer.zemris.project.geometry.dash.model.io.ZipUtil;
+import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
 import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
@@ -39,11 +41,11 @@ public class LevelManager {
 	 * Currently selected level
 	 */
 	private Level currentLevel;
-
+	
 	/**
 	 * Constructor that loads all initial levels created from the start
 	 */
-	public LevelManager(GameObject player, GameObject floor) {
+	public LevelManager() {
 		allLevels = new HashSet<Level>();
 		
 		try (Stream<Path> paths = Files.list(Paths.get(GameConstants.pathToLevelsFolder))) {
@@ -55,8 +57,6 @@ public class LevelManager {
 		        Set<GameObject> levelObjects = new SerializationOfObjects(
 		        	GsonFactory.createGameObjectGson(50)).deserializeGameObjects(ZipUtil.openZipFile(GameConstants.pathToLevelsFolder, levelName)
 		        );
-		        levelObjects.add(player);
-		        levelObjects.add(floor);
 		        addLevel(levelName, levelObjects);
 		    });
 		} catch (IOException e) {
@@ -119,9 +119,9 @@ public class LevelManager {
 			if (lev.getLevelName().equals(levelName)) {
 //				levelMusicPlayer.startPlayingSongForLevel(levelName);
 				this.currentLevel = lev;
-				for(GameObject obj: lev.getLevelData()) {
-					System.out.println(obj.getCurrentPosition().getX());
-				}
+//				for(GameObject obj: lev.getLevelData()) {
+//					System.out.println(obj.getCurrentPosition().getX());
+//				}
 				return lev.getLevelData();
 			}
 		}
