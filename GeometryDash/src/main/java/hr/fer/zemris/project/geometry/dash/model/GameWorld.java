@@ -2,6 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
@@ -326,8 +327,10 @@ public class GameWorld {
      * Checks relation between player and ground
      */
     private void checkCollision() {
-    	for(Player player: players) {
+    	Iterator<Player> iterator = players.iterator();
+    	while(iterator.hasNext()) {
 //    		if(player.isDead()) continue;
+    		Player player = iterator.next();
     		player.setTouchingGround(false);
     	      for (GameObject gameObject : GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelData()) {
     	        	if(!(gameObject instanceof Player) && gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() > 100) {
