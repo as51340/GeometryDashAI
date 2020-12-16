@@ -273,17 +273,25 @@ public class GameEngine implements SoundSystem {
 	 * Resets game world
 	 */
 	public void reset() {
-		gameWorld.setDeaths(0);
-		Camera newCamera = getGameWorld().getRenderer().getCamera();
-		newCamera.setPosition(new Vector2D(0, 0));
-		((Floor)getGameWorld().getFloor()).setCamera(newCamera); //to mozemo u create scene
-		getGameWorld().getRenderer().getGameObjects().forEach(o -> {
-			o.setCurrentPosition(o.initialPosition.copy());
-			if (o instanceof Player) {
-				((Player)o).setRotation(0);
-				((Player)o).setSpeed(new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
-			}
+		Thread thr = new Thread(() -> {
+			gameWorld.setDeaths(0);
+			Camera newCamera = getGameWorld().getRenderer().getCamera();
+			newCamera.setPosition(new Vector2D(0, 0));
+			((Floor)getGameWorld().getFloor()).setCamera(newCamera); //to mozemo u create scene
+			getGameWorld().getRenderer().getGameObjects().forEach(o -> {
+				o.setCurrentPosition(o.initialPosition.copy());
+				if (o instanceof Player) {
+					((Player)o).setRotation(0);
+					((Player)o).setSpeed(new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
+				}
+			});
 		});
+		thr.start();
+		try {
+			thr.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

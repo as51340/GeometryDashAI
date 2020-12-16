@@ -320,8 +320,8 @@ public class GameWorld {
 		@Override
 		public void instanceFinished(double time) throws IOException {
 			GameEngine.getInstance().stop();
+			GameEngine.getInstance().reset();
 			 if (GameEngine.getInstance().getSettings().getOptions().isAutoRetry()) { // ako je auto retry onda sve kreni ispocetka
-		            GameEngine.getInstance().reset();
 		            GameEngine.getInstance().start();
 		        } else { //ako ne otvori scenu u kojoj će moć izabrat da li želi restart ili u game menu
 		            FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "PlayerDeathScene.fxml"));
