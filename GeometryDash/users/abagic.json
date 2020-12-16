@@ -6,8 +6,8 @@
     "lastName": "bagic"
   },
   "stats": {
-    "totalJumps": 0,
-    "totalAttempts": 0,
+    "totalJumps": 11,
+    "totalAttempts": 7,
     "collectedStars": 0,
     "completedLevels": 0,
     "userCoins": 0,
@@ -17,8 +17,8 @@
   },
   "selector": {
     "selectedCharacter": {
-      "uri": "player.png",
-      "locked": true
+      "uri": "geom-dash-9000-coins-icon.jpg",
+      "locked": false
     },
     "allCharacters": [
       {

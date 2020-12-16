@@ -1,6 +1,5 @@
 package hr.fer.zemris.project.geometry.dash.model.listeners;
 
-import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -20,16 +19,6 @@ public interface GameStateListener {
 	 * Exited from level editor
 	 */
 	void levelEditorModeExited();
-	
-	/**
-	 * Entered in characters selector
-	 */
-	void characterSelectorModeEntered();
-	
-	/**
-	 * Exited from characters selector
-	 */
-	void characterSelectorModeExited();
 	
 	/**
 	 * Started normal mode

@@ -422,18 +422,6 @@ public class GameEngine implements SoundSystem {
 			gameState = null;
 			stop();
 		}
-
-		@Override
-		public void characterSelectorModeEntered() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void characterSelectorModeExited() {
-			// TODO Auto-generated method stub
-
-		}
 		
 		@Override
 		public void normalModePlayingStarted() {
@@ -483,7 +471,6 @@ public class GameEngine implements SoundSystem {
 		public void userFinishedLevel(String levelName) {
 			if (session != null) {
 				session.getStats().setCompletedLevels(); // same here
-
 			}
 		}
 
@@ -517,6 +504,8 @@ public class GameEngine implements SoundSystem {
 
 		@Override
 		public void logout() {
+			String fileName = GameConstants.pathToUsersFolder + "/" + session.getAccount().getUsername() + ".json";
+			FileIO.createJsonFile(fileName, serObject.serialize(session));
 			session = null;
 		}
 
