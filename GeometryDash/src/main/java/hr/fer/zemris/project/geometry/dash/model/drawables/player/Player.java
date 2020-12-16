@@ -17,6 +17,11 @@ import javafx.scene.transform.Rotate;
 public class Player extends GameObject {
 	
     private double gravityTimer = GameConstants.gravity_Y;
+    
+    /**
+     * Result of goodness function
+     */
+    private double goodness_value = 0;
 
     /**
      * Rotation angle in degrees
@@ -145,6 +150,20 @@ public class Player extends GameObject {
 	public void setPlayingMode(PlayingMode playingMode) {
 		this.playingMode = playingMode;
 	}
+	
+	/**
+	 * @return the goodness_value
+	 */
+	public double getGoodness_value() {
+		return goodness_value;
+	}
+
+	/**
+	 * @param goodness_value the goodness_value to set
+	 */
+	public void setGoodness_value(double goodness_value) {
+		this.goodness_value = goodness_value;
+	}
 
 	/**
      * Constructs a <code>Player</code>
@@ -161,8 +180,6 @@ public class Player extends GameObject {
         setSpeed(speed);
         this.playingMode = playingMode;
     }
-    
-    
 
     /**
 	 * @return the isDead
@@ -182,8 +199,7 @@ public class Player extends GameObject {
      * Makes the player character "jump" - adds upward force
      */
     public void jump() {
-//    	System.out.println("Is touching u jumpu: " + isTouchingGround);
-        if (isTouchingGround) {  	
+        if (!isDead && isTouchingGround) {  	
             jumpIntent = true;
         }
     }

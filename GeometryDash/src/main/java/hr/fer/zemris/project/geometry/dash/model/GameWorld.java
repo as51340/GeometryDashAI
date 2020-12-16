@@ -172,7 +172,22 @@ public class GameWorld {
     	players.add(player);
     }
 
+    
     /**
+	 * @return the players
+	 */
+	public Set<Player> getPlayers() {
+		return players;
+	}
+
+	/**
+	 * @param players the players to set
+	 */
+	public void setPlayers(Set<Player> players) {
+		this.players = players;
+	}
+
+	/**
      * Creates temporary scene
      */
     public void createScene(String levelName) {
@@ -202,18 +217,41 @@ public class GameWorld {
 //    	System.out.println("Početna x: " + (player.getCurrentPosition().getX() - GameConstants.playerPosition_X));
 //    	System.out.println("Završna x: " + (player.getCurrentPosition().getX() - GameConstants.playerPosition_X + GameConstants.WIDTH));
 //      checkPlayerGround();
-
-        checkCollision();
+    	Thread thread = new Thread(() -> {
+    		checkCollision();
+    	});
+        thread.start();
+        try {
+			thread.join();
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
         if(deaths == players.size()) {
+        	System.out.println("Svi mrtvi");
         	return false;
         }
         
         Player player = getMaxPlayer();
+        if(player == null) {
+        	System.out.println("Svi mrtvi");
+        	return false;
+        }
         checkPlayerCamera_X(player);
         checkPlayerCamera_Y(player);
         checkCameraGround_Y();
         if(renderer.render()) {
-//        	System.out.println("Zavrsen level!");
+        	int i = 0;
+        	for(Player p: players) {
+        		if(p.isDead() == false)
+        		i++;
+        	}
+        	System.out.println("Zavrilo ih je: " + i);
+        	try {
+				gameWorldListener.instanceFinished(System.currentTimeMillis());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
 //        if (player.initialPosition.getX() != 0) {
 //            Scanner sc = new Scanner(System.in);
@@ -261,6 +299,7 @@ public class GameWorld {
      */
     private void checkPlayerCamera_X(Player player) {
     	double playerPos_X = player.getCurrentPosition().getX();
+    	System.out.println(playerPos_X);
         double cameraPos_X = renderer.getCamera().getPosition().getX();
         if (playerPos_X - cameraPos_X > GameConstants.playerPosition_X) {
             renderer.getCamera().getPosition().setX(playerPos_X - GameConstants.playerPosition_X);
@@ -275,7 +314,7 @@ public class GameWorld {
     	double max = -1;
     	Player player = null;
     	for(Player p: players) {
-    		if(p.getCurrentPosition().getX() > max) {
+    		if(p.isDead() == false && p.getCurrentPosition().getX() > max) {
     			max = p.getCurrentPosition().getX();
     			player = p;
     		}
@@ -288,6 +327,7 @@ public class GameWorld {
      */
     private void checkCollision() {
     	for(Player player: players) {
+//    		if(player.isDead()) continue;
     		player.setTouchingGround(false);
     	      for (GameObject gameObject : GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelData()) {
     	        	if(!(gameObject instanceof Player) && gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() > 100) {
@@ -299,14 +339,15 @@ public class GameWorld {
     	                    player.touchesGround();
     	                    player.getCurrentPosition().setY(gameObject.getCurrentPosition().getY() - GameConstants.iconHeight);
     	                }
-    	                if (obstacle.checkCollisions(player)) {
+    	                if (!player.isDead() && obstacle.checkCollisions(player)) {
     	                    if (((Obstacle) gameObject).checkCollisions(player)) {
     	                    	deaths++;
+    	                    	player.setGoodness_value(gameObject.initialPosition.getX()-player.getCurrentPosition().getX());
     	                    	player.setDead(true);
     	                    } 
     	                }
     	            }
-    	        }
+    	      }
     	}
     }
 

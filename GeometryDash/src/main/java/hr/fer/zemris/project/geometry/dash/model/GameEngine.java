@@ -281,6 +281,10 @@ public class GameEngine implements SoundSystem {
 			getGameWorld().getRenderer().getGameObjects().forEach(o -> {
 				o.setCurrentPosition(o.initialPosition.copy());
 				if (o instanceof Player) {
+					((Player) o).setJumpIntent(false);
+					((Player) o).setTouchingGround(false);
+					((Player) o).setGoodness_value(0);
+					((Player) o).setDead(false);
 					((Player)o).setRotation(0);
 					((Player)o).setSpeed(new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
 				}

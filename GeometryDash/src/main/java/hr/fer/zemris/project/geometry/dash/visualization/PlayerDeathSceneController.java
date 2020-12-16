@@ -96,8 +96,8 @@ public class PlayerDeathSceneController extends MenuController {
 //    	 otherwise window will reset its size to default; this will keep current window width and height
     	double width = menuButton.getScene().getWidth();
     	double height = menuButton.getScene().getHeight();
-    	stage.setWidth(1280);
-    	stage.setHeight(720);
+    	stage.setWidth(width);
+    	stage.setHeight(height);
     	
 		BackgroundSceneController controller = loader.<BackgroundSceneController>getController();
         controller.init();
@@ -127,8 +127,8 @@ public class PlayerDeathSceneController extends MenuController {
 //    	 otherwise window will reset its size to default; this will keep current window width and height
     	double width = chooseLevelButton.getScene().getWidth();
     	double height = chooseLevelButton.getScene().getHeight();
-    	stage.setWidth(1280);
-    	stage.setHeight(720);
+    	stage.setWidth(width);
+    	stage.setHeight(height);
 		
 		stage.setScene(scene);
 	}

@@ -97,15 +97,16 @@ public class Renderer {
 		graphicsContext.clearRect(0, 0, GameConstants.WIDTH, GameConstants.HEIGHT); //clear screen from last drawing
 		boolean finished = true;
 		for(GameObject gameObject: gameObjects) {
-//			gameObject.update(graphicsContext, this.camera.getPosition());
-			gameObject.getCurrentPosition().setX(gameObject.getCurrentPosition().getX() - camera.getPosition().getX());
+			if((gameObject instanceof Player) && ((Player) gameObject).isDead()) {
+				gameObject.getCurrentPosition().setX(GameConstants.playerPosition_X);
+			} else {
+				gameObject.getCurrentPosition().setX(gameObject.getCurrentPosition().getX() - camera.getPosition().getX());
+			}  	
+			gameObject.getCurrentPosition().setY(gameObject.getCurrentPosition().getY() - camera.getPosition().getY());
 			if (!(gameObject instanceof Player) && gameObject.getCurrentPosition().getX() + GameConstants.LEVEL_END_OFFSET > GameConstants.playerPosition_X) {
                 finished = false;
           }
-			gameObject.getCurrentPosition().setY(gameObject.getCurrentPosition().getY() - camera.getPosition().getY());
-//			if(gameObject.getCurrentPosition().getX() >= 0 && gameObject.getCurrentPosition().getX() <= 1280) {
-				gameObject.draw(graphicsContext); //sliding window
-//			}
+			gameObject.draw(graphicsContext); //sliding window
 		}
 		return finished;
 	}
