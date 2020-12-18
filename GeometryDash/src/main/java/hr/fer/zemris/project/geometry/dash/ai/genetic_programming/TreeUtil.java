@@ -1,34 +1,41 @@
 package hr.fer.zemris.project.geometry.dash.ai.genetic_programming;
 
+import java.util.List;
+
 import org.codehaus.plexus.util.StringUtils;
 
 /**
- * Class which we will use for performing genetic programming actions: crossover, replication and mutation
+ * Class which we will use for performing genetic programming actions:
+ * crossover, replication and mutation
+ * 
  * @author Andi Škrgat
  *
  */
 public class TreeUtil {
-	
+
 	/**
 	 * Replicates existing tree
+	 * 
 	 * @param tree existing tree
 	 * @return created tree
 	 */
 	public static Tree replicateTree(Tree tree) {
 		return tree.copy();
 	}
-	
+
 	/**
 	 * Perform mutation on tree
+	 * 
 	 * @param tree existing tree
 	 * @return tree after performed mutation
 	 */
 	public static Tree mutationOnTree(Tree tree) {
 		return null;
 	}
-	
+
 	/**
 	 * Crossovers two trees and returns their newly created child
+	 * 
 	 * @param tree1 first tree
 	 * @param tree2 second tree
 	 * @return newly created tree
@@ -36,32 +43,45 @@ public class TreeUtil {
 	public static Tree crossover(Tree tree1, Tree tree2) {
 		return null;
 	}
-	
+
 	/**
 	 * Performs dfs on tree
+	 * 
 	 * @param root
 	 */
-	public static void dfsOnTree(TreeNode root, TreeNode parent, int level) {
-		// process this node
-		// for example print out
-		System.out.print(StringUtils.repeat(" ", level) + root + "\n");
-		for(TreeNode child: root.getChildren()) {
-			if(!child.equals(parent)) {
-				dfsOnTree(child, root, level+1);
-			}
+	public static double dfsOnTree(TreeNode root, int level) {
+//		System.out.print(StringUtils.repeat(" ", level) + root + "\n");
+		if (root.getAction() == null) { // it is a leaf
+			return root.getValue();
 		}
-		
+		if(root.getAction().isUnary()) {
+			if(root.getChildren().size() != 1) {
+				System.out.println("Imamo problem, velicina nije 1!");
+			}
+			double x = dfsOnTree(root.getChildren().get(0), level +1);
+		} else if(root.getAction().isBinary()) {
+			
+		} else if(root.getAction().isBranchingFun()) {
+			
+		} else {
+			System.out.println("Niente dobro");
+		}
+		for (TreeNode child : root.getChildren()) {
+			
+			dfsOnTree(child, level + 1);
+		}
+
 	}
-	
+
 	public static void main(String[] args) {
 		Tree tree = new Tree();
-		TreeNode node1 = new TreeNode("Node1");
+		TreeNode node1 = new TreeNode(ActionType.MINUS);
 		tree.setRoot(node1);
-		node1.addChild(new TreeNode("Node2"));
-		node1.addChild(new TreeNode("Node3"));
-		node1.addChild(new TreeNode("Node4"));
-		node1.addChild(new TreeNode("Node5"));
-		node1.getChildren().get(3).addChild(new TreeNode("Node6"));
+		node1.addChild(new TreeNode(2));
+		TreeNode node2 = new TreeNode(ActionType.PLUS);
+		node2.addChild(new TreeNode(5));
+		node2.addChild(new TreeNode(10));
+
 		tree.printTree();
 	}
 

@@ -215,9 +215,6 @@ public class GameWorld {
      * Checks for relations between camera, player and ground
      */
     public boolean update() {
-//    	System.out.println("Početna x: " + (player.getCurrentPosition().getX() - GameConstants.playerPosition_X));
-//    	System.out.println("Završna x: " + (player.getCurrentPosition().getX() - GameConstants.playerPosition_X + GameConstants.WIDTH));
-//      checkPlayerGround();
     	Thread thread = new Thread(() -> {
     		checkCollision();
     	});
@@ -248,31 +245,14 @@ public class GameWorld {
         	}
         	System.out.println("Zavrilo ih je: " + i);
         	try {
-				gameWorldListener.instanceFinished(System.currentTimeMillis());
+				gameWorldListener.instanceFinished(System.currentTimeMillis() / 1000);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
-//        if (player.initialPosition.getX() != 0) {
-//            Scanner sc = new Scanner(System.in);
-//            sc.next();
-//            sc.close();
-//        }
-
         return true;
     }
 
-//    private boolean checkCollision() {
-//        for (GameObject gameObject : levelManager.getCurrentLevel().getLevelData()) {
-//            if (gameObject instanceof Obstacle) {
-//                if (((Obstacle) gameObject).checkCollisions((Player) player)) {
-//                	return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
 
     /**
      * Camera's final y position. Tweak values!!
