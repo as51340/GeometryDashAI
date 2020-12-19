@@ -51,7 +51,6 @@ public class Player extends GameObject {
     @Expose
     private Vector2D speed;
 
-    private Vector2D rotatingPoint;
     
     /**
      * Specifies type of player
@@ -68,14 +67,6 @@ public class Player extends GameObject {
         this.speed = speed;
         setIcon(icon);
         this.playingMode = playingMode;
-    }
-
-    public Vector2D getRotatingPoint() {
-        return rotatingPoint;
-    }
-
-    public void setRotatingPoint(Vector2D rotatingPoint) {
-        this.rotatingPoint = rotatingPoint;
     }
 
     /**
@@ -174,7 +165,6 @@ public class Player extends GameObject {
     	isDead = false;
     	setInitialPosition(position.copy());
         setCurrentPosition(position);
-        rotatingPoint = position.copy();
         this.setWidth(GameConstants.iconWidth);
         this.setHeight(GameConstants.iconHeight);
         setSpeed(speed);
@@ -218,7 +208,6 @@ public class Player extends GameObject {
         if (getSpeed().getX() >= GameConstants.playerFinalSpeed_X) {
             getSpeed().setX(GameConstants.playerFinalSpeed_X);
         }
-        rotatingPoint = getCenterPosition().copy();
     }
 
     /**
@@ -245,7 +234,6 @@ public class Player extends GameObject {
         if (!isTouchingGround) {
             setRotation(getRotation() + GameConstants.playerRotationSpeed* GameConstants.timeBetweenUpdates);
             Vector2D v = getCenterPosition().translated(getCurrentPosition().reversed()).rotated(getRotation());
-            rotatingPoint = getCenterPosition().translated(v);
 //			System.err.println("U zraku: " + getRotation());	// za testiranje
         } else {
             this.rotation = (int) this.rotation % 360;
@@ -258,7 +246,6 @@ public class Player extends GameObject {
             } else if (this.rotation >= 315 || this.rotation < 45) {
                 this.rotation = 0;
             }
-            rotatingPoint = getCenterPosition().copy();
 //			System.err.println("Stojim: " + getRotation());	// za testiranje
         }
 
@@ -277,6 +264,5 @@ public class Player extends GameObject {
     public GameObject copy() {
         return new Player(this.rotation, this.speed, this.getIconPath(), this.playingMode);
     }
-
-
+    
 }
