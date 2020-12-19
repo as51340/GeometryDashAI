@@ -114,6 +114,16 @@ public class Neuron {
         prevNeuronWeights.add(weight);
     }
 
+    /**
+     * Removes a connection from given Neuron to this Neuron
+     *
+     * @param other other Neuron
+     */
+    public void removeConnectionFromOtherToThis(Neuron other) {
+        prevNeuronWeights.remove(prevNeurons.indexOf(other));
+        prevNeurons.remove(other);
+    }
+
     public DoubleUnaryOperator getActivationFunction() {
         return activationFunction;
     }
