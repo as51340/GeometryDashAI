@@ -4,6 +4,7 @@ import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Models a simple neural network where each neuron is connected to every neuron of the next layer
@@ -203,12 +204,13 @@ public class NeuralNetwork {
     }
 
     /**
-     * Sets all neuron weights for given weights.
+     * Sets all neuron weights for given weights and all biases to given biases.
      * note: the order for which the weights are set is: input layer, hidden layers, output layer
      *
      * @param weights given weights
+     * @param biases  given biases
      */
-    public void setWeights(List<List<Double>> weights) {
+    public void setWeights(List<List<Double>> weights, List<Double> biases) {
         if (weights.size() != inputLayer.size() + 1 + hiddenLayers.size() * hiddenLayers.get(0).size())
             throw new IllegalArgumentException("");
 
@@ -221,6 +223,22 @@ public class NeuralNetwork {
                 neuron.setPrevNeuronWeights(weights.get(index++));
 
         output.setPrevNeuronWeights(weights.get(index));
+    }
+
+    public List<Double> getBiases() {
+        ArrayList<Double> biases = new ArrayList<>();
+
+        for (Neuron neuron : inputLayer)
+            biases.add(neuron.getBias());
+
+        for (List<Neuron> hiddenLayer : hiddenLayers) {
+            for (Neuron neuron : hiddenLayer) {
+                biases.add(neuron.getBias());
+            }
+        }
+
+        biases.add(output.getBias());
+        return biases;
     }
 
     /**
@@ -290,6 +308,29 @@ public class NeuralNetwork {
 
     public Neuron getOutput() {
         return output;
+    }
+
+    public int numberOfHiddenLayers() {
+        return hiddenLayers.size();
+    }
+
+    public int numberOfNeuronsPerHiddenLayer() {
+        return hiddenLayers.get(0).size();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NeuralNetwork that = (NeuralNetwork) o;
+        return Objects.equals(inputLayer, that.inputLayer) &&
+                Objects.equals(hiddenLayers, that.hiddenLayers) &&
+                Objects.equals(output, that.output);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(inputLayer, hiddenLayers, output);
     }
 
     public static void main(String[] args) {

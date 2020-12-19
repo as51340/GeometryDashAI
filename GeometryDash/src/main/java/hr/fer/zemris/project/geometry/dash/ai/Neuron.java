@@ -152,6 +152,11 @@ public class Neuron {
         this.prevNeuronWeights = prevNeuronWeights;
     }
 
+    public void setPrevWeightsAndBias(List<Double> prevNeuronWeights, Double bias){
+        setPrevNeuronWeights(prevNeuronWeights);
+        setBias(bias);
+    }
+
     public Double getBias() {
         return bias;
     }

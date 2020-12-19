@@ -9,6 +9,8 @@ import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.transform.Rotate;
 
+import java.util.Objects;
+
 /**
  * The main player class, logics and engine behind the "protagonist" of <strong>Geometry Dash</strong>
  *
@@ -264,5 +266,19 @@ public class Player extends GameObject {
     public GameObject copy() {
         return new Player(this.rotation, this.speed, this.getIconPath(), this.playingMode);
     }
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Player player = (Player) o;
+        return Double.compare(player.goodness_value, goodness_value) == 0 &&
+                playingMode == player.playingMode;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), goodness_value, playingMode);
+    }
 }
