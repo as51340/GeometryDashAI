@@ -157,6 +157,42 @@ public class NeuralNetwork {
     }
 
     /**
+     * Inserts a given layer as the "position"th hidden layer
+     *
+     * @param neurons  given layer
+     * @param position given position
+     */
+    public void insertHiddenLayer(List<Neuron> neurons, int position) {
+        if (position > hiddenLayers.size())
+            throw new IllegalArgumentException("given position is greater than size");
+
+        if (position == hiddenLayers.size()) {
+            List<Neuron> lastHiddenLayer = hiddenLayers.get(position - 1);
+
+            removeConnectionToPrevLayer(output, lastHiddenLayer);
+            createConnectionToPrevLayer(output, neurons);
+            neurons.forEach(n -> createConnectionToPrevLayer(n, lastHiddenLayer));
+
+            hiddenLayers.add(position, neurons);
+
+        } else {
+            List<Neuron> otherHiddenLayer = hiddenLayers.get(position);
+            List<Neuron> previous;
+            if (position != 0)
+                previous = hiddenLayers.get(position - 1);
+            else previous = inputLayer;
+
+            otherHiddenLayer.forEach(n -> removeConnectionToPrevLayer(n, previous));
+            neurons.forEach(n -> createConnectionToPrevLayer(n, previous));
+            otherHiddenLayer.forEach(n -> createConnectionToPrevLayer(n, neurons));
+
+            hiddenLayers.add(position, neurons);
+
+
+        }
+    }
+
+    /**
      * Sets given neuron as output neuron and connects previous layer to it
      *
      * @param neuron given neuron
@@ -287,6 +323,16 @@ public class NeuralNetwork {
 
         neuralNetwork.createHiddenLayer(hidden);
         */
+
+
+//      Inserting a new hiddenLayer
+        ArrayList<Neuron> hidden1 = new ArrayList<>();
+        int id = 123;
+        for (int i = 0; i < 4; i++)
+            hidden1.add(new Neuron(id++));
+
+        neuralNetwork.insertHiddenLayer(hidden1, 1);
+
 
         System.out.println(neuralNetwork.output.calculateOutput());
     }

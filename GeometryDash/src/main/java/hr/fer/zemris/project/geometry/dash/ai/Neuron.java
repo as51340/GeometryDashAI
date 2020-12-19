@@ -26,6 +26,10 @@ public class Neuron {
      */
     private double output;
     /**
+     * For optimisation - true if current output is valid
+     */
+    private boolean hasOutput;
+    /**
      * Bias of this neuron
      */
     private double bias;
@@ -38,6 +42,8 @@ public class Neuron {
         prevNeuronWeights = new ArrayList<>();
         this.activationFunction = (v -> 1 / (1 + Math.exp(-v)));
         this.bias = Math.random() * 2 - 1;
+        this.output = 0;
+        this.hasOutput = false;
         this.id = 0;
     }
 
@@ -70,6 +76,8 @@ public class Neuron {
      * @return result
      */
     public Double calculateOutput() {
+        if (hasOutput)
+            return output;
         System.out.println(this.toString());
         double sum = getBias();
 
@@ -80,6 +88,7 @@ public class Neuron {
         sum = applyActivationFunction(sum);
 
         this.output = sum;
+        this.hasOutput = true;
         System.out.println(this.toString() + " output: " + output);
         return sum;
     }
@@ -110,6 +119,7 @@ public class Neuron {
      * @param weight weight for that Neuron
      */
     public void addConnectionFromOtherToThis(Neuron other, double weight) {
+        this.hasOutput = false;
         prevNeurons.add(other);
         prevNeuronWeights.add(weight);
     }
@@ -120,6 +130,7 @@ public class Neuron {
      * @param other other Neuron
      */
     public void removeConnectionFromOtherToThis(Neuron other) {
+        hasOutput = false;
         prevNeuronWeights.remove(prevNeurons.indexOf(other));
         prevNeurons.remove(other);
     }
@@ -137,6 +148,7 @@ public class Neuron {
     }
 
     public void setPrevNeuronWeights(List<Double> prevNeuronWeights) {
+        hasOutput = false;
         this.prevNeuronWeights = prevNeuronWeights;
     }
 
@@ -145,6 +157,7 @@ public class Neuron {
     }
 
     public void setBias(Double bias) {
+        hasOutput = false;
         this.bias = bias;
     }
 
