@@ -49,7 +49,9 @@ public class Action {
 			return ActionCalculator.atan(x);
 		} else if(actionType == ActionType.ACTG) {
 			return ActionCalculator.actg(x);
-		}else {
+		}  else if(actionType == ActionType.SQRT) {
+			return ActionCalculator.root(x);
+		} else {
 			throw new IllegalArgumentException("No such action, unary");
 		}
 	}
@@ -78,7 +80,7 @@ public class Action {
 	 * @return if action is relational
 	 */
 	public boolean isRelational() {
-		if(actionType == ActionType.EQUAL || actionType == ActionType.LESS || actionType == ActionType.LESSS_EQUAL || 
+		if(actionType == ActionType.EQUAL || actionType == ActionType.LESS || actionType == ActionType.LESS_EQUAL || 
 				actionType == ActionType.GREATER || actionType == ActionType.GREATER_EQUAL) {
 			return true;
 		}  
@@ -96,7 +98,7 @@ public class Action {
 			return ActionCalculator.less(x, y);
 		} else if(actionType == ActionType.GREATER) {
 			return ActionCalculator.greater(x, y);
-		} else if(actionType == ActionType.LESSS_EQUAL) {
+		} else if(actionType == ActionType.LESS_EQUAL) {
 			return ActionCalculator.lessEqual(x, y);
 		} else if(actionType == ActionType.GREATER_EQUAL) {
 			return ActionCalculator.greaterEqual(x, y);
@@ -117,7 +119,7 @@ public class Action {
 				|| actionType == ActionType.ATAN || actionType == ActionType.SINH || actionType == ActionType.COSH 
 				|| actionType == ActionType.TANH || actionType == ActionType.COTH || actionType == ActionType.CTG 
 				|| actionType == ActionType.ASIN || actionType == ActionType.ACOS || actionType == ActionType.ATAN
-				|| actionType == ActionType.ACTG
+				|| actionType == ActionType.ACTG || actionType == ActionType.SQRT
 				)
 		{
 			return true;
@@ -154,4 +156,31 @@ public class Action {
 		return ActionCalculator.if_elif_else(x, y);
 	}
 
+	@Override
+	public String toString() {
+		return "Action [actionType=" + actionType + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((actionType == null) ? 0 : actionType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Action other = (Action) obj;
+		if (actionType != other.actionType)
+			return false;
+		return true;
+	}
+	
 }

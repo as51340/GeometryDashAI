@@ -13,11 +13,6 @@ import java.util.List;
 public class TreeNode {
 
 	/**
-	 * Hashing constant
-	 */
-	private static final long HASHING_CONSTANT = 911382323;
-
-	/**
 	 * In intern node we have actions, if is null that means that this node is leaf
 	 */
 	private Action action = null;
@@ -30,7 +25,7 @@ public class TreeNode {
 	/**
 	 * It stores children in {@linkplain ArrayList}.
 	 */
-	private List<TreeNode> children;
+	private List<TreeNode> children = new ArrayList<TreeNode>();
 
 	/**
 	 * Constructor for intern node
@@ -39,7 +34,6 @@ public class TreeNode {
 	 */
 	public TreeNode(Action action) {
 		this.action = action;
-		children = new ArrayList<TreeNode>();
 	}
 
 	/**
@@ -47,7 +41,6 @@ public class TreeNode {
 	 */
 	public TreeNode(double value) {
 		this.value = value;
-		children = null;
 	}
 
 	/**
@@ -87,6 +80,13 @@ public class TreeNode {
 	}
 
 	/**
+	 * @param children the children to set
+	 */
+	public void setChildren(List<TreeNode> children) {
+		this.children = children;
+	}
+
+	/**
 	 * @return the action
 	 */
 	public Action getAction() {
@@ -114,40 +114,47 @@ public class TreeNode {
 		this.value = value;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof TreeNode)) {
-			return false;
-		}
-		TreeNode node = (TreeNode) obj;
-		if (!(node.getAction() == this.getAction()) || !(node.getValue() == this.getValue())) {
-			return false;
-		}
-		int size = node.children.size();
-		if (size != this.children.size()) {
-			return false;
-		}
-		for (int i = 0; i < size; i++) {
-			if (!node.children.get(i).equals(children.get(i))) {
-				return false;
-			}
-		}
-		return true;
-	}
+
 
 	@Override
 	public int hashCode() {
-		int dataHash = 0;
-		dataHash = (int) this.value;
-		if (action != null) {
-			dataHash += action.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((action == null) ? 0 : action.hashCode());
+		result = prime * result + ((children == null) ? 0 : children.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(value);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TreeNode other = (TreeNode) obj;
+		if (action == null) {
+			if (other.action != null) {;
+				return false;
+			}
+		} else if (!action.equals(other.action)) {
+			return false;
 		}
-		int size = children.size();
-		for (int i = 0; i < size; i++) {
-			dataHash += children.get(i).hashCode();
+		if (children == null) {
+			if (other.children != null) {
+				return false;
+			}
+		} else if (!children.equals(other.children)) {			
+			return false;
 		}
-		dataHash %= HASHING_CONSTANT;
-		return dataHash;
+		if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value)) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -160,7 +167,22 @@ public class TreeNode {
 		TreeNode copied = new TreeNode(action, value);
 		for (TreeNode child : this.getChildren()) {
 			copied.addChild(child.copy());
+
 		}
 		return copied;
 	}
+
+	/**
+	 * @return the size
+	 */
+	public int getSize() {
+		int size = 0;
+		size += children.size();
+		for (TreeNode child : children) {
+			size += child.getSize();
+		}
+		return size;
+	}
+
+
 }
