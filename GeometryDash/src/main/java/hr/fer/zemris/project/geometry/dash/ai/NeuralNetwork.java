@@ -86,6 +86,9 @@ public class NeuralNetwork {
         createHiddenLayer(this.hiddenLayers);
     }
 
+
+    //TODO chceck if biases are set right
+
     /**
      * Method which creates an input layer which is three times bigger than the given list if there is no input layer
      * and sets biases to obstacle position x, obstacle position y, and obstacle type decoded
@@ -96,11 +99,14 @@ public class NeuralNetwork {
      * @param obstacles given list of obstacles
      */
     public void inputObstacles(List<Obstacle> obstacles, Player player) {
-        if (inputLayer.size() == 0) createInputLayer(obstacles.size() * 3);
+        if (inputLayer.size() == 0) createInputLayer(obstacles.size() * 3 + 1);
+
         int index = 0;
+        inputLayer.get(index++).setBias(player.getCurrentPosition().getY());
+
         for (Obstacle obstacle : obstacles) {
-            inputLayer.get(index++).setBias(obstacle.getCurrentPosition().getX());
-            inputLayer.get(index++).setBias(obstacle.getCurrentPosition().getY());
+            inputLayer.get(index++).setBias(obstacle.getCurrentPosition().getX() - player.getCurrentPosition().getX());
+            inputLayer.get(index++).setBias(obstacle.getCurrentPosition().getY() - player.getCurrentPosition().getY());
             inputLayer.get(index++).setBias(decodeObstacleType(obstacle));
         }
     }
