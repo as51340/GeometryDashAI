@@ -11,6 +11,7 @@ import java.util.*;
 
 public class GeneticAlgorithm {
     public static final int POPULATION_SIZE = 300;
+    public static final int REPEAT = 500;
     public static final double MUTATION_RATE = 0.1;
     public static final int INPUT_LAYER_SIZE = 13;
     public final int numberOfHiddenLayers;
@@ -29,8 +30,22 @@ public class GeneticAlgorithm {
 
     public void runAlgorithm() {
         initialize();
-        selection();
-        reproduction();
+
+        for (int i = 0; i < REPEAT; i++) {
+            sumOfAllFinesses = 0;
+            selection();
+            reproduction();
+        }
+    }
+
+    public void initialize() {
+        for (int i = 0; i < POPULATION_SIZE; i++) {
+            Player player = new Player(new Vector2D(i * 20, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
+                    new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.NEURAL_NETWORK);
+
+            NeuralNetwork neuralNetwork = new NeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer);
+            playerNeuralNetworkMap.put(player, neuralNetwork);
+        }
     }
 
     public void selection() {
@@ -46,17 +61,22 @@ public class GeneticAlgorithm {
 
     public void reproduction() {
         Map<Player, NeuralNetwork> playerNeuralNetworkMap = new HashMap<>();
+
         for (int i = 0; i < POPULATION_SIZE; i++) {
             Player player = new Player(new Vector2D(i * 20, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
                     new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.NEURAL_NETWORK);
 
             NeuralNetwork parent1 = getRandomParent();
             NeuralNetwork parent2 = getRandomParent();
+
+            while (parent2.equals(parent1))
+                parent2 = getRandomParent();
+
             NeuralNetwork child = crossover(parent1, parent2);
             child = mutation(child);
             playerNeuralNetworkMap.put(player, child);
-
         }
+
         this.playerNeuralNetworkMap = playerNeuralNetworkMap;
     }
 
@@ -145,16 +165,4 @@ public class GeneticAlgorithm {
     public boolean shouldIMutate() {
         return Math.random() <= MUTATION_RATE;
     }
-
-
-    public void initialize() {
-        for (int i = 0; i < POPULATION_SIZE; i++) {
-            Player player = new Player(new Vector2D(i * 20, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
-                    new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.NEURAL_NETWORK);
-
-            NeuralNetwork neuralNetwork = new NeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer);
-            playerNeuralNetworkMap.put(player, neuralNetwork);
-        }
-    }
-
 }

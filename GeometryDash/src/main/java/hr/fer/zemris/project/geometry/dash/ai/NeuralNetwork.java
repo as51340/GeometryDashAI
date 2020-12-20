@@ -1,6 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.ai;
 
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
+import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class NeuralNetwork {
      */
     private List<Neuron> inputLayer;
     /**
-     * List of all hidden layers - the number of lists is eqal to the number of hidden layers
+     * List of all hidden layers - the number of lists is equal to the number of hidden layers
      */
     private List<List<Neuron>> hiddenLayers;
     /**
@@ -90,11 +91,11 @@ public class NeuralNetwork {
      * and sets biases to obstacle position x, obstacle position y, and obstacle type decoded
      * <p>
      * note: if there already exists an input layer, it will not create a new input layer but it will set the biases.
-     * It is assumed that the łinput layer size is three times the number of obstacles
+     * It is assumed that the input layer size is three times the number of obstacles
      *
      * @param obstacles given list of obstacles
      */
-    public void inputObstacles(List<Obstacle> obstacles) {
+    public void inputObstacles(List<Obstacle> obstacles, Player player) {
         if (inputLayer.size() == 0) createInputLayer(obstacles.size() * 3);
         int index = 0;
         for (Obstacle obstacle : obstacles) {
@@ -102,7 +103,6 @@ public class NeuralNetwork {
             inputLayer.get(index++).setBias(obstacle.getCurrentPosition().getY());
             inputLayer.get(index++).setBias(decodeObstacleType(obstacle));
         }
-
     }
 
     /**
@@ -189,7 +189,6 @@ public class NeuralNetwork {
 
             hiddenLayers.add(position, neurons);
 
-
         }
     }
 
@@ -215,14 +214,19 @@ public class NeuralNetwork {
             throw new IllegalArgumentException("");
 
         int index = 0;
-        for (Neuron neuron : inputLayer)
+        for (Neuron neuron : inputLayer) {
+            neuron.setBias(biases.get(index));
             neuron.setPrevNeuronWeights(weights.get(index++));
+        }
 
         for (List<Neuron> hiddenLayer : hiddenLayers)
-            for (Neuron neuron : hiddenLayer)
+            for (Neuron neuron : hiddenLayer) {
+                neuron.setBias(biases.get(index));
                 neuron.setPrevNeuronWeights(weights.get(index++));
+            }
 
         output.setPrevNeuronWeights(weights.get(index));
+        output.setBias(biases.get(index));
     }
 
     public List<Double> getBiases() {
