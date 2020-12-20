@@ -197,6 +197,14 @@ public class Neuron {
         this.hasOutput = hasOutput;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
