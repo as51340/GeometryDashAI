@@ -24,12 +24,25 @@ public class TreeUtil {
 	}
 
 	/**
-	 * Perform mutation on tree
+	 * Performs mutation on tree. Two types of mutations are possible: in the first kind a
+	 * function can only replace a function or a terminal can only replace a terminal.
+	 * In the second kind an entire subtree can replace another subtree.
 	 * 
 	 * @param tree existing tree
 	 * @return tree after performed mutation
 	 */
 	public static Tree mutationOnTree(Tree tree) {
+		
+/*		List<TreeNode> level1 = tree.getRoot().getChildren();
+		for(TreeNode node : level1) {
+			for(TreeNode n : node.getChildren()) {					
+				if(node.getAction() == null) {   // npr. za prve listove djece korijena radimo prvu vrstu mutacije
+					node.setValue(...);
+					break;
+				}
+			}
+		}
+*/
 		return null;
 	}
 

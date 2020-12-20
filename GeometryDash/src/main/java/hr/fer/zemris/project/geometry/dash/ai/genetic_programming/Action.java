@@ -45,6 +45,8 @@ public class Action {
 			return ActionCalculator.tanh(x);
 		}  else if(actionType == ActionType.COTH) {
 			return ActionCalculator.coth(x);
+		} else if(actionType == ActionType.ROOT) {
+			return ActionCalculator.root(x);
 		} else {
 			throw new IllegalArgumentException("No such action, unary");
 		}
@@ -81,7 +83,7 @@ public class Action {
 			return ActionCalculator.less(x, y);
 		} else if(actionType == ActionType.GREATER) {
 			return ActionCalculator.greater(x, y);
-		} else if(actionType == ActionType.LESSS_EQUAL) {
+		} else if(actionType == ActionType.LESS_EQUAL) {
 			return ActionCalculator.lessEqual(x, y);
 		} else if(actionType == ActionType.GREATER_EQUAL) {
 			return ActionCalculator.greaterEqual(x, y);
@@ -98,7 +100,7 @@ public class Action {
 	public boolean isUnary() {
 		if(actionType ==  ActionType.SIN || actionType == ActionType.COS || actionType == ActionType.TAN 
 				|| actionType == ActionType.ATAN || actionType == ActionType.SINH || actionType == ActionType.COSH 
-				|| actionType == ActionType.TANH || actionType == ActionType.COTH)
+				|| actionType == ActionType.TANH || actionType == ActionType.COTH || actionType == ActionType.ROOT)
 		{
 			return true;
 		} 
