@@ -181,6 +181,22 @@ public class Neuron {
         return output;
     }
 
+    public List<Neuron> getPrevNeurons() {
+        return prevNeurons;
+    }
+
+    public void setOutput(double output) {
+        this.output = output;
+    }
+
+    public boolean hasOutput() {
+        return hasOutput;
+    }
+
+    public void setHasOutput(boolean hasOutput) {
+        this.hasOutput = hasOutput;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
