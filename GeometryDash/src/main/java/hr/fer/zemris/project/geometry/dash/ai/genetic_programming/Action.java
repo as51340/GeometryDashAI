@@ -49,7 +49,7 @@ public class Action {
 			return ActionCalculator.atan(x);
 		} else if(actionType == ActionType.ACTG) {
 			return ActionCalculator.actg(x);
-		} else {
+		}else {
 			throw new IllegalArgumentException("No such action, unary");
 		}
 	}

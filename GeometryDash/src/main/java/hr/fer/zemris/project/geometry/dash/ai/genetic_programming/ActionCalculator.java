@@ -29,6 +29,10 @@ public class ActionCalculator {
 		return x / y;
 	}
 	
+	public static double root(double x) {
+		return Math.sqrt(x);
+	}
+	
 	public static double sin(double x) {
 		return Math.sin(x);
 	}

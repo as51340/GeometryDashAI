@@ -43,11 +43,11 @@ public class TreeNode {
 	}
 
 	/**
-	 * Constructor for lead
+	 * Constructor for leaf
 	 */
 	public TreeNode(double value) {
 		this.value = value;
-		children = new ArrayList<TreeNode>();
+		children = null;
 	}
 
 	/**

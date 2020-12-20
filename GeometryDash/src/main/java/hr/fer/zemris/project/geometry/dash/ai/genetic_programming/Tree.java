@@ -1,5 +1,8 @@
 package hr.fer.zemris.project.geometry.dash.ai.genetic_programming;
 
+import java.util.EnumSet;
+import java.util.Random;
+
 /**
  * Implementation of tree in java
  * @author Andi Škrgat
@@ -20,7 +23,21 @@ public class Tree {
 	/**
 	 * Simple constructor for now
 	 */
-	public Tree() {		
+//	public Tree() {		
+//	}
+	
+	// Možda ovo ili napisat još i neku metodu koja stvara stablo s random čvorovima do zadane dubine?
+	/**
+	 * Creates tree with random root
+	 */
+	public Tree() {
+		EnumSet<ActionType> types = EnumSet.allOf(ActionType.class);
+		ActionType[] actionTypes = (ActionType[]) types.toArray();
+		Random r = new Random();
+		int index = r.nextInt(actionTypes.length);
+		
+		this.root = new TreeNode(new Action(actionTypes[index]));
+		size++;
 	}
 	
 	/**
