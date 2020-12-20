@@ -183,9 +183,7 @@ public class Neuron {
     }
 
     public static void main(String[] args) {
-        //input 4
-        //hidden 2
-        //output 1
+        //input hidden 2 output 1
         ArrayList<Neuron> input = new ArrayList<>();
         ArrayList<Neuron> hidden = new ArrayList<>();
         int id = 1;
