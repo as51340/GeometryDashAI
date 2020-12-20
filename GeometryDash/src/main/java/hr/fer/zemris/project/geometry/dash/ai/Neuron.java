@@ -59,6 +59,17 @@ public class Neuron {
     }
 
     /**
+     * Creates a new Neuron with the given id and activation function
+     *
+     * @param id                 given id
+     * @param activationFunction given activation function
+     */
+    public Neuron(int id, DoubleUnaryOperator activationFunction) {
+        this(id);
+        this.activationFunction = activationFunction;
+    }
+
+    /**
      * Creates a new Neuron with bias set to given bias
      *
      * @param bias given bias
@@ -152,7 +163,7 @@ public class Neuron {
         this.prevNeuronWeights = prevNeuronWeights;
     }
 
-    public void setPrevWeightsAndBias(List<Double> prevNeuronWeights, Double bias){
+    public void setPrevWeightsAndBias(List<Double> prevNeuronWeights, Double bias) {
         setPrevNeuronWeights(prevNeuronWeights);
         setBias(bias);
     }

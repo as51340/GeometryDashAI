@@ -6,6 +6,7 @@ import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.DoubleUnaryOperator;
 
 /**
  * Models a simple neural network where each neuron is connected to every neuron of the next layer
@@ -30,12 +31,18 @@ public class NeuralNetwork {
     private int lastId;
 
     /**
+     * Activation function of all neurons
+     */
+    private DoubleUnaryOperator activationFunction;
+
+    /**
      * Creates a new NeuralNetwork
      */
     public NeuralNetwork() {
         inputLayer = new ArrayList<>();
         hiddenLayers = new ArrayList<>();
-        output = new Neuron(-1);
+        activationFunction = (v -> 1 / (1 + Math.exp(-v)));
+        output = new Neuron(-1, activationFunction);
         lastId = 0;
     }
 
@@ -62,13 +69,25 @@ public class NeuralNetwork {
     }
 
     /**
+     * Sets the activation function of all neurons to given activation function
+     *
+     * @param activationFunction given activation function
+     */
+    public NeuralNetwork(DoubleUnaryOperator activationFunction) {
+        this();
+        this.activationFunction = activationFunction;
+        output = new Neuron(-1, activationFunction);
+
+    }
+
+    /**
      * Creates an input layer with given number as the number of neurons
      *
      * @param numberOfNeurons number of neurons in input layer
      */
     public void createInputLayer(int numberOfNeurons) {
         for (int i = 0; i < numberOfNeurons; i++)
-            inputLayer.add(new Neuron(lastId++));
+            inputLayer.add(new Neuron(lastId++, activationFunction));
     }
 
     /**
@@ -85,6 +104,7 @@ public class NeuralNetwork {
         this.inputLayer = neurons;
         createHiddenLayer(this.hiddenLayers);
     }
+
 
     //TODO chceck if biases are set right
 
@@ -122,7 +142,7 @@ public class NeuralNetwork {
         for (int i = 0; i < numberOfLayers; i++) {
             ArrayList<Neuron> layer = new ArrayList<>();
             for (int j = 0; j < numberOfNeuronsPerLayer; j++) {
-                Neuron neuron = new Neuron(lastId++);
+                Neuron neuron = new Neuron(lastId++, activationFunction);
 
                 if (hiddenLayers.size() == 0) {
                     createConnectionToPrevLayer(neuron, inputLayer);
