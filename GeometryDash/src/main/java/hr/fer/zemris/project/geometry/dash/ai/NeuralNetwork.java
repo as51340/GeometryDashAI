@@ -33,7 +33,7 @@ public class NeuralNetwork {
     /**
      * Activation function of all neurons
      */
-    private DoubleUnaryOperator activationFunction;
+    private DoubleUnaryOperator activationFunction = (v -> 1 / (1 + Math.exp(-v)));
 
     /**
      * Creates a new NeuralNetwork
@@ -41,7 +41,6 @@ public class NeuralNetwork {
     public NeuralNetwork() {
         inputLayer = new ArrayList<>();
         hiddenLayers = new ArrayList<>();
-        activationFunction = (v -> 1 / (1 + Math.exp(-v)));
         output = new Neuron(-1, activationFunction);
         lastId = 0;
     }
@@ -77,7 +76,26 @@ public class NeuralNetwork {
         this();
         this.activationFunction = activationFunction;
         output = new Neuron(-1, activationFunction);
+    }
 
+
+    /**
+     * Creates a new NeuralNetwork from given parameters
+     *
+     * @param numberOfInputNeurons    number of input neurons
+     * @param numberOfHiddenLayers    number of hidden layers
+     * @param numberOfNeuronsPerLayer number of neurons per hidden layer
+     * @param activationFunction      activation function of all neurons
+     */
+    public NeuralNetwork(int numberOfInputNeurons, int numberOfHiddenLayers, int numberOfNeuronsPerLayer, DoubleUnaryOperator activationFunction) {
+        this.activationFunction = activationFunction;
+        inputLayer = new ArrayList<>();
+        hiddenLayers = new ArrayList<>();
+        lastId = 0;
+
+        output = new Neuron(-1, activationFunction);
+        createInputLayer(numberOfInputNeurons);
+        createHiddenLayers(numberOfHiddenLayers, numberOfNeuronsPerLayer);
     }
 
     /**

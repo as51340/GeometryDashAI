@@ -8,6 +8,7 @@ import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 
 import java.util.*;
+import java.util.function.DoubleUnaryOperator;
 
 public class GeneticAlgorithm {
     public static final int POPULATION_SIZE = 300;
@@ -16,6 +17,7 @@ public class GeneticAlgorithm {
     public static final int INPUT_LAYER_SIZE = 13;
     public final int numberOfHiddenLayers;
     public final int numberPerHiddenLayer;
+    public DoubleUnaryOperator activationFunction = (v -> 1 / (1 + Math.exp(-v)));
 
     public Map<Player, NeuralNetwork> playerNeuralNetworkMap;
     public int sumOfAllFinesses;
@@ -26,6 +28,16 @@ public class GeneticAlgorithm {
         this.numberPerHiddenLayer = numberPerHiddenLayer;
 
         runAlgorithm();
+    }
+
+    public GeneticAlgorithm(int numberOfHiddenLayers, int numberPerHiddenLayer, DoubleUnaryOperator activationFunction) {
+        playerNeuralNetworkMap = new LinkedHashMap<>();
+        this.numberOfHiddenLayers = numberOfHiddenLayers;
+        this.numberPerHiddenLayer = numberPerHiddenLayer;
+
+        this.activationFunction = activationFunction;
+        runAlgorithm();
+
     }
 
     public void runAlgorithm() {
@@ -43,7 +55,7 @@ public class GeneticAlgorithm {
             Player player = new Player(new Vector2D(i * 20, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
                     new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.NEURAL_NETWORK);
 
-            NeuralNetwork neuralNetwork = new NeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer);
+            NeuralNetwork neuralNetwork = new NeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer, activationFunction);
             playerNeuralNetworkMap.put(player, neuralNetwork);
         }
     }
@@ -117,7 +129,7 @@ public class GeneticAlgorithm {
             biasesChild.add((biases1.get(i) + biases2.get(i)) / 2);
         }
 
-        NeuralNetwork childNetwork = new NeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer);
+        NeuralNetwork childNetwork = new NeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer, activationFunction);
         childNetwork.setWeights(weightsChild, biasesChild);
         return childNetwork;
     }
