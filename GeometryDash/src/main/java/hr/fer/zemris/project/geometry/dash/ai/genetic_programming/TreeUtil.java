@@ -56,33 +56,54 @@ public class TreeUtil {
 		}
 		if(root.getAction().isUnary()) {
 			if(root.getChildren().size() != 1) {
-				System.out.println("Imamo problem, velicina nije 1!");
+				System.out.println("Imamo problem, velicina nije 1, unary!");
 			}
 			double x = dfsOnTree(root.getChildren().get(0), level +1);
+			root.setValue(root.getAction().calculateUnary(x));
 		} else if(root.getAction().isBinary()) {
-			
+			if(root.getChildren().size() != 2) {
+				System.out.println("Imamo problem, velicina nije 2, binary!");
+			}
+			double x = dfsOnTree(root.getChildren().get(0), level +1);
+			double y = dfsOnTree(root.getChildren().get(1), level +1);
+			root.setValue(root.getAction().calculateBinary(x, y));
+		} else if(root.getAction().isRelational()) {
+			if(root.getChildren().size() != 2) {
+				System.out.println("Imamo problem, velicina nije 2, relational!");
+			}
+			double x = dfsOnTree(root.getChildren().get(0), level +1);
+			double y = dfsOnTree(root.getChildren().get(1), level +1);
+			if(root.getAction().relations(x, y)) {
+				root.setValue(Double.MAX_VALUE);
+			} else {
+				root.setValue(Double.MIN_VALUE);
+			}
 		} else if(root.getAction().isBranchingFun()) {
+			if(root.getChildren().size() == 3) {
+				double x = dfsOnTree(root.getChildren().get(0), level +1);
+				if(root.getAction().calculateIf_Else(x)) {
+					root.setValue(dfsOnTree(root.getChildren().get(1), level +1));
+				} else {
+					root.setValue(dfsOnTree(root.getChildren().get(2), level +1));
+				}
+			} else if(root.getChildren().size() == 5) {
+				double x = dfsOnTree(root.getChildren().get(0), level +1);
+				double y = dfsOnTree(root.getChildren().get(2), level +1);
+				if(root.getAction().calculaateIf_Elif_Else(x, y) == 0) {
+					root.setValue(dfsOnTree(root.getChildren().get(1), level +1));
+				} else if(root.getAction().calculaateIf_Elif_Else(x, y) == 1) {
+					root.setValue(dfsOnTree(root.getChildren().get(3), level +1));
+				} else {
+					root.setValue(dfsOnTree(root.getChildren().get(4), level +1));
+				}
+			} else {
+				System.out.println("Imamo problem veličine, branching!");
+			}
 			
 		} else {
 			System.out.println("Niente dobro");
 		}
-		for (TreeNode child : root.getChildren()) {
-			
-			dfsOnTree(child, level + 1);
-		}
-
-	}
-
-	public static void main(String[] args) {
-		Tree tree = new Tree();
-		TreeNode node1 = new TreeNode(ActionType.MINUS);
-		tree.setRoot(node1);
-		node1.addChild(new TreeNode(2));
-		TreeNode node2 = new TreeNode(ActionType.PLUS);
-		node2.addChild(new TreeNode(5));
-		node2.addChild(new TreeNode(10));
-
-		tree.printTree();
+		return root.getValue();
 	}
 
 }

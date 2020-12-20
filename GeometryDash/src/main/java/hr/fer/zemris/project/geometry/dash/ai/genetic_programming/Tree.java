@@ -68,6 +68,6 @@ public class Tree {
 	 * Prints tree
 	 */
 	public void printTree() {
-		TreeUtil.dfsOnTree(root, null, 0);
+		//TreeUtil.dfsOnTree(root, null, 0);
 	}
 }

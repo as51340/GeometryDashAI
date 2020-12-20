@@ -45,6 +45,10 @@ public class Action {
 			return ActionCalculator.tanh(x);
 		}  else if(actionType == ActionType.COTH) {
 			return ActionCalculator.coth(x);
+		}  else if(actionType == ActionType.ATAN) {
+			return ActionCalculator.atan(x);
+		} else if(actionType == ActionType.ACTG) {
+			return ActionCalculator.actg(x);
 		} else {
 			throw new IllegalArgumentException("No such action, unary");
 		}
@@ -71,6 +75,17 @@ public class Action {
 	}
 	
 	/**
+	 * @return if action is relational
+	 */
+	public boolean isRelational() {
+		if(actionType == ActionType.EQUAL || actionType == ActionType.LESS || actionType == ActionType.LESSS_EQUAL || 
+				actionType == ActionType.GREATER || actionType == ActionType.GREATER_EQUAL) {
+			return true;
+		}  
+		return false;
+	}
+	
+	/**
 	 * Relations action
 	 * @param x
 	 * @param y
@@ -85,6 +100,8 @@ public class Action {
 			return ActionCalculator.lessEqual(x, y);
 		} else if(actionType == ActionType.GREATER_EQUAL) {
 			return ActionCalculator.greaterEqual(x, y);
+		} else if(actionType == ActionType.EQUAL) {
+			return ActionCalculator.equals(x, y);
 		} else {
 			throw new IllegalArgumentException("No such action, relations!");
 		}
@@ -98,7 +115,10 @@ public class Action {
 	public boolean isUnary() {
 		if(actionType ==  ActionType.SIN || actionType == ActionType.COS || actionType == ActionType.TAN 
 				|| actionType == ActionType.ATAN || actionType == ActionType.SINH || actionType == ActionType.COSH 
-				|| actionType == ActionType.TANH || actionType == ActionType.COTH)
+				|| actionType == ActionType.TANH || actionType == ActionType.COTH || actionType == ActionType.CTG 
+				|| actionType == ActionType.ASIN || actionType == ActionType.ACOS || actionType == ActionType.ATAN
+				|| actionType == ActionType.ACTG
+				)
 		{
 			return true;
 		} 
@@ -124,6 +144,14 @@ public class Action {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean calculateIf_Else(double x) {
+		return ActionCalculator.if_else(x);
+	}
+	
+	public int calculaateIf_Elif_Else(double x, double y) {
+		return ActionCalculator.if_elif_else(x, y);
 	}
 
 }

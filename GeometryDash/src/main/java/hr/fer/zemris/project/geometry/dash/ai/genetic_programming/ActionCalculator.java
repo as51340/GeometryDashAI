@@ -42,7 +42,7 @@ public class ActionCalculator {
 	}
 
 	public static double ctg(double x) {
-		double d = 1 / atan(x);
+		double d = Math.cos(x) / Math.sin(x);
 		if(Double.valueOf(d).isNaN()) {
 			return x;
 		} 
@@ -74,7 +74,7 @@ public class ActionCalculator {
 	}
 	
 	public static double actg(double x) {
-		double d = Math.atan(1 / x);
+		double d = Math.atan(1.0 / x);
 		if(Double.valueOf(d).isNaN()) {
 			return x;
 		} 
@@ -137,6 +137,33 @@ public class ActionCalculator {
 	
 	public static boolean greaterEqual(double x, double y) {
 		return lessEqual(y, x);
+	}
+	
+	public static boolean equals(double x, double y) {
+		if(Math.abs(x -y) < 1e-7) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean if_else(double x) {
+		if(x == Double.MAX_VALUE) {
+			return true;
+		} else if(x == Double.MIN_VALUE) {
+			return false;
+		} else {
+			throw new IllegalArgumentException("Cannot calculate if_else operation");
+		}
+	}
+	
+	public static int if_elif_else(double x, double y) { //0 for first, 1 for second 2 for third
+		if(x == Double.MAX_VALUE) {
+			return 0;
+		} else if(y == Double.MAX_VALUE) {
+			return 1;
+		} else {
+			return 2;
+		}
 	}
 	
 }
