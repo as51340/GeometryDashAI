@@ -1,16 +1,14 @@
 package hr.fer.zemris.project.geometry.dash.ai.genetic_programming;
 
+import java.util.EnumSet;
+import java.util.Random;
+
 /**
  * Implementation of tree in java
  * @author Andi Škrgat
  *
  */
 public class Tree {
-	
-	/**
-	 * Number of nodes in tree
-	 */
-	private int size = 0;
 	
 	/**
 	 * Root of the tree
@@ -20,8 +18,22 @@ public class Tree {
 	/**
 	 * Simple constructor for now
 	 */
-	public Tree() {		
-	}
+//	public Tree() {		
+//	}
+	
+	// Možda ovo ili napisat još i neku metodu koja stvara stablo s random čvorovima do zadane dubine?
+//	/**
+//	 * Creates tree with random root
+//	 */
+//	public Tree() {
+//		EnumSet<ActionType> types = EnumSet.allOf(ActionType.class);
+//		ActionType[] actionTypes = (ActionType[]) types.toArray();
+//		Random r = new Random();
+//		int index = r.nextInt(actionTypes.length);
+//		
+//		this.root = new TreeNode(new Action(actionTypes[index]));
+//		size++;
+//	}
 	
 	/**
 	 * Creates tree with its root
@@ -29,7 +41,6 @@ public class Tree {
 	 */
 	public Tree(TreeNode root) {
 		this.root = root;
-		size++;
 	}
 	
 	
@@ -51,7 +62,7 @@ public class Tree {
 	 * @return the size
 	 */
 	public int getSize() {
-		return size;
+		return root.getSize() + 1; //for root
 	}
 
 	/**
@@ -60,7 +71,6 @@ public class Tree {
 	 */
 	public Tree copy() {
 		Tree tree = new Tree(this.root.copy());
-		tree.size = this.size;
 		return tree;
 	}
 	
@@ -68,6 +78,43 @@ public class Tree {
 	 * Prints tree
 	 */
 	public void printTree() {
-		TreeUtil.dfsOnTree(root, null, 0);
+		//TreeUtil.dfsOnTree(root, null, 0);
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((root == null) ? 0 : root.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tree other = (Tree) obj;
+		if (root == null) {
+			if (other.root != null)
+				return false;
+		} else if (!root.equals(other.root))
+			return false;
+		return true;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Tree [root=" + root + "]";
+	}
+	
+	
+	
+	
+	
 }

@@ -2,6 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
@@ -214,9 +215,6 @@ public class GameWorld {
      * Checks for relations between camera, player and ground
      */
     public boolean update() {
-//    	System.out.println("Početna x: " + (player.getCurrentPosition().getX() - GameConstants.playerPosition_X));
-//    	System.out.println("Završna x: " + (player.getCurrentPosition().getX() - GameConstants.playerPosition_X + GameConstants.WIDTH));
-//      checkPlayerGround();
     	Thread thread = new Thread(() -> {
     		checkCollision();
     	});
@@ -247,31 +245,14 @@ public class GameWorld {
         	}
         	System.out.println("Zavrilo ih je: " + i);
         	try {
-				gameWorldListener.instanceFinished(System.currentTimeMillis());
+				gameWorldListener.instanceFinished(System.currentTimeMillis() / 1000);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
-//        if (player.initialPosition.getX() != 0) {
-//            Scanner sc = new Scanner(System.in);
-//            sc.next();
-//            sc.close();
-//        }
-
         return true;
     }
 
-//    private boolean checkCollision() {
-//        for (GameObject gameObject : levelManager.getCurrentLevel().getLevelData()) {
-//            if (gameObject instanceof Obstacle) {
-//                if (((Obstacle) gameObject).checkCollisions((Player) player)) {
-//                	return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
 
     /**
      * Camera's final y position. Tweak values!!
@@ -326,8 +307,10 @@ public class GameWorld {
      * Checks relation between player and ground
      */
     private void checkCollision() {
-    	for(Player player: players) {
+    	Iterator<Player> iterator = players.iterator();
+    	while(iterator.hasNext()) {
 //    		if(player.isDead()) continue;
+    		Player player = iterator.next();
     		player.setTouchingGround(false);
     	      for (GameObject gameObject : GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelData()) {
     	        	if(!(gameObject instanceof Player) && gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() > 100) {

@@ -5,6 +5,7 @@ import java.io.IOException;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
 import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
+import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Floor;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.hash.HashUtil;
@@ -417,6 +418,7 @@ public class GameEngine implements SoundSystem {
 		@Override
 		public void levelEditorModeEntered(GraphicsContext graphicsContext) {
 			levelEditor.setGraphicsContext(graphicsContext);
+			GeometryDash.getStage().setResizable(false);
 			gameState = GameState.LEVEL_EDITOR_MODE;
 			start();
 		}
@@ -425,6 +427,7 @@ public class GameEngine implements SoundSystem {
 		public void levelEditorModeExited() {
 			gameState = null;
 			stop();
+			GeometryDash.getStage().setResizable(true);
 		}
 		
 		@Override

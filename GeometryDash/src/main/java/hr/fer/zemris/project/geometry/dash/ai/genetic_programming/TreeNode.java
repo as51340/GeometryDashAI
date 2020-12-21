@@ -6,55 +6,72 @@ import java.util.List;
 
 /**
  * Node in tree. It keeps data and reference to all nodes it's pointing to
+ * 
  * @author Andi Škrgat
  *
  */
 public class TreeNode {
-	
-	/**
-	 * Hashing constant
-	 */
-	private static final long HASHING_CONSTANT = 911382323;
 
 	/**
-	 * So far we have string representation of data, maybe we will change something
+	 * In intern node we have actions, if is null that means that this node is leaf
 	 */
-	private String data = null;
-	
+	private Action action = null;
+
+	/**
+	 * Value in leaf, input
+	 */
+	private double value;
+
 	/**
 	 * It stores children in {@linkplain ArrayList}.
 	 */
-	private List<TreeNode> children;
-	
+	private List<TreeNode> children = new ArrayList<TreeNode>();
+
 	/**
-	 * Stores node's data
-	 * @param data node's data
+	 * Constructor for intern node
+	 * 
+	 * @param actio
 	 */
-	public TreeNode(String data) {
-		this.data = data;
-		children = new ArrayList<TreeNode>();
+	public TreeNode(Action action) {
+		this.action = action;
 	}
-	
+
 	/**
-	 * So far just for compiling
+	 * Constructor for leaf
 	 */
-	public TreeNode() {
-		children = new ArrayList<TreeNode>();
+	public TreeNode(double value) {
+		this.value = value;
 	}
-	
+
+	/**
+	 * For deep copy of node
+	 * 
+	 * @param action node action
+	 * @param value  double value
+	 */
+	public TreeNode(Action action, double value) {
+		this.action = action;
+		this.value = value;
+	}
+
 	/**
 	 * Adds child
+	 * 
 	 * @param child child
 	 */
 	public void addChild(TreeNode child) {
 		children.add(child);
 	}
-	
+
 	@Override
 	public String toString() {
-		return this.data;
+		if (action == null) {
+			return Double.toString(value);
+		} else {
+			return action.toString() + " " + Double.toString(value);
+		}
 	}
-	
+
 	/**
 	 * @return children
 	 */
@@ -63,61 +80,109 @@ public class TreeNode {
 	}
 
 	/**
-	 * @return the data
+	 * @param children the children to set
 	 */
-	public String getData() {
-		return data;
+	public void setChildren(List<TreeNode> children) {
+		this.children = children;
 	}
 
 	/**
-	 * @param data the data to set
+	 * @return the action
 	 */
-	public void setData(String data) {
-		this.data = data;
+	public Action getAction() {
+		return action;
+	}
+
+	/**
+	 * @param action the action to set
+	 */
+	public void setAction(Action action) {
+		this.action = action;
+	}
+
+	/**
+	 * @return the value
+	 */
+	public double getValue() {
+		return value;
+	}
+
+	/**
+	 * @param value the value to set
+	 */
+	public void setValue(double value) {
+		this.value = value;
+	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((action == null) ? 0 : action.hashCode());
+		result = prime * result + ((children == null) ? 0 : children.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(value);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof TreeNode)) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		TreeNode node = (TreeNode) obj;
-		if(!node.data.equals(this.data)) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
-		int size = node.children.size(); 
-		if(size != this.children.size()) {
-			return false;
-		}
-		for(int i = 0; i < size; i++) {
-			if(!node.children.get(i).equals(children.get(i))) {
+		TreeNode other = (TreeNode) obj;
+		if (action == null) {
+			if (other.action != null) {;
 				return false;
 			}
+		} else if (!action.equals(other.action)) {
+			return false;
+		}
+		if (children == null) {
+			if (other.children != null) {
+				return false;
+			}
+		} else if (!children.equals(other.children)) {			
+			return false;
+		}
+		if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value)) {
+			return false;
 		}
 		return true;
 	}
-	
-	@Override
-	public int hashCode() {
-		int dataHash = data.hashCode();
-		int size = children.size();
-		for(int i = 0; i < size; i++) {
-			dataHash += children.get(i).hashCode();
-		}
-		dataHash %= HASHING_CONSTANT;
-		return dataHash;
-	}
-	
+
 	/**
 	 * Deep copy of the node
-	 * @param node node 
+	 * 
+	 * @param node node
 	 * @return copied node
 	 */
 	public TreeNode copy() {
-		TreeNode copied = new TreeNode(this.data);
-		for(TreeNode child: this.getChildren()) {
-			copied.addChild(child);
+		TreeNode copied = new TreeNode(action, value);
+		for (TreeNode child : this.getChildren()) {
+			copied.addChild(child.copy());
+
 		}
 		return copied;
 	}
+
+	/**
+	 * @return the size
+	 */
+	public int getSize() {
+		int size = 0;
+		size += children.size();
+		for (TreeNode child : children) {
+			size += child.getSize();
+		}
+		return size;
+	}
+
+
 }

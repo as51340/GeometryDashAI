@@ -3,6 +3,7 @@ package hr.fer.zemris.project.geometry.dash.visualization.level;
 import java.io.InputStream;
 import java.util.NoSuchElementException;
 
+import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.model.Camera;
 import hr.fer.zemris.project.geometry.dash.model.Changeable;
 import hr.fer.zemris.project.geometry.dash.model.Drawable;
@@ -72,7 +73,7 @@ public class GridAttaching implements Drawable, Changeable{
 	public void update() {
 		double x = Math.floor((mouseHandler.getMouse_x() + mouseHandler.getDeltaDrag_x() + camera.getPosition().getX()) / GameConstants.iconWidth);
 		double y = Math.floor((mouseHandler.getMouse_y() + mouseHandler.getDeltaDrag_y() + camera.getPosition().getY() + 20) / GameConstants.iconHeight);
-		tempPosition = new Vector2D(x * GameConstants.iconWidth, y * GameConstants.iconHeight);
+		tempPosition = new Vector2D(x * GameConstants.iconWidth , y * GameConstants.iconHeight );
 		position.setX(x*GameConstants.iconWidth - camera.getPosition().getX());
 		position.setY(y*GameConstants.iconHeight - camera.getPosition().getY());
 		if(removeIntent == true && mouseHandler.getMousePressedButton() == MouseButton.PRIMARY  && this.position.getY() < GameConstants.floorPosition_Y) {
