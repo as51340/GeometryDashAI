@@ -65,6 +65,10 @@ public class GeneticAlgorithm {
         GameEngine.getInstance().getGameWorld().setPlayers(playerNeuralNetworkMap.keySet());
         //idk kako ovo radi ali cekamo valjda da zavrse igrat??
         //tu bi trebali i ako smo zadovoljni s fitnesom stat? myb idk
+        Thread thread = new Thread(() -> {
+        	
+        });
+        
 
         for (Player player : playerNeuralNetworkMap.keySet())
             sumOfAllFinesses += player.getGoodness_value();
