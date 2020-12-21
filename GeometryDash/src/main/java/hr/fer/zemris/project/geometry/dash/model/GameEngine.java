@@ -142,7 +142,7 @@ public class GameEngine implements SoundSystem {
 		userListener = new UserListenerImpl();
 		defaultSelector = new CharactersSelector();
 		createGameLoop();
-		
+		System.out.println(Thread.currentThread().getName());
 		//gameWorld.setCharacterSelector(defaultSelector);
 	}
 
@@ -438,6 +438,32 @@ public class GameEngine implements SoundSystem {
 
 		@Override
 		public void normalModePlayingExited() {
+			stop();
+			gameWorld = null;
+			gameState = null;
+		}
+
+		@Override
+		public void AITrainingModePlayingStarted() {
+			gameState = GameState.AI_TRAINING_MODE;
+			start();
+		}
+
+		@Override
+		public void AITrainingModePlayingExited() {
+			stop();
+			gameState = null;
+			gameWorld = null;
+		}
+
+		@Override
+		public void AIPlayingModeStarted() {
+			gameState = GameState.AI_PLAYING_MODE;
+			start();
+		}
+
+		@Override
+		public void AIPlayingModeExited() {
 			stop();
 			gameWorld = null;
 			gameState = null;

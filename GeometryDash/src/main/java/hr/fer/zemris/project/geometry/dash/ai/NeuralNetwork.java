@@ -4,6 +4,7 @@ import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.DoubleUnaryOperator;
@@ -104,8 +105,10 @@ public class NeuralNetwork {
      * @param numberOfNeurons number of neurons in input layer
      */
     public void createInputLayer(int numberOfNeurons) {
-        for (int i = 0; i < numberOfNeurons; i++)
-            inputLayer.add(new Neuron(lastId++, activationFunction));
+        for (int i = 0; i < numberOfNeurons; i++) {
+            InputNeuron neuron = new InputNeuron(lastId++, activationFunction);
+            inputLayer.add(neuron);
+        }
     }
 
     /**
@@ -139,12 +142,12 @@ public class NeuralNetwork {
         if (inputLayer.size() == 0) createInputLayer(obstacles.size() * 3 + 1);
 
         int index = 0;
-        inputLayer.get(index++).setBias(player.getCurrentPosition().getY());
+        ((InputNeuron) inputLayer.get(index++)).setInput(player.getCurrentPosition().getY());
 
         for (Obstacle obstacle : obstacles) {
-            inputLayer.get(index++).setBias(obstacle.getCurrentPosition().getX() - player.getCurrentPosition().getX());
-            inputLayer.get(index++).setBias(obstacle.getCurrentPosition().getY() - player.getCurrentPosition().getY());
-            inputLayer.get(index++).setBias(decodeObstacleType(obstacle));
+            ((InputNeuron) inputLayer.get(index++)).setInput(obstacle.getCurrentPosition().getX() - player.getCurrentPosition().getX());
+            ((InputNeuron) inputLayer.get(index++)).setInput(obstacle.getCurrentPosition().getY() - player.getCurrentPosition().getY());
+            ((InputNeuron) inputLayer.get(index++)).setInput(decodeObstacleType(obstacle));
         }
     }
 

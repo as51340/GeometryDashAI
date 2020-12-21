@@ -80,7 +80,15 @@ public abstract class GameObject implements Drawable {
 		
 	}
 
+
     /**
+	 * @return the initialPosition
+	 */
+	public Vector2D getInitialPosition() {
+		return initialPosition;
+	}
+
+	/**
      * @return height
      */
     public int getHeight() {

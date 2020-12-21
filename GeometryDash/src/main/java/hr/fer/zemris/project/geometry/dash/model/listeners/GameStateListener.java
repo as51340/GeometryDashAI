@@ -29,4 +29,24 @@ public interface GameStateListener {
 	 * Exited from normal mode
 	 */
 	void normalModePlayingExited();
+	
+	/**
+	 * AI mode started
+	 */
+	void AITrainingModePlayingStarted();
+	
+	/**
+	 * AI exited
+	 */
+	void AITrainingModePlayingExited();
+	
+	/**
+	 * AI player started
+	 */
+	void AIPlayingModeStarted();
+	
+	/**
+	 * AI playing mode exited
+	 */
+	void AIPlayingModeExited();
 }

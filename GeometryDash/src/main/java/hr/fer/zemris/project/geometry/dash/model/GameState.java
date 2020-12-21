@@ -5,5 +5,5 @@ package hr.fer.zemris.project.geometry.dash.model;
  * @author Andi Škrgat
  */
 public enum GameState {
-	NORMAL_MODE_PLAYING,LEVEL_EDITOR_MODE;
+	NORMAL_MODE_PLAYING,LEVEL_EDITOR_MODE, AI_TRAINING_MODE, AI_PLAYING_MODE
 }
