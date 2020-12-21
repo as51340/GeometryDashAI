@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.listeners.SerializationListener;
 import hr.fer.zemris.project.geometry.dash.visualization.level.ObjectsOnGrid;
@@ -14,17 +16,6 @@ import hr.fer.zemris.project.geometry.dash.visualization.level.ObjectsOnGrid;
  *
  */
 public class Level {
-	
-	private static final Comparator<GameObject> comparator = new Comparator<GameObject>() {
-
-		@Override
-		public int compare(GameObject o1, GameObject o2) {
-			if(Math.abs(o1.getInitialPosition().getX() - o2.getInitialPosition().getX()) < 1e-7) {
-				return Double.compare(o1.getInitialPosition().getY(), o2.getInitialPosition().getY());
-			}
-			return Double.compare(o1.getInitialPosition().getX(), o2.getInitialPosition().getX());
-		}		
-	};
 	
 	/**
 	 * Level name
@@ -69,7 +60,7 @@ public class Level {
 	 */
 	public Level(String levelName, Set<GameObject> gameObjects) {
 		this.levelName = levelName;
-		TreeSet<GameObject> treeset = new TreeSet<GameObject>(comparator);
+		TreeSet<GameObject> treeset = new TreeSet<GameObject>(AIConstants.obstaclesLevelComparator);
 		treeset.addAll(gameObjects);
 		this.gameObjects = treeset;
 		setLast_x( ( (TreeSet<GameObject>) this.gameObjects).last().getCenterPosition().getX());

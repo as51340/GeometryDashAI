@@ -192,7 +192,12 @@ public class ChooseLevelController extends MainOptionsController {
 
 		stage.setScene(scene);
 
-		gameEngine.getGameStateListener().normalModePlayingStarted();
+		if(playingMode == PlayingMode.HUMAN) {
+			gameEngine.getGameStateListener().normalModePlayingStarted();
+		} else {
+			gameEngine.getGameStateListener().AIPlayingModeStarted();
+		}
+		
 	}
 
 }

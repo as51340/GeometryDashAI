@@ -1,12 +1,16 @@
 package hr.fer.zemris.project.geometry.dash.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.TreeSet;
 
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Block;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Floor;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.GrassSpike;
+import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Platform;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
@@ -35,6 +39,11 @@ public class Renderer {
 	 * Graphics context
 	 */
 	private GraphicsContext graphicsContext;
+	
+	/**
+	 * Priority queue for finding closest obstacles when AI is playing
+	 */
+	PriorityQueue<Obstacle> pq;
 
 	/**
 	 * Gets game objects and inits camera
@@ -44,6 +53,7 @@ public class Renderer {
 	public Renderer(Set<GameObject> gameObjects) {
 		this.camera = new Camera();
 		this.gameObjects = gameObjects;
+		
 	}
 
 	/**
@@ -95,6 +105,10 @@ public class Renderer {
 	public void addGameObject(GameObject gameObject) {
 		this.gameObjects.add(gameObject);
 	}
+	
+	public List<Obstacle> getClosestObstacles(Player player) {
+		return null;
+	}
 
 	/**
 	 * Renders all objects on the scene
@@ -115,7 +129,9 @@ public class Renderer {
 						+ GameConstants.LEVEL_END_OFFSET > GameConstants.playerPosition_X) {
 					finished = false;
 				}
-				gameObject.draw(graphicsContext); // sliding window
+				if(gameObject.getCurrentPosition().getX() >= -50 && gameObject.getCurrentPosition().getX() <= 1300) {
+					gameObject.draw(graphicsContext); // sliding window
+				}
 			}
 		}
 		return finished;

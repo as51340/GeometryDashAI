@@ -58,7 +58,7 @@ public class Player extends GameObject {
      * Specifies type of player
      */
     private PlayingMode playingMode;
-
+   
     /**
      * Player's constructor
      */
@@ -267,18 +267,29 @@ public class Player extends GameObject {
         return new Player(this.rotation, this.speed, this.getIconPath(), this.playingMode);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Player player = (Player) o;
-        return Double.compare(player.goodness_value, goodness_value) == 0 &&
-                playingMode == player.playingMode;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((playingMode == null) ? 0 : playingMode.hashCode());
+		result = prime* result + initialPosition.hashCode();
+		return result;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), goodness_value, playingMode);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
+		Player other = (Player) obj;
+		if (playingMode != other.playingMode)
+			return false;
+		if(!initialPosition.equals(other.initialPosition))
+			return false;
+		return true;
+	}
+
+
+    
 }

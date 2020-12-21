@@ -38,9 +38,9 @@ import javafx.util.Duration;
  */
 public class GameEngine implements SoundSystem {
 
-	private static final GameEngine GAME_ENGINE = new GameEngine(100, "GeometryDashAI",
-			GameConstants.WIDTH, GameConstants.HEIGHT);
-	
+	private static final GameEngine GAME_ENGINE = new GameEngine(100, "GeometryDashAI", GameConstants.WIDTH,
+			GameConstants.HEIGHT);
+
 	/**
 	 * Frames per second, default value is 60
 	 */
@@ -105,7 +105,7 @@ public class GameEngine implements SoundSystem {
 	 * User listener
 	 */
 	private UserListener userListener;
-	
+
 	/**
 	 * CharacterSelector for when user is not logged in
 	 */
@@ -115,9 +115,10 @@ public class GameEngine implements SoundSystem {
 	 * Time when gameLoop started
 	 */
 	private long startTime;
-	
+
 	/**
 	 * Always returns same instance of game engine
+	 * 
 	 * @return
 	 */
 	public static GameEngine getInstance() {
@@ -135,15 +136,15 @@ public class GameEngine implements SoundSystem {
 		this.height = height;
 		this.fps = fps;
 		settings = new Settings();
-		//gameWorld = new GameWorld(); // for now list of obstacles is empty, not focus on that currently
+		// gameWorld = new GameWorld(); // for now list of obstacles is empty, not focus
+		// on that currently
 		levelEditor = new LevelEditor();
 		gameStateListener = new DefaultGameStateListener();
 		levelManager = new LevelManager();
 		userListener = new UserListenerImpl();
 		defaultSelector = new CharactersSelector();
 		createGameLoop();
-		System.out.println(Thread.currentThread().getName());
-		//gameWorld.setCharacterSelector(defaultSelector);
+		// gameWorld.setCharacterSelector(defaultSelector);
 	}
 
 	/**
@@ -152,9 +153,9 @@ public class GameEngine implements SoundSystem {
 	public GameWorld getGameWorld() {
 		return gameWorld;
 	}
-	
+
 	public void setGameWorld() {
-		if(gameWorld == null) {
+		if (gameWorld == null) {
 			gameWorld = new GameWorld();
 			this.defaultSelector = session == null ? defaultSelector : session.getSelector();
 		}
@@ -255,17 +256,17 @@ public class GameEngine implements SoundSystem {
 	 * Starts game loop
 	 */
 	public void start() {
-		if(gameLoop.getStatus() != Status.RUNNING) {
+		if (gameLoop.getStatus() != Status.RUNNING) {
 			this.startTime = System.currentTimeMillis();
 			gameLoop.play();
 		}
 	}
-	
+
 	/**
 	 * Stops game loop
 	 */
 	public void stop() {
-		if(gameLoop.getStatus() != Status.STOPPED) {
+		if (gameLoop.getStatus() != Status.STOPPED) {
 			gameLoop.stop();
 		}
 	}
@@ -278,7 +279,7 @@ public class GameEngine implements SoundSystem {
 			gameWorld.setDeaths(0);
 			Camera newCamera = getGameWorld().getRenderer().getCamera();
 			newCamera.setPosition(new Vector2D(0, 0));
-			((Floor)getGameWorld().getFloor()).setCamera(newCamera); //to mozemo u create scene
+			((Floor) getGameWorld().getFloor()).setCamera(newCamera); 
 			getGameWorld().getRenderer().getGameObjects().forEach(o -> {
 				o.setCurrentPosition(o.initialPosition.copy());
 				if (o instanceof Player) {
@@ -286,8 +287,8 @@ public class GameEngine implements SoundSystem {
 					((Player) o).setTouchingGround(false);
 					((Player) o).setGoodness_value(0);
 					((Player) o).setDead(false);
-					((Player)o).setRotation(0);
-					((Player)o).setSpeed(new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
+					((Player) o).setRotation(0);
+					((Player) o).setSpeed(new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
 				}
 			});
 		});
@@ -311,8 +312,8 @@ public class GameEngine implements SoundSystem {
 		// time between update will be approx. 16.67ms, for 10ms we have to provide 100
 		// fps as value
 		return new KeyFrame(frameTime, event -> {
-			if (gameState == GameState.NORMAL_MODE_PLAYING ) {
-				if(!gameWorld.update()) {
+			if (gameState == GameState.NORMAL_MODE_PLAYING) {				
+				if (!gameWorld.update()) {
 					try {
 						stop();
 						double time = System.currentTimeMillis() - this.startTime;
@@ -323,17 +324,12 @@ public class GameEngine implements SoundSystem {
 						e.printStackTrace();
 					}
 				}
+				gameWorld.getClosestObstacles();
 			} else if (gameState == GameState.LEVEL_EDITOR_MODE) {
-//				Thread updateThread = DaemonicThreadFactory.getInstance().newThread(() -> {
+				new Thread(() -> {
 					levelEditor.update();
-//				});
-//				updateThread.start();
-//				try {
-//					updateThread.join();
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				}).start();
+				
 				levelEditor.draw();
 			}
 		});
@@ -391,7 +387,7 @@ public class GameEngine implements SoundSystem {
 	public void playKillSound() {
 		// TODO
 	}
-	
+
 	/**
 	 * @return the levelManager
 	 */
@@ -405,8 +401,6 @@ public class GameEngine implements SoundSystem {
 	public CharactersSelector getDefaultSelector() {
 		return defaultSelector;
 	}
-
-
 
 	/**
 	 * Implementation of {@linkplain GameStateListener}
@@ -429,7 +423,7 @@ public class GameEngine implements SoundSystem {
 			stop();
 			GeometryDash.getStage().setResizable(true);
 		}
-		
+
 		@Override
 		public void normalModePlayingStarted() {
 			gameState = GameState.NORMAL_MODE_PLAYING;
@@ -470,8 +464,6 @@ public class GameEngine implements SoundSystem {
 		}
 	}
 
-	
-	
 	/**
 	 * Implementation of {@linkplain UserListener} interface
 	 * 
@@ -484,7 +476,7 @@ public class GameEngine implements SoundSystem {
 		 * Serialization class
 		 */
 		private SerializationOfObjects serObject = new SerializationOfObjects(GsonFactory.createUserGson());
-		
+
 		@Override
 		public void userStartedPlaying() {
 			if (session != null) {
@@ -520,13 +512,13 @@ public class GameEngine implements SoundSystem {
 		public boolean login(String username, String password) {
 			String fileName = GameConstants.pathToUsersFolder + "/" + username + ".json";
 			String json = FileIO.readFromJsonFile(fileName);
-			if(json == null) {
+			if (json == null) {
 				System.out.println("Json je null");
 				return false;
 			}
 			Session newSession = serObject.deserializeUser(json);
 			String hashedPassword = HashUtil.hashContent(password);
-			if(newSession.getAccount().getPassword().equals(hashedPassword) == true) {
+			if (newSession.getAccount().getPassword().equals(hashedPassword) == true) {
 				session = newSession;
 				return true;
 			} else {

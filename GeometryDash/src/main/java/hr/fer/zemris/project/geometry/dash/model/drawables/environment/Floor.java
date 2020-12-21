@@ -61,7 +61,9 @@ public class Floor extends Obstacle {
 
     @Override
     public GameObject copy() {
-        return null;
+        Floor floor = new Floor(initialPosition.copy());
+        floor.setCamera(new Camera());
+        return floor;
     }
 
     @Override

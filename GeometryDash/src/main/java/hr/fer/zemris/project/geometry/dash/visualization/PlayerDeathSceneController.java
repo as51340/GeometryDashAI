@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
+import hr.fer.zemris.project.geometry.dash.model.GameState;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -85,8 +86,12 @@ public class PlayerDeathSceneController extends MenuController {
 	
 	@FXML
 	private void mainMenuAction(ActionEvent event) throws IOException {
+		if(GameEngine.getInstance().getGameState() == GameState.NORMAL_MODE_PLAYING) {
+			GameEngine.getInstance().getGameStateListener().normalModePlayingExited();
+		} else {
+			GameEngine.getInstance().getGameStateListener().AIPlayingModeExited();
+		}
 		
-		GameEngine.getInstance().getGameStateListener().normalModePlayingExited();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
     	Parent root = loader.load();
     	
@@ -107,8 +112,11 @@ public class PlayerDeathSceneController extends MenuController {
 	
 	@FXML
 	private void chooseLevelAction(ActionEvent event) throws IOException {
-		
-		GameEngine.getInstance().getGameStateListener().normalModePlayingExited();
+		if(GameEngine.getInstance().getGameState() == GameState.NORMAL_MODE_PLAYING) {
+			GameEngine.getInstance().getGameStateListener().normalModePlayingExited();
+		} else {
+			GameEngine.getInstance().getGameStateListener().AIPlayingModeExited();
+		}
 		
 		// needed so that back button in ChooseLevelScene works after coming back from level 
 		FXMLLoader backgroundSceneLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));

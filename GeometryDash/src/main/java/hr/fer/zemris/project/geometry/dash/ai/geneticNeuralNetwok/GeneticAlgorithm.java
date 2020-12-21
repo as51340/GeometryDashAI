@@ -34,15 +34,12 @@ public class GeneticAlgorithm {
         playerNeuralNetworkMap = new LinkedHashMap<>();
         this.numberOfHiddenLayers = numberOfHiddenLayers;
         this.numberPerHiddenLayer = numberPerHiddenLayer;
-
         this.activationFunction = activationFunction;
         runAlgorithm();
-
     }
 
     public void runAlgorithm() {
         initialize();
-
         for (int i = 0; i < REPEAT; i++) {
             sumOfAllFinesses = 0;
             selection();
@@ -66,10 +63,10 @@ public class GeneticAlgorithm {
         //idk kako ovo radi ali cekamo valjda da zavrse igrat??
         //tu bi trebali i ako smo zadovoljni s fitnesom stat? myb idk
         Thread thread = new Thread(() -> {
-        	
+        	//wait i notify
         });
+        //JAVAFX application thread
         
-
         for (Player player : playerNeuralNetworkMap.keySet())
             sumOfAllFinesses += player.getGoodness_value();
 
