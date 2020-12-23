@@ -1,5 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.ai.genetic_programming;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Action in one tree node
  * @author Andi Škrgat
@@ -10,6 +12,7 @@ public class Action {
 	/**
 	 * Action type
 	 */
+	@Expose
 	private ActionType actionType;
 	
 	/**
@@ -18,6 +21,67 @@ public class Action {
 	 */
 	public Action(ActionType actionType) {
 		this.actionType = actionType;
+	}
+	
+	/**
+	 * Creates new action based on text
+	 * @param text 
+	 * @return new action
+	 */
+	public static Action parse(String text) {
+		if(text.equals("EQUAL")) {
+			return new Action(ActionType.EQUAL);
+		} else if(text.equals("LESS_EQUAL")) {
+			return new Action(ActionType.LESS_EQUAL);
+		} else if(text.equals("GREATER_EQUAL")) {
+			return new Action(ActionType.GREATER_EQUAL);
+		} else if(text.equals("LESS")) {
+			return new Action(ActionType.LESS);
+		} else if(text.equals("GREATER")) {
+			return new Action(ActionType.GREATER);
+		} else if(text.equals("POWER")) {
+			return new Action(ActionType.POWER);
+		} else if(text.equals("PLUS")) {
+			return new Action(ActionType.PLUS);
+		} else if(text.equals("MINUS")) {
+			return new Action(ActionType.MINUS);
+		} else if(text.equals("MULTIPLY")) {
+			return new Action(ActionType.MULTIPLY);
+		} else if(text.equals("DIVIDE")) {
+			return new Action(ActionType.DIVIDE);
+		} else if(text.equals("SQRT")) {
+			return new Action(ActionType.SQRT);
+		} else if(text.equals("SIN")) {
+			return new Action(ActionType.SIN);
+		} else if(text.equals("COS")) {
+			return new Action(ActionType.COS);
+		} else if(text.equals("TAN")) {
+			return new Action(ActionType.TAN);
+		} else if(text.equals("CTG")) {
+			return new Action(ActionType.CTG);
+		} else if(text.equals("ASIN")) {
+			return new Action(ActionType.ASIN);
+		} else if(text.equals("ACOS")) {
+			return new Action(ActionType.ACOS);
+		} else if(text.equals("ATAN")) {
+			return new Action(ActionType.ATAN);
+		} else if(text.equals("ACTG")) {
+			return new Action(ActionType.ACTG);
+		} else if(text.equals("SINH")) {
+			return new Action(ActionType.SINH);
+		} else if(text.equals("COSH")) {
+			return new Action(ActionType.COSH);
+		} else if(text.equals("TANH")) {
+			return new Action(ActionType.TANH);
+		} else if(text.equals("COTH")) {
+			return new Action(ActionType.COTH);
+		} else if(text.equals("IF_ELSE")) {
+			return new Action(ActionType.IF_ELSE);
+		} else if(text.equals("IF_ELIF_ELSE")) {
+			return new Action(ActionType.IF_ELIF_ELSE);
+		} else {
+			return null;
+		}
 	}
 	
 	/**

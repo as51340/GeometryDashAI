@@ -13,6 +13,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import java.util.Set;
 import java.lang.reflect.Type;
+
+import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.Tree;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.Session;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
@@ -60,6 +62,22 @@ public class SerializationOfObjects {
 	 */
 	public Session deserializeUser(String json) {
 	    return gson.fromJson(json, Session.class);
+	}
+	
+	/**
+	 * Deserializes tree
+	 * @param json json to be deserialized
+	 * @return deserialized content
+	 */
+	public Tree deserializeTree(String json) {
+		return gson.fromJson(json, Tree.class);
+	}
+	
+	/**
+	 * @return gson
+	 */
+	public Gson getGson() {
+		return gson;
 	}
 	
 }

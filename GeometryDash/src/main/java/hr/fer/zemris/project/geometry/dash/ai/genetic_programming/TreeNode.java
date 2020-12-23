@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Node in tree. It keeps data and reference to all nodes it's pointing to
  * 
@@ -15,16 +17,19 @@ public class TreeNode {
 	/**
 	 * In intern node we have actions, if is null that means that this node is leaf
 	 */
+	@Expose
 	private Action action = null;
 
 	/**
 	 * Value in leaf, input
 	 */
+	@Expose
 	private double value;
 
 	/**
 	 * It stores children in {@linkplain ArrayList}.
 	 */
+	@Expose
 	private List<TreeNode> children = new ArrayList<TreeNode>();
 
 	/**

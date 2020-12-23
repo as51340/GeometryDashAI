@@ -44,4 +44,16 @@ public class GsonFactory {
 				.setPrettyPrinting()
 				.create();
 	}
+	
+	/**
+	 * Creates {@linkplain Gson} for saving tree to file
+	 * @return created {@linkplain Gson}
+	 */
+	public static Gson createTree() {
+		return new GsonBuilder()
+				.excludeFieldsWithoutExposeAnnotation()
+				.setPrettyPrinting()
+				.create();
+	}
+	
 }
