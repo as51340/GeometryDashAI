@@ -1,10 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.model.drawables.environment;
 
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
-import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
-import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
-import javafx.scene.image.Image;
 
 public abstract class Obstacle extends GameObject {
 
@@ -16,5 +13,26 @@ public abstract class Obstacle extends GameObject {
     public abstract boolean checkCollisions(Player player);
 
     public abstract boolean playerIsOn(Player player);
+    
+    //TODO should probably change how obstacles are decoded
+
+    /**
+     * Decodes obstacle type to a Double
+     *
+     * @param obstacle given obstacle
+     * @return Double representation of the obstacle
+     */
+    public static double decodeObstacleType(Obstacle obstacle) {
+        return switch (obstacle.getName()) {
+            case "Block" -> 0;
+            case "Floor" -> 1;
+            case "GrassSpike" -> 2;
+            case "LeftSpike" -> 3;
+            case "Platform" -> 4;
+            case "RightSpike" -> 5;
+            case "Spike" -> 6;
+            default -> throw new IllegalArgumentException("Not a valid obstacle");
+        };
+    }
 
 }

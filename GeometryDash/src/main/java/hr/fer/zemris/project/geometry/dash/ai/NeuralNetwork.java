@@ -1,5 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.ai;
 
+import hr.fer.zemris.project.geometry.dash.ai.neurons.InputNeuron;
+import hr.fer.zemris.project.geometry.dash.ai.neurons.Neuron;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import java.util.ArrayList;
@@ -10,29 +12,27 @@ import java.util.function.DoubleUnaryOperator;
 /**
  * Models a simple neural network where each neuron is connected to every neuron of the next layer
  */
-public class NeuralNetwork {
+public abstract class NeuralNetwork {
     /**
      * Neurons of the input layer
      */	
-    private List<Neuron> inputLayer;
+    protected List<Neuron> inputLayer;
     /**
      * List of all hidden layers - the number of lists is equal to the number of hidden layers
      */
-    private List<List<Neuron>> hiddenLayers;
+    protected List<List<Neuron>> hiddenLayers;
     /**
      * Single output neuron
      */
-    private Neuron output;
-
+    protected Neuron output;
     /**
      * used for assigning ids to neurons
      */
-    private int lastId;
-
+    protected int lastId;
     /**
      * Activation function of all neurons
      */
-    private DoubleUnaryOperator activationFunction = (v -> 1 / (1 + Math.exp(-v)));
+    protected DoubleUnaryOperator activationFunction = AIConstants.activationFunction;
 
     /**
      * Creates a new NeuralNetwork
@@ -42,18 +42,6 @@ public class NeuralNetwork {
         hiddenLayers = new ArrayList<>();
         output = new Neuron(-1, activationFunction);
         lastId = 0;
-    }
-
-    /**
-     * Creates a new NeuralNetwork with the given parameters
-     *
-     * @param numberOfInputNeurons    number of input neurons
-     * @param numberOfHiddenLayers    number of hidden layers
-     * @param numberOfNeuronsPerLayer number of neurons per hidden layer
-     */
-    public NeuralNetwork(int numberOfInputNeurons, int numberOfHiddenLayers, int numberOfNeuronsPerLayer) {
-        this(numberOfInputNeurons);
-        createHiddenLayers(numberOfHiddenLayers, numberOfNeuronsPerLayer);
     }
 
     /**
@@ -76,7 +64,18 @@ public class NeuralNetwork {
         this.activationFunction = activationFunction;
         output = new Neuron(-1, activationFunction);
     }
-
+    
+    /**
+     * Creates a new NeuralNetwork with the given parameters
+     *
+     * @param numberOfInputNeurons    number of input neurons
+     * @param numberOfHiddenLayers    number of hidden layers
+     * @param numberOfNeuronsPerLayer number of neurons per hidden layer
+     */
+    public NeuralNetwork(int numberOfInputNeurons, int numberOfHiddenLayers, int numberOfNeuronsPerLayer) {
+        this(numberOfInputNeurons);
+        createHiddenLayers(numberOfHiddenLayers, numberOfNeuronsPerLayer);
+    }
 
     /**
      * Creates a new NeuralNetwork from given parameters
@@ -87,12 +86,7 @@ public class NeuralNetwork {
      * @param activationFunction      activation function of all neurons
      */
     public NeuralNetwork(int numberOfInputNeurons, int numberOfHiddenLayers, int numberOfNeuronsPerLayer, DoubleUnaryOperator activationFunction) {
-        this.activationFunction = activationFunction;
-        inputLayer = new ArrayList<>();
-        hiddenLayers = new ArrayList<>();
-        lastId = 0;
-
-        output = new Neuron(-1, activationFunction);
+        this(activationFunction);
         createInputLayer(numberOfInputNeurons);
         createHiddenLayers(numberOfHiddenLayers, numberOfNeuronsPerLayer);
     }
@@ -125,7 +119,7 @@ public class NeuralNetwork {
     }
 
 
-    //TODO chceck if biases are set right
+    //TODO check if biases are set right
 
     /**
      * Method which creates an input layer which is three times bigger than the given list if there is no input layer
@@ -145,96 +139,13 @@ public class NeuralNetwork {
         for (Obstacle obstacle : obstacles) {
             ((InputNeuron) inputLayer.get(index++)).setInput(obstacle.getCurrentPosition().getX() - player.getCurrentPosition().getX());
             ((InputNeuron) inputLayer.get(index++)).setInput(obstacle.getCurrentPosition().getY() - player.getCurrentPosition().getY());
-            ((InputNeuron) inputLayer.get(index++)).setInput(decodeObstacleType(obstacle));
+            ((InputNeuron) inputLayer.get(index++)).setInput(Obstacle.decodeObstacleType(obstacle));
         }
     }
 
-    /**
-     * Creates hidden layers from given parameters and connects it to previous layers
-     * note: input layers already have to be defined to be connected to - you can do that with the method inputObstacles
-     * or createInputLayer. This method will not throw an exception if there is no input layer!
-     *
-     * @param numberOfLayers          number of layers
-     * @param numberOfNeuronsPerLayer number of neurons per layer
-     */
-    public void createHiddenLayers(int numberOfLayers, int numberOfNeuronsPerLayer) {
-        for (int i = 0; i < numberOfLayers; i++) {
-            ArrayList<Neuron> layer = new ArrayList<>();
-            for (int j = 0; j < numberOfNeuronsPerLayer; j++) {
-                Neuron neuron = new Neuron(lastId++, activationFunction);
-
-                if (hiddenLayers.size() == 0) {
-                    createConnectionToPrevLayer(neuron, inputLayer);
-                } else
-                    createConnectionToPrevLayer(neuron, hiddenLayers.get(hiddenLayers.size() - 1));
-
-                layer.add(neuron);
-            }
-
-            hiddenLayers.add(layer);
-        }
-
-        createConnectionToPrevLayer(output, hiddenLayers.get(hiddenLayers.size() - 1));
-    }
-
-    /**
-     * Creates hidden layer from given neurons (connections are also created)
-     *
-     * @param neurons given neurons
-     */
-    public void createHiddenLayer(List<List<Neuron>> neurons) {
-        if (hiddenLayers.size() != 0) {
-            removeConnectionToPrevLayer(output, hiddenLayers.get(hiddenLayers.size() - 1));
-        }
-
-        this.hiddenLayers = neurons;
-
-        for (List<Neuron> hiddenLayer : hiddenLayers) {
-            for (Neuron neuron : hiddenLayer) {
-                int indexOfThis = hiddenLayers.indexOf(hiddenLayer);
-                if (indexOfThis == 0) {
-                    createConnectionToPrevLayer(neuron, inputLayer);
-                } else
-                    createConnectionToPrevLayer(neuron, hiddenLayers.get(indexOfThis - 1));
-            }
-        }
-        createConnectionToPrevLayer(output, hiddenLayers.get(hiddenLayers.size() - 1));
-    }
-
-    /**
-     * Inserts a given layer as the "position"th hidden layer
-     *
-     * @param neurons  given layer
-     * @param position given position
-     */
-    public void insertHiddenLayer(List<Neuron> neurons, int position) {
-        if (position > hiddenLayers.size())
-            throw new IllegalArgumentException("given position is greater than size");
-
-        if (position == hiddenLayers.size()) {
-            List<Neuron> lastHiddenLayer = hiddenLayers.get(position - 1);
-
-            removeConnectionToPrevLayer(output, lastHiddenLayer);
-            createConnectionToPrevLayer(output, neurons);
-            neurons.forEach(n -> createConnectionToPrevLayer(n, lastHiddenLayer));
-
-            hiddenLayers.add(position, neurons);
-
-        } else {
-            List<Neuron> otherHiddenLayer = hiddenLayers.get(position);
-            List<Neuron> previous;
-            if (position != 0)
-                previous = hiddenLayers.get(position - 1);
-            else previous = inputLayer;
-
-            otherHiddenLayer.forEach(n -> removeConnectionToPrevLayer(n, previous));
-            neurons.forEach(n -> createConnectionToPrevLayer(n, previous));
-            otherHiddenLayer.forEach(n -> createConnectionToPrevLayer(n, neurons));
-
-            hiddenLayers.add(position, neurons);
-
-        }
-    }
+    public abstract void createHiddenLayers(int numberOfLayers, int numberOfNeuronsPerLayer);
+    
+    public abstract void createHiddenLayer(List<List<Neuron>> neurons);
 
     /**
      * Sets given neuron as output neuron and connects previous layer to it
@@ -245,34 +156,54 @@ public class NeuralNetwork {
         this.output = neuron;
         createConnectionToPrevLayer(output, hiddenLayers.get(hiddenLayers.size() - 1));
     }
-
+    
     /**
-     * Sets all neuron weights for given weights and all biases to given biases.
-     * note: the order for which the weights are set is: input layer, hidden layers, output layer
+     * Sets all neuron biases to given biases.
+     * note: the order for which the biases are set is: input layer, hidden layers, output layer
      *
-     * @param weights given weights
      * @param biases  given biases
      */
-    public void setWeights(List<List<Double>> weights, List<Double> biases) {
-        if (weights.size() != inputLayer.size() + 1 + hiddenLayers.size() * hiddenLayers.get(0).size())
-            throw new IllegalArgumentException("");
+    public void setBiases(List<Double> biases) {
+        if (biases.size() != inputLayer.size() + 1 + hiddenLayers.size() * hiddenLayers.get(0).size())
+            throw new IllegalArgumentException("Number of biases has to equal the sum of input, output and hidden neurons.");
 
         int index = 0;
-        for (Neuron neuron : inputLayer) {
+        for (Neuron neuron : inputLayer)
             neuron.setBias(biases.get(index));
-            neuron.setPrevNeuronWeights(weights.get(index++));
-        }
 
         for (List<Neuron> hiddenLayer : hiddenLayers)
-            for (Neuron neuron : hiddenLayer) {
+            for (Neuron neuron : hiddenLayer)
                 neuron.setBias(biases.get(index));
-                neuron.setPrevNeuronWeights(weights.get(index++));
-            }
 
-        output.setPrevNeuronWeights(weights.get(index));
         output.setBias(biases.get(index));
     }
 
+    /**
+     * Private helper function which connects given neuron to the previous layer
+     *
+     * @param neuron    given neuron
+     * @param prevLayer previous layer
+     */
+    protected void createConnectionToPrevLayer(Neuron neuron, List<Neuron> prevLayer) {
+        for (Neuron input : prevLayer)
+            neuron.addConnectionFromOtherToThis(input);
+    }
+
+    /**
+     * Private helper function which removes all connections from given neuron to the previous layer
+     *
+     * @param neuron    given neuron
+     * @param prevLayer previous layer
+     */
+    protected void removeConnectionToPrevLayer(Neuron neuron, List<Neuron> prevLayer) {
+        for (Neuron input : prevLayer)
+            neuron.removeConnectionFromOtherToThis(input);
+    }
+    
+    public abstract void setWeights(List<List<Double>> weights);
+    
+    public abstract List<List<Double>> getWeights();
+    
     public List<Double> getBiases() {
         ArrayList<Double> biases = new ArrayList<>();
 
@@ -287,63 +218,6 @@ public class NeuralNetwork {
 
         biases.add(output.getBias());
         return biases;
-    }
-
-    /**
-     * Private helper function which connects given neuron to the previous layer
-     *
-     * @param neuron    given neuron
-     * @param prevLayer previous layer
-     */
-    private void createConnectionToPrevLayer(Neuron neuron, List<Neuron> prevLayer) {
-        for (Neuron input : prevLayer)
-            neuron.addConnectionFromOtherToThis(input);
-    }
-
-    /**
-     * Private helper function which removes all connections from given neuron to the previous layer
-     *
-     * @param neuron    given neuron
-     * @param prevLayer previous layer
-     */
-    private void removeConnectionToPrevLayer(Neuron neuron, List<Neuron> prevLayer) {
-        for (Neuron input : prevLayer)
-            neuron.removeConnectionFromOtherToThis(input);
-    }
-
-    //TODO should probably change how obstacles are decoded
-
-    /**
-     * Decodes obstacle type to a Double
-     *
-     * @param obstacle given obstacle
-     * @return Double representation of the obstacle
-     */
-    public double decodeObstacleType(Obstacle obstacle) {
-        return switch (obstacle.getName()) {
-            case "Block" -> 0;
-            case "Floor" -> 1;
-            case "GrassSpike" -> 2;
-            case "LeftSpike" -> 3;
-            case "Platform" -> 4;
-            case "RightSpike" -> 5;
-            case "Spike" -> 6;
-            default -> throw new IllegalArgumentException("Not a valid obstacle");
-        };
-    }
-
-    public List<List<Double>> getWeights() {
-        ArrayList<List<Double>> retList = new ArrayList<>();
-
-        for (Neuron input : inputLayer)
-            retList.add(input.getPrevNeuronWeights());
-
-        for (List<Neuron> hiddenLayer : hiddenLayers)
-            for (Neuron hidden : hiddenLayer)
-                retList.add(hidden.getPrevNeuronWeights());
-
-        retList.add(output.getPrevNeuronWeights());
-        return retList;
     }
 
     public List<Neuron> getInputLayer() {
@@ -381,48 +255,4 @@ public class NeuralNetwork {
         return Objects.hash(inputLayer, hiddenLayers, output);
     }
 
-    public static void main(String[] args) {
-        //input 4
-        //hidden 2
-        //output 1
-        NeuralNetwork neuralNetwork = new NeuralNetwork(4, 1, 2);
-
-        /*
-//      Setting the new inputLayer
-        ArrayList<Neuron> input = new ArrayList<>();
-        int id = 123;
-        for (int i = 0; i < 4; i++)
-            input.add(new Neuron(id++));
-        neuralNetwork.createInputLayer(input);
-        */
-
-        /*
-//      Setting the new hiddenLayer
-        ArrayList<List<Neuron>> hidden = new ArrayList<>();
-        ArrayList<Neuron> hidden1 = new ArrayList<>();
-        int id = 123;
-        for (int i = 0; i < 4; i++)
-            hidden1.add(new Neuron(id++));
-        hidden.add(hidden1);
-
-        ArrayList<Neuron> hidden2 = new ArrayList<>();
-        for (int i = 0; i < 4; i++)
-            hidden2.add(new Neuron(id++));
-        hidden.add(hidden2);
-
-        neuralNetwork.createHiddenLayer(hidden);
-        */
-
-
-//      Inserting a new hiddenLayer
-        ArrayList<Neuron> hidden1 = new ArrayList<>();
-        int id = 123;
-        for (int i = 0; i < 4; i++)
-            hidden1.add(new Neuron(id++));
-
-        neuralNetwork.insertHiddenLayer(hidden1, 1);
-
-
-        System.out.println(neuralNetwork.output.calculateOutput());
-    }
 }
