@@ -1,4 +1,4 @@
-package hr.fer.zemris.project.geometry.dash.ai;
+package hr.fer.zemris.project.geometry.dash.ai.neurons;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,8 +1,10 @@
-package hr.fer.zemris.project.geometry.dash.ai;
+package hr.fer.zemris.project.geometry.dash.ai.neurons;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
+
+import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
 
 /**
  * Class which models a simple neuron for neural networks
