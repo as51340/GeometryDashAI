@@ -12,11 +12,11 @@ public class Neuron {
     /**
      * List of previous neurons
      */
-    private final List<Neuron> prevNeurons;
+    protected List<Neuron> prevNeurons;
     /**
      * List of weights for previous neurons - prevNeurons.get(0) has a weight of prevNeuronWeights.get(0)
      */
-    private List<Double> prevNeuronWeights;
+    protected List<Double> prevNeuronWeights;
     /**
      * Activation function of the neuron - by default is sigmoid function
      */
@@ -40,7 +40,7 @@ public class Neuron {
     public Neuron() {
         prevNeurons = new ArrayList<>();
         prevNeuronWeights = new ArrayList<>();
-        this.activationFunction = (v -> 1 / (1 + Math.exp(-v)));
+        this.activationFunction = AIConstants.activationFunction;
         this.bias = Math.random() * 2 - 1;
         this.output = 0;
         this.hasOutput = false;
@@ -110,7 +110,7 @@ public class Neuron {
      * @param sum given double
      * @return result
      */
-    private Double applyActivationFunction(Double sum) {
+    protected Double applyActivationFunction(Double sum) {
         return activationFunction.applyAsDouble(sum);
     }
 

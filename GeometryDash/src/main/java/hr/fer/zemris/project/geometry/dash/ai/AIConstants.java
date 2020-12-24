@@ -1,6 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.ai;
 
 import java.util.Comparator;
+import java.util.function.DoubleUnaryOperator;
 
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 
@@ -39,5 +40,10 @@ public class AIConstants {
 	 * Default number of closest obstacles AI is seeing
 	 */
 	public static final int numOfClosestObstacles = 4;
+	
+	/**
+	 * Default activation function
+	 */
+	public static final DoubleUnaryOperator activationFunction = (v -> 1 / (1 + Math.exp(-v)));
 
 }
