@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok;
 
+import hr.fer.zemris.project.geometry.dash.ai.GeneticNeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
@@ -52,7 +53,7 @@ public class GeneticAlgorithm {
             Player player = new Player(new Vector2D(i * 20, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
                     new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.NEURAL_NETWORK);
 
-            NeuralNetwork neuralNetwork = new NeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer, activationFunction);
+            GeneticNeuralNetwork neuralNetwork = new GeneticNeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer, activationFunction);
             playerNeuralNetworkMap.put(player, neuralNetwork);
         }
     }
@@ -130,8 +131,9 @@ public class GeneticAlgorithm {
             biasesChild.add((biases1.get(i) + biases2.get(i)) / 2);
         }
 
-        NeuralNetwork childNetwork = new NeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer, activationFunction);
-        childNetwork.setWeights(weightsChild, biasesChild);
+        NeuralNetwork childNetwork = new GeneticNeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer, activationFunction);
+        childNetwork.setWeights(weightsChild);
+        childNetwork.setBiases(biasesChild);
         return childNetwork;
     }
 
@@ -169,8 +171,10 @@ public class GeneticAlgorithm {
             newBiases.add(bias);
         }
 
-        if (!newBiases.equals(biases) || !newWeights.equals(weights))
-            child.setWeights(newWeights, newBiases);
+        if (!newBiases.equals(biases) || !newWeights.equals(weights)) {
+        	child.setWeights(newWeights);
+        	child.setBiases(newBiases);
+        }
 
         return child;
     }
