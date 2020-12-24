@@ -143,8 +143,21 @@ public abstract class NeuralNetwork {
         }
     }
 
+    /**
+     * Creates hidden layers from given parameters and connects it to previous layers
+     * note: input layers already have to be defined to be connected to - you can do that with the method inputObstacles
+     * or createInputLayer. This method will not throw an exception if there is no input layer!
+     *
+     * @param numberOfLayers          number of layers
+     * @param numberOfNeuronsPerLayer number of neurons per layer
+     */
     public abstract void createHiddenLayers(int numberOfLayers, int numberOfNeuronsPerLayer);
     
+    /**
+     * Creates hidden layer from given neurons (connections are also created)
+     *
+     * @param neurons given neurons
+     */
     public abstract void createHiddenLayer(List<List<Neuron>> neurons);
 
     /**
@@ -200,8 +213,20 @@ public abstract class NeuralNetwork {
             neuron.removeConnectionFromOtherToThis(input);
     }
     
+    /**
+     * Sets all neuron weights for given weights.
+     * note: the order for which the weights are set is: input layer, hidden layers, output layer
+     *
+     * @param weights given weights
+     */
     public abstract void setWeights(List<List<Double>> weights);
     
+    /**
+     * Gets all neuron weights.
+     * note: the order for which the weights are returned is: input layer, hidden layers, output layer
+     *
+     * @return weights
+     */
     public abstract List<List<Double>> getWeights();
     
     public List<Double> getBiases() {

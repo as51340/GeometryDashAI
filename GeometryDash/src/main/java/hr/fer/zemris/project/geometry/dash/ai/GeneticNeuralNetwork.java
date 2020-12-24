@@ -59,14 +59,7 @@ public class GeneticNeuralNetwork extends NeuralNetwork {
         super(numberOfInputNeurons, numberOfHiddenLayers, numberOfNeuronsPerLayer, activationFunction);
     }
     
-    /**
-     * Creates hidden layers from given parameters and connects it to previous layers
-     * note: input layers already have to be defined to be connected to - you can do that with the method inputObstacles
-     * or createInputLayer. This method will not throw an exception if there is no input layer!
-     *
-     * @param numberOfLayers          number of layers
-     * @param numberOfNeuronsPerLayer number of neurons per layer
-     */
+    @Override
     public void createHiddenLayers(int numberOfLayers, int numberOfNeuronsPerLayer) {
         for (int i = 0; i < numberOfLayers; i++) {
             ArrayList<Neuron> layer = new ArrayList<>();
@@ -87,11 +80,7 @@ public class GeneticNeuralNetwork extends NeuralNetwork {
         createConnectionToPrevLayer(output, hiddenLayers.get(hiddenLayers.size() - 1));
     }
 
-    /**
-     * Creates hidden layer from given neurons (connections are also created)
-     *
-     * @param neurons given neurons
-     */
+    @Override
     public void createHiddenLayer(List<List<Neuron>> neurons) {
         if (hiddenLayers.size() != 0) {
             removeConnectionToPrevLayer(output, hiddenLayers.get(hiddenLayers.size() - 1));
@@ -146,12 +135,7 @@ public class GeneticNeuralNetwork extends NeuralNetwork {
         }
     }
     
-    /**
-     * Sets all neuron weights for given weights.
-     * note: the order for which the weights are set is: input layer, hidden layers, output layer
-     *
-     * @param weights given weights
-     */
+    @Override
     public void setWeights(List<List<Double>> weights) {
         if (weights.size() != inputLayer.size() + 1 + hiddenLayers.size() * hiddenLayers.get(0).size())
             throw new IllegalArgumentException("Number of weights has to equal the sum of input, output and hidden neurons.");
@@ -167,12 +151,7 @@ public class GeneticNeuralNetwork extends NeuralNetwork {
         output.setPrevNeuronWeights(weights.get(index));
     }
     
-    /**
-     * Gets all neuron weights.
-     * note: the order for which the weights are returned is: input layer, hidden layers, output layer
-     *
-     * @return weights
-     */
+    @Override
     public List<List<Double>> getWeights() {
         ArrayList<List<Double>> retList = new ArrayList<>();
 
