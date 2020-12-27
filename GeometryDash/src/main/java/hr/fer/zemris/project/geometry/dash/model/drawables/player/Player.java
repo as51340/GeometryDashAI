@@ -9,14 +9,19 @@ import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.transform.Rotate;
 
-import java.util.Objects;
-
 /**
  * The main player class, logics and engine behind the "protagonist" of <strong>Geometry Dash</strong>
  *
  * @author Damjan, Andi
  */
 public class Player extends GameObject {
+	
+	private static int lastId = 1;
+	
+	/**
+	 * Unique id of the player
+	 */
+	private int id;
 	
     private double gravityTimer = GameConstants.gravity_Y;
     
@@ -63,6 +68,7 @@ public class Player extends GameObject {
      * Player's constructor
      */
     public Player(double rotation, Vector2D speed, String icon, PlayingMode playingMode) {
+    	this.id = lastId++;
     	isDead = false;
     	setInitialPosition(new Vector2D(0, 0));
         this.rotation = rotation;
@@ -164,6 +170,7 @@ public class Player extends GameObject {
      * @param position
      */
     public Player(Vector2D position, Vector2D speed, PlayingMode playingMode) {
+    	this.id = lastId++;
     	isDead = false;
     	setInitialPosition(position.copy());
         setCurrentPosition(position);
@@ -272,7 +279,7 @@ public class Player extends GameObject {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((playingMode == null) ? 0 : playingMode.hashCode());
-		result = prime* result + initialPosition.hashCode();
+		result = prime* result + id;
 		return result;
 	}
 
@@ -285,7 +292,7 @@ public class Player extends GameObject {
 		Player other = (Player) obj;
 		if (playingMode != other.playingMode)
 			return false;
-		if(!initialPosition.equals(other.initialPosition))
+		if(this.id != other.id)
 			return false;
 		return true;
 	}

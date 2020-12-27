@@ -9,21 +9,26 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.DoubleUnaryOperator;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Models a simple neural network where each neuron is connected to every neuron of the next layer
  */
 public abstract class NeuralNetwork {
     /**
      * Neurons of the input layer
-     */	
+     */
+	@Expose
     protected List<Neuron> inputLayer;
     /**
      * List of all hidden layers - the number of lists is equal to the number of hidden layers
      */
+	@Expose
     protected List<List<Neuron>> hiddenLayers;
     /**
      * Single output neuron
      */
+	@Expose
     protected Neuron output;
     /**
      * used for assigning ids to neurons
@@ -32,6 +37,7 @@ public abstract class NeuralNetwork {
     /**
      * Activation function of all neurons
      */
+    @Expose
     protected DoubleUnaryOperator activationFunction = AIConstants.activationFunction;
 
     /**

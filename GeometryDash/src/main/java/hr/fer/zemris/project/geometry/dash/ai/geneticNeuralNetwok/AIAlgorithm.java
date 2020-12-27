@@ -71,7 +71,7 @@ public class AIAlgorithm {
 
 	private void initialize() {
         for (int i = 0; i < POPULATION_SIZE; i++) {
-            Player player = new Player(new Vector2D(i * 20, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
+            Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
                     new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), mode);
 
             NeuralNetwork neuralNetwork = mode == PlayingMode.NEURAL_NETWORK
