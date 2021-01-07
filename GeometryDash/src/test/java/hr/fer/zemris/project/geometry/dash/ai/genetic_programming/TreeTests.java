@@ -2,8 +2,12 @@ package hr.fer.zemris.project.geometry.dash.ai.genetic_programming;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class TreeTests {
@@ -413,7 +417,8 @@ class TreeTests {
 		TreeNode node9 = new TreeNode(0.5);
 		node3.addChild(node8);
 		node3.addChild(node9);
-		assertEquals(9, root.getSize());
+		Tree tree = new Tree(root); //for size
+		assertEquals(9, tree.getRoot().getSize());
 	}
 	
 	@Test
@@ -437,13 +442,15 @@ class TreeTests {
 		node2.addChild(node7);
 		node3.addChild(node8);
 		node3.addChild(node9);
-		assertEquals(9, root.getSize());
+		Tree tree = new Tree(root); //for size
+		assertEquals(9, tree.getRoot().getSize());
 	}
 	
 	@Test
 	void sizeTest3() {
 		TreeNode root = new TreeNode(new Action(ActionType.IF_ELSE));
-		assertEquals(0, root.getSize());
+		Tree tree = new Tree(root); //for size
+		assertEquals(0, tree.getRoot().getSize());
 	}
 	
 	@Test
@@ -477,6 +484,7 @@ class TreeTests {
 	
 	//crossover testing jej
 	
+	@Disabled
 	@Test
 	void crossoverSimpleTest1() {
 		Tree tree1 = createTreeForSimpleTest1();
@@ -490,6 +498,7 @@ class TreeTests {
 		assertEquals(results.get(1), createResultingTreeCrossoverSimpleTest1Tree2());
 	}
 	
+	@Disabled
 	@Test
 	void crossoverSimpleTest2() {
 		Tree tree1 = createTreeForSimpleTest1();
@@ -501,6 +510,7 @@ class TreeTests {
 		assertEquals(results.get(1), createResultingTreeCrossoverSimpleTest2Tree2());
 	}
 	
+	@Disabled
 	@Test
 	void crossoverSimpleTest3() { //lagano swapanje
 		Tree tree1 = createTreeForSimpleTest1();
@@ -512,6 +522,7 @@ class TreeTests {
 		assertEquals(results.get(1), tree1);
 	}
 	
+	@Disabled
 	@Test
 	void crossoverSimpleTest4() {
 		Tree tree1 = createTreeForSimpleTest1();
@@ -523,10 +534,95 @@ class TreeTests {
 		assertEquals(results.get(1), createResultingTreeCrossoverSimpleTest4Tree2());
 	}
 	
+	@Test
+	void depthTest1() {
+		Tree tree = createResultingTreeCrossoverSimpleTest1Tree1();
+		assertEquals(1, tree.getRoot().getDepth());
+	}
+	
+	@Test
+	void depthTest2() {
+		TreeNode root = new TreeNode(new Action(ActionType.PLUS));
+		TreeNode node1 = new TreeNode(new Action(ActionType.MINUS));
+		TreeNode node2 = new TreeNode(4.0);
+		root.addChild(node1);
+		root.addChild(node2);
+		TreeNode node3 = new TreeNode(new Action(ActionType.PLUS));
+		TreeNode node4 = new TreeNode(1.0);
+		node1.addChild(node3);
+		node1.addChild(node4);
+		TreeNode node5 = new TreeNode(2.0);
+		TreeNode node6 = new TreeNode(3.0);
+		node3.addChild(node5);
+		node3.addChild(node6);
+		Tree tree = new Tree(root); //we need this because with this method we calculate size and depth
+		assertEquals(1, root.getDepth());
+		assertEquals(2, node1.getDepth());
+		assertEquals(2, node2.getDepth());
+		assertEquals(3, node3.getDepth());
+		assertEquals(3, node4.getDepth());
+		assertEquals(4, node5.getDepth());
+		assertEquals(4, node6.getDepth());
+	}
+	
+	@Test
+	void sizeTestAfterCopying() {
+		Tree tree = createResultingTreeCrossoverSimpleTest1Tree1();
+		assertEquals(tree.getSize(), tree.copy().getSize());
+	}
+	
+	@Test
+	void depthTestAfterCopying() {
+		Tree tree = createResultingTreeCrossoverSimpleTest1Tree1();
+		assertEquals(tree.getRoot().getDepth(), tree.copy().getRoot().getDepth());
+	}
+	
+	@Test
+	void fullTreeCopying() {
+		Tree tree = createResultingTreeCrossoverSimpleTest1Tree1();
+		assertEquals(tree, tree.copy());
+	}
+	
+	@Test
+	void nodeCopyingTest() {
+		Tree tree = createResultingTreeCrossoverSimpleTest1Tree1();
+		assertEquals(tree.getRoot(), tree.copy().getRoot().copy());
+	}
+	
+	@Test
+	void printTreeTest1() {
+		Tree tree = createResultingTreeCrossoverSimpleTest4Tree1();
+		//TreeUtil.printTree(tree.getRoot(), 0);
+		//no need for that
+	}
+	
+	@Test
+	void mutationTest1() {
+		Tree tree = createResultingTreeCrossoverSimpleTest4Tree1();
+//		TreeUtil.printTree(tree.getRoot(), 0);
+//		System.out.println();
+//		System.out.println();
+		List<Double> inputs = Arrays.asList(1.0, 2.0, 3.0, 4.0);
+		Random r = new Random();
+		int targetNode = r.nextInt(tree.getSize()) + 1;
+		assertDoesNotThrow(()-> {
+			Tree newTree = TreeUtil.mutate(tree, 1, r, inputs);
+			TreeUtil.printTree(newTree.getRoot(), 0);
+		});
+	}
+	
+	/**
+	 * Resulting tree for crossover simple test 4 tree 2
+	 * @return
+	 */
 	private Tree createResultingTreeCrossoverSimpleTest4Tree2() {
 		return new Tree(new TreeNode(5.0));
 	}
 	
+	/**
+	 * Method for creating tree
+	 * @return
+	 */
 	private Tree createResultingTreeCrossoverSimpleTest4Tree1() {
 		TreeNode root = new TreeNode(new Action(ActionType.PLUS));
 		TreeNode node1 = new TreeNode(new Action(ActionType.MINUS));
@@ -544,8 +640,10 @@ class TreeTests {
 		return new Tree(root);
 	}
 	
-	
-	
+	/**
+	 * creates simples tree
+	 * @return
+	 */
 	private Tree createResultingTreeCrossoverSimpleTest2Tree1() {
 		TreeNode root = new TreeNode(new Action(ActionType.PLUS));
 		TreeNode node1 = new TreeNode(5.0);
@@ -559,7 +657,10 @@ class TreeTests {
 		return new Tree(root);
 	}
 	
-	
+	/**
+	 * simple tree creation
+	 * @return
+	 */
 	private Tree createResultingTreeCrossoverSimpleTest2Tree2() {
 		TreeNode root = new TreeNode(new Action(ActionType.MINUS));
 		TreeNode node1 = new TreeNode(4.0);
@@ -569,8 +670,10 @@ class TreeTests {
 		return new Tree(root);
 	}
 	
-	
-	
+	/**
+	 * simple tree
+	 * @return
+	 */
 	private Tree createResultingTreeCrossoverSimpleTest1Tree2() {
 		TreeNode root = new TreeNode(new Action(ActionType.MINUS));
 		TreeNode node1 = new TreeNode(5.0);
@@ -580,7 +683,10 @@ class TreeTests {
 		return new Tree(root);
 	}
 	
-	
+	/**
+	 * simple tree
+	 * @return
+	 */
 	private Tree createResultingTreeCrossoverSimpleTest1Tree1() {
 		TreeNode root = new TreeNode(new Action(ActionType.PLUS));
 		TreeNode node1 = new TreeNode(new Action(ActionType.PLUS));
@@ -594,6 +700,10 @@ class TreeTests {
 		return new Tree(root);
 	}
 	
+	/**
+	 * simple tree
+	 * @return
+	 */
 	private Tree createTreeForSimpleTest1() {
 		TreeNode root = new TreeNode(new Action(ActionType.PLUS));
 		TreeNode node1 = new TreeNode(5);
@@ -603,6 +713,10 @@ class TreeTests {
 		return new Tree(root);
 	}
 	
+	/**
+	 * simple tree
+	 * @return
+	 */
 	private Tree createTreeForSimpleTest2() {
 		TreeNode root = new TreeNode(new Action(ActionType.MINUS));
 		TreeNode node1 = new TreeNode(new Action(ActionType.PLUS));

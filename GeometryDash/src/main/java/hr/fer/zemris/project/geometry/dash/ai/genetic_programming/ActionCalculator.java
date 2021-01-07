@@ -30,7 +30,11 @@ public class ActionCalculator {
 	}
 	
 	public static double root(double x) {
-		return Math.sqrt(x);
+		double d = Math.sqrt(x);
+		if(Double.isNaN(d)) {
+			return x;
+		}
+		return d;
 	}
 	
 	public static double sin(double x) {
@@ -47,55 +51,55 @@ public class ActionCalculator {
 
 	public static double ctg(double x) {
 		double d = Math.cos(x) / Math.sin(x);
-		if(Double.valueOf(d).isNaN()) {
+		if(Double.isNaN(d)) {
 			return x;
-		} 
+		}
 		return d;
 	}
 	
 	public static double asin(double x) {
 		double d = Math.asin(x);
-		if(Double.valueOf(d).isNaN()) {
+		if(Double.isNaN(d)) {
 			return x;
-		} 
+		}
 		return d; 
 	}
 	
 	public static double acos(double x) {
 		double d = Math.acos(x);
-		if(Double.valueOf(d).isNaN()) {
+		if(Double.isNaN(d)) {
 			return x;
-		} 
+		}
 		return d; 
 	}
 	
 	public static double atan(double x) {
 		double d = Math.atan(x);
-		if(Double.valueOf(d).isNaN()) {
+		if(Double.isNaN(d)) {
 			return x;
-		} 
+		}
 		return d; 
 	}
 	
 	public static double actg(double x) {
 		double d = Math.atan(1.0 / x);
-		if(Double.valueOf(d).isNaN()) {
+		if(Double.isNaN(d)) {
 			return x;
-		} 
+		}
 		return d; 
 	}
 
 	public static double sinh(double x) {
 		double d = Math.sinh(x);
-		if(Double.valueOf(d).isNaN()) {
+		if(Double.isNaN(d)) {
 			return x;
-		} 
+		}
 		return d; 
 	}
 	
 	public static double cosh(double x) {
 		double d = Math.cosh(x);
-		if(Double.valueOf(d).isNaN()) {
+		if(Double.isNaN(d)) {
 			return x;
 		} 
 		return d; 
@@ -103,23 +107,23 @@ public class ActionCalculator {
 	
 	public static double tanh(double x) {
 		double d = Math.tanh(x);
-		if(Double.valueOf(d).isNaN()) {
+		if(Double.isNaN(d)) {
 			return x;
-		} 
+		}
 		return d; 
 	}
 	
 	public static double coth(double x) {
-		double d = 1 / tanh(x);
-		if(Double.valueOf(d).isNaN()) {
+		double d = 1.0 / tanh(x);
+		if(Double.isNaN(d)) {
 			return x;
-		} 
+		}
 		return d; 
 	}
 	
 	public static double power(double x, double y) {
 		double d = Math.pow(x, y);
-		if(Double.valueOf(d).isNaN()) {
+		if(Double.isNaN(d)) {
 			return x;
 		} 
 		return d; 

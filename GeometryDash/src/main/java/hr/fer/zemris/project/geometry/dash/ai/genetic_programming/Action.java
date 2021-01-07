@@ -212,6 +212,27 @@ public class Action {
 		return false;
 	}
 	
+	/**
+	 * Number of children
+	 * @return num of children
+	 */
+	public int getChildrenSize() {
+		if(isUnary()) {
+			return 1;
+		} 
+		if(isBinary() || isRelational()) {
+			return 2;
+		}
+		if(actionType == ActionType.IF_ELSE) {
+			return 3;
+		} 
+		if(actionType == ActionType.IF_ELIF_ELSE) {
+			return 5;
+		} 	
+		throw new IllegalArgumentException("Unknown action");
+		
+	}
+	
 	public boolean calculateIf_Else(double x) {
 		return ActionCalculator.if_else(x);
 	}
@@ -222,7 +243,7 @@ public class Action {
 
 	@Override
 	public String toString() {
-		return "Action [actionType=" + actionType + "]";
+		return actionType.toString();
 	}
 
 	@Override

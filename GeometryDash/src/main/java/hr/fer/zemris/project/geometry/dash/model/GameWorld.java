@@ -336,8 +336,6 @@ public class GameWorld {
 
     /**
      * Implementation of {@linkplain GameWorldListener}
-     * @author Andi Škrgat
-     *
      */
     class GameWorldListenerImpl implements GameWorldListener {
 

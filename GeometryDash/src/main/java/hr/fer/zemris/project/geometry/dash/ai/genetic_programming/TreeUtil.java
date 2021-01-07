@@ -29,101 +29,239 @@ public class TreeUtil {
 	}
 
 	/**
-	 * Performs mutation on tree. Two types of mutations are possible: in the first kind a
-	 * function can only replace a function or a terminal can only replace a terminal.
-	 * In the second kind an entire subtree can replace another subtree.
+	 * Performs mutation on tree. Two types of mutations are possible: in the first
+	 * kind a function can only replace a function or a terminal can only replace a
+	 * terminal. In the second kind an entire subtree can replace another subtree.
 	 * 
 	 * @param tree existing tree
 	 * @return tree after performed mutation
 	 */
-	public static TreeNode mutate(TreeNode root, int currentNode, int targetNode) {
-		if(currentNode + 1 == targetNode) { //ako je sljedeci to znaci da moram ovome dodat novo dijete
+	public static Tree mutate(Tree tree, int targetNode, Random r, List<Double> inputs) {
+		TreeNode copiedRoot = tree.getRoot().copy();
+		TreeNode nodeToChange = findNode(copiedRoot, 1, targetNode);
+		if (nodeToChange == null) {
+			throw new IllegalArgumentException("Could not find node that needs to be changed!");
+		}
+		int maxDepth = AIConstants.maxTreeDepth - nodeToChange.getDepth() + 1;
+		int randomDepth = r.nextInt(maxDepth) + 1;
+		TreeNode generatedNode = null;
+		if (randomDepth == 1) {
+			double dRand = inputs.get(r.nextInt(inputs.size()));
+			generatedNode = new TreeNode(dRand);
+		} else {
+			ActionType at = numberToActionType(r.nextInt(25) + 1); // 25 is number of possible actions
+			// root can be anything
+			generatedNode = new TreeNode(new Action(at));
+			randomSubtree(generatedNode, randomDepth - 1, r, inputs, false);
+		}
+		if (targetNode == 1) {
+			return new Tree(generatedNode);
+		} else {
+			replaceSubtree(copiedRoot, generatedNode, 1, targetNode);
+			return new Tree(copiedRoot);
+		}
+	}
+
+	/**
+	 * Creates random subtree with some must have constraints
+	 * 
+	 * @param root
+	 * @param depthToGo
+	 * @param r
+	 * @param inputs
+	 */
+	//ako je dubina dva root ne bi treba relational operator
+	//debuganje
+	//TODO
+	public static boolean randomSubtree(TreeNode root, int depthToGo, Random r, List<Double> inputs, boolean fullTree) {
+		if (depthToGo <= 1) { // why I create here only one terminal one when there can more of them
+			createTerminalNodes(root, r, inputs);
+			return true;
+		}
+		boolean global = false;
+		int num = root.getAction().getChildrenSize();
+		if(fullTree == false) {
+			for(int j = 0; j < num; j++) {
+				int term = r.nextInt(2);
+				TreeNode child = null;
+				if(global == false || term == 0) { //napravi node action
+					ActionType at = null;
+					if((num == 3 && j == 0) || (num == 5 && j == 0) || (num == 5 && j == 2)) {
+						at = numberToActionType(r.nextInt(7) +1); //relational or if_else
+					} else {
+						at = numberToActionType(r.nextInt(20) + 6); //cannot be relational
+					}
+					child = new TreeNode(new Action(at));
+					root.addChild(child);
+					global |= randomSubtree(child, depthToGo-1, r, inputs, fullTree);
+				}else {
+					if((num == 3 && j == 0) || (num == 5 && j == 0) || (num == 5 && j == 2)) {
+						int rnd = r.nextInt(2);
+						if(rnd == 0) {
+							child = new TreeNode(Double.MAX_VALUE);
+						} else {
+							child = new TreeNode(Double.MIN_VALUE);
+						}
+					} else {
+						child = new TreeNode(inputs.get(r.nextInt(inputs.size())));
+					}
+					root.addChild(child);
+				}
+			}
+			return global;
 			
+		} else {
+			createActionChildren(root, r, num);
+			for(int j = 0; j < num; j++) {
+				randomSubtree(root.getChildren().get(j), depthToGo -1, r, inputs, fullTree);
+			}
+			return false;
 		}
-		for(TreeNode child: root.getChildren()) {
-			mutate(child, currentNode+1, targetNode);
-		}
-		return null;
 	}
 	
-	public static TreeNode randomSubtree() {
-		Random r = new Random();
-		int maxSize = 5; //for now just for testing, this is number of new actions allocated
-		int size = r.nextInt() + 1; //[1, maxSize]
-		
-		int actNumber = r.nextInt(AIConstants.numOfActions) + 1; //we need to create to root before everything else
-		System.out.println("Action number: " + actNumber);
-		Action action = new Action(numberToActionType(actNumber));
-		TreeNode root = new TreeNode(action);
-		return null;
-	}
-	
-	public static TreeNode recursiveCreationOfSubtree(TreeNode root, int actionsCreated, int targetNumber) {
-//		if(root.get)
-		return null;
-	}
-	
-	private static ActionType numberToActionType(int number) {
-		switch(number) {
-			case 1: 
-				return ActionType.EQUAL;
-			case 2:
-				return ActionType.LESS_EQUAL;
-			case 3:
-				return ActionType.GREATER_EQUAL;
-			case 4:
-				return ActionType.LESS;
-			case 5:
-				return ActionType.GREATER;
-			case 6:
-				return ActionType.POWER;
-			case 7:
-				return ActionType.PLUS;
-			case 8:
-				return ActionType.MINUS;
-			case 9:
-				return ActionType.MULTIPLY;
-			case 10:
-				return ActionType.DIVIDE;
-			case 11:
-				return ActionType.SQRT;
-			case 12:
-				return ActionType.SIN;
-			case 13:
-				return ActionType.COS;
-			case 14:
-				return ActionType.TAN;
-			case 15:
-				return ActionType.CTG;
-			case 16:
-				return ActionType.ASIN;
-			case 17:
-				return ActionType.ACOS;
-			case 18:
-				return ActionType.ATAN;
-			case 19:
-				return ActionType.ACTG;
-			case 20:
-				return ActionType.SINH;
-			case 21:
-				return ActionType.COSH;
-			case 22:
-				return ActionType.TANH;
-			case 23:
-				return ActionType.COTH;
-			case 24:
-				return ActionType.IF_ELSE;
-			case 25:
-				return ActionType.IF_ELIF_ELSE;
-			default:
-				throw new IllegalArgumentException("No such action, random generator subtree!");
+	/**
+	 * Creates terminal nodes
+	 * @param root
+	 * @param r
+	 * @param inputs
+	 */
+	private static void createTerminalNodes(TreeNode root, Random r, List<Double> inputs) {
+		int num = root.getAction().getChildrenSize();
+		if(num == 5) {
+			int branch = r.nextInt(2);
+			if(branch == 0) {
+				root.addChild(new TreeNode(Double.MAX_VALUE));
+			} else {
+				root.addChild(new TreeNode(Double.MIN_VALUE));
+			}
+			root.addChild(new TreeNode(inputs.get(r.nextInt(inputs.size()))));
+			branch = r.nextInt(2);
+			if(branch == 0) {
+				root.addChild(new TreeNode(Double.MAX_VALUE));
+			} else {
+				root.addChild(new TreeNode(Double.MIN_VALUE));
+			}
+			num = 2;
 		}
-			
+		else if(num == 3) {
+			//first branch must be Double.MaxValue or Double.MinValue
+			int branch = r.nextInt(2);
+			if(branch == 0) {
+				root.addChild(new TreeNode(Double.MAX_VALUE));
+			} else {
+				root.addChild(new TreeNode(Double.MIN_VALUE));
+			}
+			num--;
+		}
+		for(int i = 0; i < num; i++) {
+			TreeNode node = new TreeNode(inputs.get(r.nextInt(inputs.size())));
+			root.addChild(node);
+		}
 	}
+	
+	/**
+	 * Create action children
+	 * @param root
+	 * @param depthToGo
+	 * @param r
+	 * @param inputs
+	 * @param fullTree
+	 * @param global
+	 */
+	private static void createActionChildren(TreeNode root, Random r, int num) {
+		if(num == 5) {
+			ActionType at = numberToActionType(r.nextInt(7) + 1); // from 1 to 7
+			TreeNode firstBranch = new TreeNode(new Action(at));
+			root.addChild(firstBranch);
+			at = numberToActionType(r.nextInt(20) + 6); // generate any action except relational
+			TreeNode genNode = new TreeNode(new Action(at));
+			root.addChild(genNode);
+			at = numberToActionType(r.nextInt(7) + 1); // from 1 to 7
+			firstBranch = new TreeNode(new Action(at));
+			root.addChild(firstBranch);
+			num = 2; //for if_elif_else
+		}
+		else if (num == 3) {
+			// first branch can be if_else or relational
+			ActionType at = numberToActionType(r.nextInt(7) + 1); // from 1 to 7
+			TreeNode firstBranch = new TreeNode(new Action(at));
+			root.addChild(firstBranch);
+			// generate 2 more child that can be anything except relational
+			num--;
+		}
+		for (int i = 0; i < num; i++) {
+			ActionType at = numberToActionType(r.nextInt(20) + 6); // generate any action except relational
+			TreeNode genNode = new TreeNode(new Action(at));
+			root.addChild(genNode);
+		}
+	}
+	
 	
 
 	/**
-	 * Crossovers two trees and returns their newly created child
+	 * Num to action decoder
+	 * @param number
+	 * @return
+	 */
+	public static ActionType numberToActionType(int number) {
+		switch (number) {
+		case 1:
+			return ActionType.EQUAL;
+		case 2:
+			return ActionType.LESS_EQUAL;
+		case 3:
+			return ActionType.GREATER_EQUAL;
+		case 4:
+			return ActionType.LESS;
+		case 5:
+			return ActionType.GREATER;
+		case 6:
+			return ActionType.IF_ELSE;
+		case 7:
+			return ActionType.IF_ELIF_ELSE;
+		case 8:
+			return ActionType.MINUS;
+		case 9:
+			return ActionType.MULTIPLY;
+		case 10:
+			return ActionType.DIVIDE;
+		case 11:
+			return ActionType.SQRT;
+		case 12:
+			return ActionType.SIN;
+		case 13:
+			return ActionType.COS;
+		case 14:
+			return ActionType.TAN;
+		case 15:
+			return ActionType.CTG;
+		case 16:
+			return ActionType.ASIN;
+		case 17:
+			return ActionType.ACOS;
+		case 18:
+			return ActionType.ATAN;
+		case 19:
+			return ActionType.ACTG;
+		case 20:
+			return ActionType.SINH;
+		case 21:
+			return ActionType.COSH;
+		case 22:
+			return ActionType.TANH;
+		case 23:
+			return ActionType.COTH;
+		case 24:
+			return ActionType.POWER;
+		case 25:
+			return ActionType.PLUS;
+		default:
+			throw new IllegalArgumentException("No such action, random generator subtree!");
+		}
+	}
+
+	/**
+	 * Crossovers two trees and returns their newly created children
 	 * 
 	 * @param tree1 first tree
 	 * @param tree2 second tree
@@ -136,8 +274,8 @@ public class TreeUtil {
 		List<Tree> sol = new ArrayList<Tree>();
 		TreeNode ptr1 = findNode(tree1.getRoot(), 1, firstTree);
 		TreeNode ptr2 = findNode(tree2.getRoot(), 1, secondTree);
-		//obradi slucaj ako mijenjam root
-		if(firstTree == 1) {
+		// obradi slucaj ako mijenjam root
+		if (firstTree == 1) {
 			Tree newTree = new Tree(ptr2.copy());
 			sol.add(newTree);
 		} else {
@@ -146,45 +284,62 @@ public class TreeUtil {
 			Tree newTree = new Tree(newRoot);
 			sol.add(newTree);
 		}
-		if(secondTree == 1) {
+		if (secondTree == 1) {
 			Tree newTree = new Tree(ptr1.copy());
 			sol.add(newTree);
-		} else  {
+		} else {
 			TreeNode newRoot = tree2.getRoot().copy();
 			replaceSubtree(newRoot, ptr1, 1, secondTree);
-			Tree newTree = new Tree(newRoot);		
+			Tree newTree = new Tree(newRoot);
 			sol.add(newTree);
 		}
 		return sol;
 	}
-	
+
+	/**
+	 * Replaces subtrees
+	 * 
+	 * @param root
+	 * @param replaceNode
+	 * @param currentNode
+	 * @param targetNode
+	 */
 	private static void replaceSubtree(TreeNode root, TreeNode replaceNode, int currentNode, int targetNode) {
 		int index = -1;
 		TreeNode toRemove = null;
-		for(int i = 0; i< root.getChildren().size(); i++) {
+		for (int i = 0; i < root.getChildren().size(); i++) {
 			TreeNode child = root.getChildren().get(i);
 			currentNode++;
-			if(currentNode == targetNode) {
+			if (currentNode == targetNode) {
 				toRemove = child;
 				index = i;
 				break;
 			}
-			if(index == -1) {
-				replaceSubtree(child, replaceNode, currentNode, targetNode);
-			}
+			replaceSubtree(child, replaceNode, currentNode, targetNode);
+			currentNode+=child.getSize();
 		}
-		if(toRemove != null) {
+		if (toRemove != null) {
 			root.getChildren().set(index, replaceNode);
 		}
 	}
-	
+
+	/**
+	 * Finds node with index target node
+	 * 
+	 * @param node
+	 * @param currentNode
+	 * @param targetNode
+	 * @return
+	 */
 	private static TreeNode findNode(TreeNode node, int currentNode, int targetNode) {
-		if(currentNode == targetNode) {
+		if (currentNode == targetNode) {
 			return node;
 		}
-		for(TreeNode child: node.getChildren()) {
-			TreeNode ret = findNode(child, ++currentNode, targetNode);
-			if(ret != null) {
+		for (TreeNode child : node.getChildren()) {
+			currentNode++;
+			TreeNode ret = findNode(child, currentNode, targetNode);
+			currentNode += child.getSize();
+			if (ret != null) {
 				return ret;
 			}
 		}
@@ -201,57 +356,70 @@ public class TreeUtil {
 		if (root.getAction() == null) { // it is a leaf
 			return root.getValue();
 		}
-		if(root.getAction().isUnary()) {
-			if(root.getChildren().size() != 1) {
+		if (root.getAction().isUnary()) {
+			if (root.getChildren().size() != 1) {
 				System.out.println("Imamo problem, velicina nije 1, unary!");
 			}
-			double x = dfsOnTree(root.getChildren().get(0), level +1);
+			double x = dfsOnTree(root.getChildren().get(0), level + 1);
 			root.setValue(root.getAction().calculateUnary(x));
-		} else if(root.getAction().isBinary()) {
-			if(root.getChildren().size() != 2) {
+		} else if (root.getAction().isBinary()) {
+			if (root.getChildren().size() != 2) {
 				System.out.println("Imamo problem, velicina nije 2, binary!");
 			}
-			double x = dfsOnTree(root.getChildren().get(0), level +1);
-			double y = dfsOnTree(root.getChildren().get(1), level +1);
+			double x = dfsOnTree(root.getChildren().get(0), level + 1);
+			double y = dfsOnTree(root.getChildren().get(1), level + 1);
 			root.setValue(root.getAction().calculateBinary(x, y));
-		} else if(root.getAction().isRelational()) {
-			if(root.getChildren().size() != 2) {
+		} else if (root.getAction().isRelational()) {
+			if (root.getChildren().size() != 2) {
 				System.out.println("Imamo problem, velicina nije 2, relational!");
 			}
-			double x = dfsOnTree(root.getChildren().get(0), level +1);
-			double y = dfsOnTree(root.getChildren().get(1), level +1);
-			if(root.getAction().relations(x, y)) {
+			double x = dfsOnTree(root.getChildren().get(0), level + 1);
+			double y = dfsOnTree(root.getChildren().get(1), level + 1);
+			if (root.getAction().relations(x, y)) {
 				root.setValue(Double.MAX_VALUE);
 			} else {
 				root.setValue(Double.MIN_VALUE);
 			}
-		} else if(root.getAction().isBranchingFun()) {
-			if(root.getChildren().size() == 3) {
-				double x = dfsOnTree(root.getChildren().get(0), level +1);
-				if(root.getAction().calculateIf_Else(x)) {
-					root.setValue(dfsOnTree(root.getChildren().get(1), level +1));
+		} else if (root.getAction().isBranchingFun()) {
+			if (root.getChildren().size() == 3) {
+				double x = dfsOnTree(root.getChildren().get(0), level + 1);
+				if (root.getAction().calculateIf_Else(x)) {
+					root.setValue(dfsOnTree(root.getChildren().get(1), level + 1));
 				} else {
-					root.setValue(dfsOnTree(root.getChildren().get(2), level +1));
+					root.setValue(dfsOnTree(root.getChildren().get(2), level + 1));
 				}
-			} else if(root.getChildren().size() == 5) {
-				double x = dfsOnTree(root.getChildren().get(0), level +1);
-				double y = dfsOnTree(root.getChildren().get(2), level +1);
-				if(root.getAction().calculaateIf_Elif_Else(x, y) == 0) {
-					root.setValue(dfsOnTree(root.getChildren().get(1), level +1));
-				} else if(root.getAction().calculaateIf_Elif_Else(x, y) == 1) {
-					root.setValue(dfsOnTree(root.getChildren().get(3), level +1));
+			} else if (root.getChildren().size() == 5) {
+				double x = dfsOnTree(root.getChildren().get(0), level + 1);
+				double y = dfsOnTree(root.getChildren().get(2), level + 1);
+				if (root.getAction().calculaateIf_Elif_Else(x, y) == 0) {
+					root.setValue(dfsOnTree(root.getChildren().get(1), level + 1));
+				} else if (root.getAction().calculaateIf_Elif_Else(x, y) == 1) {
+					root.setValue(dfsOnTree(root.getChildren().get(3), level + 1));
 				} else {
-					root.setValue(dfsOnTree(root.getChildren().get(4), level +1));
+					root.setValue(dfsOnTree(root.getChildren().get(4), level + 1));
 				}
 			} else {
 				System.out.println("Imamo problem veličine, branching!");
 			}
-			
+
 		} else {
 			System.out.println("Niente dobro");
 		}
 		return root.getValue();
 	}
-	
+
+	/**
+	 * Recursively prints tree
+	 * 
+	 * @param root
+	 * @param ret
+	 * @param spaces
+	 */
+	public static void printTree(TreeNode root, int spaces) {
+		System.out.println("\t".repeat(spaces) + root.toString());
+		for (TreeNode child : root.getChildren()) {
+			printTree(child, spaces + 1);
+		}
+	}
 
 }
