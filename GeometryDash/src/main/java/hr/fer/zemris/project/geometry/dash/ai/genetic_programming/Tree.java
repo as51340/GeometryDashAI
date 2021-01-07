@@ -3,6 +3,8 @@ package hr.fer.zemris.project.geometry.dash.ai.genetic_programming;
 import java.util.EnumSet;
 import java.util.Random;
 
+import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
+
 /**
  * Implementation of tree in java
  * @author Andi Škrgat
@@ -14,6 +16,16 @@ public class Tree {
 	 * Root of the tree
 	 */
 	private TreeNode root = null;
+	
+	/**
+	 * Size of tree
+	 */
+	private int size = -1;
+	
+	/**
+	 * Every tree stores reference to the player
+	 */
+	private Player player;
 	
 	/**
 	 * Simple constructor for now
@@ -41,6 +53,7 @@ public class Tree {
 	 */
 	public Tree(TreeNode root) {
 		this.root = root;
+		calculateSize();
 	}
 	
 	
@@ -62,8 +75,36 @@ public class Tree {
 	 * @return the size
 	 */
 	public int getSize() {
-		return root.getSize() + 1; //for root
+		return this.size;
 	}
+	
+	private void calculateSize() {
+		this.size =  root.calculateSize(1) + 1; //for root
+	}
+	
+	/**
+	 * sets size
+	 * @param size
+	 */
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	/**
+	 * @return the player
+	 */
+	public Player getPlayer() {
+		return player;
+	}
+
+
+	/**
+	 * @param player the player to set
+	 */
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
 
 	/**
 	 * Performs deep copy on the {@linkplain Tree}
@@ -71,14 +112,8 @@ public class Tree {
 	 */
 	public Tree copy() {
 		Tree tree = new Tree(this.root.copy());
+		tree.setSize(size);
 		return tree;
-	}
-	
-	/**
-	 * Prints tree
-	 */
-	public void printTree() {
-		//TreeUtil.dfsOnTree(root, null, 0);
 	}
 
 
@@ -106,15 +141,5 @@ public class Tree {
 			return false;
 		return true;
 	}
-
-
-	@Override
-	public String toString() {
-		return "Tree [root=" + root + "]";
-	}
-	
-	
-	
-	
 	
 }

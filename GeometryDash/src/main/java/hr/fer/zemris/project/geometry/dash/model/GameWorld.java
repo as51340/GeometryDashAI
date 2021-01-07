@@ -327,11 +327,11 @@ public class GameWorld {
 
 	}
 
-	/**
-	 * Implementation of {@linkplain GameWorldListener}
-	 *
-	 */
-	class GameWorldListenerImpl implements GameWorldListener {
+
+    /**
+     * Implementation of {@linkplain GameWorldListener}
+     */
+    class GameWorldListenerImpl implements GameWorldListener {
 
 		@Override
 		public void instanceFinished(double time) throws IOException {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Node in tree. It keeps data and reference to all nodes it's pointing to
  * 
@@ -15,17 +17,30 @@ public class TreeNode {
 	/**
 	 * In intern node we have actions, if is null that means that this node is leaf
 	 */
+	@Expose
 	private Action action = null;
 
 	/**
 	 * Value in leaf, input
 	 */
+	@Expose
 	private double value;
 
 	/**
 	 * It stores children in {@linkplain ArrayList}.
 	 */
+	@Expose
 	private List<TreeNode> children = new ArrayList<TreeNode>();
+	
+	/**
+	 * Depth level of node
+	 */
+	private int depth = 0;
+	
+	/**
+	 * Size of subtree
+	 */
+	private int size = -1;
 
 	/**
 	 * Constructor for intern node
@@ -68,7 +83,7 @@ public class TreeNode {
 		if (action == null) {
 			return Double.toString(value);
 		} else {
-			return action.toString() + " " + Double.toString(value);
+			return action.toString();
 		}
 	}
 
@@ -165,9 +180,13 @@ public class TreeNode {
 	 */
 	public TreeNode copy() {
 		TreeNode copied = new TreeNode(action, value);
+		copied.setDepth(getDepth());
+		if(size == -1) {
+			throw new IllegalArgumentException("Size is -1 something is wrong");
+		}
+		copied.setSize(size);
 		for (TreeNode child : this.getChildren()) {
 			copied.addChild(child.copy());
-
 		}
 		return copied;
 	}
@@ -176,13 +195,46 @@ public class TreeNode {
 	 * @return the size
 	 */
 	public int getSize() {
-		int size = 0;
+		return this.size;
+	}
+	
+	/**
+	 * Calculates size only during tree initialization
+	 * @param depth
+	 * @return
+	 */
+	public int calculateSize(int depth) {
+		this.depth = depth;
+		size = 0;
 		size += children.size();
 		for (TreeNode child : children) {
-			size += child.getSize();
+			size += child.calculateSize(depth+1);
 		}
 		return size;
 	}
+	
+	/**
+	 * Sets size
+	 * @param size
+	 */
+	public void setSize(int size) {
+		this.size = size;
+	}
 
+	/**
+	 * @return the depth
+	 */
+	public int getDepth() {
+		return depth;
+	}
+
+	/**
+	 * @param depth the depth to set
+	 */
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+
+	
 
 }
