@@ -122,7 +122,7 @@ public class LevelManager {
 //				for(GameObject obj: lev.getLevelData()) {
 //					System.out.println(obj.getCurrentPosition().getX());
 //				}
-				return lev.getLevelData();
+				return lev.getGameObjects();
 			}
 		}
 		// we should throw because it's not normal situation when user can choose to load level with some level name

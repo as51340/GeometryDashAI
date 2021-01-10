@@ -142,14 +142,6 @@ public class Level {
 	public void setLevelName(String levelName) {
 		this.levelName = levelName;
 	}
-
-	/**
-	 * @return level data
-	 */
-	public Set<GameObject> getLevelData() {
-		return gameObjects;
-	}
-
 	/**
 	 * @param totalAttempts the totalAttempts to set
 	 */
