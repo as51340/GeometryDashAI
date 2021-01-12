@@ -279,6 +279,7 @@ public class GameWorld {
 	 */
 	private void checkCollision() {
 		new Thread(() -> {
+			System.out.println("usao");
 			Iterator<Player> iterator = players.iterator();
 			int i = 0;
 			while (iterator.hasNext()) {

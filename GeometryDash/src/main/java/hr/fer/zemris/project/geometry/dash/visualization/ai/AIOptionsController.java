@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.visualization.TreeVisualizationController;
+import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.CharacterSelectController;
+import hr.fer.zemris.project.geometry.dash.visualization.ChooseLevelController;
 import hr.fer.zemris.project.geometry.dash.visualization.MainOptionsController;
 import hr.fer.zemris.project.geometry.dash.visualization.MenuController;
 import javafx.fxml.FXML;
