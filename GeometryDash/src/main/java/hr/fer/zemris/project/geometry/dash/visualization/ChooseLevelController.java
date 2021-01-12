@@ -163,6 +163,7 @@ public class ChooseLevelController extends MainOptionsController {
 				if (e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W || e.getCode() == KeyCode.SPACE) {
 					for (Player p : GameEngine.getInstance().getGameWorld().getPlayers()) {
 						p.jump();
+						GameEngine.getInstance().getLevelManager().getCurrentLevel().setTotalJumps();
 					}
 					gameEngine.getUserListener().playerJumped();
 				}

@@ -316,6 +316,10 @@ public class GameEngine implements SoundSystem {
 				if (!gameWorld.update()) {
 					try {
 						stop();
+						System.out.println("CURRENT TIME: ");
+						System.out.println(System.currentTimeMillis());
+						System.out.println("START TIME:");
+						System.out.println(this.startTime);
 						double time = System.currentTimeMillis() - this.startTime;
 						this.levelManager.getCurrentLevel().setTotalAttempts();
 						gameWorld.getGameWorldListener().instanceFinished(time);
@@ -356,6 +360,13 @@ public class GameEngine implements SoundSystem {
 	 */
 	public GameStateListener getGameStateListener() {
 		return gameStateListener;
+	}
+	
+	/**
+	 * @return the start time
+	 */
+	public long getStartTime() {
+		return startTime;
 	}
 
 	/**

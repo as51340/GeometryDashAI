@@ -201,7 +201,7 @@ public class GameWorld {
 			}
 			System.out.println("Zavrsilo ih je: " + i);
 			try {
-				gameWorldListener.instanceFinished(System.currentTimeMillis() / 1000);
+				gameWorldListener.instanceFinished(System.currentTimeMillis()- GameEngine.getInstance().getStartTime());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -255,7 +255,6 @@ public class GameWorld {
 		}
 		return player;
 	}
-
 	/**
 	 * Finds closest obstacles to the player
 	 * 
