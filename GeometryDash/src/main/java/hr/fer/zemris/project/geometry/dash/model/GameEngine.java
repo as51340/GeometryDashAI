@@ -38,7 +38,7 @@ import javafx.util.Duration;
  */
 public class GameEngine implements SoundSystem {
 
-	private static final GameEngine GAME_ENGINE = new GameEngine(100, "GeometryDashAI", GameConstants.WIDTH,
+	private static final GameEngine GAME_ENGINE = new GameEngine(120, "GeometryDashAI", GameConstants.WIDTH,
 			GameConstants.HEIGHT);
 
 	/**
@@ -277,8 +277,9 @@ public class GameEngine implements SoundSystem {
 	public void reset() {
 		Thread thr = new Thread(() -> {
 			gameWorld.setDeaths(0);
-			Camera newCamera = getGameWorld().getRenderer().getCamera();
-			newCamera.setPosition(new Vector2D(0, 0));
+			Camera newCamera = new Camera();//getGameWorld().getRenderer().getCamera();
+			//newCamera.setPosition(new Vector2D(0, 0));
+			getGameWorld().getRenderer().setCamera(newCamera);
 			((Floor) getGameWorld().getFloor()).setCamera(newCamera); 
 			getGameWorld().getRenderer().getGameObjects().forEach(o -> {
 				o.setCurrentPosition(o.initialPosition.copy());
