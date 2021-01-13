@@ -185,13 +185,6 @@ public class ChooseLevelController extends MainOptionsController {
 //		controller.setPreviousSceneRoot(rootPane);
 		controller.init();
 
-		// otherwise window will reset its size to default; this will keep current
-		// window width and height
-		double width = rootPane.getScene().getWidth();
-		double height = rootPane.getScene().getHeight();
-		stage.setWidth(width);
-		stage.setHeight(height);
-
 		stage.setScene(scene);
 
 		if(playingMode == PlayingMode.HUMAN) {
