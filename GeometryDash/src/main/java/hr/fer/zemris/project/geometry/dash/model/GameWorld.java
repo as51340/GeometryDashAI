@@ -182,9 +182,10 @@ public class GameWorld {
 		GameEngine.getInstance().getLevelManager().startLevelWithName(levelName);
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
 		levelObjects.add(floor);
-		for (Player p : players) {
-			levelObjects.add(p);
-		}
+//		for (Player p : players) {
+//			levelObjects.add(p);
+//		}
+		levelObjects.add(players.iterator().next());
 		renderer = new Renderer(levelObjects);
 		((Floor) floor).setCamera(renderer.getCamera());
 
