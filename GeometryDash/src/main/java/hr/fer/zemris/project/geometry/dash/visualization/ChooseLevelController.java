@@ -14,6 +14,7 @@ import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.model.settings.Options;
 import hr.fer.zemris.project.geometry.dash.threads.DaemonicThreadFactory;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -151,12 +152,13 @@ public class ChooseLevelController extends MainOptionsController {
 //				new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
 //		gameEngine.getGameWorld().addPlayer(player);
 //		
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 5; i++) {
 			Player player = new Player(new Vector2D(i*20, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
 					new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
 			gameEngine.getGameWorld().addPlayer(player);
 		}
-		
+
+
 		gameEngine.getGameWorld().createScene(levels.get(levelIndex).getLevelName());
 		if (playingMode == PlayingMode.HUMAN) {
 			scene.setOnKeyPressed((e) -> {

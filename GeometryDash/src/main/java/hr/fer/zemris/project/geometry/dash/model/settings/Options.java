@@ -19,6 +19,10 @@ public class Options {
 	 */
 	private PlayingMode AIMode = PlayingMode.NEURAL_NETWORK;
 
+	private int numberOfHiddenLayers;
+
+	private int numberPerHiddenLayer;
+
 	public Options() {
 		autoRetry = false;
 	}
@@ -47,7 +51,23 @@ public class Options {
 	public void setAIMode(PlayingMode playingMode) {
 		this.AIMode = playingMode;
 	}
-	
-	
-	
+
+	/**
+	 * @return number of hidden layers
+	 */
+	public int getNumberOfHiddenLayers() {
+		return numberOfHiddenLayers;
+	}
+
+	public int getNumberPerHiddenLayer() {
+		return numberPerHiddenLayer;
+	}
+
+	public void setNumberOfHiddenLayers(int numberOfHiddenLayers) {
+		this.numberOfHiddenLayers = numberOfHiddenLayers;
+	}
+
+	public void setNumberPerHiddenLayer(int numberPerHiddenLayer) {
+		this.numberPerHiddenLayer = numberPerHiddenLayer;
+	}
 }
