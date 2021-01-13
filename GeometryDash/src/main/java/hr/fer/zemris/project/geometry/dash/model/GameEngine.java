@@ -41,7 +41,7 @@ public class GameEngine implements SoundSystem {
 
 	private static final GameEngine GAME_ENGINE = new GameEngine(100, "GeometryDashAI", GameConstants.WIDTH,
 			GameConstants.HEIGHT);
-
+	
 	/**
 	 * Frames per second, default value is 60
 	 */
@@ -277,7 +277,7 @@ public class GameEngine implements SoundSystem {
 	 * Resets game world
 	 */
 	public void reset() {
-		Thread thr = new Thread(() -> {
+//		Thread thr = new Thread(() -> {
 			gameWorld.setDeaths(0);
 			Camera newCamera = getGameWorld().getRenderer().getCamera();
 			newCamera.setPosition(new Vector2D(0, 0));
@@ -293,13 +293,13 @@ public class GameEngine implements SoundSystem {
 					((Player) o).setSpeed(new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
 				}
 			});
-		});
-		thr.start();
-		try {
-			thr.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		});
+//		thr.start();
+//		try {
+//			thr.join();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	/**
@@ -326,12 +326,12 @@ public class GameEngine implements SoundSystem {
 						e.printStackTrace();
 					}
 				}
-				gameWorld.getClosestObstacles();
 			} else if (gameState == GameState.LEVEL_EDITOR_MODE) {
-				new Thread(() -> {
+				Thread thread = new Thread(() -> {
 					levelEditor.update();
-				}).start();
-				
+				});
+				thread.setDaemon(true);
+				thread.start();
 				levelEditor.draw();
 			}
 		});

@@ -63,7 +63,7 @@ public class GameWorld {
 	 */
 	private int deaths = 0;
 
-	private Set<GameObject> closestObjects;
+	private List<GameObject> closestObjects;
 
 	private Object lockObject;
 
@@ -137,6 +137,7 @@ public class GameWorld {
 	public GameWorld() {
 		gameWorldListener = new GameWorldListenerImpl();
 		players = new TreeSet<Player>(AIConstants.playerComparator);
+		closestObjects = new ArrayList<GameObject>();
 	}
 
 	/**
@@ -148,7 +149,6 @@ public class GameWorld {
 		if (players.contains(player))
 			System.out.println("Već sadržava!");
 		players.add(player);
-//		renderer.addGameObject(player);
 	}
 
 	/**
@@ -172,19 +172,9 @@ public class GameWorld {
 	 * Creates temporary scene
 	 */
 	public void createScene(String levelName) {
-		// when we create choose level scene then we will change these lines, maybe
-		// create scene will be public and will receive levelName
-		// and level manager will have from start predefines levels, you can call
-		// levelManeger.startLevelWithName(levelName);
-		// but for testing it's okay
-		int i = 0;
 		for (Player player : players) {
 			player.setIcon(GameConstants.pathToIcons
 					+ GameEngine.getInstance().getDefaultSelector().getSelectedCharacter().getUri());
-			if (i == players.size() - 1) {
-				closestObjects = new TreeSet<GameObject>(new GameObjectComparator(player));
-			}
-			i++;
 		}
 		Set<GameObject> levelObjects = GameEngine.getInstance().getLevelManager().getLevelByName(levelName)
 				.getGameObjects();
@@ -203,16 +193,7 @@ public class GameWorld {
 	 * Checks for relations between camera, player and ground
 	 */
 	public boolean update() {
-//		System.out.println("Update");
-		Thread thread = new Thread(() -> {
-			checkCollision();
-		});
-		thread.start();
-		try {
-			thread.join();
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
+		checkCollision();
 		if (deaths == players.size()) {
 			System.out.println("Svi mrtvi");
 			return false;
@@ -292,68 +273,54 @@ public class GameWorld {
 	}
 
 	/**
-	 * Finds closest obstacles to the player
-	 * 
-	 * @return
-	 */
-	public Set<GameObject> getClosestObstacles() {
-
-		return closestObjects;
-	}
-
-	/**
 	 * Checks relation between player and ground
 	 */
 	private void checkCollision() {
-		new Thread(() -> {
-			Iterator<Player> iterator = players.iterator();
-			int i = 0;
-			while (iterator.hasNext()) {
-				Player player = iterator.next();
-				if (player.isDead())
-					continue;
-				player.setTouchingGround(false);
-				int j = 0;
-				for (GameObject gameObject : GameEngine.getInstance().getLevelManager().getCurrentLevel()
-						.getLevelData()) {
-					if (!(gameObject instanceof Player)
-							&& (gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() <= 400)) {
+		Iterator<Player> iterator = players.iterator();
+		int i = 0;
+		while (iterator.hasNext()) {
+			Player player = iterator.next();
+			if (player.isDead())
+				continue;
+			player.setTouchingGround(false);
+			int j = 0;
+			for (GameObject gameObject : GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelData()) {
+				if (!(gameObject instanceof Player)
+						&& (gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() <= 400)) {
 
-						if (!(gameObject instanceof Floor)
-								&& gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() >= 0) {
-							if (i == 0 && j < AIConstants.numOfClosestObstacles) {
+					if (!(gameObject instanceof Floor)
+							&& gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() >= 0) {
+						if (i == 0 && j < AIConstants.numOfClosestObstacles) {
 //								if(closestObjects != null) {
 //									closestObjects.add(gameObject.copy());
 //									j++;
 //								} ovo je sranje koje zablokira sve
 
-							}
 						}
-						if (gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() <= 100) {
-							if (gameObject instanceof Obstacle) {
-								Obstacle obstacle = (Obstacle) gameObject;
-								if (obstacle.playerIsOn(player)) {
-									player.touchesGround();
-									player.getCurrentPosition()
-											.setY(gameObject.getCurrentPosition().getY() - GameConstants.iconHeight);
-								}
-								if (!player.isDead() && obstacle.checkCollisions(player)) {
-									if (((Obstacle) gameObject).checkCollisions(player)) {
-										deaths++;
-										player.setGoodness_value(
-												gameObject.initialPosition.getX() - player.getCurrentPosition().getX());
+					}
+					if (gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() <= 100) {
+						if (gameObject instanceof Obstacle) {
+							Obstacle obstacle = (Obstacle) gameObject;
+							if (obstacle.playerIsOn(player)) {
+								player.touchesGround();
+								player.getCurrentPosition()
+										.setY(gameObject.getCurrentPosition().getY() - GameConstants.iconHeight);
+							}
+							if (!player.isDead() && obstacle.checkCollisions(player)) {
+								if (((Obstacle) gameObject).checkCollisions(player)) {
+									deaths++;
+									player.setGoodness_value(
+											gameObject.initialPosition.getX() - player.getCurrentPosition().getX());
 //										System.out.println("postavljam mrtvaca!");
-										player.setDead(true);
-									}
+									player.setDead(true);
 								}
 							}
 						}
 					}
 				}
-				i++;
 			}
-		}).start();
-
+			i++;
+		}
 	}
 
 	/**
@@ -365,7 +332,7 @@ public class GameWorld {
 		public void instanceFinished(double time) throws IOException {
 			GameEngine.getInstance().stop();
 			GameEngine.getInstance().reset();
-			//fuš
+			// fuš, premjesti to ako je level gotov
 			deaths = 300;
 //			System.out.println(Thread.currentThread().getName());
 			if (GameEngine.getInstance().getGameState() == GameState.AI_PLAYING_MODE

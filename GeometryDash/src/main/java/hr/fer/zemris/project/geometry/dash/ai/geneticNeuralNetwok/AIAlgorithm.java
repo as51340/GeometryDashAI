@@ -18,6 +18,7 @@ import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.visualization.GameSceneController;
 import javafx.application.Platform;
 
 public class AIAlgorithm {
@@ -87,13 +88,11 @@ public class AIAlgorithm {
             sumOfAllFitnesses = 0;
             selection();
             System.out.println("Selekcija gotova "+ (i +1) + "-ti put");
-            reproduction();
+            //reproduction();
             System.out.println("Reprodukcija gotova " + (i +1) + "-ti put");
-//            GameEngine.getInstance().getGameWorld().getPlayers().clear(); //ocisti playere
-            Set<Player> players = playerNeuralNetworkMap.keySet();
-            for(Player player: players) {
-            	//vrati ga na pocetnu poziciju
-            }
+            //isti princip uporabe kao u game world
+            GameEngine.getInstance().stop();
+			GameEngine.getInstance().reset();
         }
     }
 
@@ -131,7 +130,6 @@ public class AIAlgorithm {
             		try {
 						lockObj.wait();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} //cekaj dok ne pokrepivaju
             	}

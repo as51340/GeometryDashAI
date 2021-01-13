@@ -104,6 +104,7 @@ public class ArtificialNeuralNetworkController extends MenuController{
 		GameSceneController controller = loader.getController();
 //		controller.setPreviousSceneRoot(rootPane);
 		controller.init();
+//		GameSceneController.generationLabel.setVisible(true);
 		
 		// otherwise window will reset its size to default; this will keep current
 		// window width and height
