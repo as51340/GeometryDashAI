@@ -64,29 +64,17 @@ public class PlayerDeathSceneController extends MenuController {
         fadeTransitionReverse.setFromValue(OVERLAY_OPACITY);
         fadeTransitionReverse.setToValue(0.0);
         fadeTransitionReverse.play();
-		//((Stage)retryButton.getScene().getWindow()).close();
+//		((Stage)retryButton.getScene().getWindow()).close();
         
         // otherwise up and space keys won't work after clicking on retry button
-        rootPane.getScene().getRoot().requestFocus();
-//        rootPane.getScene().setOnKeyPressed((e) -> {
-//    		if(e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W || e.getCode() == KeyCode.SPACE) {
-//        		GameEngine.getInstance().getGameWorld().getPlayerListener().playerJumped();
-//        		GameEngine.getInstance().getUserListener().playerJumped();
-//    		}
-//    	});
-//
-//        rootPane.getScene().setOnMouseClicked((e) -> {
-//    		if(e.getButton() == MouseButton.PRIMARY) {
-//    			GameEngine.getInstance().getGameWorld().getPlayerListener().playerJumped();
-//    			GameEngine.getInstance().getUserListener().playerJumped();
-//    		}
-//    	});
+//      rootPane.getScene().getRoot().requestFocus();
 		GameEngine.getInstance().start();
 	}
 	
 	@FXML
 	private void mainMenuAction(ActionEvent event) throws IOException {
 		if(GameEngine.getInstance().getGameState() == GameState.NORMAL_MODE_PLAYING) {
+			System.out.println("tu san");
 			GameEngine.getInstance().getGameStateListener().normalModePlayingExited();
 		} else {
 			GameEngine.getInstance().getGameStateListener().AIPlayingModeExited();
@@ -105,7 +93,7 @@ public class PlayerDeathSceneController extends MenuController {
 	}
 	
 	@FXML
-	private void chooseLevelAction(ActionEvent event) throws IOException {
+	private void chooseLevelAction(ActionEvent event) throws IOException, InterruptedException {
 		if(GameEngine.getInstance().getGameState() == GameState.NORMAL_MODE_PLAYING) {
 			GameEngine.getInstance().getGameStateListener().normalModePlayingExited();
 		} else {
@@ -113,20 +101,21 @@ public class PlayerDeathSceneController extends MenuController {
 		}
 		
 		// needed so that back button in ChooseLevelScene works after coming back from level 
-		FXMLLoader backgroundSceneLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
-    	Parent root = backgroundSceneLoader.load();
-		BackgroundSceneController backgroundSceneController = backgroundSceneLoader.<BackgroundSceneController>getController();
-		backgroundSceneController.init();
-		
+//		FXMLLoader backgroundSceneLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
+//    	Parent root = backgroundSceneLoader.load();
+//		BackgroundSceneController backgroundSceneController = backgroundSceneLoader.<BackgroundSceneController>getController();
+//		backgroundSceneController.init();
+//		
 		FXMLLoader chooseLevelSceneloader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "level/ChooseLevelScene.fxml"));
 		chooseLevelSceneloader.load();
     	ChooseLevelController chooseLevelSceneController = chooseLevelSceneloader.getController();
-    	chooseLevelSceneController.setPreviousSceneRoot(backgroundSceneController.getRootPane());
+//    	chooseLevelSceneController.setPreviousSceneRoot(backgroundSceneController.getRootPane());
+    	chooseLevelSceneController.setPreviousSceneRoot(rootPane);
 		
-		Stage stage = (Stage)(chooseLevelButton.getScene().getWindow());
-		Scene scene = GeometryDash.createScaledScene(root, stage);
-		
-		stage.setScene(scene);
+    	
+//		Scene scene = GeometryDash.createScaledScene(root, stage);
+//		
+//		stage.setScene(scene);
 	}
 	
 	public void showInformation(String levelName, String attempt, short percentage, String totalJumps, double time) {

@@ -185,8 +185,10 @@ public class ChooseLevelController extends MainOptionsController {
 //		controller.setPreviousSceneRoot(rootPane);
 		controller.init();
 
+		Thread.sleep(500);
 		stage.setScene(scene);
 
+		
 		if(playingMode == PlayingMode.HUMAN) {
 			gameEngine.getGameStateListener().normalModePlayingStarted();
 		} else {

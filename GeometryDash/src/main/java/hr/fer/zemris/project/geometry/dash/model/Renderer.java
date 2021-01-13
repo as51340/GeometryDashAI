@@ -39,11 +39,6 @@ public class Renderer {
 	 * Graphics context
 	 */
 	private GraphicsContext graphicsContext;
-	
-	/**
-	 * Priority queue for finding closest obstacles when AI is playing
-	 */
-	PriorityQueue<Obstacle> pq;
 
 	/**
 	 * Gets game objects and inits camera
@@ -53,7 +48,6 @@ public class Renderer {
 	public Renderer(Set<GameObject> gameObjects) {
 		this.camera = new Camera();
 		this.gameObjects = gameObjects;
-		
 	}
 
 	/**
@@ -103,7 +97,6 @@ public class Renderer {
 	 * @param gameObject game object
 	 */
 	public void addGameObject(GameObject gameObject) {
-		System.out.println("Dodan novi player!");
 		this.gameObjects.add(gameObject);
 	}
 	
@@ -126,10 +119,12 @@ public class Renderer {
 
 				gameObject.getCurrentPosition()
 						.setY(gameObject.getCurrentPosition().getY() - camera.getPosition().getY());
+				
 				if (!(gameObject instanceof Player) && gameObject.getCurrentPosition().getX()
 						+ GameConstants.LEVEL_END_OFFSET > GameConstants.playerPosition_X) {
 					finished = false;
 				}
+					
 				if(gameObject.getCurrentPosition().getX() >= -50 && gameObject.getCurrentPosition().getX() <= 1300) {
 					gameObject.draw(graphicsContext); // sliding window
 				}

@@ -178,6 +178,7 @@ public class GameWorld {
 		}
 		Set<GameObject> levelObjects = GameEngine.getInstance().getLevelManager().getLevelByName(levelName)
 				.getGameObjects();
+//		Set<GameObject> levelObjects = (Set<GameObject>) ((TreeSet<GameObject>) tempObjects).clone();
 		GameEngine.getInstance().getLevelManager().startLevelWithName(levelName);
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
 		levelObjects.add(floor);
@@ -193,25 +194,26 @@ public class GameWorld {
 	 * Checks for relations between camera, player and ground
 	 */
 	public boolean update() {
-		checkCollision();
+		checkCollision2();
+
 		if (deaths == players.size()) {
-			System.out.println("Svi mrtvi");
+			System.out.println("Svi su mrtvi");
 			return false;
 		}
 
 		Player player = getMaxPlayer();
-		if (player == null) {
+		if (player == null) { // on nebi trebao biti nikad null
 			System.out.println("Svi mrtvi");
 			return false;
 		}
+
 		checkPlayerCamera_X(player);
 		checkPlayerCamera_Y(player);
 		checkCameraGround_Y();
+
 		if (renderer.render()) {
 			int i = 0;
-			System.out.println("Size unutra: " + players.size());
-			for (Player p : players) {
-//				System.out.println("Player i");
+			for (Player p : players) { // ovo mozes izbaciti samo trosi ciklus
 				if (p.isDead() == false)
 					i++;
 			}
@@ -272,12 +274,57 @@ public class GameWorld {
 		return player;
 	}
 
-	/**
-	 * Checks relation between player and ground
-	 */
-	private void checkCollision() {
+	private void checkCollision2() {
+		Iterator<Player> iterator = players.iterator();
+		Set<GameObject> gObjects = GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelData();
+		while (iterator.hasNext()) {
+			Player player = iterator.next();
+			if (player.isDead())
+				continue;
+			player.setTouchingGround(false);
+			for (GameObject gameObject : gObjects) {
+				if (gameObject instanceof Player)
+					continue; // ne treba nam player ni floor
+
+				double playerX = player.getCurrentPosition().getX();
+				double playerY = player.getCurrentPosition().getY();
+				double obstacleX = gameObject.getCurrentPosition().getX();
+
+//				System.out.println("X pozicija playera " + playerX);
+//				System.out.println("Y pozicija playera " + playerY);
+
+				if (obstacleX - playerX > 400 && !(gameObject instanceof Floor)) //makni drugi uvjet
+					continue; // uzmi prepreke u scopeu 400
+
+				if (obstacleX - playerX <= 100 || gameObject instanceof Floor) { //makni drugi uvjet
+					// svi bi trebali bit obstaclei
+					Obstacle obstacle = (Obstacle) gameObject;
+					if(gameObject instanceof Floor) System.out.println("Provjeravam sa podom!");
+					if (obstacle.playerIsOn(player)) {
+						player.touchesGround();
+						player.getCurrentPosition()
+								.setY(gameObject.getCurrentPosition().getY() - GameConstants.iconHeight);
+					} else {
+						System.out.println("Player nije na podu, sranje!");
+					}
+					if (obstacle.checkCollisions(player)) {
+						deaths++;
+						player.setGoodness_value(
+								gameObject.initialPosition.getX() - player.getCurrentPosition().getX());
+						player.setDead(true);
+					}
+				}
+
+			}
+
+		}
+
+	}
+
+	private void checkCollision1() {
 		Iterator<Player> iterator = players.iterator();
 		int i = 0;
+
 		while (iterator.hasNext()) {
 			Player player = iterator.next();
 			if (player.isDead())

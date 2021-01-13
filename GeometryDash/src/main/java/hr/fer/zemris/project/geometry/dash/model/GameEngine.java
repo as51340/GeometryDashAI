@@ -282,6 +282,7 @@ public class GameEngine implements SoundSystem {
 			Camera newCamera = getGameWorld().getRenderer().getCamera();
 			newCamera.setPosition(new Vector2D(0, 0));
 			((Floor) getGameWorld().getFloor()).setCamera(newCamera); 
+		
 			getGameWorld().getRenderer().getGameObjects().forEach(o -> {
 				o.setCurrentPosition(o.initialPosition.copy());
 				if (o instanceof Player) {
