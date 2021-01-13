@@ -60,10 +60,14 @@ public class GeometryDash extends Application {
         root.scaleXProperty().bind(scene.widthProperty().divide(origW));
         root.scaleYProperty().bind(scene.heightProperty().divide(origH));
 
+        // Disable resizing to prevent bugs
+		stage.setResizable(false);
+
         // Preserve aspect ratio when resizing
-        double ratio = (double) GameConstants.HEIGHT / GameConstants.WIDTH;
-        stage.minHeightProperty().bind(stage.widthProperty().multiply(ratio));
-        stage.maxHeightProperty().bind(stage.widthProperty().multiply(ratio));
+		// Should be commented out if resizing is disabled
+//		double ratio = (double) GameConstants.HEIGHT / GameConstants.WIDTH;
+//		stage.minHeightProperty().bind(stage.widthProperty().multiply(ratio));
+//		stage.maxHeightProperty().bind(stage.widthProperty().multiply(ratio));
         
         return scene;
 	}
