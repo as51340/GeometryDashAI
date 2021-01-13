@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Semaphore;
 import java.util.function.DoubleUnaryOperator;
 
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
@@ -16,6 +18,7 @@ import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import javafx.application.Platform;
 
 public class AIAlgorithm {
 
@@ -29,6 +32,9 @@ public class AIAlgorithm {
 
     private Map<Player, NeuralNetwork> playerNeuralNetworkMap;
     private int sumOfAllFitnesses;
+    
+    private Object lockObj;
+    
     /**
      * Which algorithm to run - Genetic or Elman.
      */
@@ -42,7 +48,7 @@ public class AIAlgorithm {
      * @param mode
      */
     public AIAlgorithm(int numberOfHiddenLayers, int numberPerHiddenLayer, PlayingMode mode) {
-    	if((mode == PlayingMode.NEURAL_NETWORK || mode == PlayingMode.ELMAN_NEURAL_NETWORK))
+    	if(!(mode == PlayingMode.NEURAL_NETWORK || mode == PlayingMode.ELMAN_NEURAL_NETWORK))
     		throw new IllegalArgumentException("Mode has to be NEURAL_NETWORK or ELMAN_NEURAL_NETWORK");
     	if(mode == PlayingMode.ELMAN_NEURAL_NETWORK) {
     		this.numberOfHiddenLayers = 1;
@@ -55,46 +61,89 @@ public class AIAlgorithm {
         this.mode = mode;
     }
 
-    public AIAlgorithm(int numberOfHiddenLayers, int numberPerHiddenLayer, DoubleUnaryOperator activationFunction, PlayingMode mode) {
+    /**
+	 * @return the playerNeuralNetworkMap
+	 */
+	public Map<Player, NeuralNetwork> getPlayerNeuralNetworkMap() {
+		return playerNeuralNetworkMap;
+	}
+
+	/**
+	 * @param playerNeuralNetworkMap the playerNeuralNetworkMap to set
+	 */
+	public void setPlayerNeuralNetworkMap(Map<Player, NeuralNetwork> playerNeuralNetworkMap) {
+		this.playerNeuralNetworkMap = playerNeuralNetworkMap;
+	}
+
+	public AIAlgorithm(int numberOfHiddenLayers, int numberPerHiddenLayer, DoubleUnaryOperator activationFunction, PlayingMode mode) {
         this(numberOfHiddenLayers, numberPerHiddenLayer, mode);
         this.activationFunction = activationFunction;
     }
 
-    public void runAlgorithm() {
-        initialize();
+    public void runAlgorithm() throws InterruptedException {
         for (int i = 0; i < REPEAT; i++) {
+        	initialize(); //svaki put dodaj nove playere i neka garbage collector radi svoje
+        	System.out.println("Inicijalizacija gotova " + (i +1) + "-ti put");
             sumOfAllFitnesses = 0;
             selection();
+            System.out.println("Selekcija gotova "+ (i +1) + "-ti put");
             reproduction();
+            System.out.println("Reprodukcija gotova " + (i +1) + "-ti put");
+//            GameEngine.getInstance().getGameWorld().getPlayers().clear(); //ocisti playere
+            Set<Player> players = playerNeuralNetworkMap.keySet();
+            for(Player player: players) {
+            	//vrati ga na pocetnu poziciju
+            }
         }
     }
 
 	private void initialize() {
-        for (int i = 0; i < POPULATION_SIZE; i++) {
-            Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
-                    new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), mode);
-
-            NeuralNetwork neuralNetwork = mode == PlayingMode.NEURAL_NETWORK
-            		? new GeneticNeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer, activationFunction)
-            		: new ElmanNeuralNetwork(INPUT_LAYER_SIZE, numberPerHiddenLayer, activationFunction);
-            
-            playerNeuralNetworkMap.put(player, neuralNetwork);
-        }
+		Set<Player> players = playerNeuralNetworkMap.keySet();
+		for (Player player: players) {
+	            NeuralNetwork neuralNetwork = mode == PlayingMode.NEURAL_NETWORK
+	            		? new GeneticNeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer, activationFunction)
+	            		: new ElmanNeuralNetwork(INPUT_LAYER_SIZE, numberPerHiddenLayer, activationFunction);
+	            
+	            playerNeuralNetworkMap.put(player, neuralNetwork);
+	     }
+//        for (int i = 0; i < POPULATION_SIZE; i++) {
+//            Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
+//                    new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), mode);
+//
+//            NeuralNetwork neuralNetwork = mode == PlayingMode.NEURAL_NETWORK
+//            		? new GeneticNeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer, activationFunction)
+//            		: new ElmanNeuralNetwork(INPUT_LAYER_SIZE, numberPerHiddenLayer, activationFunction);
+//            
+//            playerNeuralNetworkMap.put(player, neuralNetwork);
+//        }
 	}
 
-    private void selection() {
-        //nekako u gameworld staviti playere, cekati da zavrse igrati da im se napravi fitness
-        GameEngine.getInstance().getGameWorld().setPlayers(playerNeuralNetworkMap.keySet());
-        //idk kako ovo radi ali cekamo valjda da zavrse igrat??
-        //tu bi trebali i ako smo zadovoljni s fitnesom stat? myb idk
-        Thread thread = new Thread(() -> {
-        	//wait i notify
-        });
-        //JAVAFX application thread
-        
+    private void selection() throws InterruptedException {
+//    	Thread t = new Thread(() -> {
+//    		Platform.runLater(() -> {
+//        		GameEngine.getInstance().getGameWorld().setPlayers(playerNeuralNetworkMap.keySet());
+        		GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
+//        	});
+            
+            synchronized(lockObj) {
+            	while(GameEngine.getInstance().getGameWorld().getDeaths() != POPULATION_SIZE) {
+            		System.out.println("Čekam!");
+            		try {
+						lockObj.wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} //cekaj dok ne pokrepivaju
+            	}
+            }
+            System.out.println("Gotov sam!");
+            //pokupi i nastavi dalje
+//    	});
+//    	t.setDaemon(true);
+//    	t.start();
+    	
         for (Player player : playerNeuralNetworkMap.keySet())
             sumOfAllFitnesses += player.getGoodness_value();
-
     }
 
     private void reproduction() {
@@ -192,4 +241,18 @@ public class AIAlgorithm {
     private boolean shouldIMutate() {
         return Math.random() <= MUTATION_RATE;
     }
+
+	/**
+	 * @return the lockObj
+	 */
+	public Object getLockObj() {
+		return lockObj;
+	}
+
+	/**
+	 * @param lockObj the lockObj to set
+	 */
+	public void setLockObj(Object lockObj) {
+		this.lockObj = lockObj;
+	}
 }

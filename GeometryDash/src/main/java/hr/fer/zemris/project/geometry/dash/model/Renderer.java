@@ -103,6 +103,7 @@ public class Renderer {
 	 * @param gameObject game object
 	 */
 	public void addGameObject(GameObject gameObject) {
+		System.out.println("Dodan novi player!");
 		this.gameObjects.add(gameObject);
 	}
 	

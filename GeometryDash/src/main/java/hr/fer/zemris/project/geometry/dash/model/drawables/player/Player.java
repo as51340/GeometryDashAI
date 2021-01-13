@@ -78,6 +78,20 @@ public class Player extends GameObject {
     }
 
     /**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
      * @return the rotation
      */
     public double getRotation() {
@@ -276,11 +290,7 @@ public class Player extends GameObject {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((playingMode == null) ? 0 : playingMode.hashCode());
-		result = prime* result + id;
-		return result;
+		return id;
 	}
 
 	@Override
@@ -290,9 +300,7 @@ public class Player extends GameObject {
 		if (getClass() != obj.getClass())
 			return false;
 		Player other = (Player) obj;
-		if (playingMode != other.playingMode)
-			return false;
-		if(this.id != other.id)
+		if (this.id != other.id)
 			return false;
 		return true;
 	}

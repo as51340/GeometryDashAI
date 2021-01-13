@@ -43,8 +43,16 @@ public class AIOptionsController extends MenuController{
     private Button geneticProgrammingButton;
     
     @FXML
-    void artificalNeuralNetworkGeneticAlgClicked(MouseEvent event) {
-    
+    void artificalNeuralNetworkGeneticAlgClicked(MouseEvent event) throws IOException {
+    	 FXMLLoader loader = new FXMLLoader(
+                 getClass().getResource(GameConstants.pathToVisualization + "AI/ArtificialNeuralNetwork.fxml")
+         );
+         loader.load();
+         Stage stage = GeometryDash.getStage();
+         //stage.setUserData(playingModeSelected);
+         ArtificialNeuralNetworkController controller = loader.getController();
+         controller.init();
+         controller.setPreviousSceneRoot(rootPane);
     }
 
     @FXML

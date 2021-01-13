@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
+
+import com.sun.scenario.effect.impl.state.LinearConvolveKernel;
+
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.*;
 import hr.fer.zemris.project.geometry.dash.model.listeners.GameWorldListener;
@@ -61,6 +64,22 @@ public class GameWorld {
 	private int deaths = 0;
 
 	private Set<GameObject> closestObjects;
+
+	private Object lockObject;
+
+	/**
+	 * @return the lockObject
+	 */
+	public Object getLockObject() {
+		return lockObject;
+	}
+
+	/**
+	 * @param lockObject the lockObject to set
+	 */
+	public void setLockObject(Object lockObject) {
+		this.lockObject = lockObject;
+	}
 
 	/**
 	 * @return the graphics
@@ -117,8 +136,7 @@ public class GameWorld {
 	 */
 	public GameWorld() {
 		gameWorldListener = new GameWorldListenerImpl();
-		players = new TreeSet<Player>(
-				(o1, o2) -> Double.compare(o2.getCurrentPosition().getX(), o1.getCurrentPosition().getX()));
+		players = new TreeSet<Player>(AIConstants.playerComparator);
 	}
 
 	/**
@@ -127,7 +145,10 @@ public class GameWorld {
 	 * @param player
 	 */
 	public void addPlayer(Player player) {
+		if (players.contains(player))
+			System.out.println("Već sadržava!");
 		players.add(player);
+//		renderer.addGameObject(player);
 	}
 
 	/**
@@ -142,6 +163,9 @@ public class GameWorld {
 	 */
 	public void setPlayers(Set<Player> players) {
 		this.players = players;
+		for (Player p : players) {
+			renderer.addGameObject(p);
+		}
 	}
 
 	/**
@@ -179,6 +203,7 @@ public class GameWorld {
 	 * Checks for relations between camera, player and ground
 	 */
 	public boolean update() {
+//		System.out.println("Update");
 		Thread thread = new Thread(() -> {
 			checkCollision();
 		});
@@ -203,11 +228,13 @@ public class GameWorld {
 		checkCameraGround_Y();
 		if (renderer.render()) {
 			int i = 0;
+			System.out.println("Size unutra: " + players.size());
 			for (Player p : players) {
+//				System.out.println("Player i");
 				if (p.isDead() == false)
 					i++;
 			}
-			System.out.println("Zavrilo ih je: " + i);
+			System.out.println("Zavrsilo ih je: " + i);
 			try {
 				gameWorldListener.instanceFinished(System.currentTimeMillis() / 1000);
 			} catch (IOException e) {
@@ -270,7 +297,7 @@ public class GameWorld {
 	 * @return
 	 */
 	public Set<GameObject> getClosestObstacles() {
-		
+
 		return closestObjects;
 	}
 
@@ -291,14 +318,15 @@ public class GameWorld {
 						.getLevelData()) {
 					if (!(gameObject instanceof Player)
 							&& (gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() <= 400)) {
-						
-						if (!(gameObject instanceof Floor) && gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() >= 0) {							
+
+						if (!(gameObject instanceof Floor)
+								&& gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() >= 0) {
 							if (i == 0 && j < AIConstants.numOfClosestObstacles) {
 //								if(closestObjects != null) {
 //									closestObjects.add(gameObject.copy());
 //									j++;
 //								} ovo je sranje koje zablokira sve
-								
+
 							}
 						}
 						if (gameObject.getCurrentPosition().getX() - player.getCurrentPosition().getX() <= 100) {
@@ -314,6 +342,7 @@ public class GameWorld {
 										deaths++;
 										player.setGoodness_value(
 												gameObject.initialPosition.getX() - player.getCurrentPosition().getX());
+//										System.out.println("postavljam mrtvaca!");
 										player.setDead(true);
 									}
 								}
@@ -327,34 +356,46 @@ public class GameWorld {
 
 	}
 
-
-    /**
-     * Implementation of {@linkplain GameWorldListener}
-     */
-    class GameWorldListenerImpl implements GameWorldListener {
+	/**
+	 * Implementation of {@linkplain GameWorldListener}
+	 */
+	class GameWorldListenerImpl implements GameWorldListener {
 
 		@Override
 		public void instanceFinished(double time) throws IOException {
-			// synchronized
-			// notify
 			GameEngine.getInstance().stop();
 			GameEngine.getInstance().reset();
-			if (GameEngine.getInstance().getSettings().getOptions().isAutoRetry()) { // ako je auto retry onda sve kreni
-																						// ispocetka
-				GameEngine.getInstance().start();
+			//fuš
+			deaths = 300;
+//			System.out.println(Thread.currentThread().getName());
+			if (GameEngine.getInstance().getGameState() == GameState.AI_PLAYING_MODE
+					|| GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
+				synchronized (lockObject) {
+					lockObject.notifyAll(); // obavijesti da smo gotovi
+				}
 			} else {
-				FXMLLoader loader = new FXMLLoader(
-						getClass().getResource(GameConstants.pathToVisualization + "PlayerDeathScene.fxml"));
-				loader.load();
-				PlayerDeathSceneController controller = loader.<PlayerDeathSceneController>getController();
-				Stage stage = (Stage) Stage.getWindows().stream().filter(Window::isShowing).findFirst().orElse(null);
-				Pane rootPane = stage == null ? null : (Pane) stage.getScene().lookup("#rootPane");
-				controller.setPreviousSceneRoot(rootPane);
-				controller.showInformation(GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelName(),
-						Long.toString(GameEngine.getInstance().getLevelManager().getCurrentLevel().getTotalAttempts()),
-						GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelPercentagePassNormalMode(),
-						Long.toString(GameEngine.getInstance().getLevelManager().getCurrentLevel().getTotalJumps()),
-						time);
+				if (GameEngine.getInstance().getSettings().getOptions().isAutoRetry()) { // ako je auto retry onda sve
+																							// kreni
+					// ispocetka
+					GameEngine.getInstance().start();
+				} else {
+					FXMLLoader loader = new FXMLLoader(
+							getClass().getResource(GameConstants.pathToVisualization + "PlayerDeathScene.fxml"));
+					loader.load();
+					PlayerDeathSceneController controller = loader.<PlayerDeathSceneController>getController();
+					Stage stage = (Stage) Stage.getWindows().stream().filter(Window::isShowing).findFirst()
+							.orElse(null);
+					Pane rootPane = stage == null ? null : (Pane) stage.getScene().lookup("#rootPane");
+					controller.setPreviousSceneRoot(rootPane);
+					controller.showInformation(
+							GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelName(),
+							Long.toString(
+									GameEngine.getInstance().getLevelManager().getCurrentLevel().getTotalAttempts()),
+							GameEngine.getInstance().getLevelManager().getCurrentLevel()
+									.getLevelPercentagePassNormalMode(),
+							Long.toString(GameEngine.getInstance().getLevelManager().getCurrentLevel().getTotalJumps()),
+							time);
+				}
 			}
 		}
 

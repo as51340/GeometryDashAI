@@ -6,6 +6,7 @@ import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
 import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
+import hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok.AIAlgorithm;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Floor;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.hash.HashUtil;
@@ -69,7 +70,7 @@ public class GameEngine implements SoundSystem {
 	/**
 	 * Game world
 	 */
-	private GameWorld gameWorld = null;
+	private volatile GameWorld gameWorld = null;
 
 	/**
 	 * Reference to the level editor
@@ -115,7 +116,7 @@ public class GameEngine implements SoundSystem {
 	 * Time when gameLoop started
 	 */
 	private long startTime;
-
+	
 	/**
 	 * Always returns same instance of game engine
 	 * 
@@ -258,6 +259,7 @@ public class GameEngine implements SoundSystem {
 	public void start() {
 		if (gameLoop.getStatus() != Status.RUNNING) {
 			this.startTime = System.currentTimeMillis();
+//			System.out.println("Startam");
 			gameLoop.play();
 		}
 	}
@@ -312,7 +314,7 @@ public class GameEngine implements SoundSystem {
 		// time between update will be approx. 16.67ms, for 10ms we have to provide 100
 		// fps as value
 		return new KeyFrame(frameTime, event -> {
-			if (gameState == GameState.NORMAL_MODE_PLAYING) {				
+			if (gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.AI_PLAYING_MODE || gameState == GameState.AI_TRAINING_MODE) {				
 				if (!gameWorld.update()) {
 					try {
 						stop();
