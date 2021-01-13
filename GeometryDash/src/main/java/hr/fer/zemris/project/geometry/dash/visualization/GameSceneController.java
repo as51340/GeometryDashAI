@@ -4,6 +4,7 @@ import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
@@ -36,6 +37,10 @@ public class GameSceneController extends MainOptionsController {
 	
 	@FXML
     private StackPane rootPane;
+	
+	 @FXML
+	private Label generationLabel; // postavi je
+
 	
 	@FXML
 	public void initialize() {

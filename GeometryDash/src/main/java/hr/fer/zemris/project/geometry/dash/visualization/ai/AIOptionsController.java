@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.visualization.TreeVisualizationController;
+import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.CharacterSelectController;
+import hr.fer.zemris.project.geometry.dash.visualization.ChooseLevelController;
 import hr.fer.zemris.project.geometry.dash.visualization.MainOptionsController;
 import hr.fer.zemris.project.geometry.dash.visualization.MenuController;
 import javafx.fxml.FXML;
@@ -41,8 +43,16 @@ public class AIOptionsController extends MenuController{
     private Button geneticProgrammingButton;
     
     @FXML
-    void artificalNeuralNetworkGeneticAlgClicked(MouseEvent event) {
-    
+    void artificalNeuralNetworkGeneticAlgClicked(MouseEvent event) throws IOException {
+    	 FXMLLoader loader = new FXMLLoader(
+                 getClass().getResource(GameConstants.pathToVisualization + "AI/ArtificialNeuralNetwork.fxml")
+         );
+         loader.load();
+         Stage stage = GeometryDash.getStage();
+         //stage.setUserData(playingModeSelected);
+         ArtificialNeuralNetworkController controller = loader.getController();
+         controller.init();
+         controller.setPreviousSceneRoot(rootPane);
     }
 
     @FXML

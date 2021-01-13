@@ -48,10 +48,9 @@
               </rowConstraints>
                <children>
                   <CheckBox mnemonicParsing="false" text="Auto Retry" />
-                  <CheckBox mnemonicParsing="false" text="ai option" GridPane.rowIndex="2" />
-                  <CheckBox mnemonicParsing="false" text="ai option2" GridPane.columnIndex="1" />
-                  <CheckBox mnemonicParsing="false" text="ai option3" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <CheckBox mnemonicParsing="false" text="ai option4" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <CheckBox mnemonicParsing="false" text="Neural Network" GridPane.columnIndex="1" />
+                  <CheckBox mnemonicParsing="false" text="Elman Network" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <CheckBox mnemonicParsing="false" text="Genetic Programming" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <ImageView fx:id="backButton" fitHeight="67.0" fitWidth="57.0" onMouseClicked="#backButtonClicked" pickOnBounds="true" preserveRatio="true" styleClass="menu-button" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="35.0">

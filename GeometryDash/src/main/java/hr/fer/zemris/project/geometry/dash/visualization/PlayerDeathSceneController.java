@@ -98,12 +98,6 @@ public class PlayerDeathSceneController extends MenuController {
     	Stage stage = (Stage)(menuButton.getScene().getWindow());
     	Scene scene = GeometryDash.createScaledScene(root, stage);
     	
-//    	 otherwise window will reset its size to default; this will keep current window width and height
-    	double width = menuButton.getScene().getWidth();
-    	double height = menuButton.getScene().getHeight();
-    	stage.setWidth(width);
-    	stage.setHeight(height);
-    	
 		BackgroundSceneController controller = loader.<BackgroundSceneController>getController();
         controller.init();
     	
@@ -131,12 +125,6 @@ public class PlayerDeathSceneController extends MenuController {
 		
 		Stage stage = (Stage)(chooseLevelButton.getScene().getWindow());
 		Scene scene = GeometryDash.createScaledScene(root, stage);
-		
-//    	 otherwise window will reset its size to default; this will keep current window width and height
-    	double width = chooseLevelButton.getScene().getWidth();
-    	double height = chooseLevelButton.getScene().getHeight();
-    	stage.setWidth(width);
-    	stage.setHeight(height);
 		
 		stage.setScene(scene);
 	}

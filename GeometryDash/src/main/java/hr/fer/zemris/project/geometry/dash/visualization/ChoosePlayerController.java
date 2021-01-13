@@ -6,6 +6,7 @@ import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.visualization.ai.AIParametersController;
 import hr.fer.zemris.project.geometry.dash.visualization.settings.controllers.SongsSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,22 +34,35 @@ public class ChoosePlayerController extends MenuController {
     @FXML
     void onAIClicked(MouseEvent event) throws IOException {
     	this.playingModeSelected = GameEngine.getInstance().getSettings().getOptions().getAIMode();
-    	actionForChoosing();
+
+    	if(playingModeSelected == PlayingMode.GENETIC_PROGRAMMING)
+    	    actionForChoosing(this.playingModeSelected, this.rootPane);
+    	else {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource(GameConstants.pathToVisualization + "AI/AIParameters.fxml")
+            );
+            loader.load();
+            Stage stage = GeometryDash.getStage();
+            stage.setUserData(playingModeSelected);
+            AIParametersController controller = loader.getController();
+            controller.init();
+            controller.setPreviousSceneRoot(rootPane);
+        }
     }
 
     @FXML
     void onPlayerClicked(MouseEvent event) throws IOException {
     	this.playingModeSelected = PlayingMode.HUMAN;
-    	actionForChoosing();
+    	actionForChoosing(this.playingModeSelected, this.rootPane);
     }
     
     /**
      * Common action for both buttons
      * @throws IOException 
      */
-    private void actionForChoosing() throws IOException {
+    public static void actionForChoosing(PlayingMode playingModeSelected, StackPane rootPane) throws IOException {
     	FXMLLoader loader = new FXMLLoader(
-        		getClass().getResource(GameConstants.pathToVisualization + "level/ChooseLevelScene.fxml")
+        		ChoosePlayerController.class.getResource(GameConstants.pathToVisualization + "level/ChooseLevelScene.fxml")
         	);
     	loader.load();
     	Stage stage = GeometryDash.getStage();
