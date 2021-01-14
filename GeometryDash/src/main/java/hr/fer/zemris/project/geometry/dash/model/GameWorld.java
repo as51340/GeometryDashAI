@@ -372,10 +372,11 @@ public class GameWorld {
 					continue;
 
 				double playerX = player.getCurrentPosition().getX();
-				double playerY = player.getCurrentPosition().getY();
+				
+				
 				double obstacleX = gameObject.getCurrentPosition().getX();
 
-				if (obstacleX < playerX && !(gameObject instanceof Floor)) // prepreke prije igrača uvijek preskoci
+				if (obstacleX < playerX - 100 && !(gameObject instanceof Floor)) // prepreke prije igrača uvijek preskoci
 					continue;
 
 				if (obstacleX - playerX > 400) {
@@ -386,7 +387,7 @@ public class GameWorld {
 
 				if (player.getPlayingMode() == PlayingMode.HUMAN && obstacles.size() < 4) {
 //					obstacles.add((Obstacle) gameObject);
-					obj.add(gameObject);
+					obj.add(gameObject);	
 				}
 
 				if (obstacleX - playerX <= 100) {
