@@ -47,11 +47,6 @@ public class Level {
 	 */
 	private Set<GameObject> gameObjects;
 	
-	/**
-	 * Stores information about end of the level
-	 */
-	private double last_x = Double.MIN_VALUE;
-		
 	
 	/**
 	 * Level is created with its data
@@ -60,10 +55,7 @@ public class Level {
 	 */
 	public Level(String levelName, Set<GameObject> gameObjects) {
 		this.levelName = levelName;
-		TreeSet<GameObject> treeset = new TreeSet<GameObject>(AIConstants.obstaclesLevelComparator);
-		treeset.addAll(gameObjects);
-		this.gameObjects = treeset;
-		setLast_x( ( (TreeSet<GameObject>) this.gameObjects).last().getCenterPosition().getX());
+		this.gameObjects = gameObjects;
 	}
 
 	/**
@@ -183,21 +175,6 @@ public class Level {
 	 */
 	public Set<GameObject> getGameObjects() {
 		return gameObjects;
-	}
-
-	/**
-	 * @return the last_x
-	 */
-	public double getLast_x() {
-		return last_x;
-	}
-
-	/**
-	 * Sets last x
-	 * @param last
-	 */
-	public void setLast_x(double last) {
-		this.last_x = last;
 	}
 
 }

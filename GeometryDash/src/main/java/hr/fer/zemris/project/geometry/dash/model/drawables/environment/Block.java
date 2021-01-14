@@ -67,4 +67,22 @@ public class Block extends Obstacle {
     public GameObject copy() {
         return new Block(getCurrentPosition().copy(), new String(getIconPath()));
     }
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
+	}
+    
+    
 }

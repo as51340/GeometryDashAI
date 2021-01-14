@@ -71,6 +71,32 @@ public class Floor extends Obstacle {
         double playerPos_Y = player.getCurrentPosition().getY();
         double floorPos_Y = getCurrentPosition().getY();
         return playerPos_Y + GameConstants.playerGroundOffset_Y >= floorPos_Y;
-
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((camera == null) ? 0 : camera.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Floor other = (Floor) obj;
+		if (camera == null) {
+			if (other.camera != null)
+				return false;
+		} else if (!camera.equals(other.camera))
+			return false;
+		return true;
+	}
+    
+    
 }

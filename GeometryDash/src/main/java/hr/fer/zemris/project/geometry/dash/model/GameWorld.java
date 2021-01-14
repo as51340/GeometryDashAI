@@ -66,6 +66,8 @@ public class GameWorld {
 	private List<GameObject> closestObjects;
 
 	private Object lockObject;
+	
+	private Set<GameObject> levelObjects;
 
 	/**
 	 * @return the lockObject
@@ -176,19 +178,22 @@ public class GameWorld {
 			player.setIcon(GameConstants.pathToIcons
 					+ GameEngine.getInstance().getDefaultSelector().getSelectedCharacter().getUri());
 		}
-		Set<GameObject> levelObjects = GameEngine.getInstance().getLevelManager().getLevelByName(levelName)
+		Set<GameObject> fromLevel = GameEngine.getInstance().getLevelManager().getLevelByName(levelName)
 				.getGameObjects();
-//		Set<GameObject> levelObjects = (Set<GameObject>) ((TreeSet<GameObject>) tempObjects).clone();
+//		Set<GameObject> treeset = new TreeSet<GameObject>(AIConstants.obstaclesLevelComparator);
+//		treeset.addAll(fromLevel);
+//		this.levelObjects = treeset;
+		this.levelObjects = fromLevel;
 		GameEngine.getInstance().getLevelManager().startLevelWithName(levelName);
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
 		levelObjects.add(floor);
-//		for (Player p : players) {
-//			levelObjects.add(p);
-//		}
-		levelObjects.add(players.iterator().next());
+		for (Player p : players) {
+			levelObjects.add(p);
+		}
+//		levelObjects.add(players.iterator().next());
 		renderer = new Renderer(levelObjects);
 		((Floor) floor).setCamera(renderer.getCamera());
-
+		
 	}
 
 	/**
@@ -286,6 +291,7 @@ public class GameWorld {
 			for (GameObject gameObject : gObjects) {
 				if (gameObject instanceof Player)
 					continue; // ne treba nam player ni floor
+//				if(gameObject instanceof Floor) System.out.println("POD");
 
 				double playerX = player.getCurrentPosition().getX();
 				double playerY = player.getCurrentPosition().getY();
@@ -300,13 +306,13 @@ public class GameWorld {
 				if (obstacleX - playerX <= 100 || gameObject instanceof Floor) { //makni drugi uvjet
 					// svi bi trebali bit obstaclei
 					Obstacle obstacle = (Obstacle) gameObject;
-					if(gameObject instanceof Floor) System.out.println("Provjeravam sa podom!");
+//					if(gameObject instanceof Floor) System.out.println("Provjeravam sa podom!");
 					if (obstacle.playerIsOn(player)) {
 						player.touchesGround();
 						player.getCurrentPosition()
 								.setY(gameObject.getCurrentPosition().getY() - GameConstants.iconHeight);
 					} else {
-						System.out.println("Player nije na podu, sranje!");
+						//System.out.println("Player nije na podu, sranje!");
 					}
 					if (obstacle.checkCollisions(player)) {
 						deaths++;
