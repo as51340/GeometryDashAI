@@ -56,13 +56,31 @@ public class AIOptionsController extends MenuController{
     }
 
     @FXML
-    void elmanArtificalNeuralNetworkGeneticAlg(MouseEvent event) {
-    
+    void elmanArtificalNeuralNetworkGeneticAlg(MouseEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource(GameConstants.pathToVisualization + "AI/ElmanNeuralNetwork.fxml")
+        );
+        loader.load();
+        Stage stage = GeometryDash.getStage();
+        //stage.setUserData(playingModeSelected);
+        ElmanNeuralNetworkController controller = loader.getController();
+        controller.init();
+        controller.setPreviousSceneRoot(rootPane);
     }
 
     @FXML
-    void geneticProgrammingClicked(MouseEvent event) {
-    	TreeVisualizationController controller = new TreeVisualizationController();
+    void geneticProgrammingClicked(MouseEvent event) throws IOException{
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource(GameConstants.pathToVisualization + "AI/GeneticProgrammingNetwork.fxml")
+        );
+        loader.load();
+        Stage stage = GeometryDash.getStage();
+        //stage.setUserData(playingModeSelected);
+        GeneticProgrammingController controller = loader.getController();
+        controller.init();
+        controller.setPreviousSceneRoot(rootPane);
+
+        /*TreeVisualizationController controller = new TreeVisualizationController();
     	controller.createScene();
     	Scene scene = new Scene(controller.getRoot(), 1280, 720, true);
     	Stage primaryStage = GeometryDash.getStage();
@@ -70,7 +88,7 @@ public class AIOptionsController extends MenuController{
     	primaryStage.setScene(scene);
     	primaryStage.show();
     	scene.setCamera(controller.getCamera());
-    	
+    	*/
     }
 
 

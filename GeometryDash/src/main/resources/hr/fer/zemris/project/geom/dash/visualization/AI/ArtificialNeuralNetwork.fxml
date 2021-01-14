@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.effect.DropShadow?>
@@ -11,16 +19,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.ai.ArtificialNeuralNetworkController">
+<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.ai.ArtificialNeuralNetworkController">
     <children>
         <Rectangle fx:id="overlay" height="1440.0" stroke="BLACK" strokeWidth="0.0" width="1280.0" StackPane.alignment="TOP_CENTER" />
-        <Rectangle height="531.0" opacity="1" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="861.0" />
+        <Rectangle height="531.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="861.0" />
         <ImageView fitHeight="664.0" fitWidth="933.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
             <image>
                 <Image url="@../../static/frame.png" />
             </image>
         </ImageView>
-        <Text fill="WHITE" stroke="BLACK" strokeWidth="2.0" styleClass="text-font" text="Artificial neural network" StackPane.alignment="TOP_CENTER">
+        <Text fill="WHITE" stroke="BLACK" strokeWidth="2.0" styleClass="text-font" text="Network Parameters" StackPane.alignment="TOP_CENTER">
             <font>
                 <Font size="50.0" />
             </font>
@@ -38,7 +46,36 @@
                         <Image url="@../../static/back_btn.png" />
                     </image>
                 </ImageView>
-            <Button fx:id="Train" layoutX="530.0" layoutY="477.0" mnemonicParsing="false" onAction="#trainNetwork" stylesheets="@../../styles/style.css" text="Train" />
+                <GridPane layoutX="235.0" layoutY="128.0" prefHeight="472.0" prefWidth="818.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="5.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints />
+                        <RowConstraints minHeight="10.0" prefHeight="100.0" />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+                    <children>
+                        <Label fx:id="hiddenLayersLabel" prefHeight="50.0" prefWidth="266.0" styleClass="smallerLabel" text="Hidden Layers" />
+                        <TextField fx:id="hiddenLayersField" GridPane.columnIndex="1" />
+                        <Label styleClass="smallerLabel" text="No. per hidden layer" GridPane.rowIndex="1" />
+                        <TextField fx:id="numberPerHiddenLayerField" prefHeight="31.0" prefWidth="314.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label styleClass="smallerLabel" text="Choose level: " GridPane.rowIndex="2" />
+                        <ComboBox fx:id="levelBox" prefHeight="69.0" prefWidth="406.0" styleClass="registerTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Button fx:id="train" alignment="CENTER" layoutX="530.0" layoutY="477.0" mnemonicParsing="false" onAction="#trainNetwork" styleClass="registerButton" stylesheets="@../../styles/style.css" text="Train" GridPane.rowIndex="3" />
+                        <Button fx:id="stop" layoutX="530.0" layoutY="477.0" mnemonicParsing="false" onAction="#stopTrainNetwork" styleClass="stopButton" stylesheets="@../../styles/style.css" text="Stop" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label styleClass="smallerLabel" text="Training finished: " GridPane.rowIndex="5" />
+                        <Label styleClass="smallerLabel" text="Training finished in: " GridPane.rowIndex="6" />
+                        <Label styleClass="smallLabel" text="0s" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Label fx:id="noLabel" styleClass="noLabel" text="NO" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label fx:id="yesLabel" styleClass="yesLabel" text="YES" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                    </children>
+                </GridPane>
             </children>
         </AnchorPane>
     </children>

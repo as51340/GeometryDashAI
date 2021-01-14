@@ -3,6 +3,7 @@ package hr.fer.zemris.project.geometry.dash.visualization.ai;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
@@ -16,12 +17,16 @@ import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.GameSceneController;
 import hr.fer.zemris.project.geometry.dash.visualization.MenuController;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -33,35 +38,53 @@ import javafx.stage.Stage;
  * @author Andi Škrgat
  *
  */
-public class ArtificialNeuralNetworkController extends MenuController{
-	
-	 @FXML
-	 private StackPane rootPane;
+public class ArtificialNeuralNetworkController extends AIControllers{
 
-	 @FXML
-	 private Rectangle overlay;
+	@FXML
+	private TextField numberPerHiddenLayerField;
+	@FXML
+	private TextField hiddenLayersField;
 
-	 @FXML
-	 private ImageView backButton;
 
-	 @FXML
+	@FXML
 	 private Button Train;
 	 
 	 /**
 	  * Lista levela
 	  */
-	 private List<Level> levels;
+
 	 
 	 private AIAlgorithm algorithm;
-	 
-	 public void init() {
-		 algorithm =  new AIAlgorithm(3, 4, PlayingMode.NEURAL_NETWORK);
-		 levels = new ArrayList<>(GameEngine.getInstance().getLevelManager().getAllLevels());
-	 }
 
 
-	 @FXML
+	 @Override
 	 void trainNetwork(ActionEvent event) throws IOException, InterruptedException {
+		 if(hiddenLayersField.getText().isEmpty()) {
+			 hiddenLayersField.setText("Required");
+			 return;
+		 }
+
+		 if(numberPerHiddenLayerField.getText().isEmpty()) {
+			 numberPerHiddenLayerField.setText("Required");
+			 return;
+		 }
+
+		 int numberPerHiddenLayer = -1;
+		 int hiddenLayers = -1;
+		 try {
+			hiddenLayers = Integer.parseInt(hiddenLayersField.getText());
+			 numberPerHiddenLayer = Integer.parseInt(numberPerHiddenLayerField.getText());
+		 } catch (NumberFormatException ex) {
+			 numberPerHiddenLayerField.setText("Requires int");
+			 return;
+		 }
+
+		 Level chosenLevel = getLevel(levelBox.getValue());
+
+
+
+		 algorithm =  new AIAlgorithm(3, 4, PlayingMode.NEURAL_NETWORK);
+
 		//postavi AI training mode
 		//GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
 		//otvori mi GameWorld
@@ -119,5 +142,13 @@ public class ArtificialNeuralNetworkController extends MenuController{
 //		
 //		System.out.println("Pokrecem algoritam zasad samo scena postoji!");
 	 }
-	
+
+
+	@Override
+	void stopTrainNetwork(ActionEvent event) {};
+
+
 }
+/*
+
+ */
