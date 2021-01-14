@@ -70,7 +70,7 @@ public class GameEngine implements SoundSystem {
 	/**
 	 * Game world
 	 */
-	private volatile GameWorld gameWorld = null;
+	private GameWorld gameWorld = null;
 
 	/**
 	 * Reference to the level editor
@@ -317,16 +317,21 @@ public class GameEngine implements SoundSystem {
 		// fps as value
 		return new KeyFrame(frameTime, event -> {
 			if (gameState == GameState.NORMAL_MODE_PLAYING || gameState == GameState.AI_PLAYING_MODE || gameState == GameState.AI_TRAINING_MODE) {				
-				if (!gameWorld.update()) {
-					try {
-						stop();
-						double time = System.currentTimeMillis() - this.startTime;
-						this.levelManager.getCurrentLevel().setTotalAttempts();
-						gameWorld.getGameWorldListener().instanceFinished(time);
-						levelManager.getCurrentLevel().resetTotalJumps();
-					} catch (IOException e) {
-						e.printStackTrace();
+				try {
+					if (!gameWorld.update()) {
+						try {
+							stop();
+							double time = System.currentTimeMillis() - this.startTime;
+							this.levelManager.getCurrentLevel().setTotalAttempts();
+							gameWorld.getGameWorldListener().instanceFinished(time);
+							levelManager.getCurrentLevel().resetTotalJumps();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			} else if (gameState == GameState.LEVEL_EDITOR_MODE) {
 				Thread thread = new Thread(() -> {
