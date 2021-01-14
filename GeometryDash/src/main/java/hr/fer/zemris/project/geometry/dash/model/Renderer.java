@@ -33,7 +33,8 @@ public class Renderer {
 	/**
 	 * Game objects
 	 */
-	private Set<GameObject> gameObjects;
+//	private Set<GameObject> gameObjects;
+	private List<GameObject> gameObjects;
 
 	/**
 	 * Graphics context
@@ -45,7 +46,7 @@ public class Renderer {
 	 * 
 	 * @param gameObjects game objects
 	 */
-	public Renderer(Set<GameObject> gameObjects) {
+	public Renderer(List<GameObject> gameObjects) {
 		this.camera = new Camera();
 		this.gameObjects = gameObjects;
 	}
@@ -66,21 +67,23 @@ public class Renderer {
 		this.camera = camera;
 	}
 
-	/**
-	 * @return game objects
-	 */
-	public Set<GameObject> getGameObjects() {
-		return gameObjects;
-	}
-
-	/**
-	 * Set game objects
-	 * 
-	 * @param gameObjects
-	 */
-	public void setGameObjects(Set<GameObject> gameObjects) {
-		this.gameObjects = gameObjects;
-	}
+//	/**
+//	 * @return game objects
+//	 */
+//	public Set<GameObject> getGameObjects() {
+//		return gameObjects;
+//	}
+//
+//	/**
+//	 * Set game objects
+//	 * 
+//	 * @param gameObjects
+//	 */
+//	public void setGameObjects(Set<GameObject> gameObjects) {
+//		this.gameObjects = gameObjects;
+//	}
+//	
+	
 
 	/**
 	 * Sets tool for drawing objects
@@ -89,6 +92,20 @@ public class Renderer {
 	 */
 	public void setGraphicsContext(GraphicsContext graphicsContext) {
 		this.graphicsContext = graphicsContext;
+	}
+
+	/**
+	 * @return the gameObjects
+	 */
+	public List<GameObject> getGameObjects() {
+		return gameObjects;
+	}
+
+	/**
+	 * @param gameObjects the gameObjects to set
+	 */
+	public void setGameObjects(List<GameObject> gameObjects) {
+		this.gameObjects = gameObjects;
 	}
 
 	/**

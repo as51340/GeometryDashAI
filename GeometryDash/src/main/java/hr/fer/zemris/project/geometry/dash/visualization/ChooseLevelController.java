@@ -153,7 +153,8 @@ public class ChooseLevelController extends MainOptionsController {
 //		gameEngine.getGameWorld().addPlayer(player);
 //		
 		for (int i = 0; i < 5; i++) {
-			Player player = new Player(new Vector2D(i*20, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
+//			GameConstants.floorPosition_Y - GameConstants.iconHeight - 5
+			Player player = new Player(new Vector2D(i*20, 490),
 					new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
 			gameEngine.getGameWorld().addPlayer(player);
 		}

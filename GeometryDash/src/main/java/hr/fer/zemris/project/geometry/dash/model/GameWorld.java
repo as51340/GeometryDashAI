@@ -2,6 +2,7 @@ package hr.fer.zemris.project.geometry.dash.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -49,7 +50,7 @@ public class GameWorld {
 	/**
 	 * Reference on the floor
 	 */
-	private GameObject floor;
+	private Floor floor;
 
 	/**
 	 * Renderer
@@ -70,7 +71,9 @@ public class GameWorld {
 
 	private Object lockObject;
 
-	private Set<GameObject> levelObjects;
+//	private Set<GameObject> levelObjects;
+	
+	private List<GameObject> levelObjects;
 
 	// reference to the algorithm
 	private AIAlgorithm algorithm;
@@ -192,6 +195,7 @@ public class GameWorld {
 		gameWorldListener = new GameWorldListenerImpl();
 		players = new TreeSet<Player>(AIConstants.playerComparator);
 		closestObjects = new HashMap<Player, List<Obstacle>>();
+		levelObjects = new ArrayList<GameObject>();
 	}
 
 	/**
@@ -232,16 +236,28 @@ public class GameWorld {
 		}
 		Set<GameObject> fromLevel = GameEngine.getInstance().getLevelManager().getLevelByName(levelName)
 				.getGameObjects();
-		this.levelObjects = fromLevel;
+//		this.levelObjects = fromLevel;
+//		this.levelObjects = new TreeSet<GameObject>(AIConstants.obstaclesLevelComparator);
+		this.levelObjects.addAll(fromLevel);		
 		GameEngine.getInstance().getLevelManager().startLevelWithName(levelName);
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
-		levelObjects.add(floor);
+		if(this.levelObjects.add(floor)) System.out.println("Uspješno dodan floor");
 		for (Player p : players) {
 			levelObjects.add(p);
 		}
-//		levelObjects.add(players.iterator().next());
+		Collections.sort(levelObjects, AIConstants.obstaclesLevelComparator);
+		for(GameObject go: this.levelObjects) {
+			System.out.println(go.getClass() + " " + go.getCurrentPosition().getX() + " " + go.getCurrentPosition().getY());
+		}
+//		for(GameObject go: this.players) {
+//			System.out.println(go.getClass() + " " + go.getCurrentPosition().getX() + " " + go.getCurrentPosition().getY());
+//		}
 		renderer = new Renderer(levelObjects);
-		((Floor) floor).setCamera(renderer.getCamera());
+//		for (Player p : players) {
+//			renderer.addGameObject(p);
+//		}
+		floor.setCamera(renderer.getCamera());
+//		GameEngine.getInstance().getGameStateListener().normalModePlayingStarted();
 
 	}
 
@@ -336,6 +352,8 @@ public class GameWorld {
 		double cameraPos_X = renderer.getCamera().getPosition().getX();
 		if (playerPos_X - cameraPos_X > GameConstants.playerPosition_X) {
 			renderer.getCamera().getPosition().setX(playerPos_X - GameConstants.playerPosition_X);
+//			renderer.getCamera().getPosition().setX(0);
+//			System.out.println(renderer.getCamera().getPosition().getX());
 		}
 	}
 
@@ -356,21 +374,25 @@ public class GameWorld {
 
 	private void checkCollision2() {
 		Iterator<Player> iterator = players.iterator();
-		Set<GameObject> gObjects = GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelData();
+		
 		List<Obstacle> obstacles = new ArrayList<Obstacle>();
 		List<GameObject> obj = new ArrayList<GameObject>();
 		while (iterator.hasNext()) {
 			Player player = iterator.next();
+//			System.out.println(players.contains(player));
+//			System.out.println(player.getCurrentPosition().getX());
 			if (player.isDead())
 				continue;
 			player.setTouchingGround(false);
 
 			obstacles.clear();
-
-			for (GameObject gameObject : gObjects) {
-				if (gameObject instanceof Player)
+			System.out.println(levelObjects.indexOf(floor));
+			for (GameObject gameObject : levelObjects) {
+//				System.out.println("Udem u petlju!");
+				if (gameObject instanceof Player) {
 					continue;
-
+				}
+								
 				double playerX = player.getCurrentPosition().getX();
 				
 				
@@ -404,6 +426,7 @@ public class GameWorld {
 						player.setDead(true);
 					}
 				}
+//				System.out.println("Dode netko do kraja!!");
 			}
 
 			closestObjects.put(player, obstacles);
@@ -443,6 +466,14 @@ public class GameWorld {
 					}
 				}
 			} else if(GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
+				if(finished_deaths == players.size()) {
+					//svi su mrtvi ne radi ništa, samo restartaj
+				} else if(levelPassed) { //svim playerima postavi novi goodness value
+//					double lastPosition = levelObjects.ge
+					for(Player p: players) {
+//						p.setGoodness_value();
+					}
+				}
 				synchronized (lockObject) {
 					lockObject.notifyAll(); // obavijesti da smo gotovi
 				}
