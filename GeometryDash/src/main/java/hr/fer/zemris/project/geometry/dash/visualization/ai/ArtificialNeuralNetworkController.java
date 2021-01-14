@@ -89,6 +89,7 @@ public class ArtificialNeuralNetworkController extends MenuController{
 		}
 //		System.out.println("Size: " + GameEngine.getInstance().getGameWorld().getPlayers().size());
 		GameEngine.getInstance().getGameWorld().createScene(levels.get(1).getLevelName()); //ucitaj uvijek prvi level
+		GameEngine.getInstance().getGameWorld().setAlgorithm(algorithm);
 		Thread t = new Thread(() -> {
 			try {
 				algorithm.runAlgorithm();
@@ -116,7 +117,7 @@ public class ArtificialNeuralNetworkController extends MenuController{
 		//scena je postavljena to bi trebalo bit okej
 		//sad algoritam negdje pokrenut
 //		
-		System.out.println("Pokrecem algoritam zasad samo scena postoji!");
+//		System.out.println("Pokrecem algoritam zasad samo scena postoji!");
 	 }
 	
 }
