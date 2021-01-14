@@ -100,12 +100,12 @@ public class PlayerDeathSceneController extends MenuController {
 			GameEngine.getInstance().getGameStateListener().AIPlayingModeExited();
 		}
 		
-		// needed so that back button in ChooseLevelScene works after coming back from level 
-//		FXMLLoader backgroundSceneLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
-//    	Parent root = backgroundSceneLoader.load();
-//		BackgroundSceneController backgroundSceneController = backgroundSceneLoader.<BackgroundSceneController>getController();
-//		backgroundSceneController.init();
-//		
+//		 needed so that back button in ChooseLevelScene works after coming back from level 
+		FXMLLoader backgroundSceneLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
+    	Parent root = backgroundSceneLoader.load();
+		BackgroundSceneController backgroundSceneController = backgroundSceneLoader.<BackgroundSceneController>getController();
+		backgroundSceneController.init();
+		
 		FXMLLoader chooseLevelSceneloader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "level/ChooseLevelScene.fxml"));
 		chooseLevelSceneloader.load();
     	ChooseLevelController chooseLevelSceneController = chooseLevelSceneloader.getController();

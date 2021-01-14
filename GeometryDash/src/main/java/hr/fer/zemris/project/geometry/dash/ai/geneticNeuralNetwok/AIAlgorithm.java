@@ -113,7 +113,7 @@ public class AIAlgorithm {
 	private void selection() throws InterruptedException {
 		GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
 		synchronized (lockObj) {
-			while (GameEngine.getInstance().getGameWorld().getDeaths() != POPULATION_SIZE) {
+			while (!GameEngine.getInstance().getGameWorld().isUnlockingCondition()) {
 //				System.out.println("Čekam!");
 				try {
 					lockObj.wait();

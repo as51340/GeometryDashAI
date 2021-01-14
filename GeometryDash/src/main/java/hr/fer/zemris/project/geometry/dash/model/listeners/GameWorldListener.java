@@ -11,6 +11,7 @@ public interface GameWorldListener {
 
 	/**
 	 * One instance of {@linkplain GameWorld} is finished
+	 * @throws InterruptedException 
 	 */
-	void instanceFinished(double time) throws IOException ;
+	void instanceFinished(double time) throws IOException, InterruptedException ;
 }

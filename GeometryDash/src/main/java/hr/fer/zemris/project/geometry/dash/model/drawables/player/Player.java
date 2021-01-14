@@ -212,7 +212,7 @@ public class Player extends GameObject {
      * Makes the player character "jump" - adds upward force
      */
     public void jump() {
-        if (!isDead && isTouchingGround) {  	
+        if (!isDead) {  	
             jumpIntent = true;
         }
     }

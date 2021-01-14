@@ -185,7 +185,7 @@ public class ChooseLevelController extends MainOptionsController {
 //		controller.setPreviousSceneRoot(rootPane);
 		controller.init();
 
-		Thread.sleep(500);
+//		Thread.sleep(500);
 		stage.setScene(scene);
 
 		
