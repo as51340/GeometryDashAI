@@ -72,6 +72,7 @@ public class AIParametersController extends MenuController {
             return;
         }
 
+
         ChoosePlayerController.actionForChoosing(playingMode, this.rootPane);
     }
 }
