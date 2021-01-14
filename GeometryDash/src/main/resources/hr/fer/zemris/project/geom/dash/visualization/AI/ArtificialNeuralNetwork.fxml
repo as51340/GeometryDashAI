@@ -66,7 +66,7 @@
                         <Label styleClass="smallerLabel" text="No. per hidden layer" GridPane.rowIndex="1" />
                         <TextField fx:id="numberPerHiddenLayerField" prefHeight="31.0" prefWidth="314.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label styleClass="smallerLabel" text="Choose level: " GridPane.rowIndex="2" />
-                        <ComboBox fx:id="levelBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="levelBox" prefHeight="69.0" prefWidth="406.0" styleClass="registerTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Button fx:id="train" alignment="CENTER" layoutX="530.0" layoutY="477.0" mnemonicParsing="false" onAction="#trainNetwork" styleClass="registerButton" stylesheets="@../../styles/style.css" text="Train" GridPane.rowIndex="3" />
                         <Button fx:id="stop" layoutX="530.0" layoutY="477.0" mnemonicParsing="false" onAction="#stopTrainNetwork" styleClass="stopButton" stylesheets="@../../styles/style.css" text="Stop" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label styleClass="smallerLabel" text="Training finished: " GridPane.rowIndex="5" />

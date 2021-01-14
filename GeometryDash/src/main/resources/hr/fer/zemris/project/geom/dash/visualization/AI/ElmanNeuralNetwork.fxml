@@ -71,7 +71,7 @@
 						<Label fx:id="yesLabel" styleClass="yesLabel" text="YES" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 						<Label styleClass="smallerLabel" text="Training finished in: " GridPane.rowIndex="6" />
 						<Label styleClass="smallLabel" text="0s" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <ComboBox fx:id="levelBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="levelBox" prefHeight="69.0" prefWidth="403.0" styleClass="registerTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 					</children>
 				</GridPane>
 			</children>

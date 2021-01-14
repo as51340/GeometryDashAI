@@ -69,9 +69,9 @@
 						<Label prefHeight="50.0" prefWidth="266.0" styleClass="smallerLabel" text="Max depth" GridPane.rowIndex="2" />
 						<TextField fx:id="maxDepthField" minHeight="10.0" prefHeight="40.0" styleClass="registerTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 						<Label styleClass="smallerLabel" text="Type: " GridPane.rowIndex="3" />
-						<ComboBox fx:id="typeBox" minHeight="10.0" prefHeight="40.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+						<ComboBox fx:id="typeBox" minHeight="10.0" prefHeight="40.0" prefWidth="398.0" styleClass="registerTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 						<Label styleClass="smallerLabel" text="Choose level: " GridPane.rowIndex="4" />
-						<ComboBox fx:id="levelBox" minHeight="10.0" prefHeight="40.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+						<ComboBox fx:id="levelBox" minHeight="10.0" prefHeight="40.0" prefWidth="397.0" styleClass="registerTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 						<Button fx:id="train" alignment="CENTER" layoutX="530.0" layoutY="477.0" mnemonicParsing="false" onAction="#trainNetwork" styleClass="registerButton" stylesheets="@../../styles/style.css" text="Train" GridPane.rowIndex="5" />
 						<Button fx:id="stop" layoutX="530.0" layoutY="477.0" mnemonicParsing="false" onAction="#stopTrainNetwork" styleClass="stopButton" stylesheets="@../../styles/style.css" text="Stop" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 						<Label styleClass="smallerLabel" text="Training finished: " GridPane.rowIndex="6" />

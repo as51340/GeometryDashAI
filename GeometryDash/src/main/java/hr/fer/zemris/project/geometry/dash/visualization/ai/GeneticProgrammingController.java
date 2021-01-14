@@ -45,7 +45,7 @@ public class GeneticProgrammingController extends AIControllers {
 
         Level chosenLevel = getLevel(levelBox.getValue());
         String selection = typeBox.getValue();
-        
+
     }
     @FXML
     public void stopTrainNetwork(ActionEvent event) {
