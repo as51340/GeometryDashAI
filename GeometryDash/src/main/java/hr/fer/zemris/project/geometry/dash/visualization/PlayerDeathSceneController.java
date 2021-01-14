@@ -74,7 +74,6 @@ public class PlayerDeathSceneController extends MenuController {
 	@FXML
 	private void mainMenuAction(ActionEvent event) throws IOException {
 		if(GameEngine.getInstance().getGameState() == GameState.NORMAL_MODE_PLAYING) {
-			System.out.println("tu san");
 			GameEngine.getInstance().getGameStateListener().normalModePlayingExited();
 		} else {
 			GameEngine.getInstance().getGameStateListener().AIPlayingModeExited();
@@ -100,7 +99,7 @@ public class PlayerDeathSceneController extends MenuController {
 			GameEngine.getInstance().getGameStateListener().AIPlayingModeExited();
 		}
 		
-//		 needed so that back button in ChooseLevelScene works after coming back from level 
+		// needed so that back button in ChooseLevelScene works after coming back from level 
 		FXMLLoader backgroundSceneLoader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
     	Parent root = backgroundSceneLoader.load();
 		BackgroundSceneController backgroundSceneController = backgroundSceneLoader.<BackgroundSceneController>getController();
@@ -109,13 +108,12 @@ public class PlayerDeathSceneController extends MenuController {
 		FXMLLoader chooseLevelSceneloader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "level/ChooseLevelScene.fxml"));
 		chooseLevelSceneloader.load();
     	ChooseLevelController chooseLevelSceneController = chooseLevelSceneloader.getController();
-//    	chooseLevelSceneController.setPreviousSceneRoot(backgroundSceneController.getRootPane());
-    	chooseLevelSceneController.setPreviousSceneRoot(rootPane);
+    	chooseLevelSceneController.setPreviousSceneRoot(backgroundSceneController.getRootPane());
 		
-    	
-//		Scene scene = GeometryDash.createScaledScene(root, stage);
-//		
-//		stage.setScene(scene);
+		Stage stage = (Stage)(chooseLevelButton.getScene().getWindow());
+		Scene scene = GeometryDash.createScaledScene(root, stage);
+		
+		stage.setScene(scene);
 	}
 	
 	public void showInformation(String levelName, String attempt, short percentage, String totalJumps, double time) {
