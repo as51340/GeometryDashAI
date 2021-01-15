@@ -312,6 +312,8 @@ public class GameWorld {
 //								System.out.println(ob.getCurrentPosition().getX());
 //							}
 //							System.out.println();
+//						System.out.println("Player id u game worldu " + p.getId());
+						System.out.println(algorithm.getPlayerNeuralNetworkMap().containsKey(p));
 						algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
 					}
 				}
@@ -432,8 +434,9 @@ public class GameWorld {
 						synchronized (player) {
 							if (!player.isDead() && obstacle.checkCollisions(player)) {
 								deaths.incrementAndGet();
-								player.setGoodness_value(
-										gameObject.initialPosition.getX() - player.getCurrentPosition().getX());
+								double value = gameObject.initialPosition.getX() - player.getCurrentPosition().getX();
+//								System.out.println("Goodness value to set " + value);
+								player.setGoodness_value(value);
 								player.setDead(true);
 							}
 						}

@@ -92,7 +92,7 @@ public class AIAlgorithm {
 			GameEngine.getInstance().getGameWorld().setLevelPassed(false);		
 			selection();
 //			System.out.println("Selekcija gotova " + (i + 1) + "-ti put");
-//			reproduction();
+			reproduction();
 //			System.out.println("Reprodukcija gotova " + (i + 1) + "-ti put");
 			// isti princip uporabe kao u game world
 			GameEngine.getInstance().stop();
@@ -107,8 +107,8 @@ public class AIAlgorithm {
 					? new GeneticNeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer,
 							activationFunction)
 					: new ElmanNeuralNetwork(INPUT_LAYER_SIZE, numberPerHiddenLayer, activationFunction);
-
-			playerNeuralNetworkMap.put(player, neuralNetwork);
+//					System.out.println("Player id u algoritmu " + player.getId());
+		    playerNeuralNetworkMap.replace(player, neuralNetwork);
 		}
 	}
 
@@ -125,6 +125,9 @@ public class AIAlgorithm {
 			}
 		}
 		if(GameEngine.getInstance().getGameWorld().isLevelPassed()) {
+			for(Player player: playerNeuralNetworkMap.keySet()) {
+				if(!player.isDead()) System.out.println(playerNeuralNetworkMap.get(player));
+			}
 			throw new IllegalStateException("You trained enough");
 		}
 		
@@ -159,6 +162,8 @@ public class AIAlgorithm {
 	private NeuralNetwork getRandomParent() {
 		int sum = 0;
 		int randomSum = (int) Math.ceil(Math.random() * sumOfAllFitnesses);
+		
+		System.out.println("Suma svih fitnessa je " + sumOfAllFitnesses);
 
 		NeuralNetwork parent = null;
 
