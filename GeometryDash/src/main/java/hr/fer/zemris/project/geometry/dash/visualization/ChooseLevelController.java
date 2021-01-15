@@ -1,18 +1,17 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
+import hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok.AIAlgorithm;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.serialization.TreeDeserializer;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Options;
 import hr.fer.zemris.project.geometry.dash.threads.DaemonicThreadFactory;
@@ -35,169 +34,210 @@ import javafx.stage.Stage;
 
 public class ChooseLevelController extends MainOptionsController {
 
-	private GameEngine gameEngine = GameEngine.getInstance();
+    private GameEngine gameEngine = GameEngine.getInstance();
 
-	private List<Level> levels;
+    private List<Level> levels;
 
-	private List<Color> colors = Arrays.asList(Color.DODGERBLUE, Color.BLUEVIOLET, Color.PURPLE, Color.CRIMSON,
-			Color.ORANGE, Color.YELLOWGREEN, Color.LIGHTGREEN, Color.CYAN);
+    private List<Color> colors = Arrays.asList(Color.DODGERBLUE, Color.BLUEVIOLET, Color.PURPLE, Color.CRIMSON,
+            Color.ORANGE, Color.YELLOWGREEN, Color.LIGHTGREEN, Color.CYAN);
 
-	private List<Circle> pagination;
+    private List<Circle> pagination;
 
-	private int levelIndex = 0;
+    private int levelIndex = 0;
 
-	private int colorIndex = 0;
+    private int colorIndex = 0;
 
-	@FXML
-	private Rectangle chooseLevelBackground;
+    @FXML
+    private Rectangle chooseLevelBackground;
 
-	@FXML
-	private ImageView floor1;
+    @FXML
+    private ImageView floor1;
 
-	@FXML
-	private ImageView floor2;
+    @FXML
+    private ImageView floor2;
 
-	@FXML
-	private ImageView floor3;
+    @FXML
+    private ImageView floor3;
 
-	@FXML
-	private Rectangle floorOverlay;
+    @FXML
+    private Rectangle floorOverlay;
 
-	@FXML
-	private Text levelName;
+    @FXML
+    private Text levelName;
 
-	@FXML
-	private FlowPane paginationPane;
+    @FXML
+    private FlowPane paginationPane;
 
-	@FXML
-	private StackPane levelNameAndPaginationPane;
+    @FXML
+    private StackPane levelNameAndPaginationPane;
 
-	@FXML
-	private StackPane rootPane;
+    @FXML
+    private StackPane rootPane;
 
-	@FXML
-	public void initialize() {
-		levels = new ArrayList<>(gameEngine.getLevelManager().getAllLevels());
-		levels.sort(Comparator.comparing(Level::getLevelName));
+    @FXML
+    public void initialize() {
+        levels = new ArrayList<>(gameEngine.getLevelManager().getAllLevels());
+        levels.sort(Comparator.comparing(Level::getLevelName));
 
-		chooseLevelBackground.setFill(colors.get(0));
-		floorOverlay.setFill(colors.get(0));
-		levelName.setText(levels.get(0).getLevelName());
+        chooseLevelBackground.setFill(colors.get(0));
+        floorOverlay.setFill(colors.get(0));
+        levelName.setText(levels.get(0).getLevelName());
 
-		pagination = new ArrayList<>();
-		for (int i = 0, size = levels.size(); i < size; i++) {
-			Circle circle = new Circle(8, Color.GRAY);
-			pagination.add(circle);
-			paginationPane.getChildren().add(circle);
-		}
+        pagination = new ArrayList<>();
+        for (int i = 0, size = levels.size(); i < size; i++) {
+            Circle circle = new Circle(8, Color.GRAY);
+            pagination.add(circle);
+            paginationPane.getChildren().add(circle);
+        }
 
-		pagination.get(0).setFill(Color.WHITE);
-		levelNameAndPaginationPane.setMouseTransparent(true);
-	}
+        pagination.get(0).setFill(Color.WHITE);
+        levelNameAndPaginationPane.setMouseTransparent(true);
+    }
 
-	@FXML
-	private void nextButtonClicked() {
-		colorIndex = (colorIndex + 1) % colors.size();
-		chooseLevelBackground.setFill(colors.get(colorIndex));
-		floorOverlay.setFill(colors.get(colorIndex));
+    @FXML
+    private void nextButtonClicked() {
+        colorIndex = (colorIndex + 1) % colors.size();
+        chooseLevelBackground.setFill(colors.get(colorIndex));
+        floorOverlay.setFill(colors.get(colorIndex));
 
-		pagination.get(levelIndex).setFill(Color.GRAY);
-		levelIndex = (levelIndex + 1) % levels.size();
-		levelName.setText(levels.get(levelIndex).getLevelName());
-		pagination.get(levelIndex).setFill(Color.WHITE);
-	}
+        pagination.get(levelIndex).setFill(Color.GRAY);
+        levelIndex = (levelIndex + 1) % levels.size();
+        levelName.setText(levels.get(levelIndex).getLevelName());
+        pagination.get(levelIndex).setFill(Color.WHITE);
+    }
 
-	@FXML
-	private void previousButtonClicked() {
-		if (--colorIndex < 0) {
-			colorIndex += colors.size();
-		}
-		chooseLevelBackground.setFill(colors.get(colorIndex));
-		floorOverlay.setFill(colors.get(colorIndex));
+    @FXML
+    private void previousButtonClicked() {
+        if (--colorIndex < 0) {
+            colorIndex += colors.size();
+        }
+        chooseLevelBackground.setFill(colors.get(colorIndex));
+        floorOverlay.setFill(colors.get(colorIndex));
 
-		pagination.get(levelIndex).setFill(Color.GRAY);
-		if (--levelIndex < 0) {
-			levelIndex += levels.size();
-		}
-		levelName.setText(levels.get(levelIndex).getLevelName());
-		pagination.get(levelIndex).setFill(Color.WHITE);
-	}
+        pagination.get(levelIndex).setFill(Color.GRAY);
+        if (--levelIndex < 0) {
+            levelIndex += levels.size();
+        }
+        levelName.setText(levels.get(levelIndex).getLevelName());
+        pagination.get(levelIndex).setFill(Color.WHITE);
+    }
 
-	@FXML
-	private void infoButtonClicked() throws IOException {
-		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource(GameConstants.pathToVisualization + "LevelInfoScene.fxml"));
-		loader.load();
-		LevelInfoSceneController controller = loader.getController();
-		controller.setPreviousSceneRoot(rootPane);
-		controller.setLevelName(levels.get(levelIndex).getLevelName(), Long.toString(GameEngine.getInstance()
-				.getLevelManager().getLevelByName(levels.get(levelIndex).getLevelName()).getTotalAttempts()));
-	}
+    @FXML
+    private void infoButtonClicked() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource(GameConstants.pathToVisualization + "LevelInfoScene.fxml"));
+        loader.load();
+        LevelInfoSceneController controller = loader.getController();
+        controller.setPreviousSceneRoot(rootPane);
+        controller.setLevelName(levels.get(levelIndex).getLevelName(), Long.toString(GameEngine.getInstance()
+                .getLevelManager().getLevelByName(levels.get(levelIndex).getLevelName()).getTotalAttempts()));
+    }
 
-	@FXML
-	private void levelRectangleClicked() throws IOException, InterruptedException {
-		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource(GameConstants.pathToVisualization + "GameScene.fxml"));
-		Parent root = loader.load();
+    @FXML
+    private void levelRectangleClicked() throws IOException, InterruptedException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource(GameConstants.pathToVisualization + "GameScene.fxml"));
+        Parent root = loader.load();
 
-		Stage stage = (Stage) rootPane.getScene().getWindow();
-		Scene scene = GeometryDash.createScaledScene(root, stage);
-		scene.getRoot().requestFocus();
+        Stage stage = (Stage) rootPane.getScene().getWindow();
+        Scene scene = GeometryDash.createScaledScene(root, stage);
+        scene.getRoot().requestFocus();
 
-		gameEngine.setGameWorld();
+        gameEngine.setGameWorld();
 
-		PlayingMode playingMode = (PlayingMode) stage.getUserData();
+        PlayingMode playingMode = (PlayingMode) stage.getUserData();
 
 //		Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
 //				new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
 //		gameEngine.getGameWorld().addPlayer(player);
 //		
-		for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) {
 //			GameConstants.floorPosition_Y - GameConstants.iconHeight - 5
-			Player player = new Player(new Vector2D(0, 490),
-					new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
-			gameEngine.getGameWorld().addPlayer(player);
-		}
+            Player player = new Player(new Vector2D(0, 490),
+                    new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
+            gameEngine.getGameWorld().addPlayer(player);
+        }
 
 
-		gameEngine.getGameWorld().createScene(levels.get(levelIndex).getLevelName());
-		if (playingMode == PlayingMode.HUMAN) {
-			scene.setOnKeyPressed((e) -> {
-				if (e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W || e.getCode() == KeyCode.SPACE) {
-					for (Player p : GameEngine.getInstance().getGameWorld().getPlayers()) {
-						p.jump();
-					}
-					gameEngine.getUserListener().playerJumped();
-				}
-			});
-			scene.setOnMouseClicked((e) -> {
-				if (e.getButton() == MouseButton.PRIMARY) {
-					for (Player p : GameEngine.getInstance().getGameWorld().getPlayers()) {
-						p.jump();
-					}
-					gameEngine.getUserListener().playerJumped();
-				}
-			});
-		} else {
-			System.out.println("Moram ucitati automatskog igraca iz datoteke");
-		}
+        gameEngine.getGameWorld().createScene(levels.get(levelIndex).getLevelName());
+        if (playingMode == PlayingMode.HUMAN) {
+            scene.setOnKeyPressed((e) -> {
+                if (e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W || e.getCode() == KeyCode.SPACE) {
+                    for (Player p : GameEngine.getInstance().getGameWorld().getPlayers()) {
+                        p.jump();
+                    }
+                    gameEngine.getUserListener().playerJumped();
+                }
+            });
+            scene.setOnMouseClicked((e) -> {
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    for (Player p : GameEngine.getInstance().getGameWorld().getPlayers()) {
+                        p.jump();
+                    }
+                    gameEngine.getUserListener().playerJumped();
+                }
+            });
+        } else {
+            System.out.println("Moram ucitati automatskog igraca iz datoteke");
+        }
 
-		GameSceneController controller = loader.getController();
+        GameSceneController controller = loader.getController();
 //		controller.setPreviousSceneRoot(rootPane);
-		controller.init();
+        controller.init();
 
 //		Thread.sleep(500);
-		stage.setScene(scene);
+        stage.setScene(scene);
 
-		
-		if(playingMode == PlayingMode.HUMAN) {
-			gameEngine.getGameStateListener().normalModePlayingStarted();
-		} else {
-			//sta je u optionsima GP, tvoj ili elmanova
-			//kako ces mu pridruzit tu spremljenu neuronsku mrezu
-			gameEngine.getGameStateListener().AIPlayingModeStarted();
-		}
-		
-	}
+
+        if (playingMode == PlayingMode.HUMAN) {
+            gameEngine.getGameStateListener().normalModePlayingStarted();
+        } else {
+            Options options = gameEngine.getSettings().getOptions();
+            Player player = new Player(
+                    new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
+                    new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), options.getAIMode());
+
+            //TODO remove this when deserialization is implemented
+            AIAlgorithm algorithm = new AIAlgorithm(3, 3, options.getAIMode());
+
+            switch (options.getAIMode()){
+                case NEURAL_NETWORK ->{
+                    //TODO deserialize Neural Network
+                }
+                case GENETIC_PROGRAMMING -> {
+                    //TODO deserialize Genetic Programming
+                    TreeDeserializer deserializer = new TreeDeserializer();
+
+                }
+                case ELMAN_NEURAL_NETWORK -> {
+                    //TODO deserialize Elman Neural Network
+                }
+            }
+
+            Object lockObject = new Object(); //locking object
+            algorithm.setLockObj(lockObject);
+            gameEngine.getGameWorld().setLockObject(lockObject);
+
+            gameEngine.getGameWorld().addPlayer(player);
+            algorithm.getPlayerNeuralNetworkMap().put(player, null);
+
+            gameEngine.getGameStateListener().AIPlayingModeStarted();
+            gameEngine.getGameWorld().setAlgorithm(algorithm);
+
+            Thread t = new Thread(() -> {
+                try {
+                    algorithm.runAlgorithm();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+            t.setName("AI algorithm");
+            t.setDaemon(true);
+            t.start();
+
+
+        }
+
+    }
 
 }
