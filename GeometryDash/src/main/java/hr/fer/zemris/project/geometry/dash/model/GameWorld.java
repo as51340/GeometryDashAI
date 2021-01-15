@@ -16,6 +16,7 @@ import com.sun.scenario.effect.impl.state.LinearConvolveKernel;
 
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
 import hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok.AIAlgorithm;
+import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.GeneticFunctionality;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.*;
 import hr.fer.zemris.project.geometry.dash.model.listeners.GameWorldListener;
 import hr.fer.zemris.project.geometry.dash.model.listeners.PlayerListener;
@@ -94,14 +95,30 @@ public class GameWorld {
 
 	private Set<GameObject> fromLevelObjects;
 
-	// reference to the algorithm
-	private AIAlgorithm algorithm;
+	// reference to the regular and elman algorithm
+	private AIAlgorithm algorithm = null;
+
+	private GeneticFunctionality gpAlgorithm = null;
+
+	/**
+	 * @return the gpAlgorithm
+	 */
+	public GeneticFunctionality getGpAlgorithm() {
+		return gpAlgorithm;
+	}
+
+	/**
+	 * @param gpAlgorithm the gpAlgorithm to set
+	 */
+	public void setGpAlgorithm(GeneticFunctionality gpAlgorithm) {
+		this.gpAlgorithm = gpAlgorithm;
+	}
 
 	private boolean unlockingCondition = false;
 
 	private boolean levelPassed = false;
 
-	double lastPosition;
+	private double lastPosition;
 
 	/**
 	 * @return the levelPassed
@@ -247,26 +264,6 @@ public class GameWorld {
 		}
 	}
 
-	public void setNewGeneration(Set<Player> newPlayers) {
-		this.players = newPlayers;
-		for (Player player : this.players) {
-			player.setIcon(GameConstants.pathToIcons
-					+ GameEngine.getInstance().getDefaultSelector().getSelectedCharacter().getUri());
-		}
-		this.levelObjects.clear();
-		renderer.clearObjects();
-		this.levelObjects.addAll(fromLevelObjects);
-		lastPosition = levelObjects.get(levelObjects.size() - 1).getInitialPosition().getX();
-		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
-		this.levelObjects.add(floor);
-		for (Player p : newPlayers) {
-			this.levelObjects.add(p);
-		}
-		Collections.sort(levelObjects, AIConstants.obstaclesLevelComparator);
-		renderer.setGameObjects(this.levelObjects);
-		closestObjects.clear();
-	}
-
 	/**
 	 * Creates temporary scene
 	 */
@@ -339,15 +336,19 @@ public class GameWorld {
 //							System.out.println();
 //						System.out.println("Player id u game worldu " + p.getId());
 //						System.out.println(algorithm.getPlayerNeuralNetworkMap().containsKey(p));
-				algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
-				double output = algorithm.getPlayerNeuralNetworkMap().get(p).getOutput().calculateOutput();
-				if (output >= 0.5)
-					p.jump();
+				if (algorithm != null) { //elman or regular
+					algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
+					double output = algorithm.getPlayerNeuralNetworkMap().get(p).getOutput().calculateOutput();
+					if (output >= 0.5)
+						p.jump();
+				} else  if( gpAlgorithm != null) { //trees
+					
+				}
+
 			}
 		}
 
-		if (renderer.render())
-		{
+		if (renderer.render()) {
 			unlockingCondition = true;
 			levelPassed = true;
 			return false; // toboze svi su mrtvi, ali zapravo nisu, nego je kraj levela
@@ -405,63 +406,62 @@ public class GameWorld {
 		return player;
 	}
 
-	private void checkCollision2() {		
-			Iterator<Player> iterator = players.iterator();
-			List<Obstacle> obstacles = new ArrayList<Obstacle>();
-			while (iterator.hasNext()) {
-				Player player = iterator.next();
-				if (player.isDead())
+	private void checkCollision2() {
+		Iterator<Player> iterator = players.iterator();
+		List<Obstacle> obstacles = new ArrayList<Obstacle>();
+		while (iterator.hasNext()) {
+			Player player = iterator.next();
+			if (player.isDead())
+				continue;
+			player.setTouchingGround(false);
+
+			obstacles.clear();
+
+			for (GameObject gameObject : levelObjects) {
+
+				if (gameObject instanceof Player) {
 					continue;
-				player.setTouchingGround(false);
+				}
 
-				obstacles.clear();
-				
-				for (GameObject gameObject : levelObjects) {
+				double playerX = player.getCurrentPosition().getX();
 
-					if (gameObject instanceof Player) {
+				double obstacleX = gameObject.getCurrentPosition().getX();
+
+				if (obstacleX < playerX - 45 && !(gameObject instanceof Floor)) // prepreke prije igrača uvijek
+																				// preskoci
+					continue;
+
+				if (obstacleX - playerX > 45) {
+					if (player.getPlayingMode() == PlayingMode.HUMAN || obstacles.size() == 4) {
 						continue;
 					}
+				}
 
-					double playerX = player.getCurrentPosition().getX();
-
-					double obstacleX = gameObject.getCurrentPosition().getX();
-
-					if (obstacleX < playerX - 45 && !(gameObject instanceof Floor)) // prepreke prije igrača uvijek
-																						// preskoci
-						continue;
-
-					if (obstacleX - playerX > 45) {
-						if (player.getPlayingMode() == PlayingMode.HUMAN || obstacles.size() == 4) {
-							continue;
-						}
-					}
-
-					if (player.getPlayingMode() != PlayingMode.HUMAN && obstacles.size() < 4) {
-						obstacles.add((Obstacle) gameObject);
-					}
+				if (player.getPlayingMode() != PlayingMode.HUMAN && obstacles.size() < 4) {
+					obstacles.add((Obstacle) gameObject);
+				}
 
 //					if (obstacleX - playerX <= 100) {
-						Obstacle obstacle = (Obstacle) gameObject;
-						if (obstacle.playerIsOn(player)) {
-							player.touchesGround();
-							player.getCurrentPosition()
-									.setY(gameObject.getCurrentPosition().getY() - GameConstants.iconHeight);
-						}
-						
-							if (!player.isDead() && obstacle.checkCollisions(player)) {
-								deaths++;
-								double value = gameObject.initialPosition.getX() - player.getCurrentPosition().getX();
-								player.setGoodness_value(value);
-								player.setDead(true);
-							}
+				Obstacle obstacle = (Obstacle) gameObject;
+				if (obstacle.playerIsOn(player)) {
+					player.touchesGround();
+					player.getCurrentPosition().setY(gameObject.getCurrentPosition().getY() - GameConstants.iconHeight);
+				}
+
+				if (!player.isDead() && obstacle.checkCollisions(player)) {
+					deaths++;
+					double value = gameObject.initialPosition.getX() - player.getCurrentPosition().getX();
+					player.setGoodness_value(value);
+					player.setDead(true);
+				}
 //					}
 
-				}
-				closestObjects.put(player, obstacles);
-
 			}
+			closestObjects.put(player, obstacles);
 
 		}
+
+	}
 
 	/**
 	 * Implementation of {@linkplain GameWorldListener}
@@ -498,7 +498,7 @@ public class GameWorld {
 			} else if (GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
 				if (finished_deaths == players.size()) {
 //					System.out.println("Deaths ai training " + finished_deaths);
-					synchronized (lockObject) {
+					synchronized (lockObject) { //ovo bi trebalo stimat i za tree
 						lockObject.notifyAll(); // obavijesti da smo gotovi
 					}
 				} else if (levelPassed) { // svim playerima postavi novi goodness value

@@ -36,6 +36,11 @@ public class ElmanNeuralNetworkController extends AIControllers {
 	private TextField numberPerHiddenLayerField;
 
 	private AIAlgorithm algorithm;
+	
+	public void init() {
+		super.init();
+		numberPerHiddenLayerField.setText("5");
+	}
 
 	@Override
 	public void trainNetwork(ActionEvent event) throws IOException, InterruptedException {
