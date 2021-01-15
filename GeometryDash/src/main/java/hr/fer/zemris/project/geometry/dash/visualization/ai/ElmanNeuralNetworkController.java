@@ -81,7 +81,7 @@ public class ElmanNeuralNetworkController extends AIControllers {
 			algorithm.getPlayerNeuralNetworkMap().put(player, null);
 		}
 //	System.out.println("Size: " + GameEngine.getInstance().getGameWorld().getPlayers().size());
-		GameEngine.getInstance().getGameWorld().createScene(levelBox.getValue()); // ucitaj uvijek prvi level
+		GameEngine.getInstance().getGameWorld().createScene(levelName); // ucitaj uvijek prvi level
 		GameEngine.getInstance().getGameWorld().setAlgorithm(algorithm);
 		Thread t = new Thread(() -> {
 			try {
@@ -113,7 +113,6 @@ public class ElmanNeuralNetworkController extends AIControllers {
 //	System.out.println("Pokrecem algoritam zasad samo scena postoji!");
 
 	};
-
 
 	@Override
 	public void stopTrainNetwork(ActionEvent event) {

@@ -277,10 +277,8 @@ public class GameEngine implements SoundSystem {
 	 * Resets game world
 	 */
 	public void reset() {
-//		Thread thr = new Thread(() -> {
 			gameWorld.setDeaths(0);
 			Camera newCamera = new Camera();//getGameWorld().getRenderer().getCamera();
-			//newCamera.setPosition(new Vector2D(0, 0));
 			getGameWorld().getRenderer().setCamera(newCamera);
 			((Floor) getGameWorld().getFloor()).setCamera(newCamera); 
 		
@@ -295,15 +293,7 @@ public class GameEngine implements SoundSystem {
 					((Player) o).setSpeed(new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y));
 				}
 			});
-//		});
-//		thr.start();
-//		try {
-//			thr.join();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
 	}
-
 	/**
 	 * Updates game world or level editor
 	 * 
