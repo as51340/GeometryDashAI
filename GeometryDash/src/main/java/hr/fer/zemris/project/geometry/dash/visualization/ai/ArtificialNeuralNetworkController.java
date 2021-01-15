@@ -79,7 +79,7 @@ public class ArtificialNeuralNetworkController extends AIControllers{
 			 return;
 		 }
 
-		 algorithm =  new AIAlgorithm(3, 4, PlayingMode.NEURAL_NETWORK);
+		 algorithm =  new AIAlgorithm(hiddenLayers, numberPerHiddenLayer, PlayingMode.NEURAL_NETWORK);
 
 		//postavi AI training mode
 		//GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
@@ -146,7 +146,7 @@ public class ArtificialNeuralNetworkController extends AIControllers{
 
 
 	@Override
-	void stopTrainNetwork(ActionEvent event) {};
+	void stopTrainNetwork(ActionEvent event) {}; //zasada ovako
 
 
 }
