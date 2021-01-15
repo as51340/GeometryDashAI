@@ -353,6 +353,8 @@ public class GameWorld {
 //						System.out.println("Player id u game worldu " + p.getId());
 //						System.out.println(algorithm.getPlayerNeuralNetworkMap().containsKey(p));
 						algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
+						double output = algorithm.getPlayerNeuralNetworkMap().get(p).getOutput().calculateOutput();
+						if(output>= 0.5) p.jump();
 					}
 				}
 
