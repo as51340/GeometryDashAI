@@ -91,7 +91,7 @@ public class Neuron {
     public Double calculateOutput() {
         if (hasOutput)
             return output;
-        System.out.println(this.toString());
+        //System.out.println(this.toString());
         double sum = getBias();
 
         int index = 0;
@@ -102,7 +102,7 @@ public class Neuron {
 
         this.output = sum;
         this.hasOutput = true;
-        System.out.println(this.toString() + " output: " + output);
+        //System.out.println(this.toString() + " output: " + output);
         return sum;
     }
 

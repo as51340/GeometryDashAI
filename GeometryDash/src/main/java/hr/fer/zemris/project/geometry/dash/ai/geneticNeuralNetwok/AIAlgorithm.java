@@ -25,7 +25,7 @@ public class AIAlgorithm {
 
 	private static final int POPULATION_SIZE = 300;
 	private static final int REPEAT = 500;
-	private static final double MUTATION_RATE = 0.1;
+	private static final double MUTATION_RATE = 0.2;
 	private static final int INPUT_LAYER_SIZE = AIConstants.numOfClosestObstacles * 3 + 1;
 	private final int numberOfHiddenLayers;
 	private final int numberPerHiddenLayer;
@@ -157,6 +157,7 @@ public class AIAlgorithm {
 	}
 
 	private void reproduction() {
+		Map<Player, NeuralNetwork> playerNeuralNetworkMap = new HashMap<>();
 
 		for (Player player: this.playerNeuralNetworkMap.keySet()) {
 
@@ -167,10 +168,11 @@ public class AIAlgorithm {
 				parent2 = getRandomParent();
 
 			NeuralNetwork child = crossover(parent1, parent2);
-			child = mutation(child);
-			this.playerNeuralNetworkMap.replace(player, child);
+			mutation(child);
+			playerNeuralNetworkMap.put(player, child);
 		}
 
+		this.playerNeuralNetworkMap = playerNeuralNetworkMap;
 		GameEngine.getInstance().getGameWorld().getAlgorithm().setPlayerNeuralNetworkMap(this.playerNeuralNetworkMap);
 //			linija iznad po meni visak
 //		System.out.println(this.playerNeuralNetworkMap.keySet().size()); okej

@@ -25,14 +25,14 @@ public class InputNeuron extends Neuron {
 
     @Override
     public Double calculateOutput() {
-        System.out.println(toString());
+        //System.out.println(toString());
         if (hasOutput())
             return getOutput();
 
         setOutput(getInputWeight() * input);
         setHasOutput(true);
 
-        System.out.println(this.toString() + " output: " + getOutput());
+        //System.out.println(this.toString() + " output: " + getOutput());
         return getOutput();
     }
 
