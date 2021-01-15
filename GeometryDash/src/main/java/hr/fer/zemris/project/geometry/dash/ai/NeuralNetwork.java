@@ -139,7 +139,7 @@ public abstract class NeuralNetwork {
     public void inputObstacles(List<Obstacle> obstacles, Player player) {
         if (inputLayer.size() == 0) createInputLayer(obstacles.size() * 3 + 1);
 
-        int index = 0;
+        int index = 0, size = obstacles.size() * 3;
         ((InputNeuron) inputLayer.get(index++)).setInput(player.getCurrentPosition().getY());
 
         for (Obstacle obstacle : obstacles) {
@@ -147,6 +147,13 @@ public abstract class NeuralNetwork {
             ((InputNeuron) inputLayer.get(index++)).setInput(obstacle.getCurrentPosition().getY() - player.getCurrentPosition().getY());
             ((InputNeuron) inputLayer.get(index++)).setInput(Obstacle.decodeObstacleType(obstacle));
         }
+
+        while(index < size){
+            ((InputNeuron) inputLayer.get(index++)).setInput(0);
+            ((InputNeuron) inputLayer.get(index++)).setInput(0);
+            ((InputNeuron) inputLayer.get(index++)).setInput(0);
+        }
+
     }
 
     /**
