@@ -124,7 +124,10 @@ public class AIAlgorithm {
 				} 
 			}
 		}
-
+		if(GameEngine.getInstance().getGameWorld().isLevelPassed()) {
+			throw new IllegalStateException("You trained enough");
+		}
+		
 		for (Player player : playerNeuralNetworkMap.keySet()) {
 //			System.out.println(player.getGoodness_value());
 			sumOfAllFitnesses += player.getGoodness_value();

@@ -82,6 +82,8 @@ public class GameWorld {
 	private boolean unlockingCondition = false;
 
 	private boolean levelPassed = false;
+	
+	double lastPosition;
 
 	/**
 	 * @return the levelPassed
@@ -240,9 +242,11 @@ public class GameWorld {
 //		this.levelObjects = fromLevel;
 //		this.levelObjects = new TreeSet<GameObject>(AIConstants.obstaclesLevelComparator);
 		this.levelObjects.addAll(fromLevel);
+		lastPosition = levelObjects.get(levelObjects.size() -1).getInitialPosition().getX();
 		GameEngine.getInstance().getLevelManager().startLevelWithName(levelName);
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
 		this.levelObjects.add(floor);
+		
 //			System.out.println("Uspješno dodan floor");
 		for (Player p : players) {
 			levelObjects.add(p);
@@ -296,21 +300,27 @@ public class GameWorld {
 			return false;
 		}
 
-		Thread aiThread = new Thread() {
-			@Override
-			public void run() {
-				if (GameEngine.getInstance().getGameState() == GameState.AI_PLAYING_MODE
-						|| GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
+		if (GameEngine.getInstance().getGameState() == GameState.AI_PLAYING_MODE
+				|| GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
+			Thread aiThread = new Thread() {
+				@Override
+				public void run() {
 					for (Player p : closestObjects.keySet()) {
-//					System.out.println(closestObjects.get(p).size());
-						algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(closestObjects.get(p), p);
+//						System.out.println(closestObjects.get(p).size());
+						List<Obstacle> obst = closestObjects.get(p);
+//							for(Obstacle ob: obst) {
+//								System.out.println(ob.getCurrentPosition().getX());
+//							}
+//							System.out.println();
+						algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
 					}
 				}
-			}
-		};
-		aiThread.setDaemon(true);
-		aiThread.start();
-		aiThread.join();
+
+			};
+			aiThread.setDaemon(true);
+			aiThread.start();
+			aiThread.join();
+		}
 
 		if (renderer.render()) {
 			unlockingCondition = true;
@@ -375,7 +385,7 @@ public class GameWorld {
 			Iterator<Player> iterator = players.iterator();
 
 			List<Obstacle> obstacles = new ArrayList<Obstacle>();
-			List<GameObject> obj = new ArrayList<GameObject>();
+//			List<GameObject> obj = new ArrayList<GameObject>();
 			while (iterator.hasNext()) {
 				Player player = iterator.next();
 //				System.out.println(players.contains(player));
@@ -407,9 +417,9 @@ public class GameWorld {
 						}
 					}
 
-					if (player.getPlayingMode() == PlayingMode.HUMAN && obstacles.size() < 4) {
-//							obstacles.add((Obstacle) gameObject);
-						obj.add(gameObject);
+					if (player.getPlayingMode() != PlayingMode.HUMAN && obstacles.size() < 4) {
+						obstacles.add((Obstacle) gameObject);
+//							obj.add(gameObject);
 					}
 
 					if (obstacleX - playerX <= 100) {
@@ -475,24 +485,24 @@ public class GameWorld {
 				}
 			} else if (GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
 				if (finished_deaths == players.size()) {
-//					System.out.println("Deaths ai training " + finished_deaths);
-					if (finished_deaths == players.size()) {
-						synchronized (lockObject) {
-							lockObject.notifyAll(); // obavijesti da smo gotovi
-						}
-					} else if (levelPassed) { // svim playerima postavi novi goodness value
-						levelPassed = false;
-						double lastPosition = ((TreeSet<GameObject>) levelObjects).last().getInitialPosition().getX();
-						for (Player p : players) {
-							if (!p.isDead())
-								p.setGoodness_value(lastPosition);
-						}
-						synchronized (lockObject) {
-							lockObject.notifyAll(); // obavijesti da smo gotovi
-						}
+					System.out.println("Deaths ai training " + finished_deaths);
+					synchronized (lockObject) {
+						lockObject.notifyAll(); // obavijesti da smo gotovi
 					}
+				} else if (levelPassed) { // svim playerima postavi novi goodness value
+//						levelPassed = false;
+					System.out.println("Tu smo!");
+					for (Player p : players) {
+						if (!p.isDead())
+							p.setGoodness_value(lastPosition);
+					}
+					synchronized (lockObject) {
+						lockObject.notifyAll(); // obavijesti da smo gotovi
+					}
+				} else {
+					System.out.println("Nije level passed?");
 				}
-				
+
 			} else {
 				throw new IllegalStateException("Unknown playing mode in game world!");
 			}
