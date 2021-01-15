@@ -62,6 +62,22 @@ public class GameWorld {
 	 * List of all players
 	 */
 	private volatile Set<Player> players;
+	
+	private Object generationLockObject;
+
+	/**
+	 * @return the generationLockObject
+	 */
+	public Object getGenerationLockObject() {
+		return generationLockObject;
+	}
+
+	/**
+	 * @param generationLockObject the generationLockObject to set
+	 */
+	public void setGenerationLockObject(Object generationLockObject) {
+		this.generationLockObject = generationLockObject;
+	}
 
 	/**
 	 * Number of death players
@@ -75,6 +91,8 @@ public class GameWorld {
 //	private Set<GameObject> levelObjects;
 
 	private List<GameObject> levelObjects;
+	
+	private Set<GameObject> fromLevelObjects;
 
 	// reference to the algorithm
 	private AIAlgorithm algorithm;
@@ -228,6 +246,26 @@ public class GameWorld {
 			renderer.addGameObject(p);
 		}
 	}
+	
+	public void setNewGeneration(Set<Player> newPlayers) {
+		this.players = newPlayers;
+		for (Player player : this.players) {
+			player.setIcon(GameConstants.pathToIcons
+					+ GameEngine.getInstance().getDefaultSelector().getSelectedCharacter().getUri());
+		}
+		this.levelObjects.clear();
+		renderer.clearObjects();
+		this.levelObjects.addAll(fromLevelObjects);
+		lastPosition = levelObjects.get(levelObjects.size() -1).getInitialPosition().getX();
+		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
+		this.levelObjects.add(floor);
+		for(Player p: newPlayers) {
+			this.levelObjects.add(p);
+		}
+		Collections.sort(levelObjects, AIConstants.obstaclesLevelComparator);
+		renderer.setGameObjects(this.levelObjects);
+		closestObjects.clear();
+	}
 
 	/**
 	 * Creates temporary scene
@@ -237,11 +275,11 @@ public class GameWorld {
 			player.setIcon(GameConstants.pathToIcons
 					+ GameEngine.getInstance().getDefaultSelector().getSelectedCharacter().getUri());
 		}
-		Set<GameObject> fromLevel = GameEngine.getInstance().getLevelManager().getLevelByName(levelName)
+		this.fromLevelObjects = GameEngine.getInstance().getLevelManager().getLevelByName(levelName)
 				.getGameObjects();
 //		this.levelObjects = fromLevel;
 //		this.levelObjects = new TreeSet<GameObject>(AIConstants.obstaclesLevelComparator);
-		this.levelObjects.addAll(fromLevel);
+		this.levelObjects.addAll(fromLevelObjects);
 		lastPosition = levelObjects.get(levelObjects.size() -1).getInitialPosition().getX();
 		GameEngine.getInstance().getLevelManager().startLevelWithName(levelName);
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
@@ -313,7 +351,7 @@ public class GameWorld {
 //							}
 //							System.out.println();
 //						System.out.println("Player id u game worldu " + p.getId());
-						System.out.println(algorithm.getPlayerNeuralNetworkMap().containsKey(p));
+//						System.out.println(algorithm.getPlayerNeuralNetworkMap().containsKey(p));
 						algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
 					}
 				}
@@ -462,6 +500,7 @@ public class GameWorld {
 
 		@Override
 		public void instanceFinished(double time) throws IOException, InterruptedException {
+//			System.out.println("KRAJ jedne scene");
 			GameEngine.getInstance().stop();
 			int finished_deaths = deaths.get();
 			GameEngine.getInstance().reset();
@@ -488,13 +527,13 @@ public class GameWorld {
 				}
 			} else if (GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
 				if (finished_deaths == players.size()) {
-					System.out.println("Deaths ai training " + finished_deaths);
+//					System.out.println("Deaths ai training " + finished_deaths);
 					synchronized (lockObject) {
 						lockObject.notifyAll(); // obavijesti da smo gotovi
 					}
 				} else if (levelPassed) { // svim playerima postavi novi goodness value
 //						levelPassed = false;
-					System.out.println("Tu smo!");
+//					System.out.println("Tu smo!");
 					for (Player p : players) {
 						if (!p.isDead())
 							p.setGoodness_value(lastPosition);

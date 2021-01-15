@@ -193,6 +193,8 @@ public class ChooseLevelController extends MainOptionsController {
 		if(playingMode == PlayingMode.HUMAN) {
 			gameEngine.getGameStateListener().normalModePlayingStarted();
 		} else {
+			//sta je u optionsima GP, tvoj ili elmanova
+			//kako ces mu pridruzit tu spremljenu neuronsku mrezu
 			gameEngine.getGameStateListener().AIPlayingModeStarted();
 		}
 		

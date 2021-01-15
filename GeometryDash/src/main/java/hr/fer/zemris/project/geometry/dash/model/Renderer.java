@@ -84,6 +84,10 @@ public class Renderer {
 //	}
 //	
 	
+	public void clearObjects() {
+		this.gameObjects.clear();
+	}
+
 
 	/**
 	 * Sets tool for drawing objects
@@ -105,6 +109,7 @@ public class Renderer {
 	 * @param gameObjects the gameObjects to set
 	 */
 	public void setGameObjects(List<GameObject> gameObjects) {
+		this.gameObjects.clear();
 		this.gameObjects = gameObjects;
 	}
 
