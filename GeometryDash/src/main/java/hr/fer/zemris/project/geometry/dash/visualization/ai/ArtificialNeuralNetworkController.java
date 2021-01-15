@@ -79,10 +79,6 @@ public class ArtificialNeuralNetworkController extends AIControllers{
 			 return;
 		 }
 
-		 Level chosenLevel = getLevel(levelBox.getValue());
-
-
-
 		 algorithm =  new AIAlgorithm(3, 4, PlayingMode.NEURAL_NETWORK);
 
 		//postavi AI training mode
@@ -111,7 +107,7 @@ public class ArtificialNeuralNetworkController extends AIControllers{
 	            algorithm.getPlayerNeuralNetworkMap().put(player, null);
 		}
 //		System.out.println("Size: " + GameEngine.getInstance().getGameWorld().getPlayers().size());
-		GameEngine.getInstance().getGameWorld().createScene(levels.get(1).getLevelName()); //ucitaj uvijek prvi level
+		GameEngine.getInstance().getGameWorld().createScene(levelBox.getValue()); //ucitaj uvijek prvi level
 		GameEngine.getInstance().getGameWorld().setAlgorithm(algorithm);
 		Thread t = new Thread(() -> {
 			try {

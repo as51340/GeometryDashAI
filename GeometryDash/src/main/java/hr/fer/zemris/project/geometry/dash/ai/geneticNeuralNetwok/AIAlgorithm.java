@@ -86,12 +86,14 @@ public class AIAlgorithm {
 	public void runAlgorithm() throws InterruptedException {
 		for (int i = 0; i < REPEAT; i++) {
 			initialize(); // svaki put dodaj nove playere i neka garbage collector radi svoje
-			System.out.println("Inicijalizacija gotova " + (i + 1) + "-ti put");
+//			System.out.println("Inicijalizacija gotova " + (i + 1) + "-ti put");
 			sumOfAllFitnesses = 0;
+			GameEngine.getInstance().getGameWorld().setUnlockingCondition(false);
+			GameEngine.getInstance().getGameWorld().setLevelPassed(false);		
 			selection();
-			System.out.println("Selekcija gotova " + (i + 1) + "-ti put");
+//			System.out.println("Selekcija gotova " + (i + 1) + "-ti put");
 //			reproduction();
-			System.out.println("Reprodukcija gotova " + (i + 1) + "-ti put");
+//			System.out.println("Reprodukcija gotova " + (i + 1) + "-ti put");
 			// isti princip uporabe kao u game world
 			GameEngine.getInstance().stop();
 			GameEngine.getInstance().reset();

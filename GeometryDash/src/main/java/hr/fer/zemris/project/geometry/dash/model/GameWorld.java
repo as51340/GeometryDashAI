@@ -242,8 +242,8 @@ public class GameWorld {
 		this.levelObjects.addAll(fromLevel);
 		GameEngine.getInstance().getLevelManager().startLevelWithName(levelName);
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
-		if (this.levelObjects.add(floor))
-			System.out.println("Uspješno dodan floor");
+		this.levelObjects.add(floor);
+//			System.out.println("Uspješno dodan floor");
 		for (Player p : players) {
 			levelObjects.add(p);
 		}
@@ -378,14 +378,14 @@ public class GameWorld {
 			List<GameObject> obj = new ArrayList<GameObject>();
 			while (iterator.hasNext()) {
 				Player player = iterator.next();
-				System.out.println(players.contains(player));
+//				System.out.println(players.contains(player));
 //					System.out.println(player.getCurrentPosition().getX());
 				if (player.isDead())
 					continue;
 				player.setTouchingGround(false);
 
 				obstacles.clear();
-				System.out.println(levelObjects.indexOf(floor));
+//				System.out.println(levelObjects.indexOf(floor));
 				for (GameObject gameObject : levelObjects) {
 
 //						System.out.println("Udem u petlju!");
@@ -463,8 +463,9 @@ public class GameWorld {
 						openScene(GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelName(), time);
 					}
 				} else {
-					System.out.println("Number of deaths = " + finished_deaths);
+//					System.out.println("Number of deaths = " + finished_deaths);
 					if (levelPassed) {
+						levelPassed = false;
 						openScene("Level " + GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelName()
 								+ " successfully finished!", time);
 					} else {
@@ -474,21 +475,24 @@ public class GameWorld {
 				}
 			} else if (GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
 				if (finished_deaths == players.size()) {
+//					System.out.println("Deaths ai training " + finished_deaths);
 					if (finished_deaths == players.size()) {
 						synchronized (lockObject) {
 							lockObject.notifyAll(); // obavijesti da smo gotovi
 						}
 					} else if (levelPassed) { // svim playerima postavi novi goodness value
+						levelPassed = false;
 						double lastPosition = ((TreeSet<GameObject>) levelObjects).last().getInitialPosition().getX();
 						for (Player p : players) {
 							if (!p.isDead())
 								p.setGoodness_value(lastPosition);
 						}
+						synchronized (lockObject) {
+							lockObject.notifyAll(); // obavijesti da smo gotovi
+						}
 					}
 				}
-				synchronized (lockObject) {
-					lockObject.notifyAll(); // obavijesti da smo gotovi
-				}
+				
 			} else {
 				throw new IllegalStateException("Unknown playing mode in game world!");
 			}
