@@ -176,7 +176,7 @@ public class ChooseLevelController extends MainOptionsController {
 
         GameSceneController controller = loader.getController();
 //		controller.setPreviousSceneRoot(rootPane);
-        controller.init();
+        controller.init(PlayingMode.HUMAN);
 
 //		Thread.sleep(500);
         stage.setScene(scene);

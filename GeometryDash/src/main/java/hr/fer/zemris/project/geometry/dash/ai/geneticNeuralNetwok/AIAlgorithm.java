@@ -10,12 +10,14 @@ import java.util.concurrent.Semaphore;
 import java.util.function.DoubleUnaryOperator;
 
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
+import hr.fer.zemris.project.geometry.dash.ai.AIGameSceneListenerImpl;
 import hr.fer.zemris.project.geometry.dash.ai.ElmanNeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.GeneticNeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
+import hr.fer.zemris.project.geometry.dash.model.listeners.AIGameSceneListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.GameSceneController;
@@ -36,8 +38,18 @@ public class AIAlgorithm {
 
 	private Object lockObj;
 
+	/**
+	 * Locking on continue object
+	 */
+	private Object continueLockingObject;
+
 	private GameSceneController controller;
-	
+
+	/**
+	 * Game scene controller
+	 */
+	private AIGameSceneListener gameSceneListener;
+
 	/**
 	 * @return the controller
 	 */
@@ -51,6 +63,11 @@ public class AIAlgorithm {
 	public void setController(GameSceneController controller) {
 		this.controller = controller;
 	}
+	
+	/**
+	 * Is pause pressed
+	 */
+	private boolean pausePressed = false;
 
 	/**
 	 * Which algorithm to run - Genetic or Elman.
@@ -77,6 +94,35 @@ public class AIAlgorithm {
 		playerNeuralNetworkMap = new LinkedHashMap<>();
 		this.numberPerHiddenLayer = numberPerHiddenLayer;
 		this.mode = mode;
+		gameSceneListener = new AIGameSceneListenerImpl();
+	}
+	
+	/**
+	 * @return the pausePressed
+	 */
+	public boolean isPausePressed() {
+		return pausePressed;
+	}
+
+	/**
+	 * @param pausePressed the pausePressed to set
+	 */
+	public void setPausePressed(boolean pausePressed) {
+		this.pausePressed = pausePressed;
+	}
+
+	/**
+	 * @return the continueLockingObject
+	 */
+	public Object getContinueLockingObject() {
+		return continueLockingObject;
+	}
+
+	/**
+	 * @param continueLockingObject the continueLockingObject to set
+	 */
+	public void setContinueLockingObject(Object continueLockingObject) {
+		this.continueLockingObject = continueLockingObject;
 	}
 
 	/**
@@ -137,8 +183,33 @@ public class AIAlgorithm {
 			}
 		}
 		if (GameEngine.getInstance().getGameWorld().isLevelPassed()) {
-			System.out.println(playerNeuralNetworkMap.keySet().size());
-			throw new IllegalStateException("You trained enough");
+
+			// probably on javafx application thread
+			Platform.runLater(() -> {
+				controller.interruptTraining(mode, null,
+						GameEngine.getInstance().getGameWorld().isLevelPassed()); // handlaj
+																					// fail
+			});
+			if (continueLockingObject != null) {
+				synchronized (continueLockingObject) { // only one thread so we shouldn't need while loop
+					try {
+						continueLockingObject.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			} else {
+				Thread.currentThread().stop();
+			}
+		}
+		if (pausePressed) {
+			synchronized (continueLockingObject) { // only one thread so we shouldn't need while loop
+				try {
+					continueLockingObject.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		for (Player player : playerNeuralNetworkMap.keySet()) {

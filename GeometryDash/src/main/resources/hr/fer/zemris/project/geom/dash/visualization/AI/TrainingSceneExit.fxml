@@ -35,7 +35,7 @@
       </Text>
       <AnchorPane fx:id="centerPane" prefHeight="200.0" prefWidth="200.0" styleClass="textFieldOption">
          <children>
-            <Label layoutX="413.0" layoutY="353.0" text="Type:" />
+            <Label layoutX="259.0" layoutY="353.0" text="Type:" />
              <Button fx:id="save" layoutX="299.0" layoutY="471.0" mnemonicParsing="false" onAction="#saveAction" prefHeight="50.0" prefWidth="175.0" styleClass="menu-button" text="Save">
                 <font>
                    <Font size="22.0" />
@@ -46,9 +46,9 @@
                    <Font size="22.0" />
                 </font>
              </Button>
-            <Label fx:id="attempt" layoutX="326.0" layoutY="152.0" prefHeight="50.0" prefWidth="640.0" style="-fx-alignment: center;" text="Generation" />
+            <Label fx:id="attempt" layoutX="304.0" layoutY="157.0" prefHeight="50.0" prefWidth="640.0" style="-fx-alignment: center;" text="Generation" />
             <ProgressBar fx:id="progressBar" layoutX="326.0" layoutY="238.0" prefHeight="30.0" prefWidth="640.0" progress="0.0" AnchorPane.leftAnchor="326.0" AnchorPane.rightAnchor="314.0" />
-            <Label fx:id="AiLabelType" layoutX="712.0" layoutY="366.0" styleClass="smallLabel" text="Label" />
+            <Label fx:id="AiLabelType" layoutX="474.0" layoutY="359.0" styleClass="smallLabel" text="Label" />
             <Button fx:id="contP" layoutX="536.0" layoutY="471.0" mnemonicParsing="false" onAction="#continueAction" prefHeight="50.0" prefWidth="175.0" styleClass="menu-button" text="Continue">
                <font>
                   <Font size="22.0" />

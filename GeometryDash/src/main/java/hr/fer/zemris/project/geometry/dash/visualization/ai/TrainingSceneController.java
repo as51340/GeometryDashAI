@@ -82,18 +82,22 @@ public class TrainingSceneController extends MenuController {
 	 */
 	private Object objToSave;
 	
-	@FXML
-    private Button contP;
-
 	/**
 	 * Locks training until we click on continue
 	 */
 	private Object continueLockObject;
+	
+	@FXML
+    private Button contP;
 
 	@FXML
 	void continueAction(ActionEvent event) {
+		if (GameEngine.getInstance().getGameWorld().getGpAlgorithm() != null) {
+			GameEngine.getInstance().getGameWorld().getGpAlgorithm().setPausePressed(false);
+		} else if(GameEngine.getInstance().getGameWorld().getAlgorithm() != null) {
+			GameEngine.getInstance().getGameWorld().getAlgorithm().setPausePressed(false);
+		}
 		rootPane.translateYProperty().set(0);
-
 		KeyValue keyValueReverse = new KeyValue(rootPane.translateYProperty(), -GameConstants.HEIGHT,
 				Interpolator.EASE_IN);
 		KeyFrame keyFrameReverse = new KeyFrame(Duration.millis(MENU_TRANSITION_DURATION), keyValueReverse);
@@ -117,7 +121,9 @@ public class TrainingSceneController extends MenuController {
 	 * 
 	 * @param playingMode
 	 */
-	public void init(PlayingMode playingMode, boolean levelPassed) {
+	public void init(PlayingMode playingMode, boolean levelPassed, Object continueLockObject, int generationNum) {
+		AiLabelType.setText(playingMode.toString());
+		attempt.setText("Generation " + generationNum);
 		if(levelPassed) {
 			contP.setVisible(false);
 		} else {
@@ -126,10 +132,7 @@ public class TrainingSceneController extends MenuController {
 		gameListener = new AIGameSceneListenerImpl();
 		this.playingMode = playingMode;
 		objToSave = GeometryDash.getStage().getUserData();
-		continueLockObject = new Object();
-		if (GameEngine.getInstance().getGameWorld().getGpAlgorithm() != null) {
-			GameEngine.getInstance().getGameWorld().getGpAlgorithm().setContinueLockingObject(continueLockObject);
-		}
+		this.continueLockObject = continueLockObject;
 	}
 
 	@FXML
