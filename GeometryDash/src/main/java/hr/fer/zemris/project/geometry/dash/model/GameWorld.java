@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -17,6 +18,7 @@ import com.sun.scenario.effect.impl.state.LinearConvolveKernel;
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
 import hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok.AIAlgorithm;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.GeneticFunctionality;
+import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.Tree;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.*;
 import hr.fer.zemris.project.geometry.dash.model.listeners.GameWorldListener;
 import hr.fer.zemris.project.geometry.dash.model.listeners.PlayerListener;
@@ -63,42 +65,37 @@ public class GameWorld {
 	 * List of all players
 	 */
 	private Set<Player> players;
-
-	private Object generationLockObject;
-
-	/**
-	 * @return the generationLockObject
-	 */
-	public Object getGenerationLockObject() {
-		return generationLockObject;
-	}
-
-	/**
-	 * @param generationLockObject the generationLockObject to set
-	 */
-	public void setGenerationLockObject(Object generationLockObject) {
-		this.generationLockObject = generationLockObject;
-	}
-
+	
 	/**
 	 * Number of death players
 	 */
 	private int deaths = 0;
 
+	/**
+	 * Closest objects
+	 */
 	private Map<Player, List<Obstacle>> closestObjects;
 
+	/**
+	 * Lock object
+	 */
 	private Object lockObject;
-
-//	private Set<GameObject> levelObjects;
-
+	
+	/**
+	 * Level objects
+	 */
 	private List<GameObject> levelObjects;
 
+	/**
+	 * From level objects
+	 */
 	private Set<GameObject> fromLevelObjects;
 
 	// reference to the regular and elman algorithm
 	private AIAlgorithm algorithm = null;
 
 	private GeneticFunctionality gpAlgorithm = null;
+	
 
 	/**
 	 * @return the gpAlgorithm
@@ -114,10 +111,19 @@ public class GameWorld {
 		this.gpAlgorithm = gpAlgorithm;
 	}
 
+	/**
+	 * for ai
+	 */
 	private boolean unlockingCondition = false;
 
+	/**
+	 * for everything
+	 */
 	private boolean levelPassed = false;
 
+	/**
+	 * Position of last level obstacle
+	 */
 	private double lastPosition;
 
 	/**
@@ -265,6 +271,20 @@ public class GameWorld {
 	}
 
 	/**
+	 * @return the closestObjects
+	 */
+	public Map<Player, List<Obstacle>> getClosestObjects() {
+		return closestObjects;
+	}
+
+	/**
+	 * @param closestObjects the closestObjects to set
+	 */
+	public void setClosestObjects(Map<Player, List<Obstacle>> closestObjects) {
+		this.closestObjects = closestObjects;
+	}
+
+	/**
 	 * Creates temporary scene
 	 */
 	public void createScene(String levelName) {
@@ -293,9 +313,7 @@ public class GameWorld {
 //			System.out.println(go.getClass() + " " + go.getCurrentPosition().getX() + " " + go.getCurrentPosition().getY());
 //		}
 		renderer = new Renderer(levelObjects);
-//		for (Player p : players) {
-//			renderer.addGameObject(p);
-//		}
+		
 		floor.setCamera(renderer.getCamera());
 //		GameEngine.getInstance().getGameStateListener().normalModePlayingStarted();
 
@@ -307,6 +325,7 @@ public class GameWorld {
 	 * @throws InterruptedException
 	 */
 	public boolean update() throws InterruptedException {
+//		System.out.println("UPDATE");
 		checkCollision2();
 		Player maxPlayer = getMaxPlayer();
 		if (maxPlayer == null) { // on nebi trebao biti nikad null
@@ -328,30 +347,28 @@ public class GameWorld {
 				|| GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
 
 			for (Player p : closestObjects.keySet()) {
-//						System.out.println(closestObjects.get(p).size());
 				List<Obstacle> obst = closestObjects.get(p);
-//							for(Obstacle ob: obst) {
-//								System.out.println(ob.getCurrentPosition().getX());
-//							}
-//							System.out.println();
-//						System.out.println("Player id u game worldu " + p.getId());
-//						System.out.println(algorithm.getPlayerNeuralNetworkMap().containsKey(p));
-				if (algorithm != null) { //elman or regular
+				if(algorithm != null) {
 					algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
 					double output = algorithm.getPlayerNeuralNetworkMap().get(p).getOutput().calculateOutput();
 					if (output >= 0.5)
 						p.jump();
-				} else  if( gpAlgorithm != null) { //trees
+				} else if(gpAlgorithm != null) {
+					if(gpAlgorithm.getPopulation().get(p) == null) {
+						System.out.println("Player id " + p.getId());
+					}
 					
+					gpAlgorithm.getPopulation().get(p).changeInputs(obst, p);
+//					double output = gpAlgorithm.getBestOfAll();
 				}
-
 			}
 		}
 
 		if (renderer.render()) {
 			unlockingCondition = true;
 			levelPassed = true;
-			return false; // toboze svi su mrtvi, ali zapravo nisu, nego je kraj levela
+			return false; // toboze svi su mrtvi, ali zapravo
+							// nisu, nego je kraj levela
 		}
 
 		return true;
@@ -498,7 +515,7 @@ public class GameWorld {
 			} else if (GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
 				if (finished_deaths == players.size()) {
 //					System.out.println("Deaths ai training " + finished_deaths);
-					synchronized (lockObject) { //ovo bi trebalo stimat i za tree
+					synchronized (lockObject) { // ovo bi trebalo stimat i za tree
 						lockObject.notifyAll(); // obavijesti da smo gotovi
 					}
 				} else if (levelPassed) { // svim playerima postavi novi goodness value

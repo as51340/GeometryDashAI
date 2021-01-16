@@ -1,8 +1,11 @@
 package hr.fer.zemris.project.geometry.dash.ai.genetic_programming;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Random;
 
+import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 
 /**
@@ -23,29 +26,9 @@ public class Tree {
 	private int size = -1;
 	
 	/**
-	 * Every tree stores reference to the player
+	 * Index for changing inputs
 	 */
-	private Player player;
-	
-	/**
-	 * Simple constructor for now
-	 */
-//	public Tree() {		
-//	}
-	
-	// Možda ovo ili napisat još i neku metodu koja stvara stablo s random čvorovima do zadane dubine?
-//	/**
-//	 * Creates tree with random root
-//	 */
-//	public Tree() {
-//		EnumSet<ActionType> types = EnumSet.allOf(ActionType.class);
-//		ActionType[] actionTypes = (ActionType[]) types.toArray();
-//		Random r = new Random();
-//		int index = r.nextInt(actionTypes.length);
-//		
-//		this.root = new TreeNode(new Action(actionTypes[index]));
-//		size++;
-//	}
+	private int cngIndex = 0;
 	
 	/**
 	 * Creates tree with its root
@@ -89,20 +72,29 @@ public class Tree {
 	public void setSize(int size) {
 		this.size = size;
 	}
-
-	/**
-	 * @return the player
-	 */
-	public Player getPlayer() {
-		return player;
+	
+	public void changeInputs(List<Obstacle> inputs, Player p) {
+		this.cngIndex = 0;
+		List<Double> inp = new ArrayList<Double>();
+		for(Obstacle ob: inputs) {
+			inp.add(ob.getCurrentPosition().getX());
+			inp.add(ob.getCurrentPosition().getY());
+			inp.add(Obstacle.decodeObstacleType(ob));
+		}
+		inp.add(p.getCurrentPosition().getY());
+		changeInputs(this.root, inp);
 	}
-
-
-	/**
-	 * @param player the player to set
-	 */
-	public void setPlayer(Player player) {
-		this.player = player;
+	
+	private void changeInputs(TreeNode root, List<Double> inputs) {
+		if(this.cngIndex == inputs.size()) {
+			return;
+		}
+		if(root.getAction() == null) {
+			root.setValue(inputs.get(this.cngIndex++));
+		}
+		for(TreeNode child: root.getChildren()) {
+			changeInputs(child, inputs);
+		}
 	}
 
 

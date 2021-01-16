@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class GeneticProgrammingController extends AIControllers {
 
@@ -93,18 +94,19 @@ public class GeneticProgrammingController extends AIControllers {
 		GameEngine.getInstance().getGameWorld().setLockObject(lockObject);
 
 		algorithm.initializePopulation();
-		int pop_size = algorithm.getCurrPopulation().size();
+		int pop_size = algorithm.getPopulation().size();
 		if (pop_size != algorithm.getTreePopulationSize()) {
 			throw new IllegalStateException("Kriva inicijalizacija u gp algorithmu!");
 		}
-		
-		List<Tree> populationTree = algorithm.getCurrPopulation();
-		for (int i = 0; i < pop_size; i++) {
-			GameEngine.getInstance().getGameWorld().addPlayer(populationTree.get(i).getPlayer());
+		Set<Player> players = algorithm.getPopulation().keySet();
+		for(Player p : players) {
+			GameEngine.getInstance().getGameWorld().addPlayer(p);
 		}
-
+		
 		GameEngine.getInstance().getGameWorld().createScene(levelName);
 		GameEngine.getInstance().getGameWorld().setGpAlgorithm(algorithm);
+		
+		
 		Thread t = new Thread(() -> {
 			algorithm.performAlgorithm();
 		});
@@ -114,7 +116,7 @@ public class GeneticProgrammingController extends AIControllers {
 
 		GameSceneController controller = loader.getController();
 		controller.init();
-//	GameSceneController.generationLabel.setVisible(true);
+		//	GameSceneController.generationLabel.setVisible(true);
 
 		double width = rootPane.getScene().getWidth();
 		double height = rootPane.getScene().getHeight();

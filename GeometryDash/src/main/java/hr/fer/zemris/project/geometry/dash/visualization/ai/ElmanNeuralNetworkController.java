@@ -76,7 +76,6 @@ public class ElmanNeuralNetworkController extends AIControllers {
 		algorithm.setLockObj(lockObject);
 		GameEngine.getInstance().getGameWorld().setLockObject(lockObject);
 		algorithm.setGenerationLockObject(generationLock);
-		GameEngine.getInstance().getGameWorld().setGenerationLockObject(generationLock);
 
 		for (int i = 0; i < AIConstants.POPULATION_SIZE; i++) {
 			Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),

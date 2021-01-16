@@ -153,7 +153,7 @@ public class TreeNode {
 			return false;
 		TreeNode other = (TreeNode) obj;
 		if (action == null) {
-			if (other.action != null) {;
+			if (other.action != null) {
 				return false;
 			}
 		} else if (!action.equals(other.action)) {
