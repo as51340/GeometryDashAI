@@ -28,12 +28,12 @@ public class InputNeuron extends Neuron {
         //System.out.println(toString());
         if (hasOutput())
             return getOutput();
-        System.out.println(toString() + " entering calculateOutput()");
+        //System.out.println(toString() + " entering calculateOutput()");
 
-        setOutput(getInputWeight() * input);
+        setOutput(applyActivationFunction(getInputWeight() * input));
         setHasOutput(true);
 
-        System.out.println(this.toString() + ", output: " + getOutput());
+        //System.out.println(this.toString() + ", output: " + getOutput());
         return getOutput();
     }
 

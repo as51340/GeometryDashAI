@@ -24,13 +24,9 @@ public abstract class Obstacle extends GameObject {
      */
     public static double decodeObstacleType(Obstacle obstacle) {
         return switch (obstacle.getName()) {
-            case "Block" -> 0;
-            case "Floor" -> 1;
-            case "GrassSpike" -> 2;
-            case "LeftSpike" -> 3;
-            case "Platform" -> 4;
-            case "RightSpike" -> 5;
-            case "Spike" -> 6;
+            case "Block", "Platform" -> 0;
+            case "Floor" -> -1;
+            case "GrassSpike", "LeftSpike", "RightSpike", "Spike" -> 1;
             default -> throw new IllegalArgumentException("Not a valid obstacle");
         };
     }
