@@ -292,5 +292,25 @@ public abstract class NeuralNetwork {
     public int hashCode() {
         return Objects.hash(inputLayer, hiddenLayers, output);
     }
+    
+    @Override
+    public String toString() {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	for(Neuron in : inputLayer) {
+    		sb.append(in);
+    	}
+    	
+    	for(List<Neuron> hidden : hiddenLayers) {
+    		for(Neuron hn : hidden) {
+    			sb.append(hn);
+    		}
+    	}
+    	
+    	sb.append(output);
+    	sb.append("output: ").append(output.calculateOutput());
+    	
+    	return super.toString();
+    }
 
 }

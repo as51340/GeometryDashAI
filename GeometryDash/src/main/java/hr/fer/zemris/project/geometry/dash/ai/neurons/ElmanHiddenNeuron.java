@@ -87,7 +87,7 @@ public class ElmanHiddenNeuron extends Neuron {
         for (int i = 0; i < prevNeurons.size(); i++)
             sb.append("{id: ").append(prevNeurons.get(i).getId()).append(", weight: ").append(prevNeuronWeights.get(i)).append("}");
         
-        sb.append(", contextNeuronID-weight: {id: ").append(contextNeuron.getId()).append(", weight: ").append(contextNeuronWeight).append("}");
+        sb.append(", contextNeuron: ").append(contextNeuron);
 
         sb.append(")");
         return sb.toString();
