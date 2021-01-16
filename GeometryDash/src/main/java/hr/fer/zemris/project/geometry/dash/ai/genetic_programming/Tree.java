@@ -89,7 +89,7 @@ public class Tree {
 		if(this.cngIndex == inputs.size()) {
 			return;
 		}
-		if(root.getAction() == null) {
+		if(root.getAction() == null && root.getValue() != Double.MAX_VALUE && root.getValue() != Double.MIN_VALUE) {
 			root.setValue(inputs.get(this.cngIndex++));
 		}
 		for(TreeNode child: root.getChildren()) {

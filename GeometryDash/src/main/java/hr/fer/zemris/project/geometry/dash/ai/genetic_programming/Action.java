@@ -233,6 +233,20 @@ public class Action {
 		
 	}
 	
+	/**
+	 * @return the actionType
+	 */
+	public ActionType getActionType() {
+		return actionType;
+	}
+
+	/**
+	 * @param actionType the actionType to set
+	 */
+	public void setActionType(ActionType actionType) {
+		this.actionType = actionType;
+	}
+
 	public boolean calculateIf_Else(double x) {
 		return ActionCalculator.if_else(x);
 	}

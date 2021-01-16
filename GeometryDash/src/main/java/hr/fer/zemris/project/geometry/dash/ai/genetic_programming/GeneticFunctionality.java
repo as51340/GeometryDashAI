@@ -312,9 +312,14 @@ public class GeneticFunctionality {
 							new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y),
 							PlayingMode.NEURAL_NETWORK);
 					population.put(player, tree);
+					if(!TreeUtil.checkIfValid(tree.getRoot())) {
+						TreeUtil.printTree(tree.getRoot(), 0);
+						System.exit(-1);
+					}
 				}
 			}
 		}
+//		
 	}
 
 	/**
@@ -345,7 +350,7 @@ public class GeneticFunctionality {
 						}
 					}
 				}
-				System.out.println("Vani!");
+//				System.out.println("Vani!");
 				if(GameEngine.getInstance().getGameWorld().isLevelPassed()) {
 					throw new IllegalStateException("Level passed");
 				}
@@ -365,10 +370,10 @@ public class GeneticFunctionality {
 					}
 				}
 				
-				System.out.println("Population size before removing " + population.size());
+//				System.out.println("Population size before removing " + population.size());
 				population.remove(minPlayerTree.getKey());
 				population.remove(almostMinPlayerTree.getKey());
-				System.out.println("Population size after removing " + population.size());
+//				System.out.println("Population size after removing " + population.size());
 				
 //				GameEngine.getInstance().getGameWorld().getPlayers().remove(minPlayerTree.getKey());
 //				GameEngine.getInstance().getGameWorld().getPlayers().remove(almostMinPlayerTree.getKey());
@@ -381,14 +386,38 @@ public class GeneticFunctionality {
 				bestInGeneration = maxPlayerTree;
 				
 				List<Tree> selectedTrees = selection();
-				int firstTree = random.nextInt(selectedTrees.get(0).getSize()) + 1;
-				int secondTree = random.nextInt(selectedTrees.get(1).getSize()) + 1;
-				List<Tree> crossovered = TreeUtil.crossover(selectedTrees.get(0), selectedTrees.get(1), firstTree,
-						secondTree);
-				int targetNode1 = random.nextInt(crossovered.get(0).getSize()) + 1;
-				Tree mutated1 = TreeUtil.mutate(crossovered.get(0), targetNode1, random, inputs);
-				int targetNode2 = random.nextInt(crossovered.get(1).getSize()) + 1;
-				Tree mutated2 = TreeUtil.mutate(crossovered.get(1), targetNode2, random, inputs);
+				List<Tree> crossovered = null;
+				boolean valid = false;
+				while(!valid) {
+					int firstTree = random.nextInt(selectedTrees.get(0).getSize()) + 1;
+					int secondTree = random.nextInt(selectedTrees.get(1).getSize()) + 1;
+					crossovered = TreeUtil.crossover(selectedTrees.get(0), selectedTrees.get(1), firstTree,
+							secondTree);
+					valid = true;
+					for(Tree tree : crossovered) {
+						if(!TreeUtil.checkIfValid(tree.getRoot()) && valid == true) {
+							valid = false;
+						}
+					}
+				}
+				
+				valid = false;
+				Tree mutated1 = null;
+				while(!valid) {
+					int targetNode1 = random.nextInt(crossovered.get(0).getSize()) + 1;
+					mutated1 = TreeUtil.mutate(crossovered.get(0), targetNode1, random, inputs);
+					valid = TreeUtil.checkIfValid(mutated1.getRoot());
+				}
+				
+				valid = false;
+				Tree mutated2 = null;
+				while(!valid) {
+					int targetNode2 = random.nextInt(crossovered.get(0).getSize()) + 1;
+					mutated2 = TreeUtil.mutate(crossovered.get(0), targetNode2, random, inputs);
+					valid = TreeUtil.checkIfValid(mutated2.getRoot());
+				}
+				
+				
 				
 				Player p1 = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
 						new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.GENETIC_PROGRAMMING);
@@ -398,7 +427,7 @@ public class GeneticFunctionality {
 				population.put(p1, mutated1);
 				population.put(p2, mutated2);
 				
-				System.out.println("Population size after adding " + population.size());
+//				System.out.println("Population size after adding " + population.size());
 //				GameEngine.getInstance().getGameWorld().addPlayer(p1);
 //				GameEngine.getInstance().getGameWorld().addPlayer(p2);
 //				GameEngine.getInstance().getGameWorld().getRenderer().addGameObject(p1);
@@ -513,7 +542,7 @@ public class GeneticFunctionality {
 		Object[] values = population.values().toArray();
 		Object[] keys =  population.keySet().toArray();
 		if (selProcess == SelectionProcess.THREE_TOURNAMENT_SELECTION) {
-			int[] indexes = random.ints(0, treePopulationSize).distinct().limit(3).toArray();
+			int[] indexes = random.ints(0, treePopulationSize -2).distinct().limit(3).toArray();
 			
 			Player p1, p2, p3;
 			p1 = (Player)keys[indexes[0]];
@@ -535,11 +564,11 @@ public class GeneticFunctionality {
 		} else if (selProcess == SelectionProcess.ROULETTE_WHEEL_SELECTION) {
 			Tree tree1 = getPlayerByRoulette();
 			if (tree1 == null) { // uniformly select
-				tree1 = (Tree)values[random.nextInt(treePopulationSize)];
+				tree1 = (Tree)values[random.nextInt(treePopulationSize -2)];
 			}
 			Tree tree2 = getPlayerByRoulette();
 			if (tree2 == null) {
-				tree2 = (Tree)values[random.nextInt(treePopulationSize)];
+				tree2 = (Tree)values[random.nextInt(treePopulationSize -2)];
 			}
 			list.add(tree1);
 			list.add(tree2);
@@ -558,13 +587,13 @@ public class GeneticFunctionality {
 		Object[] values = population.values().toArray();
 		Object[] keys = population.keySet().toArray();
 		double d = random.nextDouble()
-				* (population_goodness_value - worst_goodness_value_in_population * treePopulationSize);
+				* (population_goodness_value - worst_goodness_value_in_population * (treePopulationSize-2));
 		if (d < 0 && Math.abs(d) > 1e-3) {
 			System.out.println("d " + d);
 			throw new IllegalArgumentException("Something is wrong with roulette_wheel selection");
 		}
 		double curr = 0;
-		for (int i = 0; i < treePopulationSize; i++) {
+		for (int i = 0; i < treePopulationSize - 2; i++) { //jer smo 2 removali
 			if (curr + (((Player)keys[i]).getGoodness_value() - worst_goodness_value_in_population)
 					/ population_goodness_value > d) {
 				return (Tree)values[i];
@@ -575,18 +604,25 @@ public class GeneticFunctionality {
 	}
 	
 	public double calculateOutput(Player p) {
-		Tree tree = population.get(p);
-		if(tree == null) {
-			System.out.println("NULL je");
-			return 0;
+		Tree tree = null;
+		try {
+			tree = population.get(p);
+			if(tree == null) {
+				System.out.println("NULL je");
+				return 0;
+			}
+//			System.out.println();
+//			System.out.println();
+			double calc = TreeUtil.dfsOnTree(tree.getRoot(), 1);
+			double sol =AIConstants.activationFunction.applyAsDouble(calc);
+//			System.out.println("Solution " + sol);
+			return sol;
+		} catch(IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+			TreeUtil.printTree(tree.getRoot(), 0);
+			System.exit(-1);
 		}
-		System.out.println();
-		System.out.println();
-		TreeUtil.printTree(tree.getRoot(), 0);
-		double calc = TreeUtil.dfsOnTree(tree.getRoot(), 1);
-		double sol =AIConstants.activationFunction.applyAsDouble(calc);
-		System.out.println("Solution " + sol);
-		return sol;
+		return -1;
 	}
 
 	/**

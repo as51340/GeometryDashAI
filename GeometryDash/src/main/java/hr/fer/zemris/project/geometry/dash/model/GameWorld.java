@@ -254,23 +254,23 @@ public class GameWorld {
 		}
 		Iterator<Player> itr = players.iterator();
 		
-		System.out.println("Players size before removing " + players.size());
-		System.out.println("Renderer size before removing " + renderer.getGameObjects().size());
+//		System.out.println("Players size before removing " + players.size());
+//		System.out.println("Renderer size before removing " + renderer.getGameObjects().size());
 		while(itr.hasNext()) {
 			Player p = itr.next();
 			renderer.getGameObjects().remove(p);
 			itr.remove();
 		}
-		System.out.println("Players size after removing " + players.size());
-		System.out.println("Renderer size after removing " + renderer.getGameObjects().size());
-		System.out.println("Game objects size after removing" + levelObjects.size());
+//		System.out.println("Players size after removing " + players.size());
+//		System.out.println("Renderer size after removing " + renderer.getGameObjects().size());
+//		System.out.println("Game objects size after removing" + levelObjects.size());
 		for (Player p : newPlayers) {
 			addPlayer(p);
 		}
-		System.out.println("Players size after adding " + players.size());
-		System.out.println("Renderer size after adding " + renderer.getGameObjects().size());
-		System.out.println("New game objects size " + levelObjects.size());
-		System.out.println();
+//		System.out.println("Players size after adding " + players.size());
+//		System.out.println("Renderer size after adding " + renderer.getGameObjects().size());
+//		System.out.println("New game objects size " + levelObjects.size());
+//		System.out.println();
 		this.closestObjects.clear();		
 	}
 
