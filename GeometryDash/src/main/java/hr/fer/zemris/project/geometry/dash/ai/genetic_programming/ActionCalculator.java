@@ -26,7 +26,11 @@ public class ActionCalculator {
 	}
 	
 	public static double div(double x, double y) {
-		return x / y;
+		double d = x / y;
+		if(Double.isNaN(d)) {
+			return 0;
+		}
+		return d;
 	}
 	
 	public static double root(double x) {
@@ -46,7 +50,11 @@ public class ActionCalculator {
 	}
 	
 	public static double tan(double x) {
-		return Math.tan(x);
+		double d = Math.tan(x); 
+		if(Double.isNaN(d)) {
+			return 0;
+		}
+		return d;
 	}
 
 	public static double ctg(double x) {

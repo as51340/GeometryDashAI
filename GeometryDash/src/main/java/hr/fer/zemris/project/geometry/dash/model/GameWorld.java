@@ -371,7 +371,7 @@ public class GameWorld {
 		checkCollision2();
 		Player maxPlayer = getMaxPlayer();
 		if (maxPlayer == null) { // on nebi trebao biti nikad null
-			System.out.println("Svi mrtvi, zbog playera");
+//			System.out.println("Svi mrtvi, zbog playera");
 			unlockingCondition = true;
 			return false;
 		}
@@ -380,7 +380,7 @@ public class GameWorld {
 		checkCameraGround_Y();
 
 		if (deaths == players.size()) {
-			System.out.println("Svi su mrtvi");
+//			System.out.println("Svi su mrtvi");
 			unlockingCondition = true;
 			return false;
 		}
@@ -402,7 +402,7 @@ public class GameWorld {
 
 					gpAlgorithm.getPopulation().get(p).changeInputs(obst, p);
 					double output = gpAlgorithm.calculateOutput(p);
-					if(output >= 0.5) {
+					if(output >= 0.65) {
 						p.jump();
 					}
 				}
@@ -489,17 +489,16 @@ public class GameWorld {
 
 				double obstacleX = gameObject.getCurrentPosition().getX();
 
-				if (obstacleX < playerX - 45 && !(gameObject instanceof Floor)) // prepreke prije igrača uvijek
-																				// preskoci
+				if (obstacleX < playerX - 45 && !(gameObject instanceof Floor)) // prepreke prije igrača uvijek																				// preskoci
 					continue;
 
 				if (obstacleX - playerX > 45) {
-					if (player.getPlayingMode() == PlayingMode.HUMAN || obstacles.size() == 4) {
+					if (player.getPlayingMode() == PlayingMode.HUMAN || obstacles.size() == AIConstants.obstForAI) {
 						continue;
 					}
 				}
 
-				if (player.getPlayingMode() != PlayingMode.HUMAN && obstacles.size() < 4) {
+				if (player.getPlayingMode() != PlayingMode.HUMAN && obstacles.size() < AIConstants.obstForAI) {
 					obstacles.add((Obstacle) gameObject);
 				}
 

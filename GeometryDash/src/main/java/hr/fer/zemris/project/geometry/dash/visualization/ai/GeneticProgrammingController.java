@@ -5,6 +5,7 @@ import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.GeneticFunctionality;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.Tree;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
+import hr.fer.zemris.project.geometry.dash.model.GameState;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
@@ -12,6 +13,7 @@ import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.GameSceneController;
 import hr.fer.zemris.project.geometry.dash.visualization.MenuController;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -115,6 +117,10 @@ public class GeneticProgrammingController extends AIControllers {
 		t.start();
 
 		GameSceneController controller = loader.getController();
+		algorithm.setController(controller);
+		
+		//for label
+		GameEngine.getInstance().setGameState(GameState.AI_TRAINING_MODE);
 		controller.init();
 		//	GameSceneController.generationLabel.setVisible(true);
 

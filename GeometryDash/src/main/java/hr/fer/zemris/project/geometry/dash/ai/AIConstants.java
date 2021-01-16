@@ -59,7 +59,7 @@ public class AIConstants {
 	 /**
 	 * Maximum depth of tree
 	 */
-	public static int maxTreeDepth = 17;
+	public static int maxTreeDepth = 35;
 	
 	/**
 	 * Should be okay
