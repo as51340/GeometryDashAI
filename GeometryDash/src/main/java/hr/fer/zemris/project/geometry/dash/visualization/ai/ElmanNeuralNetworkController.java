@@ -28,6 +28,7 @@ import java.lang.annotation.Documented;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ElmanNeuralNetworkController extends AIControllers {
@@ -61,6 +62,11 @@ public class ElmanNeuralNetworkController extends AIControllers {
 
 		algorithm = new AIAlgorithm(1, numberPerHiddenLayer, PlayingMode.NEURAL_NETWORK);
 
+		// postavi AI training mode
+		// GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
+		// otvori mi GameWorld
+		// tu ce bit dropdown svih levela
+		// recimo zasad otvori uvijek isti
 		FXMLLoader loader = new FXMLLoader(
 				getClass().getResource(GameConstants.pathToVisualization + "GameScene.fxml"));
 		Parent root = loader.load();
@@ -71,22 +77,21 @@ public class ElmanNeuralNetworkController extends AIControllers {
 		GameEngine.getInstance().setGameWorld(); // jednako napravi novi game world i postavi session character
 
 		Object lockObject = new Object(); // locking object
-		Object generationLock = new Object();
+		
 
 		algorithm.setLockObj(lockObject);
 		GameEngine.getInstance().getGameWorld().setLockObject(lockObject);
-		algorithm.setGenerationLockObject(generationLock);
-
-		for (int i = 0; i < AIConstants.POPULATION_SIZE; i++) {
-			Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
-					new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.NEURAL_NETWORK);
-//            System.out.println(player.getId());	
-			GameEngine.getInstance().getGameWorld().addPlayer(player);
-			algorithm.getPlayerNeuralNetworkMap().put(player, null);
-		}
-//	System.out.println("Size: " + GameEngine.getInstance().getGameWorld().getPlayers().size());
-		GameEngine.getInstance().getGameWorld().createScene(levelName); // ucitaj uvijek prvi level
+		
+		GameEngine.getInstance().getGameWorld().createScene(levelName); 
 		GameEngine.getInstance().getGameWorld().setAlgorithm(algorithm);
+		
+		algorithm.initialize();
+		
+		Set<Player> players = algorithm.getPlayerNeuralNetworkMap().keySet();
+		for(Player p : players) {
+			GameEngine.getInstance().getGameWorld().addPlayer(p);
+		}
+		
 		Thread t = new Thread(() -> {
 			try {
 				algorithm.runAlgorithm();

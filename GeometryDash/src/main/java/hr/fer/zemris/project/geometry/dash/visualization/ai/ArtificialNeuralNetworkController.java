@@ -3,6 +3,7 @@ package hr.fer.zemris.project.geometry.dash.visualization.ai;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
@@ -96,22 +97,21 @@ public class ArtificialNeuralNetworkController extends AIControllers {
 		GameEngine.getInstance().setGameWorld(); // jednako napravi novi game world i postavi session character
 
 		Object lockObject = new Object(); // locking object
-		Object generationLock = new Object();
+		
 
 		algorithm.setLockObj(lockObject);
 		GameEngine.getInstance().getGameWorld().setLockObject(lockObject);
 		
-
-		for (int i = 0; i < AIConstants.POPULATION_SIZE; i++) {
-			Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
-					new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.NEURAL_NETWORK);
-//	            System.out.println(player.getId());	
-			GameEngine.getInstance().getGameWorld().addPlayer(player);
-			algorithm.getPlayerNeuralNetworkMap().put(player, null);
-		}
-//		System.out.println("Size: " + GameEngine.getInstance().getGameWorld().getPlayers().size());
-		GameEngine.getInstance().getGameWorld().createScene(levelBox.getValue()); // ucitaj uvijek prvi level
+		GameEngine.getInstance().getGameWorld().createScene(levelBox.getValue()); 
 		GameEngine.getInstance().getGameWorld().setAlgorithm(algorithm);
+		
+		algorithm.initialize();
+		
+		Set<Player> players = algorithm.getPlayerNeuralNetworkMap().keySet();
+		for(Player p : players) {
+			GameEngine.getInstance().getGameWorld().addPlayer(p);
+		}
+		
 		Thread t = new Thread(() -> {
 			try {
 				algorithm.runAlgorithm();

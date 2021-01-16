@@ -100,39 +100,32 @@ public class AIAlgorithm {
 	}
 
 	public void runAlgorithm() throws InterruptedException {
-		initialize(); // zasto sada stvara nove mreze
 		for (int i = 0; i < REPEAT; i++) {
-//			System.out.println("Inicijalizacija gotova " + (i + 1) + "-ti put");
 			sumOfAllFitnesses = 0;
+			GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
 			GameEngine.getInstance().getGameWorld().setUnlockingCondition(false);
 			GameEngine.getInstance().getGameWorld().setLevelPassed(false);
 			selection();
-			System.out.println("Selekcija gotova " + (i + 1) + "-ti put");
 			reproduction();
-			System.out.println("Reprodukcija gotova " + (i + 1) + "-ti put");
-			// isti princip uporabe kao u game world
-			GameEngine.getInstance().stop();
-			GameEngine.getInstance().reset(); // to je vec resetirano
+			GameEngine.getInstance().getGameWorld().createAIScene(); //na kraju svake generacije
 		}
 	}
 
-	private void initialize() {
-		Set<Player> players = playerNeuralNetworkMap.keySet();
-		for (Player player : players) {
+	public void initialize() {
+		for(int i = 0; i < POPULATION_SIZE; i++) {
+			Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
+					new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.NEURAL_NETWORK);
 			NeuralNetwork neuralNetwork = mode == PlayingMode.NEURAL_NETWORK
 					? new GeneticNeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer,
 							activationFunction)
 					: new ElmanNeuralNetwork(INPUT_LAYER_SIZE, numberPerHiddenLayer, activationFunction);
-//					System.out.println("Player id u algoritmu " + player.getId());
-			playerNeuralNetworkMap.replace(player, neuralNetwork);
-		}
+			playerNeuralNetworkMap.put(player, neuralNetwork);
+		}		
 	}
 
 	private void selection() throws InterruptedException {
-		GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
 		synchronized (lockObj) {
 			while (!GameEngine.getInstance().getGameWorld().isUnlockingCondition()) {
-//				System.out.println("Čekam!");
 				try {
 					lockObj.wait();
 				} catch (InterruptedException e) {
@@ -140,24 +133,18 @@ public class AIAlgorithm {
 				}
 			}
 		}
-//		System.out.println("Odblokiram!");
 		if (GameEngine.getInstance().getGameWorld().isLevelPassed()) {
 			System.out.println(playerNeuralNetworkMap.keySet().size());
-//			for (Player player : playerNeuralNetworkMap.keySet()) {
-//				if (!player.isDead())
-//					System.out.println(playerNeuralNetworkMap.get(player));
-//			}
 			throw new IllegalStateException("You trained enough");
 		}
 
 		for (Player player : playerNeuralNetworkMap.keySet()) {
-//			System.out.println(player.getGoodness_value());
 			sumOfAllFitnesses += player.getGoodness_value();
 		}
 	}
 
 	private void reproduction() {
-		Map<Player, NeuralNetwork> playerNeuralNetworkMap = new HashMap<>();
+		Map<Player, NeuralNetwork> newGeneration = new HashMap<>();
 
 		for (Player player: this.playerNeuralNetworkMap.keySet()) {
 
@@ -169,14 +156,11 @@ public class AIAlgorithm {
 
 			NeuralNetwork child = crossover(parent1, parent2);
 			mutation(child);
-			playerNeuralNetworkMap.put(player, child);
+			newGeneration.put(player, child);
 		}
 
-		this.playerNeuralNetworkMap = playerNeuralNetworkMap;
-		GameEngine.getInstance().getGameWorld().getAlgorithm().setPlayerNeuralNetworkMap(this.playerNeuralNetworkMap);
-//			linija iznad po meni visak
-//		System.out.println(this.playerNeuralNetworkMap.keySet().size()); okej
-//		GameEngine.getInstance().getGameWorld().setNewGeneration(this.playerNeuralNetworkMap.keySet());
+		this.playerNeuralNetworkMap = newGeneration;
+		GameEngine.getInstance().getGameWorld().setAlgorithm(this);
 
 	}
 

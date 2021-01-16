@@ -98,14 +98,14 @@ public class GeneticProgrammingController extends AIControllers {
 		if (pop_size != algorithm.getTreePopulationSize()) {
 			throw new IllegalStateException("Kriva inicijalizacija u gp algorithmu!");
 		}
-		Set<Player> players = algorithm.getPopulation().keySet();
-		for(Player p : players) {
-			GameEngine.getInstance().getGameWorld().addPlayer(p);
-		}
 		
+		Set<Player> players = algorithm.getPopulation().keySet();
 		GameEngine.getInstance().getGameWorld().createScene(levelName);
 		GameEngine.getInstance().getGameWorld().setGpAlgorithm(algorithm);
 		
+		for(Player p : players) {
+			GameEngine.getInstance().getGameWorld().addPlayer(p);
+		}
 		
 		Thread t = new Thread(() -> {
 			algorithm.performAlgorithm();

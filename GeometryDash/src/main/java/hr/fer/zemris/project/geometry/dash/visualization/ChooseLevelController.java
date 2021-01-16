@@ -151,26 +151,19 @@ public class ChooseLevelController extends MainOptionsController {
 //				new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
 //		gameEngine.getGameWorld().addPlayer(player);
 //		
+        
+        gameEngine.getGameWorld().createScene(levels.get(levelIndex).getLevelName());
+        
         for (int i = 0; i < 5; i++) {
-//			GameConstants.floorPosition_Y - GameConstants.iconHeight - 5
-            Player player = new Player(new Vector2D(0, 490),
+            Player player = new Player(new Vector2D(i*20, 490),
                     new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
             gameEngine.getGameWorld().addPlayer(player);
         }
 
 
-        gameEngine.getGameWorld().createScene(levels.get(levelIndex).getLevelName());
         if (playingMode == PlayingMode.HUMAN) {
             scene.setOnKeyPressed((e) -> {
-                if (e.getCode() == KeyCode.UP || e.getCode() == KeyCode.W || e.getCode() == KeyCode.SPACE) {
-                    for (Player p : GameEngine.getInstance().getGameWorld().getPlayers()) {
-                        p.jump();
-                    }
-                    gameEngine.getUserListener().playerJumped();
-                }
-            });
-            scene.setOnMouseClicked((e) -> {
-                if (e.getButton() == MouseButton.PRIMARY) {
+                if (e.getCode() == KeyCode.W) {
                     for (Player p : GameEngine.getInstance().getGameWorld().getPlayers()) {
                         p.jump();
                     }

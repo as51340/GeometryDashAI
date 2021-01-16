@@ -34,7 +34,7 @@ public class Renderer {
 	 * Game objects
 	 */
 //	private Set<GameObject> gameObjects;
-	private List<GameObject> gameObjects;
+	private List<GameObject> gameObjects = null;
 
 	/**
 	 * Graphics context
@@ -47,8 +47,12 @@ public class Renderer {
 	 * @param gameObjects game objects
 	 */
 	public Renderer(List<GameObject> gameObjects) {
-		this.camera = new Camera();
+		this();
 		this.gameObjects = gameObjects;
+	}
+	
+	public Renderer() {
+		this.camera = new Camera();
 	}
 
 	/**

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ThreadPoolExecutor.DiscardOldestPolicy;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.sun.scenario.effect.impl.state.LinearConvolveKernel;
@@ -65,7 +66,7 @@ public class GameWorld {
 	 * List of all players
 	 */
 	private Set<Player> players;
-	
+
 	/**
 	 * Number of death players
 	 */
@@ -80,7 +81,7 @@ public class GameWorld {
 	 * Lock object
 	 */
 	private Object lockObject;
-	
+
 	/**
 	 * Level objects
 	 */
@@ -95,7 +96,6 @@ public class GameWorld {
 	private AIAlgorithm algorithm = null;
 
 	private GeneticFunctionality gpAlgorithm = null;
-	
 
 	/**
 	 * @return the gpAlgorithm
@@ -242,15 +242,50 @@ public class GameWorld {
 		levelObjects = new ArrayList<GameObject>();
 	}
 
+	public void createAIScene() { // delete old players from renderer, add new
+		Set<Player> newPlayers = null;
+		if (algorithm != null) {
+			newPlayers = algorithm.getPlayerNeuralNetworkMap().keySet();
+		} else if (gpAlgorithm != null) {
+			newPlayers = gpAlgorithm.getPopulation().keySet();
+		}
+		if (newPlayers.size() != players.size()) {
+			throw new IllegalStateException("Not same number of players after new generation!");
+		}
+		Iterator<Player> itr = players.iterator();
+		
+		System.out.println("Players size before removing " + players.size());
+		System.out.println("Renderer size before removing " + renderer.getGameObjects().size());
+		while(itr.hasNext()) {
+			Player p = itr.next();
+			renderer.getGameObjects().remove(p);
+			itr.remove();
+		}
+		System.out.println("Players size after removing " + players.size());
+		System.out.println("Renderer size after removing " + renderer.getGameObjects().size());
+		System.out.println("Game objects size after removing" + levelObjects.size());
+		for (Player p : newPlayers) {
+			addPlayer(p);
+		}
+		System.out.println("Players size after adding " + players.size());
+		System.out.println("Renderer size after adding " + renderer.getGameObjects().size());
+		System.out.println("New game objects size " + levelObjects.size());
+		System.out.println();
+		this.closestObjects.clear();		
+	}
+
 	/**
 	 * Adds player to the game world
 	 * 
 	 * @param player
 	 */
 	public void addPlayer(Player player) {
+		player.setIcon(GameConstants.pathToIcons
+				+ GameEngine.getInstance().getDefaultSelector().getSelectedCharacter().getUri());
 		if (players.contains(player))
 			System.out.println("Već sadržava!");
 		players.add(player);
+		renderer.addGameObject(player);
 	}
 
 	/**
@@ -268,6 +303,16 @@ public class GameWorld {
 		for (Player p : players) {
 			renderer.addGameObject(p);
 		}
+	}
+	
+	/**
+	 * Removes player
+	 * @param p
+	 */
+	public void removePlayer(Player p, Player newP) {
+		System.out.println("Sadržava stari " + levelObjects.contains(p));
+		this.players.remove(p);
+		renderer.getGameObjects().remove(p);
 	}
 
 	/**
@@ -288,10 +333,6 @@ public class GameWorld {
 	 * Creates temporary scene
 	 */
 	public void createScene(String levelName) {
-		for (Player player : players) {
-			player.setIcon(GameConstants.pathToIcons
-					+ GameEngine.getInstance().getDefaultSelector().getSelectedCharacter().getUri());
-		}
 		this.fromLevelObjects = GameEngine.getInstance().getLevelManager().getLevelByName(levelName).getGameObjects();
 //		this.levelObjects = fromLevel;
 //		this.levelObjects = new TreeSet<GameObject>(AIConstants.obstaclesLevelComparator);
@@ -300,11 +341,15 @@ public class GameWorld {
 		GameEngine.getInstance().getLevelManager().startLevelWithName(levelName);
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
 		this.levelObjects.add(floor);
+		renderer = new Renderer(levelObjects);
+		floor.setCamera(renderer.getCamera());
+		
+//
+////			System.out.println("Uspješno dodan floor");
+//		for (Player p : players) {
+//			levelObjects.add(p);
+//		}
 
-//			System.out.println("Uspješno dodan floor");
-		for (Player p : players) {
-			levelObjects.add(p);
-		}
 		Collections.sort(levelObjects, AIConstants.obstaclesLevelComparator);
 //		for(GameObject go: this.levelObjects) {
 //			System.out.println(go.getClass() + " " + go.getCurrentPosition().getX() + " " + go.getCurrentPosition().getY());
@@ -312,9 +357,6 @@ public class GameWorld {
 //		for(GameObject go: this.players) {
 //			System.out.println(go.getClass() + " " + go.getCurrentPosition().getX() + " " + go.getCurrentPosition().getY());
 //		}
-		renderer = new Renderer(levelObjects);
-		
-		floor.setCamera(renderer.getCamera());
 //		GameEngine.getInstance().getGameStateListener().normalModePlayingStarted();
 
 	}
@@ -348,18 +390,21 @@ public class GameWorld {
 
 			for (Player p : closestObjects.keySet()) {
 				List<Obstacle> obst = closestObjects.get(p);
-				if(algorithm != null) {
+				if (algorithm != null) {
 					algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
 					double output = algorithm.getPlayerNeuralNetworkMap().get(p).getOutput().calculateOutput();
 					if (output >= 0.5)
 						p.jump();
-				} else if(gpAlgorithm != null) {
-					if(gpAlgorithm.getPopulation().get(p) == null) {
+				} else if (gpAlgorithm != null) {
+					if (gpAlgorithm.getPopulation().get(p) == null) {
 						System.out.println("Player id " + p.getId());
 					}
-					
+
 					gpAlgorithm.getPopulation().get(p).changeInputs(obst, p);
-//					double output = gpAlgorithm.getBestOfAll();
+					double output = gpAlgorithm.calculateOutput(p);
+					if(output >= 0.5) {
+						p.jump();
+					}
 				}
 			}
 		}
