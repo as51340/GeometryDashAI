@@ -11,63 +11,91 @@ public class ElmanHiddenNeuron extends Neuron {
 	 * Context neuron of this hidden neuron
 	 */
 	private ContextNeuron contextNeuron;
-	
+
 	/**
 	 * Weight of context neuron
 	 */
 	private double contextNeuronWeight;
-	
+
 	public ElmanHiddenNeuron() {
 		super();
-		contextNeuron = new ContextNeuron();
+		connectContextNeuron(null);
 	}
-	
+
 	public ElmanHiddenNeuron(int id) {
 		super(id);
-		contextNeuron = new ContextNeuron(id+1);
+		connectContextNeuron(id+1);
 	}
-	
+
 	public ElmanHiddenNeuron(double bias) {
 		super(bias);
-		contextNeuron = new ContextNeuron();
+		connectContextNeuron(null);
 	}
-	
+
 	public ElmanHiddenNeuron(int id, DoubleUnaryOperator activationFunction) {
 		super(id, activationFunction);
-		contextNeuron = new ContextNeuron(id+1);
+		connectContextNeuron(id+1);
 	}
 	
-	@Override
-	public Double calculateOutput() {
-        if(!hasOutput()) {
-            double sum = getBias();
-
-            int index = 0;
-            for (Neuron neuron : prevNeurons) {
-                sum += neuron.calculateOutput() * prevNeuronWeights.get(index++);
-            }
-            sum += contextNeuron.hasOutput() ? contextNeuron.getOutput()*contextNeuronWeight : 0;
-            sum = applyActivationFunction(sum);
-            
-            contextNeuron.setOutput(sum);
-            contextNeuron.setHasOutput(true);
-            setOutput(sum);
-            setHasOutput(true);
-        }
-
-        return getOutput();
+	private void connectContextNeuron(Integer id) {
+		contextNeuron = id == null ? new ContextNeuron() : new ContextNeuron(id);
+		contextNeuron.addConnectionFromOtherToThis(this);
+		contextNeuronWeight = Math.random() * 2 - 1;
 	}
 
-	public double getMemoryNeuronWeight() {
+	@Override
+	public Double calculateOutput() {
+		if (hasOutput())
+			return getOutput();
+		
+		System.out.println(toString() + "entered calculateOutput()");
+
+		double sum = getBias();
+
+		int index = 0;
+		for (Neuron neuron : prevNeurons) {
+			sum += neuron.calculateOutput() * prevNeuronWeights.get(index++);
+		}
+		
+		System.out.println(contextNeuron.toString());
+		sum += contextNeuron.hasOutput() ? contextNeuron.getOutput() * contextNeuronWeight : 0;
+		sum = applyActivationFunction(sum);
+
+		contextNeuron.setOutput(sum);
+		contextNeuron.setHasOutput(true);
+		setOutput(sum);
+		setHasOutput(true);
+
+		System.out.println(toString() + ", output: " + getOutput());
+		
+		return getOutput();
+	}
+
+	public double getContextNeuronWeight() {
 		return contextNeuronWeight;
 	}
 
-	public void setMemoryNeuronWeight(double memoryNeuronWeight) {
-		this.contextNeuronWeight = memoryNeuronWeight;
+	public void setContextNeuronWeight(double contextNeuronWeight) {
+		this.contextNeuronWeight = contextNeuronWeight;
 	}
 
-	public ContextNeuron getMemoryNeuron() {
+	public ContextNeuron getContextNeuron() {
 		return contextNeuron;
 	}
 	
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ElmanHiddenNeuron(id: ").append(getId()).append(", bias: ").append(getBias()).append(", neuronID-weight: ");
+
+        for (int i = 0; i < prevNeurons.size(); i++)
+            sb.append("{id: ").append(prevNeurons.get(i).getId()).append(", weight: ").append(prevNeuronWeights.get(i)).append("}");
+        
+        sb.append(", contextNeuronID-weight: {id: ").append(contextNeuron.getId()).append(", weight: ").append(contextNeuronWeight).append("}");
+
+        sb.append(")");
+        return sb.toString();
+    }
+
+
 }

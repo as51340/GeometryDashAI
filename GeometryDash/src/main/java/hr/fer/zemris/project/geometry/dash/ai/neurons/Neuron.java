@@ -91,7 +91,7 @@ public class Neuron {
     public Double calculateOutput() {
         if (hasOutput)
             return output;
-        //System.out.println(this.toString());
+        System.out.println(this.toString() + " entering calculateOutput()");
         double sum = getBias();
 
         int index = 0;
@@ -102,7 +102,7 @@ public class Neuron {
 
         this.output = sum;
         this.hasOutput = true;
-        //System.out.println(this.toString() + " output: " + output);
+        System.out.println(this.toString() + ", output: " + output);
         return sum;
     }
 
@@ -153,6 +153,7 @@ public class Neuron {
     }
 
     public void setActivationFunction(DoubleUnaryOperator activationFunction) {
+    	hasOutput = false;
         this.activationFunction = activationFunction;
     }
 
@@ -210,10 +211,10 @@ public class Neuron {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Neuron(").append(id).append(" bias= ").append(bias).append(" neuronID-weight: ");
+        sb.append("Neuron(id: ").append(id).append(", bias: ").append(bias).append(", neuronID-weight: ");
 
         for (int i = 0; i < prevNeurons.size(); i++)
-            sb.append("{ ").append(prevNeurons.get(i).id).append(", ").append(prevNeuronWeights.get(i)).append("}");
+            sb.append("{id: ").append(prevNeurons.get(i).id).append(", weight: ").append(prevNeuronWeights.get(i)).append("}");
 
         sb.append(")");
         return sb.toString();

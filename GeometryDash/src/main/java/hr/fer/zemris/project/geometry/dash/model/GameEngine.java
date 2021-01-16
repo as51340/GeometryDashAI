@@ -39,7 +39,7 @@ import javafx.util.Duration;
  */
 public class GameEngine implements SoundSystem {
 
-	private static final GameEngine GAME_ENGINE = new GameEngine(120, "GeometryDashAI", GameConstants.WIDTH,
+	private static final GameEngine GAME_ENGINE = new GameEngine(60, "GeometryDashAI", GameConstants.WIDTH,
 			GameConstants.HEIGHT);
 	
 	/**
