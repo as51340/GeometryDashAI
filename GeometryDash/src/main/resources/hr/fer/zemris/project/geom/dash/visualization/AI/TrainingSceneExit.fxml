@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="rootPane" maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hr.fer.zemris.project.geometry.dash.visualization.ai.TrainingSceneController">
+   <children>
+      <Rectangle fx:id="overlay" height="1440.0" stroke="BLACK" strokeWidth="0.0" width="1280.0" StackPane.alignment="TOP_CENTER" />
+      <Rectangle height="531.0" opacity="0.8" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="861.0" />
+      <ImageView fitHeight="664.0" fitWidth="933.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+         <image>
+            <Image url="@../../static/frame.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="levelName" fill="WHITE" stroke="BLACK" strokeWidth="2.0" styleClass="text-font" text="training" StackPane.alignment="TOP_CENTER">
+         <font>
+            <Font size="50.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+         <StackPane.margin>
+            <Insets top="53.0" />
+         </StackPane.margin>
+      </Text>
+      <AnchorPane fx:id="centerPane" prefHeight="200.0" prefWidth="200.0" styleClass="textFieldOption">
+         <children>
+            <Label layoutX="413.0" layoutY="353.0" text="Type:" />
+             <Button fx:id="save" layoutX="299.0" layoutY="471.0" mnemonicParsing="false" onAction="#saveAction" prefHeight="50.0" prefWidth="175.0" styleClass="menu-button" text="Save">
+                <font>
+                   <Font size="22.0" />
+                </font>
+             </Button>
+             <Button fx:id="menuButton" layoutX="766.0" layoutY="471.0" mnemonicParsing="false" onAction="#AIOptionsMenu" prefHeight="50.0" prefWidth="175.0" styleClass="menu-button" text="Menu">
+                <font>
+                   <Font size="22.0" />
+                </font>
+             </Button>
+            <Label fx:id="attempt" layoutX="326.0" layoutY="152.0" prefHeight="50.0" prefWidth="640.0" style="-fx-alignment: center;" text="Generation" />
+            <ProgressBar fx:id="progressBar" layoutX="326.0" layoutY="238.0" prefHeight="30.0" prefWidth="640.0" progress="0.0" AnchorPane.leftAnchor="326.0" AnchorPane.rightAnchor="314.0" />
+            <Label fx:id="AiLabelType" layoutX="712.0" layoutY="366.0" styleClass="smallLabel" text="Label" />
+            <Button fx:id="contP" layoutX="536.0" layoutY="471.0" mnemonicParsing="false" onAction="#continueAction" prefHeight="50.0" prefWidth="175.0" styleClass="menu-button" text="Continue">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

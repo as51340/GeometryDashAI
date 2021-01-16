@@ -9,11 +9,12 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
+import hr.fer.zemris.project.geometry.dash.ai.AIGameSceneListenerImpl;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
-import hr.fer.zemris.project.geometry.dash.model.listeners.GameSceneListener;
+import hr.fer.zemris.project.geometry.dash.model.listeners.AIGameSceneListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.GameSceneController;
@@ -63,6 +64,11 @@ public class GeneticFunctionality {
 	private Object lockingObject;
 
 	/**
+	 * Locking on continue object
+	 */
+	private Object continueLockingObject;
+
+	/**
 	 * elitistic algorithm
 	 */
 	private Entry<Player, Tree> bestOfAll = null;
@@ -87,10 +93,21 @@ public class GeneticFunctionality {
 	 */
 	private int treePopulationSize;
 
+	/**
+	 * Population of trees
+	 */
 	private Map<Player, Tree> population;
 
+	/**
+	 * Game scene controller
+	 */
 	private GameSceneController controller;
-	
+
+	/**
+	 * Game scene controller
+	 */
+	private AIGameSceneListener gameSceneListener;
+
 	/**
 	 * @return the controller
 	 */
@@ -103,6 +120,20 @@ public class GeneticFunctionality {
 	 */
 	public void setController(GameSceneController controller) {
 		this.controller = controller;
+	}
+
+	/**
+	 * @return the continueLockingObject
+	 */
+	public Object getContinueLockingObject() {
+		return continueLockingObject;
+	}
+
+	/**
+	 * @param continueLockingObject the continueLockingObject to set
+	 */
+	public void setContinueLockingObject(Object continueLockingObject) {
+		this.continueLockingObject = continueLockingObject;
 	}
 
 	/**
@@ -124,6 +155,7 @@ public class GeneticFunctionality {
 		random = new Random();
 		population = new HashMap<Player, Tree>();
 		inputs = Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+		gameSceneListener = new AIGameSceneListenerImpl();
 	}
 
 	public GeneticFunctionality(int treePopulationSize, String selectionProcess, String geneticAlgorithm) {
@@ -145,6 +177,20 @@ public class GeneticFunctionality {
 		} else {
 			throw new IllegalArgumentException("Unknown genetic algorithm!");
 		}
+	}
+
+	/**
+	 * @return the gameSceneListener
+	 */
+	public AIGameSceneListener getGameSceneListener() {
+		return gameSceneListener;
+	}
+
+	/**
+	 * @param gameSceneListener the gameSceneListener to set
+	 */
+	public void setGameSceneListener(AIGameSceneListener gameSceneListener) {
+		this.gameSceneListener = gameSceneListener;
 	}
 
 	/**
@@ -345,14 +391,15 @@ public class GeneticFunctionality {
 	/**
 	 * Create algorithm
 	 */
+	@SuppressWarnings("deprecation")
 	private void loop() {
 		if (genAlg == GenAlg.ELIMINATIVE_GENETIC_ALGORITHM) {
 			for (int i = 0; i < AIConstants.maxGenerations; i++) {
-			
+
 				Platform.runLater(() -> {
-					controller.updateLabel();	
+					controller.updateLabel();
 				});
-				
+
 				GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
 				GameEngine.getInstance().getGameWorld().setUnlockingCondition(false);
 				GameEngine.getInstance().getGameWorld().setLevelPassed(false);
@@ -374,10 +421,6 @@ public class GeneticFunctionality {
 						}
 					}
 				}
-//				System.out.println("Vani!");
-				if (GameEngine.getInstance().getGameWorld().isLevelPassed()) {
-					throw new IllegalStateException("Level passed");
-				}
 
 				for (Entry<Player, Tree> entry : population.entrySet()) {
 					double value = entry.getKey().getGoodness_value();
@@ -395,21 +438,36 @@ public class GeneticFunctionality {
 					}
 				}
 
-//				System.out.println("Population size before removing " + population.size());
 				population.remove(minPlayerTree.getKey());
 				population.remove(almostMinPlayerTree.getKey());
-//				System.out.println("Population size after removing " + population.size());
-
-//				GameEngine.getInstance().getGameWorld().getPlayers().remove(minPlayerTree.getKey());
-//				GameEngine.getInstance().getGameWorld().getPlayers().remove(almostMinPlayerTree.getKey());
-//				GameEngine.getInstance().getGameWorld().getClosestObjects().clear();
-//				//maknut iz renderera
 
 				if (bestOfAll == null
 						|| maxPlayerTree.getKey().getGoodness_value() > bestOfAll.getKey().getGoodness_value()) {
 					bestOfAll = maxPlayerTree;
 				}
 				bestInGeneration = maxPlayerTree;
+
+				if (GameEngine.getInstance().getGameWorld().isLevelPassed()) {
+
+					// probably on javafx application thread
+					Platform.runLater(() -> {
+						controller.interruptTraining(PlayingMode.GENETIC_PROGRAMMING, bestOfAll.getValue(),
+								GameEngine.getInstance().getGameWorld().isLevelPassed()); // handlaj
+																							// fail
+					});
+					if (continueLockingObject != null) {
+						synchronized (continueLockingObject) { // only one thread so we shouldn't need while loop
+							try {
+								continueLockingObject.wait();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+					} else {
+						Thread.currentThread().stop();
+					}
+
+				}
 
 				List<Tree> selectedTrees = selection();
 				List<Tree> crossovered = null;
@@ -472,11 +530,10 @@ public class GeneticFunctionality {
 		} else if (genAlg == GenAlg.GENERATIONAL_GENETIC_ALGORITHM) {
 			int genNumber = 0;
 			while (genNumber < AIConstants.maxGenerations) {
-				
 				Platform.runLater(() -> {
-					controller.updateLabel();	
+					controller.updateLabel();
 				});
-				
+
 				GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
 				GameEngine.getInstance().getGameWorld().setUnlockingCondition(false);
 				GameEngine.getInstance().getGameWorld().setLevelPassed(false);
@@ -542,15 +599,45 @@ public class GeneticFunctionality {
 				// dodaj ih u newGeneration
 				while (newPopulation.size() < treePopulationSize) {
 					List<Tree> selectedTrees = selection();
-					int firstTree = random.nextInt(selectedTrees.get(0).getSize()) + 1;
-					// dok su isti stvaraj second tree
-					int secondTree = random.nextInt(selectedTrees.get(1).getSize()) + 1;
-					List<Tree> crossovered = TreeUtil.crossover(selectedTrees.get(0), selectedTrees.get(1), firstTree,
-							secondTree);
-					int targetNode1 = random.nextInt(crossovered.get(0).getSize()) + 1;
-					Tree mutated1 = TreeUtil.mutate(crossovered.get(0), targetNode1, random, inputs);
-					int targetNode2 = random.nextInt(crossovered.get(1).getSize()) + 1;
-					Tree mutated2 = TreeUtil.mutate(crossovered.get(1), targetNode2, random, inputs);
+					List<Tree> crossovered = null;
+					boolean valid = false;
+					while (!valid) {
+						int firstTree = random.nextInt(selectedTrees.get(0).getSize()) + 1;
+						int secondTree = random.nextInt(selectedTrees.get(1).getSize()) + 1;
+						crossovered = TreeUtil.crossover(selectedTrees.get(0), selectedTrees.get(1), firstTree,
+								secondTree);
+						valid = true;
+						for (Tree tree : crossovered) {
+							if (!TreeUtil.checkIfValid(tree.getRoot()) && valid == true) {
+								valid = false;
+							}
+						}
+					}
+
+					valid = false;
+					Tree mutated1 = null;
+					while (!valid) {
+						int targetNode1 = random.nextInt(crossovered.get(0).getSize()) + 1;
+						try {
+							mutated1 = TreeUtil.mutate(crossovered.get(0), targetNode1, random, inputs);
+							valid = TreeUtil.checkIfValid(mutated1.getRoot());
+						} catch (IllegalArgumentException e) {
+							valid = false;
+						}
+					}
+
+					valid = false;
+					Tree mutated2 = null;
+					while (!valid) {
+						int targetNode2 = random.nextInt(crossovered.get(0).getSize()) + 1;
+						try {
+							mutated2 = TreeUtil.mutate(crossovered.get(0), targetNode2, random, inputs);
+							valid = TreeUtil.checkIfValid(mutated2.getRoot());
+						} catch (IllegalArgumentException e) {
+							valid = false;
+						}
+					}
+
 					Player p3 = new Player(
 							new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
 							new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y),
@@ -559,8 +646,9 @@ public class GeneticFunctionality {
 							new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
 							new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y),
 							PlayingMode.GENETIC_PROGRAMMING);
-					newPopulation.put(p3, mutated1);
-					newPopulation.put(p4, mutated2);
+
+					newPopulation.put(p1, mutated1);
+					newPopulation.put(p2, mutated2);
 				}
 
 				if (newPopulation.size() != population.size()) {

@@ -211,4 +211,19 @@ public class GameConstants {
      * Level ending offset
      */
     public static final int LEVEL_END_OFFSET = 200;
+    
+    /**
+     * Path to genetic programming folder
+     */
+    public static final String pathToGPFolder = "AI/GP";
+    
+    /**
+     * Path to Elman folder
+     */
+    public static final String pathToElmanFolder = "AI/Elman";
+    
+    /**
+     * Path to Genetic folder
+     */
+    public static final String pathToGenFolder = "AI/Genetic";
 }
