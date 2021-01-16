@@ -393,7 +393,7 @@ public class GameWorld {
 				if (algorithm != null) {
 					algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
 					double output = algorithm.getPlayerNeuralNetworkMap().get(p).getOutput().calculateOutput();
-					if (output >= 0.5)
+					if (output >= 0.7)
 						p.jump();
 				} else if (gpAlgorithm != null) {
 					if (gpAlgorithm.getPopulation().get(p) == null) {

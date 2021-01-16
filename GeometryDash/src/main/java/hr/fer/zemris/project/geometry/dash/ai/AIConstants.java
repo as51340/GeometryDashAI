@@ -38,11 +38,6 @@ public class AIConstants {
 	};
 	
 	/**
-	 * Default number of closest obstacles AI is seeing
-	 */
-	public static final int numOfClosestObstacles = 4;
-	
-	/**
 	 * Default activation function
 	 */
 	public static final DoubleUnaryOperator activationFunction = (v -> 1 / (1 + Math.exp(-v)));
