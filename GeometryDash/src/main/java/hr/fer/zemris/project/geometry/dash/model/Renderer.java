@@ -34,7 +34,7 @@ public class Renderer {
 	 * Game objects
 	 */
 //	private Set<GameObject> gameObjects;
-	private List<GameObject> gameObjects;
+	private List<GameObject> gameObjects = null;
 
 	/**
 	 * Graphics context
@@ -47,8 +47,12 @@ public class Renderer {
 	 * @param gameObjects game objects
 	 */
 	public Renderer(List<GameObject> gameObjects) {
-		this.camera = new Camera();
+		this();
 		this.gameObjects = gameObjects;
+	}
+	
+	public Renderer() {
+		this.camera = new Camera();
 	}
 
 	/**
@@ -84,6 +88,10 @@ public class Renderer {
 //	}
 //	
 	
+	public void clearObjects() {
+		this.gameObjects.clear();
+	}
+
 
 	/**
 	 * Sets tool for drawing objects
@@ -105,6 +113,7 @@ public class Renderer {
 	 * @param gameObjects the gameObjects to set
 	 */
 	public void setGameObjects(List<GameObject> gameObjects) {
+		this.gameObjects.clear();
 		this.gameObjects = gameObjects;
 	}
 

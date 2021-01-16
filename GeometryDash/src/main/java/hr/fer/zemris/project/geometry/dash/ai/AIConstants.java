@@ -83,6 +83,8 @@ public class AIConstants {
 		Double.compare(o2.getCurrentPosition().getX(), o1.getCurrentPosition().getX());
 	
 	public static final Comparator<Player> playerComparator = compareByPosition.thenComparing(Player::getId);
+	
+	public static final int obstForAI = 4;
 	 
 
 

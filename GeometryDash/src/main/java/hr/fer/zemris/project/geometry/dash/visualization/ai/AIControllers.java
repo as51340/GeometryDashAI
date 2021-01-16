@@ -33,7 +33,7 @@ public abstract class AIControllers extends MenuController {
         levels = new ArrayList<>(GameEngine.getInstance().getLevelManager().getAllLevels());
         List<String> levelNames = levels.stream().map(Level::getLevelName).collect(Collectors.toList());
         levelBox.setItems(FXCollections.observableList(levelNames));
-
+        levelBox.setValue(levelNames.get(1));
         yesLabel.setVisible(false);
     }
 

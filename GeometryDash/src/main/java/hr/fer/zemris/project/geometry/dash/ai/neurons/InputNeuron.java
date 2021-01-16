@@ -25,6 +25,7 @@ public class InputNeuron extends Neuron {
 
     @Override
     public Double calculateOutput() {
+        //System.out.println(toString());
         if (hasOutput())
             return getOutput();
         System.out.println(toString() + " entering calculateOutput()");
