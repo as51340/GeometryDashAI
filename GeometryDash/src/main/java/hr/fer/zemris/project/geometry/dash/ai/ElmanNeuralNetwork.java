@@ -80,7 +80,7 @@ public class ElmanNeuralNetwork extends NeuralNetwork {
         for (Neuron neuron : hiddenLayers.get(0)) {
         	ElmanHiddenNeuron hiddenNeuron = (ElmanHiddenNeuron) neuron;
         	hiddenNeuron.setPrevNeuronWeights(weights.get(index++));
-        	hiddenNeuron.setMemoryNeuronWeight(weights.get(index++).get(0));
+        	hiddenNeuron.setContextNeuronWeight(weights.get(index++).get(0));
         }
 
         output.setPrevNeuronWeights(weights.get(index));
@@ -101,7 +101,7 @@ public class ElmanNeuralNetwork extends NeuralNetwork {
         for (Neuron neuron : hiddenLayers.get(0)) {
         	ElmanHiddenNeuron hiddenNeuron = (ElmanHiddenNeuron) neuron;
         	retList.add(hiddenNeuron.getPrevNeuronWeights());
-        	retList.add(Collections.singletonList(hiddenNeuron.getMemoryNeuronWeight()));
+        	retList.add(Collections.singletonList(hiddenNeuron.getContextNeuronWeight()));
         }       
 
         retList.add(output.getPrevNeuronWeights());
