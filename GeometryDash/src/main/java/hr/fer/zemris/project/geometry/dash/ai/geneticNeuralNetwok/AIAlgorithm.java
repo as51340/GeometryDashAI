@@ -25,8 +25,8 @@ public class AIAlgorithm {
 
 	private static final int POPULATION_SIZE = 300;
 	private static final int REPEAT = 500;
-	private static final double MUTATION_RATE = 0.2;
-	private static final int INPUT_LAYER_SIZE = AIConstants.numOfClosestObstacles * 3 + 1;
+	private static final double MUTATION_RATE = 0.1;
+	private static final int INPUT_LAYER_SIZE = AIConstants.obstForAI * 3 + 1;
 	private final int numberOfHiddenLayers;
 	private final int numberPerHiddenLayer;
 	private DoubleUnaryOperator activationFunction = AIConstants.activationFunction;

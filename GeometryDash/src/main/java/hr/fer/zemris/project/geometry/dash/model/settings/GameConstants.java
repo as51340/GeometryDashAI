@@ -114,7 +114,7 @@ public class GameConstants {
     /**
      * Gravity constant
      */
-    public static final int gravity_Y = 4800;
+    public static final int gravity_Y = 5600;
     
     /**
      * Accelaration in x direction
@@ -129,7 +129,7 @@ public class GameConstants {
     /**
      * Jumping offset
      */
-    public static final int playerJumpingOffset = -1500;
+    public static final int playerJumpingOffset = -1400;
     
     /**
      * Cell width for level editor
@@ -169,12 +169,12 @@ public class GameConstants {
     /**
      * Player's final speed in y direction
      */
-    public static final int playerFinalSpeed_Y=1000;
+    public static final int playerFinalSpeed_Y=1500;
     
     /**
      * Player's final speed in y direction
      */
-    public static final int playerFinalSpeed_X=400;
+    public static final int playerFinalSpeed_X=430;
     
     /**
      * Path to zip file

@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.function.DoubleUnaryOperator;
 
 import com.google.gson.annotations.Expose;
+import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 
 /**
  * Models a simple neural network where each neuron is connected to every neuron of the next layer
@@ -139,8 +140,8 @@ public abstract class NeuralNetwork {
     public void inputObstacles(List<Obstacle> obstacles, Player player) {
         if (inputLayer.size() == 0) createInputLayer(obstacles.size() * 3 + 1);
 
-        int index = 0, size = obstacles.size() * 3;
-        ((InputNeuron) inputLayer.get(index++)).setInput(player.getCurrentPosition().getY());
+        int index = 0, size = AIConstants.obstForAI * 3 +1;
+        ((InputNeuron) inputLayer.get(index++)).setInput(player.getCurrentPosition().getY()-GameConstants.floorPosition_Y + GameConstants.iconHeight +5);
 
         for (Obstacle obstacle : obstacles) {
             ((InputNeuron) inputLayer.get(index++)).setInput(obstacle.getCurrentPosition().getX() - player.getCurrentPosition().getX());
