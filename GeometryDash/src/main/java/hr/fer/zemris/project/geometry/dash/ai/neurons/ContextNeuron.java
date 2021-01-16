@@ -2,7 +2,6 @@ package hr.fer.zemris.project.geometry.dash.ai.neurons;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.DoubleUnaryOperator;
 
 /**
  * Class models neuron from context layer of Elman neural network.
@@ -52,5 +51,11 @@ public class ContextNeuron extends Neuron {
 	@Override
 	public Double calculateOutput() {
         throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public String toString() {
+		String output = hasOutput() ? String.valueOf(getOutput()) : "no output yet";
+		return "ContextNeuron(id: " + getId() + ", output: " + output + ", hidden-neuron: {id: " + prevNeurons.get(0).getId() + ", weight: " + prevNeuronWeights.get(0) + "}";
 	}
 }
