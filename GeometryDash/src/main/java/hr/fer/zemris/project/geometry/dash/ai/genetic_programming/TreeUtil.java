@@ -44,7 +44,7 @@ public class TreeUtil {
 		}
 		int maxDepth = AIConstants.maxTreeDepth - nodeToChange.getDepth() + 1;
 		if(maxDepth < 1) {
-			//baci exception
+			throw new IllegalArgumentException("Invalid node to change because of max tree depht");
 		}
 		int randomDepth = r.nextInt(maxDepth) + 1;
 		TreeNode generatedNode = null;
@@ -139,7 +139,7 @@ public class TreeUtil {
 			} else {
 				add = new TreeNode(Double.MIN_VALUE);
 			}
-			System.out.println("Value " + add.getValue());
+//			System.out.println("Value " + add.getValue());
 			root.addChild(add);
 			root.addChild(new TreeNode(inputs.get(r.nextInt(inputs.size()))));
 			branch = r.nextInt(2);

@@ -405,19 +405,25 @@ public class GeneticFunctionality {
 				Tree mutated1 = null;
 				while(!valid) {
 					int targetNode1 = random.nextInt(crossovered.get(0).getSize()) + 1;
-					mutated1 = TreeUtil.mutate(crossovered.get(0), targetNode1, random, inputs);
-					valid = TreeUtil.checkIfValid(mutated1.getRoot());
+					try {
+						mutated1 = TreeUtil.mutate(crossovered.get(0), targetNode1, random, inputs);
+						valid = TreeUtil.checkIfValid(mutated1.getRoot());
+					} catch(IllegalArgumentException e) {
+						valid = false;
+					}
 				}
 				
 				valid = false;
 				Tree mutated2 = null;
 				while(!valid) {
 					int targetNode2 = random.nextInt(crossovered.get(0).getSize()) + 1;
-					mutated2 = TreeUtil.mutate(crossovered.get(0), targetNode2, random, inputs);
-					valid = TreeUtil.checkIfValid(mutated2.getRoot());
+					try {
+						mutated2 = TreeUtil.mutate(crossovered.get(0), targetNode2, random, inputs);
+						valid = TreeUtil.checkIfValid(mutated2.getRoot());
+					} catch(IllegalArgumentException e) {
+						valid = false;
+					}
 				}
-				
-				
 				
 				Player p1 = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
 						new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.GENETIC_PROGRAMMING);
@@ -615,7 +621,7 @@ public class GeneticFunctionality {
 //			System.out.println();
 			double calc = TreeUtil.dfsOnTree(tree.getRoot(), 1);
 			double sol =AIConstants.activationFunction.applyAsDouble(calc);
-//			System.out.println("Solution " + sol);
+			System.out.println("Solution " + sol);
 			return sol;
 		} catch(IllegalArgumentException e) {
 			System.out.println(e.getMessage());
