@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
 
+import hr.fer.zemris.project.geometry.dash.ai.neurons.ElmanOutputNeuron;
 import hr.fer.zemris.project.geometry.dash.ai.neurons.Neuron;
 
 /**
@@ -34,6 +35,7 @@ public class GeneticNeuralNetwork extends NeuralNetwork {
      */
     public GeneticNeuralNetwork(DoubleUnaryOperator activationFunction) {
         super(activationFunction);
+        createOutput(new ElmanOutputNeuron(-1));
     }
 
     /**

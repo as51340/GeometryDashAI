@@ -30,7 +30,8 @@ public class InputNeuron extends Neuron {
             return getOutput();
         //System.out.println(toString() + " entering calculateOutput()");
 
-        setOutput(applyActivationFunction(getInputWeight() * input));
+        setOutput(applyActivationFunction(input));
+        //setOutput(applyActivationFunction(getInputWeight() * input));
         setHasOutput(true);
 
         //System.out.println(this.toString() + ", output: " + getOutput());

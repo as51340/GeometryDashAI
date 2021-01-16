@@ -12,14 +12,17 @@ public class ElmanNeuralNetwork extends NeuralNetwork {
 	
 	public ElmanNeuralNetwork() {
 		super();
+		createOutput(new ElmanHiddenNeuron(-1));
 	}
 	
 	public ElmanNeuralNetwork(DoubleUnaryOperator activationFunction) {
 		super(activationFunction);
+		createOutput(new ElmanHiddenNeuron(-1, activationFunction));
 	}
 	
 	public ElmanNeuralNetwork(int numberOfInputNeurons) {
 		super(numberOfInputNeurons);
+		createOutput(new ElmanHiddenNeuron(-1));
 	}
 	
 	public ElmanNeuralNetwork(int numberOfInputNeurons, int numberOfNeuronsPerLayer) {
@@ -28,6 +31,7 @@ public class ElmanNeuralNetwork extends NeuralNetwork {
 	
 	public ElmanNeuralNetwork(int numberOfInputNeurons, int numberOfNeuronsPerLayer, DoubleUnaryOperator activationFunction) {
 		super(numberOfInputNeurons, 1, numberOfNeuronsPerLayer, activationFunction);
+		createOutput(new ElmanHiddenNeuron(-1, activationFunction));
 	}
 
 	@Override

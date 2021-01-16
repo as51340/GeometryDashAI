@@ -45,10 +45,7 @@ public class ElmanHiddenNeuron extends Neuron {
 
 	@Override
 	public Double calculateOutput() {
-		if (hasOutput())
-			return getOutput();
-		
-		System.out.println(toString() + "entered calculateOutput()");
+		//System.out.println(toString() + " entered calculateOutput()");
 
 		double sum = getBias();
 
@@ -57,16 +54,15 @@ public class ElmanHiddenNeuron extends Neuron {
 			sum += neuron.calculateOutput() * prevNeuronWeights.get(index++);
 		}
 		
-		System.out.println(contextNeuron.toString());
+		//System.out.println(contextNeuron.toString());
 		sum += contextNeuron.hasOutput() ? contextNeuron.getOutput() * contextNeuronWeight : 0;
 		sum = applyActivationFunction(sum);
 
 		contextNeuron.setOutput(sum);
 		contextNeuron.setHasOutput(true);
 		setOutput(sum);
-		setHasOutput(true);
 
-		System.out.println(toString() + ", output: " + getOutput());
+		//System.out.println(toString() + ", output: " + getOutput());
 		
 		return getOutput();
 	}
