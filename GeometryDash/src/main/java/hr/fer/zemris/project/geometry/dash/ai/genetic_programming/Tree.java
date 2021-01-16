@@ -77,8 +77,8 @@ public class Tree {
 		this.cngIndex = 0;
 		List<Double> inp = new ArrayList<Double>();
 		for(Obstacle ob: inputs) {
-			inp.add(ob.getCurrentPosition().getX());
-			inp.add(ob.getCurrentPosition().getY());
+			inp.add(ob.getCurrentPosition().getX() - p.getCurrentPosition().getX());
+			inp.add(ob.getCurrentPosition().getY() - p.getCurrentPosition().getY());
 			inp.add(Obstacle.decodeObstacleType(ob));
 		}
 		inp.add(p.getCurrentPosition().getY());

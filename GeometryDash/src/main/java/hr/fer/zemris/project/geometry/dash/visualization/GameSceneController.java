@@ -1,7 +1,9 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
+import hr.fer.zemris.project.geometry.dash.model.GameState;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
+import hr.fer.zemris.project.geometry.dash.model.listeners.GameSceneListener;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Label;
@@ -38,9 +40,10 @@ public class GameSceneController extends MainOptionsController {
 	@FXML
     private StackPane rootPane;
 	
-	 @FXML
-	private Label generationLabel; // postavi je
+	@FXML
+	public Label generationLabel; // postavi je
 
+	private int cnt = 1;
 	
 	@FXML
 	public void initialize() {
@@ -50,6 +53,15 @@ public class GameSceneController extends MainOptionsController {
 	
 	public void init() {
 		GameEngine.getInstance().getGameWorld().getRenderer().setGraphicsContext(canvas.getGraphicsContext2D());
-	}
+		if(GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
+			generationLabel.setVisible(true);
+		}
+ 	}
 	
+	public void updateLabel() {
+		generationLabel.setText("Generation " + cnt++);
+	}
+
 }
+
+

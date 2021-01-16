@@ -125,6 +125,8 @@ public class ArtificialNeuralNetworkController extends AIControllers {
 		t.start();
 
 		GameSceneController controller = loader.getController();
+		algorithm.setController(controller);
+		GameEngine.getInstance().setGameState(GameState.AI_TRAINING_MODE);
 //		controller.setPreviousSceneRoot(rootPane);
 		controller.init();
 //		GameSceneController.generationLabel.setVisible(true);

@@ -36,20 +36,20 @@ public class AIAlgorithm {
 
 	private Object lockObj;
 
-	private Object generationLockObject;
-
+	private GameSceneController controller;
+	
 	/**
-	 * @return the generationLockObject
+	 * @return the controller
 	 */
-	public Object getGenerationLockObject() {
-		return generationLockObject;
+	public GameSceneController getController() {
+		return controller;
 	}
 
 	/**
-	 * @param generationLockObject the generationLockObject to set
+	 * @param controller the controller to set
 	 */
-	public void setGenerationLockObject(Object generationLockObject) {
-		this.generationLockObject = generationLockObject;
+	public void setController(GameSceneController controller) {
+		this.controller = controller;
 	}
 
 	/**
@@ -101,18 +101,21 @@ public class AIAlgorithm {
 
 	public void runAlgorithm() throws InterruptedException {
 		for (int i = 0; i < REPEAT; i++) {
+			Platform.runLater(() -> {
+				controller.updateLabel();
+			});
 			sumOfAllFitnesses = 0;
 			GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
 			GameEngine.getInstance().getGameWorld().setUnlockingCondition(false);
 			GameEngine.getInstance().getGameWorld().setLevelPassed(false);
 			selection();
 			reproduction();
-			GameEngine.getInstance().getGameWorld().createAIScene(); //na kraju svake generacije
+			GameEngine.getInstance().getGameWorld().createAIScene(); // na kraju svake generacije
 		}
 	}
 
 	public void initialize() {
-		for(int i = 0; i < POPULATION_SIZE; i++) {
+		for (int i = 0; i < POPULATION_SIZE; i++) {
 			Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
 					new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.NEURAL_NETWORK);
 			NeuralNetwork neuralNetwork = mode == PlayingMode.NEURAL_NETWORK
@@ -120,7 +123,7 @@ public class AIAlgorithm {
 							activationFunction)
 					: new ElmanNeuralNetwork(INPUT_LAYER_SIZE, numberPerHiddenLayer, activationFunction);
 			playerNeuralNetworkMap.put(player, neuralNetwork);
-		}		
+		}
 	}
 
 	private void selection() throws InterruptedException {
@@ -146,7 +149,7 @@ public class AIAlgorithm {
 	private void reproduction() {
 		Map<Player, NeuralNetwork> newGeneration = new HashMap<>();
 
-		for (Player player: this.playerNeuralNetworkMap.keySet()) {
+		for (Player player : this.playerNeuralNetworkMap.keySet()) {
 
 			NeuralNetwork parent1 = getRandomParent();
 			NeuralNetwork parent2 = getRandomParent();

@@ -26,7 +26,11 @@ public class ActionCalculator {
 	}
 	
 	public static double div(double x, double y) {
-		return x / y;
+		double d = x / y;
+		if(Double.isNaN(d)) {
+			return 0;
+		}
+		return d;
 	}
 	
 	public static double root(double x) {

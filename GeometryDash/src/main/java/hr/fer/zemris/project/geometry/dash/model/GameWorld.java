@@ -493,12 +493,12 @@ public class GameWorld {
 					continue;
 
 				if (obstacleX - playerX > 45) {
-					if (player.getPlayingMode() == PlayingMode.HUMAN || obstacles.size() == 4) {
+					if (player.getPlayingMode() == PlayingMode.HUMAN || obstacles.size() == AIConstants.obstForAI) {
 						continue;
 					}
 				}
 
-				if (player.getPlayingMode() != PlayingMode.HUMAN && obstacles.size() < 4) {
+				if (player.getPlayingMode() != PlayingMode.HUMAN && obstacles.size() < AIConstants.obstForAI) {
 					obstacles.add((Obstacle) gameObject);
 				}
 
