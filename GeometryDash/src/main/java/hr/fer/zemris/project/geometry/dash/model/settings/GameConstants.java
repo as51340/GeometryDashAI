@@ -114,7 +114,7 @@ public class GameConstants {
     /**
      * Gravity constant
      */
-    public static final int gravity_Y = 5500;
+    public static final int gravity_Y = 5600;
     
     /**
      * Accelaration in x direction
