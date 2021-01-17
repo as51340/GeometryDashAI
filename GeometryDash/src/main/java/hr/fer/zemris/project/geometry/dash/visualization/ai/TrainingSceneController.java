@@ -97,20 +97,10 @@ public class TrainingSceneController extends MenuController {
 		} else if(GameEngine.getInstance().getGameWorld().getAlgorithm() != null) {
 			GameEngine.getInstance().getGameWorld().getAlgorithm().setPausePressed(false);
 		}
-		rootPane.translateYProperty().set(0);
-		KeyValue keyValueReverse = new KeyValue(rootPane.translateYProperty(), -GameConstants.HEIGHT,
-				Interpolator.EASE_IN);
-		KeyFrame keyFrameReverse = new KeyFrame(Duration.millis(MENU_TRANSITION_DURATION), keyValueReverse);
-		Timeline slideAnimationReverse = new Timeline(keyFrameReverse);
-		slideAnimationReverse.setOnFinished(evt -> {
-			((StackPane) contP.getScene().getRoot()).getChildren().remove(rootPane);
-		});
-		slideAnimationReverse.play();
 
-		FadeTransition fadeTransitionReverse = new FadeTransition(Duration.millis(MENU_TRANSITION_DURATION), overlay);
-		fadeTransitionReverse.setFromValue(OVERLAY_OPACITY);
-		fadeTransitionReverse.setToValue(0.0);
-		fadeTransitionReverse.play();
+		// close menu
+		backButtonClicked(null);
+
 		synchronized(continueLockObject) {
 			continueLockObject.notifyAll(); // oslobodi sve dretve
 		}
