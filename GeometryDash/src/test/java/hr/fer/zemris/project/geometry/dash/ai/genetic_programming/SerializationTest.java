@@ -114,7 +114,7 @@ public class SerializationTest {
 	
 //	@Test
 //	void complicatedBinary() {
-		TreeNode root = new TreeNode(new Action(ActionType.MINUS));
+//		TreeNode root = new TreeNode(new Action(ActionType.MINUS));
 //		TreeNode node1 = new TreeNode(new Action(ActionType.PLUS));
 //		TreeNode node2 = new TreeNode(new Action(ActionType.DIVIDE));
 //		root.addChild(node1);
@@ -188,17 +188,17 @@ public class SerializationTest {
 		TreeNode node2 = new TreeNode(2);
 		root.addChild(node1);
 		root.addChild(node2);
+		root.setValue(TreeUtil.dfsOnTree(root, 1));
 		SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createTree());
-		String json = ser.serialize(root);
+		String json = ser.serialize(tree);
 		System.out.println(json);
-		
-		String rootSer = ser.serialize(tree.getRoot());
-		System.out.println(rootSer);
-//		JsonElement jsonElement = ser.getGson().fromJson(json, JsonElement.class);
-//		System.out.println(jsonElement);
 		Tree loaded = ser.deserializeTree(json);
-		TreeNode node = loaded.getRoot();
-		System.out.println(ser.serialize(node));
+		System.out.println(ser.serialize(loaded));
+		if(loaded.equals(tree)) {
+			System.out.println("DOBRO JE!");
+		} else {
+			System.out.println("RADI OPET!");
+		}
 	}
 	
 //	@Test

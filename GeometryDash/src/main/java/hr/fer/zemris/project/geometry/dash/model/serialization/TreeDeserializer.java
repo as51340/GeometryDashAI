@@ -34,8 +34,9 @@ public class TreeDeserializer implements JsonDeserializer<Tree> {
 	public static Tree deserialize(String json) {
 		SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createTree());
 		JsonElement jsonElement = ser.getGson().fromJson(json, JsonElement.class);
+		JsonObject object = jsonElement.getAsJsonObject();
 		
-		JsonObject jsonObject = jsonElement.getAsJsonObject();
+		JsonObject jsonObject = object.getAsJsonObject("root");
 		JsonObject actionObject = jsonObject.getAsJsonObject("action");
 		Action action = Action.parse(actionObject.get("actionType").getAsString());
 		TreeNode root = new TreeNode(action);
