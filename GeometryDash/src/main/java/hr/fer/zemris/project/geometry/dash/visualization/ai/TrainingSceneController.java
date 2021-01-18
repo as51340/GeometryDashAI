@@ -122,6 +122,9 @@ public class TrainingSceneController extends MenuController {
 	 * @param playingMode
 	 */
 	public void init(PlayingMode playingMode, boolean levelPassed, Object continueLockObject, int generationNum) {
+		if(levelPassed) {
+			GameEngine.getInstance().getGameStateListener().AITrainingModePlayingExited();
+		}
 		AiLabelType.setText(playingMode.toString());
 		attempt.setText("Generation " + generationNum);
 		if(levelPassed) {
@@ -151,11 +154,10 @@ public class TrainingSceneController extends MenuController {
 
 	@FXML
 	void saveAction(ActionEvent event) throws IOException {
-		GameEngine.getInstance().getGameStateListener().AITrainingModePlayingExited();
 		if (this.playingMode == PlayingMode.GENETIC_PROGRAMMING) {
 			Tree bestTree = (Tree) objToSave;
 			gameListener.saveGP(bestTree);
-			openOptionsScene();
+			//openOptionsScene();
 		} else if (this.playingMode == PlayingMode.ELMAN_NEURAL_NETWORK) {
 			throw new IllegalStateException("Elman not implemented yet");
 		} else if (this.playingMode == PlayingMode.NEURAL_NETWORK) {
