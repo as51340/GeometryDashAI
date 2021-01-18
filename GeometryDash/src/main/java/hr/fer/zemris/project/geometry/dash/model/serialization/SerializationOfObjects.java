@@ -70,7 +70,8 @@ public class SerializationOfObjects {
 	 * @return deserialized content
 	 */
 	public Tree deserializeTree(String json) {
-		return gson.fromJson(json, Tree.class);
+		return TreeDeserializer.deserialize(json);
+//		return gson.fromJson(json, Tree.class);
 	}
 	
 	/**

@@ -30,13 +30,29 @@ public class TreeDeserializer implements JsonDeserializer<Tree> {
 		root.setValue(TreeUtil.dfsOnTree(root, 1));
 		return new Tree(root);
 	}
+	
+	public static Tree deserialize(String json) {
+		SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createTree());
+		JsonElement jsonElement = ser.getGson().fromJson(json, JsonElement.class);
+		JsonObject object = jsonElement.getAsJsonObject();
+		
+		JsonObject jsonObject = object.getAsJsonObject("root");
+		JsonObject actionObject = jsonObject.getAsJsonObject("action");
+		Action action = Action.parse(actionObject.get("actionType").getAsString());
+		TreeNode root = new TreeNode(action);
+		JsonArray children = jsonObject.get("children").getAsJsonArray();
+		initialize(root, children);
+		
+		root.setValue(TreeUtil.dfsOnTree(root, 1));
+		return new Tree(root);
+	}
 
 	/**
 	 * Recursive method which initializes tree
 	 * @param root current node
 	 * @param children children of current node
 	 */
-	private void initialize(TreeNode node, JsonArray children) {
+	private static void initialize(TreeNode node, JsonArray children) {
 		Iterator<JsonElement> it = children.iterator();
 		while(it.hasNext()) {
 			JsonElement jsonElement = it.next();

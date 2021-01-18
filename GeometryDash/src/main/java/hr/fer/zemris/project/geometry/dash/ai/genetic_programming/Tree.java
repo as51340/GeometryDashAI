@@ -5,6 +5,8 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 
+import com.google.gson.annotations.Expose;
+
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.Obstacle;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 
@@ -18,6 +20,7 @@ public class Tree {
 	/**
 	 * Root of the tree
 	 */
+	@Expose
 	private TreeNode root = null;
 	
 	/**
