@@ -174,7 +174,10 @@ public class GeneticFunctionality {
 	public GeneticFunctionality() {
 		random = new Random();
 		population = new HashMap<Player, Tree>();
-		inputs = Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+		inputs = new ArrayList<Double>();
+		for(int i = 0; i < 31; i++) {
+			inputs.add(0.0);
+		}
 		gameSceneListener = new AIGameSceneListenerImpl();
 	}
 
@@ -461,6 +464,8 @@ public class GeneticFunctionality {
 				population.remove(minPlayerTree.getKey());
 				population.remove(almostMinPlayerTree.getKey());
 
+				System.out.println(GameEngine.getInstance().getGameWorld().getGpAlgorithm().getPopulation().size());
+				
 				if (bestOfAll == null
 						|| maxPlayerTree.getKey().getGoodness_value() > bestOfAll.getKey().getGoodness_value()) {
 					bestOfAll = maxPlayerTree;
@@ -504,12 +509,7 @@ public class GeneticFunctionality {
 					int firstTree = random.nextInt(selectedTrees.get(0).getSize()) + 1;
 					int secondTree = random.nextInt(selectedTrees.get(1).getSize()) + 1;
 					crossovered = TreeUtil.crossover(selectedTrees.get(0), selectedTrees.get(1), firstTree, secondTree);
-					valid = true;
-					for (Tree tree : crossovered) {
-						if (!TreeUtil.checkIfValid(tree.getRoot()) && valid == true) {
-							valid = false;
-						}
-					}
+					valid = TreeUtil.checkIfValid(crossovered.get(0).getRoot()) && TreeUtil.checkIfValid(crossovered.get(1).getRoot());
 				}
 
 				valid = false;
@@ -553,8 +553,13 @@ public class GeneticFunctionality {
 //				GameEngine.getInstance().getGameWorld().getRenderer().addGameObject(p2);
 				GameEngine.getInstance().getGameWorld().setGpAlgorithm(this);
 				GameEngine.getInstance().getGameWorld().createAIScene();
-
 			}
+			Platform.runLater(() -> {
+				controller.interruptTraining(PlayingMode.GENETIC_PROGRAMMING, bestOfAll.getValue(),
+						true); // handlaj	
+			});
+			
+																				// fail
 		} else if (genAlg == GenAlg.GENERATIONAL_GENETIC_ALGORITHM) {
 			int genNumber = 0;
 			while (genNumber < AIConstants.maxGenerations) {
@@ -579,10 +584,7 @@ public class GeneticFunctionality {
 							e.printStackTrace();
 						}
 					}
-				}
-				if (GameEngine.getInstance().getGameWorld().isLevelPassed()) {
-					throw new IllegalStateException("Level passed");
-				}
+				}			
 
 				for (Entry<Player, Tree> entry : population.entrySet()) {
 					double value = entry.getKey().getGoodness_value();
@@ -620,7 +622,6 @@ public class GeneticFunctionality {
 				bestInGeneration = bestPlayerTree;
 
 				if (GameEngine.getInstance().getGameWorld().isLevelPassed()) {
-
 					// probably on javafx application thread
 					Platform.runLater(() -> {
 						controller.interruptTraining(PlayingMode.GENETIC_PROGRAMMING, bestOfAll.getValue(),
@@ -658,11 +659,7 @@ public class GeneticFunctionality {
 						crossovered = TreeUtil.crossover(selectedTrees.get(0), selectedTrees.get(1), firstTree,
 								secondTree);
 						valid = true;
-						for (Tree tree : crossovered) {
-							if (!TreeUtil.checkIfValid(tree.getRoot()) && valid == true) {
-								valid = false;
-							}
-						}
+						valid = TreeUtil.checkIfValid(crossovered.get(0).getRoot()) && TreeUtil.checkIfValid(crossovered.get(1).getRoot());
 					}
 
 					valid = false;
@@ -698,20 +695,18 @@ public class GeneticFunctionality {
 							new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y),
 							PlayingMode.GENETIC_PROGRAMMING);
 
-					newPopulation.put(p1, mutated1);
-					newPopulation.put(p2, mutated2);
-				}
-
-				if (newPopulation.size() != population.size()) {
-					System.out.println("Stara populacija " + population.size());
-					System.out.println("Nova populacija " + newPopulation.size());
-					throw new IllegalStateException("Nisu iste populacije!");
+					newPopulation.put(p3, mutated1);
+					newPopulation.put(p4, mutated2);
 				}
 				GameEngine.getInstance().getGameWorld().setGpAlgorithm(this); // not sure if needs that
 				GameEngine.getInstance().getGameWorld().createAIScene();
 				genNumber++;
 
 			}
+			Platform.runLater(() -> {
+				controller.interruptTraining(PlayingMode.GENETIC_PROGRAMMING, bestOfAll.getValue(),
+						true); // handlaj	
+			});
 		}
 	}
 
@@ -783,28 +778,6 @@ public class GeneticFunctionality {
 			curr += (((Player) keys[i]).getGoodness_value() - worst_goodness_value_in_population);
 		}
 		return null;
-	}
-
-	public double calculateOutput(Player p) {
-		Tree tree = null;
-		try {
-			tree = population.get(p);
-			if (tree == null) {
-				System.out.println("NULL je");
-				return 0;
-			}
-//			System.out.println();
-//			System.out.println();
-			double calc = TreeUtil.dfsOnTree(tree.getRoot(), 1);
-			double sol = AIConstants.activationFunction.applyAsDouble(calc);
-//			System.out.println("Solution " + sol);
-			return sol;
-		} catch (IllegalArgumentException e) {
-			System.out.println(e.getMessage());
-			TreeUtil.printTree(tree.getRoot(), 0);
-			System.exit(-1);
-		}
-		return -1;
 	}
 
 	/**

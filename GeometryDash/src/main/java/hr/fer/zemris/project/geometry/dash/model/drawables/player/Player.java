@@ -212,7 +212,7 @@ public class Player extends GameObject {
      * Makes the player character "jump" - adds upward force
      */
     public void jump() {
-        if (!isDead) {
+        if (!isDead && isTouchingGround) {
             jumpIntent = true;
         }
     }
@@ -244,6 +244,7 @@ public class Player extends GameObject {
 
     @Override
     public void draw(GraphicsContext graphicsContext) {
+//    	System.out.println("Dira pod " + isTouchingGround);
         if (isTouchingGround) {
             if (jumpIntent) {
                 getSpeed().setY(GameConstants.playerJumpingOffset);
@@ -253,11 +254,9 @@ public class Player extends GameObject {
                 getSpeed().setY(0);
             }
         }
-//        System.out.println("Is touching u draw: " + isTouchingGround);
         if (!isTouchingGround) {
             setRotation(getRotation() + GameConstants.playerRotationSpeed* GameConstants.timeBetweenUpdates);
             Vector2D v = getCenterPosition().translated(getCurrentPosition().reversed()).rotated(getRotation());
-//			System.err.println("U zraku: " + getRotation());	// za testiranje
         } else {
             this.rotation = (int) this.rotation % 360;
             if (this.rotation >= 45 && this.rotation < 135) {
@@ -269,12 +268,8 @@ public class Player extends GameObject {
             } else if (this.rotation >= 315 || this.rotation < 45) {
                 this.rotation = 0;
             }
-//			System.err.println("Stojim: " + getRotation());	// za testiranje
         }
 
-//        System.out.println("Player x: " + rotatingPoint.getX());
-//        System.out.println("Player y: " + rotatingPoint.getY());
-//        System.out.println("Rotation: " + getRotation());
         Rotate r = new Rotate(getRotation(), getCurrentPosition().getX() + GameConstants.iconWidth / 2.0, getCurrentPosition().getY() + GameConstants.iconHeight / 2.0);
         graphicsContext.save();
         graphicsContext.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());

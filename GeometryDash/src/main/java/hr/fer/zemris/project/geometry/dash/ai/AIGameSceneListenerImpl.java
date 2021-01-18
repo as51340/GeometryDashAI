@@ -42,7 +42,7 @@ public class AIGameSceneListenerImpl implements AIGameSceneListener{
 			TreeUtil.printTree(loadedTree.getRoot(), 0);
 			throw new IllegalStateException("Ser doesn't work good"); 
 		}
-		FileIO.createJsonFile(GameConstants.pathToGPFolder + "/" + fileName, json);
+		FileIO.createJsonFile(GameConstants.pathToGPFolder + "/" + fileName + ".json", json);
 	}
 
 	@Override
@@ -58,9 +58,10 @@ public class AIGameSceneListenerImpl implements AIGameSceneListener{
 	}
 
 	@Override
-	public void loadGP() {
-		// TODO Auto-generated method stub
-		
+	public Tree loadGP() {
+		String fileName = askUserForFileName();
+		String json = FileIO.readFromJsonFile(fileName);
+		return new SerializationOfObjects(GsonFactory.createTree()).deserializeTree(json);
 	}
 
 	@Override

@@ -1,0 +1,14 @@
+{
+  "root": {
+    "action": {
+      "actionType": "ATAN"
+    },
+    "value": -1.56746300580716,
+    "children": [
+      {
+        "value": -300.0,
+        "children": []
+      }
+    ]
+  }
+}

@@ -37,7 +37,7 @@ public interface AIGameSceneListener {
 	/**
 	 * Load genetic programming tree
 	 */
-	void loadGP();
+	Tree loadGP();
 	
 	/**
 	 * Load elman neural network

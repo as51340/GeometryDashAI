@@ -20,6 +20,7 @@ import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
 import hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok.AIAlgorithm;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.GeneticFunctionality;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.Tree;
+import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.TreeUtil;
 import hr.fer.zemris.project.geometry.dash.model.drawables.environment.*;
 import hr.fer.zemris.project.geometry.dash.model.listeners.GameWorldListener;
 import hr.fer.zemris.project.geometry.dash.model.listeners.PlayerListener;
@@ -95,7 +96,15 @@ public class GameWorld {
 	// reference to the regular and elman algorithm
 	private AIAlgorithm algorithm = null;
 
+	/**
+	 * For genetic programming training
+	 */
 	private GeneticFunctionality gpAlgorithm = null;
+
+	/**
+	 * When AI, genetic programming is playing
+	 */
+	private Map.Entry<Player, Tree> gpPlayer;
 
 	/**
 	 * @return the gpAlgorithm
@@ -253,10 +262,10 @@ public class GameWorld {
 			throw new IllegalStateException("Not same number of players after new generation!");
 		}
 		Iterator<Player> itr = players.iterator();
-		
+
 //		System.out.println("Players size before removing " + players.size());
 //		System.out.println("Renderer size before removing " + renderer.getGameObjects().size());
-		while(itr.hasNext()) {
+		while (itr.hasNext()) {
 			Player p = itr.next();
 			renderer.getGameObjects().remove(p);
 			itr.remove();
@@ -271,7 +280,7 @@ public class GameWorld {
 //		System.out.println("Renderer size after adding " + renderer.getGameObjects().size());
 //		System.out.println("New game objects size " + levelObjects.size());
 //		System.out.println();
-		this.closestObjects.clear();		
+		this.closestObjects.clear();
 	}
 
 	/**
@@ -304,9 +313,10 @@ public class GameWorld {
 			renderer.addGameObject(p);
 		}
 	}
-	
+
 	/**
 	 * Removes player
+	 * 
 	 * @param p
 	 */
 	public void removePlayer(Player p, Player newP) {
@@ -343,7 +353,7 @@ public class GameWorld {
 		this.levelObjects.add(floor);
 		renderer = new Renderer(levelObjects);
 		floor.setCamera(renderer.getCamera());
-		
+
 //
 ////			System.out.println("Uspješno dodan floor");
 //		for (Player p : players) {
@@ -385,27 +395,48 @@ public class GameWorld {
 			return false;
 		}
 
+		if (gpAlgorithm != null) { // training or playing mode is
+			if (GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
+				for (Player p : closestObjects.keySet()) {
+					List<Obstacle> obst = closestObjects.get(p);
+					if (gpAlgorithm.getPopulation().get(p) == null) {
+						System.out.println("Player id " + p.getId()); //debug
+					}
+					gpAlgorithm.getPopulation().get(p).changeInputs(obst, p);
+					double output = TreeUtil.calculateOutput(gpAlgorithm.getPopulation().get(p));
+					System.out.println(output);
+					if (output >= 0.8) {
+						p.jump();
+					}
+				}
+			} else if (GameEngine.getInstance().getGameState() == GameState.AI_PLAYING_MODE) {
+				Player p = gpPlayer.getKey();
+				List<Obstacle> obst = closestObjects.get(p);
+				Tree t = gpPlayer.getValue();
+				t.changeInputs(obst, p);
+				double output = TreeUtil.calculateOutput(t);
+				System.out.println(output);
+				if (output >= 0.8) {
+					p.jump();
+				}
+			} else {
+				throw new IllegalStateException("Unknown state in update for gp!");
+			}
+		}
 		if (GameEngine.getInstance().getGameState() == GameState.AI_PLAYING_MODE
 				|| GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
 
+//			System.out.println(closestObjects.size());
 			for (Player p : closestObjects.keySet()) {
+
 				List<Obstacle> obst = closestObjects.get(p);
 				if (algorithm != null) {
 					algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
 					double output = algorithm.getPlayerNeuralNetworkMap().get(p).getOutput().calculateOutput();
-					if (output >= 0.7)
+//					System.out.println(output);
+					if (output >= 0)
 						p.jump();
-				} else if (gpAlgorithm != null) {
-					if (gpAlgorithm.getPopulation().get(p) == null) {
-						System.out.println("Player id " + p.getId());
-					}
-
-					gpAlgorithm.getPopulation().get(p).changeInputs(obst, p);
-					double output = gpAlgorithm.calculateOutput(p);
-					if(output >= 0.65) {
-						p.jump();
-					}
-				}
+				} 
 			}
 		}
 
@@ -473,8 +504,11 @@ public class GameWorld {
 		List<Obstacle> obstacles = new ArrayList<Obstacle>();
 		while (iterator.hasNext()) {
 			Player player = iterator.next();
-			if (player.isDead())
+			if (player.isDead()) {
+				if (player.getPlayingMode() != PlayingMode.HUMAN)
+					closestObjects.remove(player);
 				continue;
+			}
 			player.setTouchingGround(false);
 
 			obstacles.clear();
@@ -489,7 +523,8 @@ public class GameWorld {
 
 				double obstacleX = gameObject.getCurrentPosition().getX();
 
-				if (obstacleX < playerX - 45 && !(gameObject instanceof Floor)) // prepreke prije igrača uvijek																				// preskoci
+				if (obstacleX < playerX - 45 && !(gameObject instanceof Floor)) // prepreke prije igrača uvijek //
+																				// preskoci
 					continue;
 
 				if (obstacleX - playerX > 45) {
@@ -518,7 +553,9 @@ public class GameWorld {
 //					}
 
 			}
-			closestObjects.put(player, obstacles);
+			if (player.getPlayingMode() != PlayingMode.HUMAN && !player.isDead()) {
+				closestObjects.put(player, obstacles);
+			}
 
 		}
 

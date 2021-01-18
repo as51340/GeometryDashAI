@@ -1,0 +1,22 @@
+{
+  "root": {
+    "action": {
+      "actionType": "IF_ELSE"
+    },
+    "value": 45.0,
+    "children": [
+      {
+        "value": 4.9E-324,
+        "children": []
+      },
+      {
+        "value": -300.0,
+        "children": []
+      },
+      {
+        "value": 45.0,
+        "children": []
+      }
+    ]
+  }
+}

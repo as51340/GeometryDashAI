@@ -31,6 +31,7 @@ import javafx.scene.shape.Rectangle;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import hr.fer.zemris.project.geometry.dash.ai;
 
 public class ChooseLevelController extends MainOptionsController {
 
@@ -72,7 +73,9 @@ public class ChooseLevelController extends MainOptionsController {
     private StackPane levelNameAndPaginationPane;
 
     @FXML
-    private StackPane rootPane;
+    private StackPane rootPane;s
+    
+    private AIGameSceneListener list = new AIGameSceneListenerImpl();
 
     @FXML
     public void initialize() {
@@ -154,7 +157,7 @@ public class ChooseLevelController extends MainOptionsController {
         
         gameEngine.getGameWorld().createScene(levels.get(levelIndex).getLevelName());
         
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 1; i++) {
             Player player = new Player(new Vector2D(i*20, 490),
                     new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
             gameEngine.getGameWorld().addPlayer(player);
@@ -164,6 +167,7 @@ public class ChooseLevelController extends MainOptionsController {
         if (playingMode == PlayingMode.HUMAN) {
             scene.setOnKeyPressed((e) -> {
                 if (e.getCode() == KeyCode.W) {
+//                	System.out.println("Stisnuta tipka W"); shuld wor
                     for (Player p : GameEngine.getInstance().getGameWorld().getPlayers()) {
                         p.jump();
                     }
@@ -198,9 +202,7 @@ public class ChooseLevelController extends MainOptionsController {
                     //TODO deserialize Neural Network
                 }
                 case GENETIC_PROGRAMMING -> {
-                    //TODO deserialize Genetic Programming
-                    TreeDeserializer deserializer = new TreeDeserializer();
-
+                    
                 }
                 case ELMAN_NEURAL_NETWORK -> {
                     //TODO deserialize Elman Neural Network

@@ -109,7 +109,12 @@ public class GameSceneController extends MainOptionsController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		if(GameEngine.getInstance().getGameWorld().getGpAlgorithm() != null) {
+			GeometryDash.getStage().setUserData(GameEngine.getInstance().getGameWorld().getGpAlgorithm().getBestOfAll().getValue());
+		} else if(GameEngine.getInstance().getGameWorld().getAlgorithm() != null) {
+			//add best tree
+		}
+		
 		TrainingSceneController controller = loader.getController();
 		controller.init(this.playingMode, false, continueLockObject, cnt);
 		controller.setPreviousSceneRoot(rootPane);

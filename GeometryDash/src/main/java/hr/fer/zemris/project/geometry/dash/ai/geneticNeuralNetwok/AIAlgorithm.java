@@ -25,7 +25,7 @@ import javafx.application.Platform;
 
 public class AIAlgorithm {
 
-	private static final int POPULATION_SIZE = 300;
+	private static final int POPULATION_SIZE = 20;
 	private static final int REPEAT = 500;
 	private static final double MUTATION_RATE = 0.1;
 	private static final int INPUT_LAYER_SIZE = AIConstants.obstForAI * 3 + 1;
@@ -162,7 +162,7 @@ public class AIAlgorithm {
 
 	public void initialize() {
 		for (int i = 0; i < POPULATION_SIZE; i++) {
-			Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
+			Player player = new Player(new Vector2D(i*5, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
 					new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.NEURAL_NETWORK);
 			NeuralNetwork neuralNetwork = mode == PlayingMode.NEURAL_NETWORK
 					? new GeneticNeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer,
