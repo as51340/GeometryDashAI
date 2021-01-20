@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.ai.AIGameSceneListenerImpl;
+import hr.fer.zemris.project.geometry.dash.ai.ElmanNeuralNetwork;
+import hr.fer.zemris.project.geometry.dash.ai.GeneticNeuralNetwork;
+import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.Tree;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
@@ -149,9 +152,11 @@ public class TrainingSceneController extends MenuController {
 			gameListener.saveGP(bestTree);
 			//openOptionsScene();
 		} else if (this.playingMode == PlayingMode.ELMAN_NEURAL_NETWORK) {
-			throw new IllegalStateException("Elman not implemented yet");
+			ElmanNeuralNetwork neuralNetwork = (ElmanNeuralNetwork) objToSave;
+			gameListener.saveElman(neuralNetwork);
 		} else if (this.playingMode == PlayingMode.NEURAL_NETWORK) {
-			throw new IllegalStateException("Genetic not implemented yet");
+			GeneticNeuralNetwork neuralNetwork = (GeneticNeuralNetwork) objToSave;
+			gameListener.saveGen(neuralNetwork);
 		} else {
 			throw new IllegalStateException("Playing mode is unknown");
 		}

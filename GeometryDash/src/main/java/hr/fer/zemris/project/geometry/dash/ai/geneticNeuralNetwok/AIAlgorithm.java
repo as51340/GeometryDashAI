@@ -1,11 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.function.DoubleUnaryOperator;
 
@@ -38,6 +33,9 @@ public class AIAlgorithm {
 
 	private Object lockObj;
 
+	private Map.Entry<Player, NeuralNetwork> bestInGeneration;
+	private Map.Entry<Player, NeuralNetwork> bestSoFar;
+
 	/**
 	 * Locking on continue object
 	 */
@@ -63,7 +61,8 @@ public class AIAlgorithm {
 	public void setController(GameSceneController controller) {
 		this.controller = controller;
 	}
-	
+
+
 	/**
 	 * Is pause pressed
 	 */
@@ -154,9 +153,14 @@ public class AIAlgorithm {
 			GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
 			GameEngine.getInstance().getGameWorld().setUnlockingCondition(false);
 			GameEngine.getInstance().getGameWorld().setLevelPassed(false);
+
+			updateBestSoFar();
+
 			selection();
 			reproduction();
 			GameEngine.getInstance().getGameWorld().createAIScene(); // na kraju svake generacije
+
+
 		}
 	}
 
@@ -169,7 +173,11 @@ public class AIAlgorithm {
 							activationFunction)
 					: new ElmanNeuralNetwork(INPUT_LAYER_SIZE, numberPerHiddenLayer, activationFunction);
 			playerNeuralNetworkMap.put(player, neuralNetwork);
+
 		}
+
+		Iterator<Map.Entry<Player, NeuralNetwork>> i = playerNeuralNetworkMap.entrySet().iterator();
+		bestSoFar = i.next();
 	}
 
 	private void selection() throws InterruptedException {
@@ -186,7 +194,9 @@ public class AIAlgorithm {
 
 			// probably on javafx application thread
 			Platform.runLater(() -> {
-				controller.interruptTraining(mode, null,
+				controller.interruptTraining(
+						mode,
+						bestSoFar.getValue(),
 						GameEngine.getInstance().getGameWorld().isLevelPassed()); // handlaj
 																					// fail
 			});
@@ -329,4 +339,51 @@ public class AIAlgorithm {
 	public void setLockObj(Object lockObj) {
 		this.lockObj = lockObj;
 	}
+
+	/**
+	 * @return best in current generation
+	 */
+	public Map.Entry<Player, NeuralNetwork> getBestInGeneration() {
+		return bestInGeneration;
+	}
+
+	/**
+	 * @return best so far
+	 */
+	public Map.Entry<Player, NeuralNetwork> getBestSoFar() {
+		return bestSoFar;
+	}
+
+	/**
+	 * Sets best in current generation
+	 * @param bestInGeneration
+	 */
+	public void setBestInGeneration(Map.Entry<Player, NeuralNetwork> bestInGeneration) {
+		this.bestInGeneration = bestInGeneration;
+	}
+
+	/**
+	 * Sets best so far
+	 * @param bestSoFar
+	 */
+	public void setBestSoFar(Map.Entry<Player, NeuralNetwork> bestSoFar) {
+		this.bestSoFar = bestSoFar;
+	}
+
+	private void updateBestSoFar() {
+		double genGoodnessValue = -1;
+		for(Map.Entry<Player, NeuralNetwork> me: playerNeuralNetworkMap.entrySet()) {
+			if(me.getKey().getGoodness_value() > genGoodnessValue)
+				bestInGeneration = me;
+		}
+
+		if(bestSoFar == null)
+			bestSoFar = bestInGeneration;
+		else
+			bestSoFar = bestSoFar.getKey().getGoodness_value() < bestInGeneration.getKey().getGoodness_value() ?
+					bestInGeneration :
+					bestSoFar;
+
+	}
+
 }

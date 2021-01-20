@@ -6,10 +6,12 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
+import hr.fer.zemris.project.geometry.dash.ai.AIGameSceneListenerImpl;
 import hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok.AIAlgorithm;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
+import hr.fer.zemris.project.geometry.dash.model.listeners.AIGameSceneListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.serialization.TreeDeserializer;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
@@ -31,7 +33,7 @@ import javafx.scene.shape.Rectangle;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import hr.fer.zemris.project.geometry.dash.ai;
+
 
 public class ChooseLevelController extends MainOptionsController {
 
@@ -73,7 +75,7 @@ public class ChooseLevelController extends MainOptionsController {
     private StackPane levelNameAndPaginationPane;
 
     @FXML
-    private StackPane rootPane;s
+    private StackPane rootPane;
     
     private AIGameSceneListener list = new AIGameSceneListenerImpl();
 

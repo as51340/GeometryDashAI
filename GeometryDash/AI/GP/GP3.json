@@ -1,0 +1,14 @@
+{
+  "root": {
+    "action": {
+      "actionType": "TANH"
+    },
+    "value": -1.0,
+    "children": [
+      {
+        "value": -300.0,
+        "children": []
+      }
+    ]
+  }
+}

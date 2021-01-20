@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
 
+import com.google.gson.annotations.Expose;
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
 
 /**
@@ -14,6 +15,7 @@ public class Neuron {
     /**
      * List of previous neurons
      */
+    //@Expose
     protected List<Neuron> prevNeurons;
     /**
      * List of weights for previous neurons - prevNeurons.get(0) has a weight of prevNeuronWeights.get(0)
@@ -26,6 +28,7 @@ public class Neuron {
     /**
      * Output of this neuron
      */
+    @Expose
     private double output;
     /**
      * For optimisation - true if current output is valid
@@ -34,6 +37,7 @@ public class Neuron {
     /**
      * Bias of this neuron
      */
+    @Expose
     private double bias;
 
     /**

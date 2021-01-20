@@ -10,6 +10,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
+import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.Session;
 import hr.fer.zemris.project.geometry.dash.model.Utils;
@@ -52,6 +53,18 @@ public class GsonFactory {
 	public static Gson createTree() {
 		return new GsonBuilder()
 				.excludeFieldsWithoutExposeAnnotation()
+				.setPrettyPrinting()
+				.create();
+	}
+
+	/**
+	 * Creates {@linkplain Gson} for saving neural network to file
+	 * @return created {@linkplain Gson}
+	 */
+	public static Gson createNN() {
+		return new GsonBuilder()
+				.excludeFieldsWithoutExposeAnnotation()
+				.registerTypeHierarchyAdapter(NeuralNetwork.class, new NNSerializer())
 				.setPrettyPrinting()
 				.create();
 	}

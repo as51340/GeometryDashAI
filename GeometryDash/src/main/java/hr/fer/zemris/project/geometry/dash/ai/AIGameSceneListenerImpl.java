@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.ai;
 
+import java.io.File;
 import java.util.Optional;
 
 import com.google.gson.Gson;
@@ -45,16 +46,15 @@ public class AIGameSceneListenerImpl implements AIGameSceneListener{
 		FileIO.createJsonFile(GameConstants.pathToGPFolder + "/" + fileName + ".json", json);
 	}
 
+
 	@Override
 	public void saveElman(NeuralNetwork nn) {
-		// TODO Auto-generated method stub
-		
+		save(nn, GsonFactory.createNN(), GameConstants.pathToElmanFolder);
 	}
 
 	@Override
 	public void saveGen(NeuralNetwork nn) {
-		// TODO Auto-generated method stub
-		
+		save(nn, GsonFactory.createNN(), GameConstants.pathToGenFolder);
 	}
 
 	@Override
@@ -88,4 +88,41 @@ public class AIGameSceneListenerImpl implements AIGameSceneListener{
 		}
 	}
 
+	/**
+	 * Common method to save files
+	 * @param objectToSave
+	 * @param gson
+	 * @param path
+	 */
+	private void save(Object objectToSave, Gson gson, String path) {
+		String filename;
+		do {
+			filename = askUserForFileName();
+		}while(filename == null);
+
+		SerializationOfObjects ser = new SerializationOfObjects(gson);
+		String json = null;
+		if(objectToSave instanceof Tree) {
+			Tree bestTree = (Tree) objectToSave;
+			json = ser.serialize(bestTree);
+			Tree loadedTree = ser.deserializeTree(json);
+			if(!loadedTree.equals(bestTree)) {
+				TreeUtil.printTree(loadedTree.getRoot(), 0);
+				throw new IllegalStateException("Ser doesn't work good");
+			}
+
+		} else if(objectToSave instanceof NeuralNetwork) {
+			NeuralNetwork nn = (NeuralNetwork) objectToSave;
+			json = ser.serialize(nn);
+			/*NeuralNetwork loadedNN = ser.deserialize() todo deserijalizacija
+			if(!loadedNN.equals(nn)) {
+				throw new IllegalStateException("Ser doesn't work good");
+			}
+			*/
+
+		}
+
+		FileIO.createJsonFile(path + "/" + filename + ".json", json);
+
+	}
 }
