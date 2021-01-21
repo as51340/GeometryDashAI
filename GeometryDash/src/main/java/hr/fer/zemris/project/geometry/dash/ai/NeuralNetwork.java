@@ -99,6 +99,19 @@ public abstract class NeuralNetwork {
     }
 
     /**
+     * Constructs a NeuralNetwork from existing data
+     * @param output output
+     * @param inputLayer inputLayer
+     * @param hiddenLayers hiddenLayers
+     * @param activationFunction activationFunction
+     */
+    public NeuralNetwork(Neuron output, List<Neuron> inputLayer, List<List<Neuron>> hiddenLayers, DoubleUnaryOperator activationFunction) {
+        this(activationFunction);
+        this.output = output;
+        this.inputLayer = inputLayer;
+        this.hiddenLayers = hiddenLayers;
+    }
+    /**
      * Creates an input layer with given number as the number of neurons
      *
      * @param numberOfNeurons number of neurons in input layer
@@ -314,4 +327,11 @@ public abstract class NeuralNetwork {
     	return super.toString();
     }
 
+    /**
+     *
+     * @return activation function
+     */
+    public DoubleUnaryOperator getActivationFunction() {
+        return activationFunction;
+    }
 }

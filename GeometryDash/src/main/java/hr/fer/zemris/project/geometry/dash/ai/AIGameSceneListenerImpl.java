@@ -30,20 +30,7 @@ public class AIGameSceneListenerImpl implements AIGameSceneListener{
 
 	@Override
 	public void saveGP(Tree bestTree) {
-		TreeUtil.printTree(bestTree.getRoot(), 0);
-		String fileName = askUserForFileName();
-		if(fileName == null) {
-			return; //handlay fail u save GP
-		}
-		Gson gson = GsonFactory.createTree();
-		SerializationOfObjects ser = new SerializationOfObjects(gson);
-		String json = ser.serialize(bestTree);
-		Tree loadedTree = ser.deserializeTree(json);
-		if(!loadedTree.equals(bestTree)) {
-			TreeUtil.printTree(loadedTree.getRoot(), 0);
-			throw new IllegalStateException("Ser doesn't work good"); 
-		}
-		FileIO.createJsonFile(GameConstants.pathToGPFolder + "/" + fileName + ".json", json);
+		save(bestTree, GsonFactory.createTree(), GameConstants.pathToGPFolder);
 	}
 
 
@@ -114,11 +101,8 @@ public class AIGameSceneListenerImpl implements AIGameSceneListener{
 		} else if(objectToSave instanceof NeuralNetwork) {
 			NeuralNetwork nn = (NeuralNetwork) objectToSave;
 			json = ser.serialize(nn);
-			/*NeuralNetwork loadedNN = ser.deserialize() todo deserijalizacija
-			if(!loadedNN.equals(nn)) {
-				throw new IllegalStateException("Ser doesn't work good");
-			}
-			*/
+
+			NeuralNetwork loadedNN = new SerializationOfObjects(GsonFactory.createNND()).deserializeNN(json);
 
 		}
 

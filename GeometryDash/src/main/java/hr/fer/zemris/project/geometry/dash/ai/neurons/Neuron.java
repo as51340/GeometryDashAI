@@ -86,6 +86,16 @@ public class Neuron {
     }
 
     /**
+     * Creates a new Neuron with bias set to given bias and output to given output
+     * @param bias given bias
+     * @param output given output
+     */
+    public Neuron(double bias, double output) {
+        this(bias);
+        this.output = output;
+    }
+
+    /**
      * Calculates the output of this Neuron by calling this function of previous neurons
      * For each Neuron, calculates output and multiplies it by that Neurons bias, adds it's own bias and applies the
      * activation function

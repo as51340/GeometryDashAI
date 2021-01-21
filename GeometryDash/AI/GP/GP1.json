@@ -1,12 +1,12 @@
 {
   "root": {
     "action": {
-      "actionType": "ATAN"
+      "actionType": "COSH"
     },
-    "value": -1.56746300580716,
+    "value": 4284796.6791140735,
     "children": [
       {
-        "value": -300.0,
+        "value": 15.963730839999897,
         "children": []
       }
     ]

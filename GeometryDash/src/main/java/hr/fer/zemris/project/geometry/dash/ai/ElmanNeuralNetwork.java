@@ -1,6 +1,7 @@
 package hr.fer.zemris.project.geometry.dash.ai;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
@@ -32,6 +33,17 @@ public class ElmanNeuralNetwork extends NeuralNetwork {
 	public ElmanNeuralNetwork(int numberOfInputNeurons, int numberOfNeuronsPerLayer, DoubleUnaryOperator activationFunction) {
 		super(numberOfInputNeurons, 1, numberOfNeuronsPerLayer, activationFunction);
 		createOutput(new ElmanHiddenNeuron(-1, activationFunction));
+	}
+
+	/**
+	 * Constructs a NeuralNetwork from existing data
+	 * @param output output
+	 * @param inputLayer inputLayer
+	 * @param hiddenLayers hiddenLayers
+	 * @param activationFunction activationFunction
+	 */
+	public ElmanNeuralNetwork(Neuron output, List<Neuron> inputLayer, List<List<Neuron>> hiddenLayers, DoubleUnaryOperator activationFunction) {
+		super(output, inputLayer, hiddenLayers, activationFunction);
 	}
 
 	@Override
@@ -105,7 +117,7 @@ public class ElmanNeuralNetwork extends NeuralNetwork {
         for (Neuron neuron : hiddenLayers.get(0)) {
         	ElmanHiddenNeuron hiddenNeuron = (ElmanHiddenNeuron) neuron;
         	retList.add(hiddenNeuron.getPrevNeuronWeights());
-        	retList.add(Collections.singletonList(hiddenNeuron.getContextNeuronWeight()));
+        	retList.add(new ArrayList<Double>(Arrays.asList(hiddenNeuron.getContextNeuronWeight())));
         }       
 
         retList.add(output.getPrevNeuronWeights());

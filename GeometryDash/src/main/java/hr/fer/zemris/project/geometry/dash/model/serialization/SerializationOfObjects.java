@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.Set;
 import java.lang.reflect.Type;
 
+import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.Tree;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.Session;
@@ -75,6 +76,14 @@ public class SerializationOfObjects {
 	}
 
 
+	/**
+	 * Deserializes NN
+	 * @param json json to be deserialized
+	 * @return deserialized content
+	 */
+	public NeuralNetwork deserializeNN(String json) {
+		return gson.fromJson(json, NeuralNetwork.class);
+	}
 	
 	/**
 	 * @return gson

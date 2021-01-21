@@ -1,6 +1,9 @@
 package hr.fer.zemris.project.geometry.dash.model.serialization;
 
 import com.google.gson.*;
+import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
+import hr.fer.zemris.project.geometry.dash.ai.ElmanNeuralNetwork;
+import hr.fer.zemris.project.geometry.dash.ai.GeneticNeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.neurons.Neuron;
 
@@ -29,7 +32,17 @@ public class NNSerializer implements JsonSerializer<NeuralNetwork> {
         }
         nnJson.add("hiddenLayers", hiddenLayersJson);
 
-        //todo dodati aktivacijsku funkciju
+        if (AIConstants.activationFunction.equals(src.getActivationFunction())) {
+            nnJson.addProperty("activationFunction", "sigmoid");
+        } else {} /*dodati po potrebi*/
+
+
+        if(src.getClass() == GeneticNeuralNetwork.class) {
+            nnJson.addProperty("type", "genetic");
+        } else if(src.getClass() == ElmanNeuralNetwork.class) {
+            nnJson.addProperty("type", "elman");
+        }
+
         return nnJson;
     }
 
@@ -46,8 +59,14 @@ public class NNSerializer implements JsonSerializer<NeuralNetwork> {
 
         if(prevNeurons) {
             JsonArray previous = new JsonArray();
-            for (Neuron n : neuron.getPrevNeurons())
-                previous.add(getJsonNeuronBasedOnPrevNeuron(n, false));
+            List<Neuron> previousNeurons = neuron.getPrevNeurons();
+            List<Double> previousWeights = neuron.getPrevNeuronWeights();
+            for (int i = 0; i < previousNeurons.size(); i++) {
+                JsonObject previousNeuron = new JsonObject();
+                previousNeuron.add("neuron", getJsonNeuronBasedOnPrevNeuron(previousNeurons.get(i), false));
+                previousNeuron.addProperty("weight", previousWeights.get(i));
+                previous.add(previousNeuron);
+            }
             outputNeuron.add("prevNeurons", previous);
         }
 

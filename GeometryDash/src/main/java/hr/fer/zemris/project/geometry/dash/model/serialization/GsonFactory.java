@@ -68,5 +68,17 @@ public class GsonFactory {
 				.setPrettyPrinting()
 				.create();
 	}
+
+	/**
+	 * Creates {@linkplain Gson} for saving neural network to file
+	 * @return created {@linkplain Gson}
+	 */
+	public static Gson createNND() {
+		return new GsonBuilder()
+				.excludeFieldsWithoutExposeAnnotation()
+				.registerTypeHierarchyAdapter(NeuralNetwork.class, new NNDeserializer())
+				.setPrettyPrinting()
+				.create();
+	}
 	
 }

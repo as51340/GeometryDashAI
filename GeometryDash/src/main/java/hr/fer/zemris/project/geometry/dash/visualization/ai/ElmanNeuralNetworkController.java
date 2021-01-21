@@ -61,7 +61,7 @@ public class ElmanNeuralNetworkController extends AIControllers {
 
 		String levelName = levelBox.getValue();
 
-		algorithm = new AIAlgorithm(1, numberPerHiddenLayer, PlayingMode.NEURAL_NETWORK);
+		algorithm = new AIAlgorithm(1, numberPerHiddenLayer, PlayingMode.ELMAN_NEURAL_NETWORK);
 
 		// postavi AI training mode
 		// GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
