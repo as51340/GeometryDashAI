@@ -43,7 +43,7 @@ public class PlayerDeathSceneController extends MenuController {
 	@FXML
 	private void retryAction(ActionEvent event) {
 		
-		GameEngine.getInstance().getUserListener().userStartedPlaying();
+		//GameEngine.getInstance().getUserListener().userStartedPlaying();
     	rootPane.translateYProperty().set(0);
     	
         KeyValue keyValueReverse = new KeyValue(
@@ -116,12 +116,12 @@ public class PlayerDeathSceneController extends MenuController {
 		stage.setScene(scene);
 	}
 	
-	public void showInformation(String levelName, String attempt, short percentage, String totalJumps, double time) {
+	public void showInformation(String levelName, String attempt, double percentage, String totalJumps, double time) {
 		int minutes = ((int)time) / 60_000;
 		int seconds = (((int)time) % 60_000)/1000;
 		this.levelName.setText(levelName);
 		this.attempt.setText("Attempt " + attempt);
-		this.progressBar.setProgress(0.5);
+		this.progressBar.setProgress(percentage);
 		this.totalJumps.setText(totalJumps);	
 		this.time.setText(String.format("%02d:%02d", minutes, seconds));
 	}

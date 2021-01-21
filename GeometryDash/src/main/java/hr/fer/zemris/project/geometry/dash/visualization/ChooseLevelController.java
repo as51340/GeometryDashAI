@@ -33,6 +33,8 @@ import javafx.scene.shape.Rectangle;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Label;
 
 
 public class ChooseLevelController extends MainOptionsController {
@@ -77,6 +79,12 @@ public class ChooseLevelController extends MainOptionsController {
     @FXML
     private StackPane rootPane;
     
+    @FXML
+    private ProgressBar progressBar;
+    
+    @FXML
+    private Label percentage;
+    
     private AIGameSceneListener list = new AIGameSceneListenerImpl();
 
     @FXML
@@ -87,6 +95,8 @@ public class ChooseLevelController extends MainOptionsController {
         chooseLevelBackground.setFill(colors.get(0));
         floorOverlay.setFill(colors.get(0));
         levelName.setText(levels.get(0).getLevelName());
+        progressBar.setProgress(levels.get(0).getLevelPercentagePassNormalMode());
+        percentage.setText(String.format("%d", (int)(progressBar.getProgress()*100)) + "%");
 
         pagination = new ArrayList<>();
         for (int i = 0, size = levels.size(); i < size; i++) {
@@ -108,6 +118,8 @@ public class ChooseLevelController extends MainOptionsController {
         pagination.get(levelIndex).setFill(Color.GRAY);
         levelIndex = (levelIndex + 1) % levels.size();
         levelName.setText(levels.get(levelIndex).getLevelName());
+        progressBar.setProgress(levels.get(levelIndex).getLevelPercentagePassNormalMode());
+        percentage.setText(String.format("%d", (int)(progressBar.getProgress()*100)) + "%");
         pagination.get(levelIndex).setFill(Color.WHITE);
     }
 
@@ -125,6 +137,8 @@ public class ChooseLevelController extends MainOptionsController {
         }
         levelName.setText(levels.get(levelIndex).getLevelName());
         pagination.get(levelIndex).setFill(Color.WHITE);
+        progressBar.setProgress(levels.get(levelIndex).getLevelPercentagePassNormalMode());
+        percentage.setText(String.format("%d", (int)(progressBar.getProgress()*100)) + "%");
     }
 
     @FXML

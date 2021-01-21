@@ -1,0 +1,118 @@
+{
+  "account": {
+    "username": "mskrabic",
+    "password": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
+    "firstName": "matej",
+    "lastName": "skrabic"
+  },
+  "stats": {
+    "totalJumps": 33,
+    "totalAttempts": 9,
+    "collectedStars": 0,
+    "completedLevels": 0,
+    "userCoins": 0,
+    "likedLevels": 0,
+    "dislikedLevels": 0,
+    "ratedLevels": 0
+  },
+  "selector": {
+    "selectedCharacter": {
+      "uri": "player.png",
+      "locked": true
+    },
+    "allCharacters": [
+      {
+        "uri": "geom-dash-130-coins-icon.jpg",
+        "locked": false
+      },
+      {
+        "uri": "geom-dash-3000-stars-icon.jpg",
+        "locked": false
+      },
+      {
+        "uri": "geom-dash-9000-coins-icon.jpg",
+        "locked": false
+      },
+      {
+        "uri": "geom-dash-angry-icon.png",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-blue-green-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-catch-them-all-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-cod3breaker-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-crying-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-cube-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-demons-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-graphic-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-orange-icon.png",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-sad-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-shuriken-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-shy-guy-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-special-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-very-angry-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-yellow-icon.png",
+        "locked": true
+      },
+      {
+        "uri": "geom-dash-gatekeeper-query-icon.jpg",
+        "locked": true
+      },
+      {
+        "uri": "one.png",
+        "locked": true
+      },
+      {
+        "uri": "two.png",
+        "locked": true
+      },
+      {
+        "uri": "three.png",
+        "locked": true
+      },
+      {
+        "uri": "player.png",
+        "locked": true
+      }
+    ]
+  }
+}

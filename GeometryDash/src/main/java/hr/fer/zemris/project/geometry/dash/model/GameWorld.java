@@ -26,6 +26,7 @@ import hr.fer.zemris.project.geometry.dash.model.listeners.GameWorldListener;
 import hr.fer.zemris.project.geometry.dash.model.listeners.PlayerListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
+import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.level.LevelManager;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.character.CharactersSelector;
@@ -347,6 +348,7 @@ public class GameWorld {
 //		this.levelObjects = fromLevel;
 //		this.levelObjects = new TreeSet<GameObject>(AIConstants.obstaclesLevelComparator);
 		this.levelObjects.addAll(fromLevelObjects);
+		Collections.sort(levelObjects, AIConstants.obstaclesLevelComparator);
 		lastPosition = levelObjects.get(levelObjects.size() - 1).getInitialPosition().getX();
 		GameEngine.getInstance().getLevelManager().startLevelWithName(levelName);
 		floor = new Floor(new Vector2D(0, GameConstants.floorPosition_Y + GameConstants.levelToWorldOffset));
@@ -360,7 +362,6 @@ public class GameWorld {
 //			levelObjects.add(p);
 //		}
 
-		Collections.sort(levelObjects, AIConstants.obstaclesLevelComparator);
 //		for(GameObject go: this.levelObjects) {
 //			System.out.println(go.getClass() + " " + go.getCurrentPosition().getX() + " " + go.getCurrentPosition().getY());
 //		}
@@ -434,7 +435,7 @@ public class GameWorld {
 					algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
 					double output = algorithm.getPlayerNeuralNetworkMap().get(p).getOutput().calculateOutput();
 //					System.out.println(output);
-					if (output >= 0)
+					if (output >= 0.5)
 						p.jump();
 				} 
 			}
@@ -547,6 +548,11 @@ public class GameWorld {
 				if (!player.isDead() && obstacle.checkCollisions(player)) {
 					deaths++;
 					double value = gameObject.initialPosition.getX() - player.getCurrentPosition().getX();
+					double percentage = gameObject.initialPosition.getX()/lastPosition;
+					Level level = GameEngine.getInstance().getLevelManager().getCurrentLevel();
+					level.setCurrentLevelPercentagePassNormalMode(percentage);
+					if (percentage > level.getLevelPercentagePassNormalMode())
+						level.setLevelPercentagePassNormalMode(percentage);
 					player.setGoodness_value(value);
 					player.setDead(true);
 				}
@@ -586,7 +592,10 @@ public class GameWorld {
 //					System.out.println("Number of deaths = " + finished_deaths);
 					if (levelPassed) {
 						levelPassed = false;
-						openScene("Level " + GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelName()
+						Level level = GameEngine.getInstance().getLevelManager().getCurrentLevel();
+						level.setCurrentLevelPercentagePassNormalMode(1);
+						level.setLevelPercentagePassNormalMode(1);
+						openScene("Level " + level.getLevelName()
 								+ " successfully finished!", time);
 					} else {
 						throw new IllegalStateException(
@@ -629,7 +638,7 @@ public class GameWorld {
 
 			controller.showInformation(message,
 					Long.toString(GameEngine.getInstance().getLevelManager().getCurrentLevel().getTotalAttempts()),
-					GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelPercentagePassNormalMode(),
+					GameEngine.getInstance().getLevelManager().getCurrentLevel().getCurrentLevelPercentagePassNormalMode(),
 					Long.toString(GameEngine.getInstance().getLevelManager().getCurrentLevel().getTotalJumps()), time);
 		}
 	}

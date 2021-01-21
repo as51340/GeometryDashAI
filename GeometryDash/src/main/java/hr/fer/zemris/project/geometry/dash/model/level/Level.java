@@ -33,14 +33,24 @@ public class Level {
 	private long totalJumps;
 	
 	/**
+	 * Current percentage pass when playing normal mode
+	 */
+	private double currentLevelPercentagePassNormalMode;
+	
+	/**
+	 * Current percentage pass when playing practice mode
+	 */
+	private double currentLevelPercentagePassPracticeMode;
+	
+	/**
 	 * Percentage pass when playing normal mode
 	 */
-	private short levelPercentagePassNormalMode;
+	private double levelPercentagePassNormalMode;
 	
 	/**
 	 * Percentage pass when playing practice mode
 	 */
-	private short levelPercentagePassPracticeMode;
+	private double levelPercentagePassPracticeMode;
 	
 	/**
 	 * Level's data
@@ -96,7 +106,7 @@ public class Level {
 	/**
 	 * @return the levelPercentagePassNormalMode
 	 */
-	public short getLevelPercentagePassNormalMode() {
+	public double getLevelPercentagePassNormalMode() {
 		return levelPercentagePassNormalMode;
 	}
 
@@ -110,7 +120,7 @@ public class Level {
 	/**
 	 * @return the levelPercentagePassPracticeMode
 	 */
-	public short getLevelPercentagePassPracticeMode() {
+	public double getLevelPercentagePassPracticeMode() {
 		return levelPercentagePassPracticeMode;
 	}
 
@@ -119,6 +129,34 @@ public class Level {
 	 */
 	public void setLevelPercentagePassPracticeMode() {
 		this.levelPercentagePassPracticeMode++;
+	}
+	
+	/**
+	 * @return the levelPercentagePassNormalMode
+	 */
+	public double getCurrentLevelPercentagePassNormalMode() {
+		return currentLevelPercentagePassNormalMode;
+	}
+
+	/**
+	 * @return the levelPercentagePassPracticeMode
+	 */
+	public double getCurrentLevelPercentagePassPracticeMode() {
+		return currentLevelPercentagePassPracticeMode;
+	}
+	
+	/**
+	 * @param currentLevelPercentagePassNormalMode the currentLevelPercentagePassNormalMode to set
+	 */
+	public void setCurrentLevelPercentagePassNormalMode(double currentLevelPercentagePassNormalMode) {
+		this.currentLevelPercentagePassNormalMode = currentLevelPercentagePassNormalMode;
+	}
+
+	/**
+	 * @param currentLevelPercentagePassPracticeMode the currentLevelPercentagePassPracticeMode to set
+	 */
+	public void setCurrentLevelPercentagePassPracticeMode(double currentLevelPercentagePassPracticeMode) {
+		this.currentLevelPercentagePassPracticeMode = currentLevelPercentagePassPracticeMode;
 	}
 
 	/**
@@ -159,14 +197,14 @@ public class Level {
 	/**
 	 * @param levelPercentagePassNormalMode the levelPercentagePassNormalMode to set
 	 */
-	public void setLevelPercentagePassNormalMode(short levelPercentagePassNormalMode) {
+	public void setLevelPercentagePassNormalMode(double levelPercentagePassNormalMode) {
 		this.levelPercentagePassNormalMode = levelPercentagePassNormalMode;
 	}
 
 	/**
 	 * @param levelPercentagePassPracticeMode the levelPercentagePassPracticeMode to set
 	 */
-	public void setLevelPercentagePassPracticeMode(short levelPercentagePassPracticeMode) {
+	public void setLevelPercentagePassPracticeMode(double levelPercentagePassPracticeMode) {
 		this.levelPercentagePassPracticeMode = levelPercentagePassPracticeMode;
 	}
 	
