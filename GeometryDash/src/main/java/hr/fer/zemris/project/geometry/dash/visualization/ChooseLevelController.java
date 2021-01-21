@@ -186,6 +186,7 @@ public class ChooseLevelController extends MainOptionsController {
 //                	System.out.println("Stisnuta tipka W"); shuld wor
                     for (Player p : GameEngine.getInstance().getGameWorld().getPlayers()) {
                         p.jump();
+                        GameEngine.getInstance().getLevelManager().getCurrentLevel().setTotalJumps();
                     }
                     gameEngine.getUserListener().playerJumped();
                 }
