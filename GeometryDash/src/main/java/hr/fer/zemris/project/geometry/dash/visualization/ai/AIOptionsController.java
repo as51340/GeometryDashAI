@@ -6,6 +6,7 @@ import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.visualization.TreeVisualizationController;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
+import hr.fer.zemris.project.geometry.dash.visualization.BackgroundSceneController;
 import hr.fer.zemris.project.geometry.dash.visualization.CharacterSelectController;
 import hr.fer.zemris.project.geometry.dash.visualization.ChooseLevelController;
 import hr.fer.zemris.project.geometry.dash.visualization.MainOptionsController;
@@ -41,6 +42,9 @@ public class AIOptionsController extends MenuController{
 
     @FXML
     private Button geneticProgrammingButton;
+
+    @FXML
+    private Button menuButton;
     
     @FXML
     void artificalNeuralNetworkGeneticAlgClicked(MouseEvent event) throws IOException {
@@ -91,5 +95,22 @@ public class AIOptionsController extends MenuController{
     	*/
     }
 
+    @FXML
+    void mainMenuAction(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage) (menuButton.getScene().getWindow());
+        Scene scene = GeometryDash.createScaledScene(root, stage);
+
+        BackgroundSceneController controller = loader.getController();
+        controller.init();
+
+        stage.setScene(scene);
+    }
+
+    public void setMenuButtonVisible(boolean visible) {
+        menuButton.setVisible(visible);
+    }
 
 }

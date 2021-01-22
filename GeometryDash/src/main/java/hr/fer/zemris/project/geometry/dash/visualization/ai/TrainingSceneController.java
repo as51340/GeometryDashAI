@@ -143,6 +143,7 @@ public class TrainingSceneController extends MenuController {
 		loader.load();
 		AIOptionsController controller = loader.getController();
 		controller.setPreviousSceneRoot(rootPane);
+		controller.setMenuButtonVisible(true);
 	}
 
 	@FXML
