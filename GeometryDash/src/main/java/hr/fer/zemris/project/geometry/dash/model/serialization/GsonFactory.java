@@ -70,7 +70,7 @@ public class GsonFactory {
 	}
 
 	/**
-	 * Creates {@linkplain Gson} for saving neural network to file
+	 * Creates {@linkplain Gson} for deserializing neural network to file
 	 * @return created {@linkplain Gson}
 	 */
 	public static Gson createNND() {

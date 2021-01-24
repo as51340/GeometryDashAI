@@ -7,12 +7,17 @@ import java.util.concurrent.TimeUnit;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.ai.AIGameSceneListenerImpl;
+import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok.AIAlgorithm;
+import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.Tree;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
+import hr.fer.zemris.project.geometry.dash.model.io.FileIO;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.listeners.AIGameSceneListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
+import hr.fer.zemris.project.geometry.dash.model.serialization.GsonFactory;
+import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfObjects;
 import hr.fer.zemris.project.geometry.dash.model.serialization.TreeDeserializer;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Options;
@@ -22,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -191,17 +197,7 @@ public class ChooseLevelController extends MainOptionsController {
                     gameEngine.getUserListener().playerJumped();
                 }
             });
-        } else {
-            System.out.println("Moram ucitati automatskog igraca iz datoteke");
         }
-
-        GameSceneController controller = loader.getController();
-//		controller.setPreviousSceneRoot(rootPane);
-        controller.init(PlayingMode.HUMAN);
-
-//		Thread.sleep(500);
-        stage.setScene(scene);
-
 
         if (playingMode == PlayingMode.HUMAN) {
             gameEngine.getGameStateListener().normalModePlayingStarted();
@@ -214,15 +210,20 @@ public class ChooseLevelController extends MainOptionsController {
             //TODO remove this when deserialization is implemented
             AIAlgorithm algorithm = new AIAlgorithm(3, 3, options.getAIMode());
 
+            NeuralNetwork nn = null;
+            Tree tree;
             switch (options.getAIMode()){
                 case NEURAL_NETWORK ->{
-                    //TODO deserialize Neural Network
+                    SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createNND());
+                    nn = ser.deserializeNN(FileIO.readFromJsonFile(GameConstants.pathToGenFolder + "/" + askUserForFileName(PlayingMode.NEURAL_NETWORK) + ".json"));
                 }
                 case GENETIC_PROGRAMMING -> {
-                    
+                    tree = TreeDeserializer.deserialize(FileIO.readFromJsonFile(GameConstants.pathToGPFolder + "/" + askUserForFileName(PlayingMode.GENETIC_PROGRAMMING) + ".json"));
+                    //todo
                 }
                 case ELMAN_NEURAL_NETWORK -> {
-                    //TODO deserialize Elman Neural Network
+                    SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createNND());
+                    nn = ser.deserializeNN(FileIO.readFromJsonFile(GameConstants.pathToElmanFolder + "/" + askUserForFileName(PlayingMode.ELMAN_NEURAL_NETWORK) + ".json"));
                 }
             }
 
@@ -231,7 +232,7 @@ public class ChooseLevelController extends MainOptionsController {
             gameEngine.getGameWorld().setLockObject(lockObject);
 
             gameEngine.getGameWorld().addPlayer(player);
-            algorithm.getPlayerNeuralNetworkMap().put(player, null);
+            algorithm.getPlayerNeuralNetworkMap().put(player, nn);
 
             gameEngine.getGameStateListener().AIPlayingModeStarted();
             gameEngine.getGameWorld().setAlgorithm(algorithm);
@@ -250,6 +251,27 @@ public class ChooseLevelController extends MainOptionsController {
 
         }
 
+
+        GameSceneController controller = loader.getController();
+//		controller.setPreviousSceneRoot(rootPane);
+        controller.init(playingMode);
+
+//		Thread.sleep(500);
+        stage.setScene(scene);
+
+
+    }
+
+    private String askUserForFileName(PlayingMode mode) {
+        TextInputDialog dialog = new TextInputDialog("Enter AI name");
+        dialog.setTitle("AI loader");
+        dialog.setHeaderText("Please enter name for your trained AI player(" + mode + ")");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            return result.get();
+        } else {
+            return null;
+        }
     }
 
 }

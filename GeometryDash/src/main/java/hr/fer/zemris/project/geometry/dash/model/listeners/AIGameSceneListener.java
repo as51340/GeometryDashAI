@@ -42,11 +42,11 @@ public interface AIGameSceneListener {
 	/**
 	 * Load elman neural network
 	 */
-	void loadElman();
+	NeuralNetwork loadElman();
 	
 	/**
 	 * Load genetic neural network
 	 */
-	void loadGen();
+	NeuralNetwork loadGen();
 	
 }

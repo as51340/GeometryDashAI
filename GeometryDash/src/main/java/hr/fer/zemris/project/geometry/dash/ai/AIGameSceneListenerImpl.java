@@ -52,15 +52,15 @@ public class AIGameSceneListenerImpl implements AIGameSceneListener{
 	}
 
 	@Override
-	public void loadElman() {
-		// TODO Auto-generated method stub
-		
+	public NeuralNetwork loadElman() {
+		SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createNND());
+		return ser.deserializeNN(FileIO.readFromJsonFile(GameConstants.pathToGenFolder + "/" + askUserForFileName() + ".json"));
 	}
 
 	@Override
-	public void loadGen() {
-		// TODO Auto-generated method stub
-		
+	public NeuralNetwork loadGen() {
+		SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createNND());
+		return ser.deserializeNN(FileIO.readFromJsonFile(GameConstants.pathToGenFolder + "/" + askUserForFileName() + ".json"));
 	}
 	
 	private String askUserForFileName() {
@@ -103,7 +103,6 @@ public class AIGameSceneListenerImpl implements AIGameSceneListener{
 			json = ser.serialize(nn);
 
 			NeuralNetwork loadedNN = new SerializationOfObjects(GsonFactory.createNND()).deserializeNN(json);
-
 		}
 
 		FileIO.createJsonFile(path + "/" + filename + ".json", json);

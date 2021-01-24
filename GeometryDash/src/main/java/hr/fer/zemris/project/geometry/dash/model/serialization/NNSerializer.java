@@ -5,6 +5,7 @@ import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
 import hr.fer.zemris.project.geometry.dash.ai.ElmanNeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.GeneticNeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
+import hr.fer.zemris.project.geometry.dash.ai.neurons.InputNeuron;
 import hr.fer.zemris.project.geometry.dash.ai.neurons.Neuron;
 
 import java.lang.reflect.Type;
@@ -14,11 +15,14 @@ public class NNSerializer implements JsonSerializer<NeuralNetwork> {
     @Override
     public JsonElement serialize(NeuralNetwork src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject nnJson = new JsonObject();
-        nnJson.add("output", getJsonNeuronBasedOnPrevNeuron(src.getOutput(), false));
+        nnJson.add("output", getJsonNeuronBasedOnPrevNeuron(src.getOutput(), true));
 
         JsonArray inputLayer = new JsonArray();
         for(Neuron n : src.getInputLayer()) {
-            inputLayer.add(getJsonNeuronBasedOnPrevNeuron(n, false));
+            JsonObject input = getJsonNeuronBasedOnPrevNeuron(n, false).getAsJsonObject();
+            input.addProperty("input", ((InputNeuron) n).getInput() );
+            input.addProperty("inputWeight", ((InputNeuron) n).getInputWeight() );
+            inputLayer.add(input);
         }
         nnJson.add("inputLayer", inputLayer);
 
@@ -56,6 +60,7 @@ public class NNSerializer implements JsonSerializer<NeuralNetwork> {
         JsonObject outputNeuron = new JsonObject();
         outputNeuron.addProperty("output", neuron.getOutput());
         outputNeuron.addProperty("bias", neuron.getBias());
+        outputNeuron.addProperty("id", neuron.getId());
 
         if(prevNeurons) {
             JsonArray previous = new JsonArray();

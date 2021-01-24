@@ -141,6 +141,7 @@ public class ArtificialNeuralNetworkController extends AIControllers {
 
 	@Override
 	void stopTrainNetwork(ActionEvent event) {
+
 	}; // zasada ovako
 
 }
