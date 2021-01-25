@@ -222,8 +222,8 @@ public class ChooseLevelController extends MainOptionsController {
                     //todo
                 }
                 case ELMAN_NEURAL_NETWORK -> {
-                    SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createNND());
-                    nn = ser.deserializeNN(FileIO.readFromJsonFile(GameConstants.pathToElmanFolder + "/" + askUserForFileName(PlayingMode.ELMAN_NEURAL_NETWORK) + ".json"));
+                    SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createENND());
+                    nn = ser.deserializeENN(FileIO.readFromJsonFile(GameConstants.pathToElmanFolder + "/" + askUserForFileName(PlayingMode.ELMAN_NEURAL_NETWORK) + ".json"));
                 }
             }
 
