@@ -85,7 +85,7 @@ public class AIConstants {
 	
 	public static final Comparator<Player> playerComparator = compareByPosition.thenComparing(Player::getId);
 	
-	public static final int obstForAI = 6;
+	public static final int obstForAI = 10;
 	 
 
 
