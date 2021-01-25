@@ -432,7 +432,7 @@ public class GameWorld {
 				gpAlgorithm.getPopulation().get(p).changeInputs(obst, p);
 				double output = TreeUtil.calculateOutput(gpAlgorithm.getPopulation().get(p));
 				System.out.println(output);
-				if (output >= 0.8) {
+				if (output >= 0.9) {
 					p.jump();
 				}
 			}
@@ -443,7 +443,7 @@ public class GameWorld {
 			Tree t = gpPlayer.getAiObject();
 			t.changeInputs(obst, p);
 			double output = TreeUtil.calculateOutput(t);
-			if (output >= 0.8) {
+			if (output >= 0.9) {
 				p.jump();
 			}
 		} else if (algorithm != null) {

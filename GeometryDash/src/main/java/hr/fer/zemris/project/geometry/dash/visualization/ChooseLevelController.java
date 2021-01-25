@@ -2,18 +2,20 @@ package hr.fer.zemris.project.geometry.dash.visualization;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.ai.AIGameSceneListenerImpl;
 import hr.fer.zemris.project.geometry.dash.ai.AiPair;
 import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
-import hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok.AIAlgorithm;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.Tree;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
+import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import hr.fer.zemris.project.geometry.dash.model.io.FileIO;
 import hr.fer.zemris.project.geometry.dash.model.level.Level;
 import hr.fer.zemris.project.geometry.dash.model.listeners.AIGameSceneListener;
@@ -23,26 +25,23 @@ import hr.fer.zemris.project.geometry.dash.model.serialization.SerializationOfOb
 import hr.fer.zemris.project.geometry.dash.model.serialization.TreeDeserializer;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.model.settings.Options;
-import hr.fer.zemris.project.geometry.dash.threads.DaemonicThreadFactory;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 
 
 public class ChooseLevelController extends MainOptionsController {
@@ -275,7 +274,6 @@ public class ChooseLevelController extends MainOptionsController {
                 }
             }
         }
-
         return result.get();
 
     }
