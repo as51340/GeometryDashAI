@@ -6,8 +6,8 @@
     "lastName": "skrgat"
   },
   "stats": {
-    "totalJumps": 0,
-    "totalAttempts": 0,
+    "totalJumps": 40,
+    "totalAttempts": 3,
     "collectedStars": 0,
     "completedLevels": 0,
     "userCoins": 0,

@@ -41,7 +41,7 @@ public class BackgroundMusicPlayer{
 	 * Initializes all media players
 	 */
 	public BackgroundMusicPlayer() {
-		System.out.println("Stvoren novi background music player");
+		//System.out.println("Stvoren novi background music player");
 		mediaPlayers = new ArrayList<MediaPlayer>();
 		musicSettings = MusicSettings.getInstance();
 		loadBackgroundMusicPlayers();
