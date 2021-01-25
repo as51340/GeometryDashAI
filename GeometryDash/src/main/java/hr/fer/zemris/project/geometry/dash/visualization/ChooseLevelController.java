@@ -1,5 +1,6 @@
 package hr.fer.zemris.project.geometry.dash.visualization;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -28,7 +29,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -40,8 +41,8 @@ import javafx.scene.shape.Rectangle;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.Label;
+
+import javax.swing.*;
 
 
 public class ChooseLevelController extends MainOptionsController {
@@ -236,12 +237,47 @@ public class ChooseLevelController extends MainOptionsController {
         TextInputDialog dialog = new TextInputDialog("Enter AI name");
         dialog.setTitle("AI loader");
         dialog.setHeaderText("Please enter name for your trained AI player(" + mode + ")");
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            return result.get();
-        } else {
-            return null;
+
+        Optional<String> result;
+        while (true) {
+            result = dialog.showAndWait();
+            if (result.isPresent()) {
+                switch (mode) {
+                    case NEURAL_NETWORK:
+                        if (!(new File(GameConstants.pathToGenFolder + "/" + result.get() + ".json").exists())) {
+                            new Alert(Alert.AlertType.ERROR, "File doesnt exists!").showAndWait();
+                            continue;
+                        }
+                        break;
+                    case ELMAN_NEURAL_NETWORK:
+                        if (!new File(GameConstants.pathToElmanFolder + "/" + result.get() + ".json").exists()) {
+                            new Alert(Alert.AlertType.ERROR, "File doesnt exists!").showAndWait();
+                            continue;
+                        }
+                        break;
+                    case GENETIC_PROGRAMMING:
+                        if (!new File(GameConstants.pathToGPFolder + "/" + result.get() + ".json").exists()) {
+                            new Alert(Alert.AlertType.ERROR, "File doesnt exists!").showAndWait();
+                            continue;
+                        }
+                        break;
+                }
+
+                break;
+            } else {
+                switch (mode) {
+                    case NEURAL_NETWORK :
+                        return "GEN01";
+                    case ELMAN_NEURAL_NETWORK:
+                        return "ELM01";
+                    case GENETIC_PROGRAMMING :
+                        return "GP1";
+                }
+            }
         }
+
+        return result.get();
+
     }
 
 }
