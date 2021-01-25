@@ -464,8 +464,6 @@ public class GameWorld {
 			double output = nn.getOutput().calculateOutput();
 			if (output >= 0.5)
 				player.jump();
-		} else {
-			throw new IllegalStateException("Unknown AI mode!");
 		}
 		if (renderer.render()) {
 			unlockingCondition = true;
