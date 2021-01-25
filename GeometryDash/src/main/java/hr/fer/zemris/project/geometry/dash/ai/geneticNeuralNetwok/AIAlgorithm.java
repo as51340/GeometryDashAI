@@ -166,7 +166,7 @@ public class AIAlgorithm {
 
 	public void initialize() {
 		for (int i = 0; i < POPULATION_SIZE; i++) {
-			Player player = new Player(new Vector2D(i*5, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
+			Player player = new Player(new Vector2D(i, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
 					new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.NEURAL_NETWORK);
 			NeuralNetwork neuralNetwork = mode == PlayingMode.NEURAL_NETWORK
 					? new GeneticNeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer,

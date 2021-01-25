@@ -1,19 +1,127 @@
 {
   "root": {
     "action": {
-      "actionType": "TAN"
+      "actionType": "COSH"
     },
-    "value": 2.7181320378170337,
+    "value": 1.324323191162338,
     "children": [
       {
         "action": {
-          "actionType": "CTG"
+          "actionType": "COS"
         },
-        "value": -1.923327604921413,
+        "value": 0.7850689595048683,
         "children": [
           {
-            "value": 253.9895390000213,
-            "children": []
+            "action": {
+              "actionType": "SIN"
+            },
+            "value": 0.667988876365739,
+            "children": [
+              {
+                "action": {
+                  "actionType": "TANH"
+                },
+                "value": 0.731502997163434,
+                "children": [
+                  {
+                    "action": {
+                      "actionType": "COS"
+                    },
+                    "value": 0.9319526717689025,
+                    "children": [
+                      {
+                        "action": {
+                          "actionType": "POWER"
+                        },
+                        "value": -0.37103473127517567,
+                        "children": [
+                          {
+                            "action": {
+                              "actionType": "COS"
+                            },
+                            "value": -0.37103473127517567,
+                            "children": [
+                              {
+                                "action": {
+                                  "actionType": "TAN"
+                                },
+                                "value": 4.332265938475001,
+                                "children": [
+                                  {
+                                    "action": {
+                                      "actionType": "ATAN"
+                                    },
+                                    "value": 1.3439434967134767,
+                                    "children": [
+                                      {
+                                        "action": {
+                                          "actionType": "TAN"
+                                        },
+                                        "value": 4.332265938475002,
+                                        "children": [
+                                          {
+                                            "value": -39.496760999953835,
+                                            "children": []
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "action": {
+                              "actionType": "DIVIDE"
+                            },
+                            "value": 0.24797974825757993,
+                            "children": [
+                              {
+                                "action": {
+                                  "actionType": "SQRT"
+                                },
+                                "value": 1.364691821832913,
+                                "children": [
+                                  {
+                                    "action": {
+                                      "actionType": "CTG"
+                                    },
+                                    "value": 1.8623837685776352,
+                                    "children": [
+                                      {
+                                        "action": {
+                                          "actionType": "PLUS"
+                                        },
+                                        "value": 107.3069161599999,
+                                        "children": [
+                                          {
+                                            "value": 106.3069161599999,
+                                            "children": []
+                                          },
+                                          {
+                                            "value": 1.0,
+                                            "children": []
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "value": 5.503239000046847,
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         ]
       }

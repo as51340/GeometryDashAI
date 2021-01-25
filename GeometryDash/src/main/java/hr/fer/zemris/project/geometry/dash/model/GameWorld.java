@@ -423,7 +423,7 @@ public class GameWorld {
 		}
 
 		if (gpAlgorithm != null) { // training mode is, genetic programming mode
-			//System.out.println("GP training");
+			// System.out.println("GP training");
 			for (Player p : closestObjects.keySet()) {
 				List<Obstacle> obst = closestObjects.get(p);
 				if (gpAlgorithm.getPopulation().get(p) == null) {
@@ -431,13 +431,13 @@ public class GameWorld {
 				}
 				gpAlgorithm.getPopulation().get(p).changeInputs(obst, p);
 				double output = TreeUtil.calculateOutput(gpAlgorithm.getPopulation().get(p));
-				// System.out.println(output);
+				System.out.println(output);
 				if (output >= 0.8) {
 					p.jump();
 				}
 			}
-		} else if (gpPlayer != null) { //gp playing mode
-			//System.out.println("GP playing");
+		} else if (gpPlayer != null) { // gp playing mode
+			// System.out.println("GP playing");
 			Player p = gpPlayer.getPlayer();
 			List<Obstacle> obst = closestObjects.get(p);
 			Tree t = gpPlayer.getAiObject();
@@ -447,7 +447,7 @@ public class GameWorld {
 				p.jump();
 			}
 		} else if (algorithm != null) {
-			//System.out.println("AI training");//ai training mode
+			// System.out.println("AI training");//ai training mode
 			for (Player p : closestObjects.keySet()) {
 				List<Obstacle> obst = closestObjects.get(p);
 				algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
@@ -456,12 +456,13 @@ public class GameWorld {
 					p.jump();
 			}
 		} else if (aiPlayer != null) { // ai playing mode
-			System.out.println("AI playing");
+//			System.out.println("AI playing");
 			Player player = aiPlayer.getPlayer();
 			NeuralNetwork nn = aiPlayer.getAiObject();
 			List<Obstacle> obst = closestObjects.get(player);
 			nn.inputObstacles(obst, player);
 			double output = nn.getOutput().calculateOutput();
+			System.out.println(output);
 			if (output >= 0.5)
 				player.jump();
 		}
@@ -606,11 +607,11 @@ public class GameWorld {
 			if (GameEngine.getInstance().getGameState() == GameState.NORMAL_MODE_PLAYING
 					|| GameEngine.getInstance().getGameState() == GameState.AI_PLAYING_MODE) {
 				if (finished_deaths == players.size()) { // ako su svi mrtvi
-					if (GameEngine.getInstance().getSettings().getOptions().isAutoRetry()) {
-						GameEngine.getInstance().start();
-					} else {
-						openScene(GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelName(), time);
-					}
+//					if (GameEngine.getInstance().getSettings().getOptions().isAutoRetry()) {
+//						GameEngine.getInstance().start();
+//					} else {
+					openScene(GameEngine.getInstance().getLevelManager().getCurrentLevel().getLevelName(), time);
+//					}
 				} else {
 //					System.out.println("Number of deaths = " + finished_deaths);
 					if (levelPassed) {

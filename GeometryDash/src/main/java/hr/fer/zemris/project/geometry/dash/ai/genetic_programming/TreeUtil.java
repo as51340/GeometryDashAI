@@ -426,7 +426,9 @@ public class TreeUtil {
 			}
 			double x = dfsOnTree(root.getChildren().get(0), level + 1);
 //			root.setValue(AIConstants.activationFunction.applyAsDouble(root.getAction().calculateUnary(x)));
-			root.setValue(root.getAction().calculateUnary(x));
+			double val = root.getAction().calculateUnary(x);
+			if(Double.isNaN(val)) val = 0;
+			root.setValue(val);
 		} else if (root.getAction().isBinary()) {
 			if (root.getChildren().size() != 2) {
 				System.out.println("Imamo problem, velicina nije 2, binary!");
@@ -434,7 +436,9 @@ public class TreeUtil {
 			double x = dfsOnTree(root.getChildren().get(0), level + 1);
 			double y = dfsOnTree(root.getChildren().get(1), level + 1);
 //			root.setValue(AIConstants.activationFunction.applyAsDouble(root.getAction().calculateBinary(x, y)));
-			root.setValue(root.getAction().calculateBinary(x, y));
+			double val = root.getAction().calculateBinary(x, y);
+			if(Double.isNaN(val)) val = 0;
+			root.setValue(val);
 		} else if (root.getAction().isRelational()) {
 			if (root.getChildren().size() != 2) {
 				System.out.println("Imamo problem, velicina nije 2, relational!");
