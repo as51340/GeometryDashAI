@@ -4,7 +4,8 @@ import com.google.gson.*;
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
 import hr.fer.zemris.project.geometry.dash.ai.ElmanNeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.GeneticNeuralNetwork;
-import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
+import hr.fer.zemris.project.geometry.dash.ai.neurons.ContextNeuron;
+import hr.fer.zemris.project.geometry.dash.ai.neurons.ElmanHiddenNeuron;
 import hr.fer.zemris.project.geometry.dash.ai.neurons.InputNeuron;
 import hr.fer.zemris.project.geometry.dash.ai.neurons.Neuron;
 
@@ -13,10 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
 
-public class NNDeserializer implements JsonDeserializer<GeneticNeuralNetwork> {
-
+public class ENNDeserializer implements JsonDeserializer<ElmanNeuralNetwork> {
     @Override
-    public GeneticNeuralNetwork deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public ElmanNeuralNetwork deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject root = json.getAsJsonObject();
 
         DoubleUnaryOperator activation;
@@ -51,11 +51,15 @@ public class NNDeserializer implements JsonDeserializer<GeneticNeuralNetwork> {
             List<Neuron> hiddenLayer = new ArrayList<>();
             for (int j = 0; j < hiddenLayerJson.size(); j++) {
                 JsonObject hiddenLayerNeuron = hiddenLayerJson.get(j).getAsJsonObject();
-                Neuron neuron = new Neuron(
+                ContextNeuron contextNeuron = new ContextNeuron(hiddenLayerNeuron.get("contextId").getAsInt());
+                ElmanHiddenNeuron neuron = new ElmanHiddenNeuron(
                         hiddenLayerNeuron.get("bias").getAsDouble(),
                         hiddenLayerNeuron.get("output").getAsDouble(),
-                        hiddenLayerNeuron.get("id").getAsInt()
+                        hiddenLayerNeuron.get("id").getAsInt(),
+                        contextNeuron,
+                        hiddenLayerNeuron.get("contextWeight").getAsDouble()
                 );
+                contextNeuron.addConnectionFromOtherToThis(neuron);
                 hiddenLayer.add(neuron);
                 JsonArray previousNeuronsJson = hiddenLayerNeuron.getAsJsonArray("prevNeurons");
                 for (int k = 0; k < previousNeuronsJson.size(); k++) {
@@ -78,11 +82,18 @@ public class NNDeserializer implements JsonDeserializer<GeneticNeuralNetwork> {
 
 
         JsonObject outputJson = root.getAsJsonObject("output");
-        Neuron output = new Neuron(
+        ContextNeuron contextNeuron = new ContextNeuron(outputJson.get("contextId").getAsInt());
+        ElmanHiddenNeuron output = new ElmanHiddenNeuron(
                 outputJson.get("bias").getAsDouble(),
                 outputJson.get("output").getAsDouble(),
-                outputJson.get("id").getAsInt()
+                outputJson.get("id").getAsInt(),
+                contextNeuron,
+                outputJson.get("contextWeight").getAsDouble()
         );
+        //output.calculateOutput();
+
+        contextNeuron.addConnectionFromOtherToThis(output);
+
         JsonArray previousNeuronsJson = outputJson.getAsJsonArray("prevNeurons");
         for (int k = 0; k < previousNeuronsJson.size(); k++) {
             JsonObject connection = previousNeuronsJson.get(k).getAsJsonObject();
@@ -98,9 +109,8 @@ public class NNDeserializer implements JsonDeserializer<GeneticNeuralNetwork> {
         }
 
 
-        GeneticNeuralNetwork nn;
 
-        nn = new GeneticNeuralNetwork(output, inputLayer, hiddenLayers, activation);
+        ElmanNeuralNetwork nn = new ElmanNeuralNetwork(output, inputLayer, hiddenLayers, activation);
 
 
         return nn;

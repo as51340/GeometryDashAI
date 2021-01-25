@@ -10,6 +10,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
+import hr.fer.zemris.project.geometry.dash.ai.ElmanNeuralNetwork;
+import hr.fer.zemris.project.geometry.dash.ai.GeneticNeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.Session;
@@ -64,7 +66,7 @@ public class GsonFactory {
 	public static Gson createNN() {
 		return new GsonBuilder()
 				.excludeFieldsWithoutExposeAnnotation()
-				.registerTypeHierarchyAdapter(NeuralNetwork.class, new NNSerializer())
+				.registerTypeHierarchyAdapter(GeneticNeuralNetwork.class, new NNSerializer())
 				.setPrettyPrinting()
 				.create();
 	}
@@ -76,9 +78,35 @@ public class GsonFactory {
 	public static Gson createNND() {
 		return new GsonBuilder()
 				.excludeFieldsWithoutExposeAnnotation()
-				.registerTypeHierarchyAdapter(NeuralNetwork.class, new NNDeserializer())
+				.registerTypeHierarchyAdapter(GeneticNeuralNetwork.class, new NNDeserializer())
 				.setPrettyPrinting()
 				.create();
 	}
-	
+
+
+	/**
+	 * Creates {@linkplain Gson} for saving neural network to file
+	 * @return created {@linkplain Gson}
+	 */
+	public static Gson createENN() {
+		return new GsonBuilder()
+				.excludeFieldsWithoutExposeAnnotation()
+				.registerTypeHierarchyAdapter(ElmanNeuralNetwork.class, new ENNSerializer())
+				.setPrettyPrinting()
+				.create();
+	}
+
+	/**
+	 * Creates {@linkplain Gson} for deserializing neural network to file
+	 * @return created {@linkplain Gson}
+	 */
+	public static Gson createENND() {
+		return new GsonBuilder()
+				.excludeFieldsWithoutExposeAnnotation()
+				.registerTypeHierarchyAdapter(ElmanNeuralNetwork.class, new ENNDeserializer())
+				.setPrettyPrinting()
+				.create();
+	}
+
+
 }

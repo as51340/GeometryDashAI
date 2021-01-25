@@ -35,12 +35,12 @@ public class AIGameSceneListenerImpl implements AIGameSceneListener{
 
 
 	@Override
-	public void saveElman(NeuralNetwork nn) {
-		save(nn, GsonFactory.createNN(), GameConstants.pathToElmanFolder);
+	public void saveElman(ElmanNeuralNetwork nn) {
+		save(nn, GsonFactory.createENN(), GameConstants.pathToElmanFolder);
 	}
 
 	@Override
-	public void saveGen(NeuralNetwork nn) {
+	public void saveGen(GeneticNeuralNetwork nn) {
 		save(nn, GsonFactory.createNN(), GameConstants.pathToGenFolder);
 	}
 
@@ -53,8 +53,8 @@ public class AIGameSceneListenerImpl implements AIGameSceneListener{
 
 	@Override
 	public NeuralNetwork loadElman() {
-		SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createNND());
-		return ser.deserializeNN(FileIO.readFromJsonFile(GameConstants.pathToGenFolder + "/" + askUserForFileName() + ".json"));
+		SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createENND());
+		return ser.deserializeNN(FileIO.readFromJsonFile(GameConstants.pathToElmanFolder + "/" + askUserForFileName() + ".json"));
 	}
 
 	@Override
@@ -98,11 +98,23 @@ public class AIGameSceneListenerImpl implements AIGameSceneListener{
 				throw new IllegalStateException("Ser doesn't work good");
 			}
 
-		} else if(objectToSave instanceof NeuralNetwork) {
-			NeuralNetwork nn = (NeuralNetwork) objectToSave;
+		} else if(objectToSave instanceof GeneticNeuralNetwork) {
+			GeneticNeuralNetwork nn = (GeneticNeuralNetwork) objectToSave;
 			json = ser.serialize(nn);
 
-			NeuralNetwork loadedNN = new SerializationOfObjects(GsonFactory.createNND()).deserializeNN(json);
+			GeneticNeuralNetwork loadedNN = new SerializationOfObjects(GsonFactory.createNND()).deserializeNN(json);
+			if(!loadedNN.equals(nn)) {
+				throw new IllegalStateException("Ser doesn't work good");
+			}
+		} else if(objectToSave instanceof ElmanNeuralNetwork) {
+			ElmanNeuralNetwork nn = (ElmanNeuralNetwork) objectToSave;
+			json = ser.serialize(nn);
+
+			ElmanNeuralNetwork loadedNN = new SerializationOfObjects(GsonFactory.createENND()).deserializeENN(json);
+
+			if(!loadedNN.equals(nn)) {
+				throw new IllegalStateException("Ser doesn't work good");
+			}
 		}
 
 		FileIO.createJsonFile(path + "/" + filename + ".json", json);
