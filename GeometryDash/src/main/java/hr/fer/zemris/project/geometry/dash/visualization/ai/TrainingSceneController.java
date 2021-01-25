@@ -95,7 +95,7 @@ public class TrainingSceneController extends MenuController {
 
 	@FXML
 	void continueAction(ActionEvent event) {
-		if (GameEngine.getInstance().getGameWorld().getGpAlgorithm() != null) {
+		if (GameEngine.getInstance().getGameWorld() != null && GameEngine.getInstance().getGameWorld().getGpAlgorithm() != null) {
 			GameEngine.getInstance().getGameWorld().getGpAlgorithm().setPausePressed(false);
 		} else if(GameEngine.getInstance().getGameWorld().getAlgorithm() != null) {
 			GameEngine.getInstance().getGameWorld().getAlgorithm().setPausePressed(false);
@@ -133,7 +133,6 @@ public class TrainingSceneController extends MenuController {
 
 	@FXML
 	void AIOptionsMenu(ActionEvent event) throws IOException {
-		GameEngine.getInstance().getGameStateListener().AITrainingModePlayingExited();
 		openOptionsScene();
 	}
 
@@ -151,7 +150,6 @@ public class TrainingSceneController extends MenuController {
 		if (this.playingMode == PlayingMode.GENETIC_PROGRAMMING) {
 			Tree bestTree = (Tree) objToSave;
 			gameListener.saveGP(bestTree);
-			//openOptionsScene();
 		} else if (this.playingMode == PlayingMode.ELMAN_NEURAL_NETWORK) {
 			ElmanNeuralNetwork neuralNetwork = (ElmanNeuralNetwork) objToSave;
 			gameListener.saveElman(neuralNetwork);

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.visualization.TreeVisualizationController;
+import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.BackgroundSceneController;
@@ -48,6 +49,7 @@ public class AIOptionsController extends MenuController{
     
     @FXML
     void artificalNeuralNetworkGeneticAlgClicked(MouseEvent event) throws IOException {
+    	GameEngine.getInstance().getGameStateListener().AITrainingModePlayingExited();
     	 FXMLLoader loader = new FXMLLoader(
                  getClass().getResource(GameConstants.pathToVisualization + "AI/ArtificialNeuralNetwork.fxml")
          );
@@ -61,6 +63,7 @@ public class AIOptionsController extends MenuController{
 
     @FXML
     void elmanArtificalNeuralNetworkGeneticAlg(MouseEvent event) throws IOException{
+    	GameEngine.getInstance().getGameStateListener().AITrainingModePlayingExited();
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource(GameConstants.pathToVisualization + "AI/ElmanNeuralNetwork.fxml")
         );
@@ -74,6 +77,7 @@ public class AIOptionsController extends MenuController{
 
     @FXML
     void geneticProgrammingClicked(MouseEvent event) throws IOException{
+    	GameEngine.getInstance().getGameStateListener().AITrainingModePlayingExited();
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource(GameConstants.pathToVisualization + "AI/GeneticProgrammingNetwork.fxml")
         );
@@ -97,6 +101,7 @@ public class AIOptionsController extends MenuController{
 
     @FXML
     void mainMenuAction(MouseEvent event) throws IOException {
+    	GameEngine.getInstance().getGameStateListener().AITrainingModePlayingExited();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(GameConstants.pathToVisualization + "BackgroundScene.fxml"));
         Parent root = loader.load();
 
