@@ -88,6 +88,9 @@ public class AIGameSceneListenerImpl implements AIGameSceneListener {
 		String filename;
 		filename = askUserForFileName();
 
+		if(filename == null)
+			return;
+
 		SerializationOfObjects ser = new SerializationOfObjects(gson);
 		String json = null;
 		if (objectToSave instanceof Tree) {
