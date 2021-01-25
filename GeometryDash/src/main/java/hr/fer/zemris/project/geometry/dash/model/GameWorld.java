@@ -17,6 +17,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.sun.scenario.effect.impl.state.LinearConvolveKernel;
 
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
+import hr.fer.zemris.project.geometry.dash.ai.AiPair;
+import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok.AIAlgorithm;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.GeneticFunctionality;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.Tree;
@@ -36,6 +38,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Pair;
 
 /**
  * Manages all current objects on the scene.
@@ -48,6 +51,16 @@ public class GameWorld {
 	 * Reference to the {@linkplain GameWorldListener}
 	 */
 	private final GameWorldListener gameWorldListener;
+
+	/**
+	 * Genetic programming player
+	 */
+	private AiPair<Tree> gpPlayer;
+
+	/**
+	 * Genetic or elman player
+	 */
+	private AiPair<NeuralNetwork> aiPlayer;
 
 	/**
 	 * Graphics context
@@ -94,18 +107,15 @@ public class GameWorld {
 	 */
 	private Set<GameObject> fromLevelObjects;
 
-	// reference to the regular and elman algorithm
+	/**
+	 * reference to the regular and elman algorithm
+	 */
 	private AIAlgorithm algorithm = null;
 
 	/**
 	 * For genetic programming training
 	 */
 	private GeneticFunctionality gpAlgorithm = null;
-
-	/**
-	 * When AI, genetic programming is playing
-	 */
-	private Map.Entry<Player, Tree> gpPlayer;
 
 	/**
 	 * @return the gpAlgorithm
@@ -193,6 +203,34 @@ public class GameWorld {
 	}
 
 	/**
+	 * @return the gpPlayer
+	 */
+	public AiPair<Tree> getGpPlayer() {
+		return gpPlayer;
+	}
+
+	/**
+	 * @param gpPlayer the gpPlayer to set
+	 */
+	public void setGpPlayer(AiPair<Tree> gpPlayer) {
+		this.gpPlayer = gpPlayer;
+	}
+
+	/**
+	 * @return the aiPlayer
+	 */
+	public AiPair<NeuralNetwork> getAiPlayer() {
+		return aiPlayer;
+	}
+
+	/**
+	 * @param aiPlayer the aiPlayer to set
+	 */
+	public void setAiPlayer(AiPair<NeuralNetwork> aiPlayer) {
+		this.aiPlayer = aiPlayer;
+	}
+
+	/**
 	 * @return the graphics
 	 */
 	public GraphicsContext getGraphics() {
@@ -264,23 +302,14 @@ public class GameWorld {
 		}
 		Iterator<Player> itr = players.iterator();
 
-//		System.out.println("Players size before removing " + players.size());
-//		System.out.println("Renderer size before removing " + renderer.getGameObjects().size());
 		while (itr.hasNext()) {
 			Player p = itr.next();
 			renderer.getGameObjects().remove(p);
 			itr.remove();
 		}
-//		System.out.println("Players size after removing " + players.size());
-//		System.out.println("Renderer size after removing " + renderer.getGameObjects().size());
-//		System.out.println("Game objects size after removing" + levelObjects.size());
 		for (Player p : newPlayers) {
 			addPlayer(p);
 		}
-//		System.out.println("Players size after adding " + players.size());
-//		System.out.println("Renderer size after adding " + renderer.getGameObjects().size());
-//		System.out.println("New game objects size " + levelObjects.size());
-//		System.out.println();
 		this.closestObjects.clear();
 	}
 
@@ -378,11 +407,9 @@ public class GameWorld {
 	 * @throws InterruptedException
 	 */
 	public boolean update() throws InterruptedException {
-//		System.out.println("UPDATE");
 		checkCollision2();
 		Player maxPlayer = getMaxPlayer();
 		if (maxPlayer == null) { // on nebi trebao biti nikad null
-//			System.out.println("Svi mrtvi, zbog playera");
 			unlockingCondition = true;
 			return false;
 		}
@@ -391,56 +418,55 @@ public class GameWorld {
 		checkCameraGround_Y();
 
 		if (deaths == players.size()) {
-//			System.out.println("Svi su mrtvi");
 			unlockingCondition = true;
 			return false;
 		}
 
-		if (gpAlgorithm != null) { // training or playing mode is
-			if (GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
-				for (Player p : closestObjects.keySet()) {
-					List<Obstacle> obst = closestObjects.get(p);
-					if (gpAlgorithm.getPopulation().get(p) == null) {
-						System.out.println("Player id " + p.getId()); //debug
-					}
-					gpAlgorithm.getPopulation().get(p).changeInputs(obst, p);
-					double output = TreeUtil.calculateOutput(gpAlgorithm.getPopulation().get(p));
-					System.out.println(output);
-					if (output >= 0.8) {
-						p.jump();
-					}
-				}
-			} else if (GameEngine.getInstance().getGameState() == GameState.AI_PLAYING_MODE) {
-				Player p = gpPlayer.getKey();
+		if (gpAlgorithm != null) { // training mode is, genetic programming mode
+			//System.out.println("GP training");
+			for (Player p : closestObjects.keySet()) {
 				List<Obstacle> obst = closestObjects.get(p);
-				Tree t = gpPlayer.getValue();
-				t.changeInputs(obst, p);
-				double output = TreeUtil.calculateOutput(t);
-				System.out.println(output);
+				if (gpAlgorithm.getPopulation().get(p) == null) {
+					System.out.println("Player id " + p.getId()); // debug
+				}
+				gpAlgorithm.getPopulation().get(p).changeInputs(obst, p);
+				double output = TreeUtil.calculateOutput(gpAlgorithm.getPopulation().get(p));
+				// System.out.println(output);
 				if (output >= 0.8) {
 					p.jump();
 				}
-			} else {
-				throw new IllegalStateException("Unknown state in update for gp!");
 			}
-		}
-		if (GameEngine.getInstance().getGameState() == GameState.AI_PLAYING_MODE
-				|| GameEngine.getInstance().getGameState() == GameState.AI_TRAINING_MODE) {
-
-//			System.out.println(closestObjects.size());
+		} else if (gpPlayer != null) { //gp playing mode
+			//System.out.println("GP playing");
+			Player p = gpPlayer.getPlayer();
+			List<Obstacle> obst = closestObjects.get(p);
+			Tree t = gpPlayer.getAiObject();
+			t.changeInputs(obst, p);
+			double output = TreeUtil.calculateOutput(t);
+			if (output >= 0.8) {
+				p.jump();
+			}
+		} else if (algorithm != null) {
+			//System.out.println("AI training");//ai training mode
 			for (Player p : closestObjects.keySet()) {
-
 				List<Obstacle> obst = closestObjects.get(p);
-				if (algorithm != null) {
-					algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
-					double output = algorithm.getPlayerNeuralNetworkMap().get(p).getOutput().calculateOutput();
-//					System.out.println(output);
-					if (output >= 0.5)
-						p.jump();
-				} 
+				algorithm.getPlayerNeuralNetworkMap().get(p).inputObstacles(obst, p);
+				double output = algorithm.getPlayerNeuralNetworkMap().get(p).getOutput().calculateOutput();
+				if (output >= 0.5)
+					p.jump();
 			}
+		} else if (aiPlayer != null) { // ai playing mode
+			System.out.println("AI playing");
+			Player player = aiPlayer.getPlayer();
+			NeuralNetwork nn = aiPlayer.getAiObject();
+			List<Obstacle> obst = closestObjects.get(player);
+			nn.inputObstacles(obst, player);
+			double output = nn.getOutput().calculateOutput();
+			if (output >= 0.5)
+				player.jump();
+		} else {
+			throw new IllegalStateException("Unknown AI mode!");
 		}
-
 		if (renderer.render()) {
 			unlockingCondition = true;
 			levelPassed = true;
@@ -548,7 +574,7 @@ public class GameWorld {
 				if (!player.isDead() && obstacle.checkCollisions(player)) {
 					deaths++;
 					double value = gameObject.initialPosition.getX() - player.getCurrentPosition().getX();
-					double percentage = gameObject.initialPosition.getX()/lastPosition;
+					double percentage = gameObject.initialPosition.getX() / lastPosition;
 					Level level = GameEngine.getInstance().getLevelManager().getCurrentLevel();
 					level.setCurrentLevelPercentagePassNormalMode(percentage);
 					if (percentage > level.getLevelPercentagePassNormalMode())
@@ -579,7 +605,6 @@ public class GameWorld {
 			int finished_deaths = deaths;
 			GameEngine.getInstance().reset();
 
-			// provjeri da li ce trebat notify za AI_Playing_mode mislim da ne
 			if (GameEngine.getInstance().getGameState() == GameState.NORMAL_MODE_PLAYING
 					|| GameEngine.getInstance().getGameState() == GameState.AI_PLAYING_MODE) {
 				if (finished_deaths == players.size()) { // ako su svi mrtvi
@@ -595,8 +620,7 @@ public class GameWorld {
 						Level level = GameEngine.getInstance().getLevelManager().getCurrentLevel();
 						level.setCurrentLevelPercentagePassNormalMode(1);
 						level.setLevelPercentagePassNormalMode(1);
-						openScene("Level " + level.getLevelName()
-								+ " successfully finished!", time);
+						openScene("Level " + level.getLevelName() + " successfully finished!", time);
 					} else {
 						throw new IllegalStateException(
 								"Not all death and level not finished but normal mode or AI playing mode!");
@@ -619,7 +643,7 @@ public class GameWorld {
 						lockObject.notifyAll(); // obavijesti da smo gotovi
 					}
 				} else {
-					System.out.println("Nije level passed?");
+					throw new IllegalStateException("Nije level passed?");
 				}
 
 			} else {
@@ -638,7 +662,8 @@ public class GameWorld {
 
 			controller.showInformation(message,
 					Long.toString(GameEngine.getInstance().getLevelManager().getCurrentLevel().getTotalAttempts()),
-					GameEngine.getInstance().getLevelManager().getCurrentLevel().getCurrentLevelPercentagePassNormalMode(),
+					GameEngine.getInstance().getLevelManager().getCurrentLevel()
+							.getCurrentLevelPercentagePassNormalMode(),
 					Long.toString(GameEngine.getInstance().getLevelManager().getCurrentLevel().getTotalJumps()), time);
 		}
 	}

@@ -1,13 +1,21 @@
 {
   "root": {
     "action": {
-      "actionType": "COSH"
+      "actionType": "TAN"
     },
-    "value": 4284796.6791140735,
+    "value": 2.7181320378170337,
     "children": [
       {
-        "value": 15.963730839999897,
-        "children": []
+        "action": {
+          "actionType": "CTG"
+        },
+        "value": -1.923327604921413,
+        "children": [
+          {
+            "value": 253.9895390000213,
+            "children": []
+          }
+        ]
       }
     ]
   }

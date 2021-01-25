@@ -464,7 +464,7 @@ public class GeneticFunctionality {
 				population.remove(minPlayerTree.getKey());
 				population.remove(almostMinPlayerTree.getKey());
 
-				System.out.println(GameEngine.getInstance().getGameWorld().getGpAlgorithm().getPopulation().size());
+				//System.out.println(GameEngine.getInstance().getGameWorld().getGpAlgorithm().getPopulation().size());
 				
 				if (bestOfAll == null
 						|| maxPlayerTree.getKey().getGoodness_value() > bestOfAll.getKey().getGoodness_value()) {
@@ -766,7 +766,7 @@ public class GeneticFunctionality {
 		double d = random.nextDouble()
 				* (population_goodness_value - worst_goodness_value_in_population * (treePopulationSize - 2));
 		if (d < 0 && Math.abs(d) > 1e-3) {
-			System.out.println("d " + d);
+			//System.out.println("d " + d);
 			throw new IllegalArgumentException("Something is wrong with roulette_wheel selection");
 		}
 		double curr = 0;

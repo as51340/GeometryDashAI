@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import hr.fer.zemris.project.geometry.dash.GeometryDash;
 import hr.fer.zemris.project.geometry.dash.ai.AIGameSceneListenerImpl;
+import hr.fer.zemris.project.geometry.dash.ai.AiPair;
 import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok.AIAlgorithm;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.Tree;
@@ -163,33 +164,16 @@ public class ChooseLevelController extends MainOptionsController {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource(GameConstants.pathToVisualization + "GameScene.fxml"));
         Parent root = loader.load();
-
         Stage stage = (Stage) rootPane.getScene().getWindow();
         Scene scene = GeometryDash.createScaledScene(root, stage);
         scene.getRoot().requestFocus();
-
         gameEngine.setGameWorld();
-
         PlayingMode playingMode = (PlayingMode) stage.getUserData();
-
-//		Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
-//				new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
-//		gameEngine.getGameWorld().addPlayer(player);
-//		
-        
         gameEngine.getGameWorld().createScene(levels.get(levelIndex).getLevelName());
         
-        for (int i = 0; i < 1; i++) {
-            Player player = new Player(new Vector2D(i*20, 490),
-                    new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
-            gameEngine.getGameWorld().addPlayer(player);
-        }
-
-
         if (playingMode == PlayingMode.HUMAN) {
             scene.setOnKeyPressed((e) -> {
                 if (e.getCode() == KeyCode.W) {
-//                	System.out.println("Stisnuta tipka W"); shuld wor
                     for (Player p : GameEngine.getInstance().getGameWorld().getPlayers()) {
                         p.jump();
                         GameEngine.getInstance().getLevelManager().getCurrentLevel().setTotalJumps();
@@ -198,70 +182,56 @@ public class ChooseLevelController extends MainOptionsController {
                 }
             });
         }
+        
+        Player player = new Player(
+                new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
+                new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), playingMode);
 
         if (playingMode == PlayingMode.HUMAN) {
             gameEngine.getGameStateListener().normalModePlayingStarted();
+            gameEngine.getGameWorld().addPlayer(player);
         } else {
             Options options = gameEngine.getSettings().getOptions();
-            Player player = new Player(
-                    new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
-                    new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), options.getAIMode());
-
-            //TODO remove this when deserialization is implemented
-            AIAlgorithm algorithm = new AIAlgorithm(3, 3, options.getAIMode());
-
+            
+            //AIAlgorithm algorithm = new AIAlgorithm(3, 3, options.getAIMode());
             NeuralNetwork nn = null;
             Tree tree;
             switch (options.getAIMode()){
                 case NEURAL_NETWORK ->{
                     SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createNND());
                     nn = ser.deserializeNN(FileIO.readFromJsonFile(GameConstants.pathToGenFolder + "/" + askUserForFileName(PlayingMode.NEURAL_NETWORK) + ".json"));
+                    AiPair<NeuralNetwork> pair = new AiPair<NeuralNetwork>(player, nn);
+                    gameEngine.getGameWorld().setAiPlayer(pair);
                 }
                 case GENETIC_PROGRAMMING -> {
                     tree = TreeDeserializer.deserialize(FileIO.readFromJsonFile(GameConstants.pathToGPFolder + "/" + askUserForFileName(PlayingMode.GENETIC_PROGRAMMING) + ".json"));
-                    //todo
+                    AiPair<Tree> pair = new AiPair<Tree>(player, tree);
+                    gameEngine.getGameWorld().setGpPlayer(pair);
                 }
                 case ELMAN_NEURAL_NETWORK -> {
                     SerializationOfObjects ser = new SerializationOfObjects(GsonFactory.createENND());
                     nn = ser.deserializeENN(FileIO.readFromJsonFile(GameConstants.pathToElmanFolder + "/" + askUserForFileName(PlayingMode.ELMAN_NEURAL_NETWORK) + ".json"));
+                    AiPair<NeuralNetwork> pair = new AiPair<NeuralNetwork>(player, nn);
+                    gameEngine.getGameWorld().setAiPlayer(pair);
                 }
+			default -> throw new IllegalArgumentException("Unexpected value: " + options.getAIMode());
             }
-
-            Object lockObject = new Object(); //locking object
-            algorithm.setLockObj(lockObject);
-            gameEngine.getGameWorld().setLockObject(lockObject);
-
             gameEngine.getGameWorld().addPlayer(player);
-            algorithm.getPlayerNeuralNetworkMap().put(player, nn);
-
             gameEngine.getGameStateListener().AIPlayingModeStarted();
-            gameEngine.getGameWorld().setAlgorithm(algorithm);
-
-            Thread t = new Thread(() -> {
-                try {
-                    algorithm.runAlgorithm();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
-            t.setName("AI algorithm");
-            t.setDaemon(true);
-            t.start();
-
-
+            //gameEngine.getGameWorld().setAlgorithm(algorithm);
         }
-
-
         GameSceneController controller = loader.getController();
-//		controller.setPreviousSceneRoot(rootPane);
         controller.init(playingMode);
-
-//		Thread.sleep(500);
         stage.setScene(scene);
 
 
     }
 
+    /**
+     * Input AI file
+     * @param mode some ai mode
+     * @return file name
+     */
     private String askUserForFileName(PlayingMode mode) {
         TextInputDialog dialog = new TextInputDialog("Enter AI name");
         dialog.setTitle("AI loader");
