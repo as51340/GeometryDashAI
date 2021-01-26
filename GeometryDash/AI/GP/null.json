@@ -1,0 +1,14 @@
+{
+  "root": {
+    "action": {
+      "actionType": "CTG"
+    },
+    "value": 3.113519831429673,
+    "children": [
+      {
+        "value": -27.96356099999889,
+        "children": []
+      }
+    ]
+  }
+}

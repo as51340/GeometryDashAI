@@ -2,9 +2,12 @@ package hr.fer.zemris.project.geometry.dash.ai.neurons;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.DoubleUnaryOperator;
 
+import com.google.gson.annotations.Expose;
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
+import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 
 /**
  * Class which models a simple neuron for neural networks
@@ -14,6 +17,7 @@ public class Neuron {
     /**
      * List of previous neurons
      */
+    //@Expose
     protected List<Neuron> prevNeurons;
     /**
      * List of weights for previous neurons - prevNeurons.get(0) has a weight of prevNeuronWeights.get(0)
@@ -26,6 +30,7 @@ public class Neuron {
     /**
      * Output of this neuron
      */
+    @Expose
     private double output;
     /**
      * For optimisation - true if current output is valid
@@ -34,6 +39,7 @@ public class Neuron {
     /**
      * Bias of this neuron
      */
+    @Expose
     private double bias;
 
     /**
@@ -80,6 +86,27 @@ public class Neuron {
         this();
         this.bias = bias;
     }
+
+    /**
+     * Creates a new Neuron with bias set to given bias and output to given output
+     * @param bias given bias
+     * @param output given output
+     */
+    public Neuron(double bias, double output) {
+        this(bias);
+        this.output = output;
+    }
+
+    /**
+     * Creates a new Neuron with bias set to given bias and output to given output and id
+     * @param bias given bias
+     * @param output given output
+     */
+    public Neuron(double bias, double output, int id) {
+        this(bias, output);
+        this.id = id;
+    }
+
 
     /**
      * Calculates the output of this Neuron by calling this function of previous neurons
@@ -242,6 +269,17 @@ public class Neuron {
             output.addConnectionFromOtherToThis(hiddenNeuron);
 
         System.out.println(output.calculateOutput());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Neuron that = (Neuron) o;
+        return output == that.output &&
+                bias == that.bias &&
+                id == that.id
+                ;
     }
 
 }

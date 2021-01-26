@@ -1,21 +1,18 @@
 package hr.fer.zemris.project.geometry.dash.ai.geneticNeuralNetwok;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.function.DoubleUnaryOperator;
 
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
+import hr.fer.zemris.project.geometry.dash.ai.AIGameSceneListenerImpl;
 import hr.fer.zemris.project.geometry.dash.ai.ElmanNeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.GeneticNeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.model.GameEngine;
 import hr.fer.zemris.project.geometry.dash.model.PlayingMode;
 import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
+import hr.fer.zemris.project.geometry.dash.model.listeners.AIGameSceneListener;
 import hr.fer.zemris.project.geometry.dash.model.math.Vector2D;
 import hr.fer.zemris.project.geometry.dash.model.settings.GameConstants;
 import hr.fer.zemris.project.geometry.dash.visualization.GameSceneController;
@@ -23,10 +20,10 @@ import javafx.application.Platform;
 
 public class AIAlgorithm {
 
-	private static final int POPULATION_SIZE = 300;
+	private static final int POPULATION_SIZE = 20;
 	private static final int REPEAT = 500;
-	private static final double MUTATION_RATE = 0.2;
-	private static final int INPUT_LAYER_SIZE = AIConstants.numOfClosestObstacles * 3 + 1;
+	private static final double MUTATION_RATE = 0.1;
+	private static final int INPUT_LAYER_SIZE = AIConstants.obstForAI * 3 + 1;
 	private final int numberOfHiddenLayers;
 	private final int numberPerHiddenLayer;
 	private DoubleUnaryOperator activationFunction = AIConstants.activationFunction;
@@ -36,8 +33,21 @@ public class AIAlgorithm {
 
 	private Object lockObj;
 
+	private Map.Entry<Player, NeuralNetwork> bestInGeneration;
+	private Map.Entry<Player, NeuralNetwork> bestSoFar;
+
+	/**
+	 * Locking on continue object
+	 */
+	private Object continueLockingObject;
+
 	private GameSceneController controller;
-	
+
+	/**
+	 * Game scene controller
+	 */
+	private AIGameSceneListener gameSceneListener;
+
 	/**
 	 * @return the controller
 	 */
@@ -51,6 +61,12 @@ public class AIAlgorithm {
 	public void setController(GameSceneController controller) {
 		this.controller = controller;
 	}
+
+
+	/**
+	 * Is pause pressed
+	 */
+	private boolean pausePressed = false;
 
 	/**
 	 * Which algorithm to run - Genetic or Elman.
@@ -77,6 +93,35 @@ public class AIAlgorithm {
 		playerNeuralNetworkMap = new LinkedHashMap<>();
 		this.numberPerHiddenLayer = numberPerHiddenLayer;
 		this.mode = mode;
+		gameSceneListener = new AIGameSceneListenerImpl();
+	}
+	
+	/**
+	 * @return the pausePressed
+	 */
+	public boolean isPausePressed() {
+		return pausePressed;
+	}
+
+	/**
+	 * @param pausePressed the pausePressed to set
+	 */
+	public void setPausePressed(boolean pausePressed) {
+		this.pausePressed = pausePressed;
+	}
+
+	/**
+	 * @return the continueLockingObject
+	 */
+	public Object getContinueLockingObject() {
+		return continueLockingObject;
+	}
+
+	/**
+	 * @param continueLockingObject the continueLockingObject to set
+	 */
+	public void setContinueLockingObject(Object continueLockingObject) {
+		this.continueLockingObject = continueLockingObject;
 	}
 
 	/**
@@ -108,22 +153,31 @@ public class AIAlgorithm {
 			GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
 			GameEngine.getInstance().getGameWorld().setUnlockingCondition(false);
 			GameEngine.getInstance().getGameWorld().setLevelPassed(false);
+
+			updateBestSoFar();
+
 			selection();
 			reproduction();
 			GameEngine.getInstance().getGameWorld().createAIScene(); // na kraju svake generacije
+
+
 		}
 	}
 
 	public void initialize() {
 		for (int i = 0; i < POPULATION_SIZE; i++) {
-			Player player = new Player(new Vector2D(0, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
+			Player player = new Player(new Vector2D(i, GameConstants.floorPosition_Y - GameConstants.iconHeight - 5),
 					new Vector2D(GameConstants.playerSpeed_X, GameConstants.playerSpeed_Y), PlayingMode.NEURAL_NETWORK);
 			NeuralNetwork neuralNetwork = mode == PlayingMode.NEURAL_NETWORK
 					? new GeneticNeuralNetwork(INPUT_LAYER_SIZE, numberOfHiddenLayers, numberPerHiddenLayer,
 							activationFunction)
 					: new ElmanNeuralNetwork(INPUT_LAYER_SIZE, numberPerHiddenLayer, activationFunction);
 			playerNeuralNetworkMap.put(player, neuralNetwork);
+
 		}
+
+		Iterator<Map.Entry<Player, NeuralNetwork>> i = playerNeuralNetworkMap.entrySet().iterator();
+		bestSoFar = i.next();
 	}
 
 	private void selection() throws InterruptedException {
@@ -137,8 +191,35 @@ public class AIAlgorithm {
 			}
 		}
 		if (GameEngine.getInstance().getGameWorld().isLevelPassed()) {
-			System.out.println(playerNeuralNetworkMap.keySet().size());
-			throw new IllegalStateException("You trained enough");
+
+			// probably on javafx application thread
+			Platform.runLater(() -> {
+				controller.interruptTraining(
+						mode,
+						bestSoFar.getValue(),
+						GameEngine.getInstance().getGameWorld().isLevelPassed()); // handlaj
+																					// fail
+			});
+			if (continueLockingObject != null) {
+				synchronized (continueLockingObject) { // only one thread so we shouldn't need while loop
+					try {
+						continueLockingObject.wait();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			} else {
+				Thread.currentThread().stop();
+			}
+		}
+		if (pausePressed) {
+			synchronized (continueLockingObject) { // only one thread so we shouldn't need while loop
+				try {
+					continueLockingObject.wait();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		for (Player player : playerNeuralNetworkMap.keySet()) {
@@ -258,4 +339,51 @@ public class AIAlgorithm {
 	public void setLockObj(Object lockObj) {
 		this.lockObj = lockObj;
 	}
+
+	/**
+	 * @return best in current generation
+	 */
+	public Map.Entry<Player, NeuralNetwork> getBestInGeneration() {
+		return bestInGeneration;
+	}
+
+	/**
+	 * @return best so far
+	 */
+	public Map.Entry<Player, NeuralNetwork> getBestSoFar() {
+		return bestSoFar;
+	}
+
+	/**
+	 * Sets best in current generation
+	 * @param bestInGeneration
+	 */
+	public void setBestInGeneration(Map.Entry<Player, NeuralNetwork> bestInGeneration) {
+		this.bestInGeneration = bestInGeneration;
+	}
+
+	/**
+	 * Sets best so far
+	 * @param bestSoFar
+	 */
+	public void setBestSoFar(Map.Entry<Player, NeuralNetwork> bestSoFar) {
+		this.bestSoFar = bestSoFar;
+	}
+
+	private void updateBestSoFar() {
+		double genGoodnessValue = -1;
+		for(Map.Entry<Player, NeuralNetwork> me: playerNeuralNetworkMap.entrySet()) {
+			if(me.getKey().getGoodness_value() > genGoodnessValue)
+				bestInGeneration = me;
+		}
+
+		if(bestSoFar == null)
+			bestSoFar = bestInGeneration;
+		else
+			bestSoFar = bestSoFar.getKey().getGoodness_value() < bestInGeneration.getKey().getGoodness_value() ?
+					bestInGeneration :
+					bestSoFar;
+
+	}
+
 }

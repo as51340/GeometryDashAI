@@ -51,7 +51,7 @@ public class ArtificialNeuralNetworkController extends AIControllers {
 	private Button Train;
 
 	private AIAlgorithm algorithm;
-	
+
 	public void init() {
 		super.init();
 		numberPerHiddenLayerField.setText("5");
@@ -97,21 +97,20 @@ public class ArtificialNeuralNetworkController extends AIControllers {
 		GameEngine.getInstance().setGameWorld(); // jednako napravi novi game world i postavi session character
 
 		Object lockObject = new Object(); // locking object
-		
 
 		algorithm.setLockObj(lockObject);
 		GameEngine.getInstance().getGameWorld().setLockObject(lockObject);
-		
-		GameEngine.getInstance().getGameWorld().createScene(levelBox.getValue()); 
+
+		GameEngine.getInstance().getGameWorld().createScene(levelBox.getValue());
 		GameEngine.getInstance().getGameWorld().setAlgorithm(algorithm);
-		
+
 		algorithm.initialize();
-		
+
 		Set<Player> players = algorithm.getPlayerNeuralNetworkMap().keySet();
-		for(Player p : players) {
+		for (Player p : players) {
 			GameEngine.getInstance().getGameWorld().addPlayer(p);
 		}
-		
+
 		Thread t = new Thread(() -> {
 			try {
 				algorithm.runAlgorithm();
@@ -128,15 +127,11 @@ public class ArtificialNeuralNetworkController extends AIControllers {
 		algorithm.setController(controller);
 		GameEngine.getInstance().setGameState(GameState.AI_TRAINING_MODE);
 //		controller.setPreviousSceneRoot(rootPane);
-		controller.init();
+		controller.init(PlayingMode.NEURAL_NETWORK);
 //		GameSceneController.generationLabel.setVisible(true);
 
 		// otherwise window will reset its size to default; this will keep current
 		// window width and height
-		double width = rootPane.getScene().getWidth();
-		double height = rootPane.getScene().getHeight();
-		stage.setWidth(width);
-		stage.setHeight(height);
 		stage.setScene(scene);
 		// scena je postavljena to bi trebalo bit okej
 		// sad algoritam negdje pokrenut
@@ -146,6 +141,7 @@ public class ArtificialNeuralNetworkController extends AIControllers {
 
 	@Override
 	void stopTrainNetwork(ActionEvent event) {
+
 	}; // zasada ovako
 
 }

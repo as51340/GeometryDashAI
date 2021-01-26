@@ -1,13 +1,13 @@
 {
   "account": {
-    "username": "askrgat",
-    "password": "bdf1ad1f06e002105f87075e051d67bceb64e399e77439d6bc28ea3a5a94492e",
-    "firstName": "andi",
-    "lastName": "skrgat"
+    "username": "mskrabic",
+    "password": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
+    "firstName": "matej",
+    "lastName": "skrabic"
   },
   "stats": {
-    "totalJumps": 40,
-    "totalAttempts": 3,
+    "totalJumps": 33,
+    "totalAttempts": 9,
     "collectedStars": 0,
     "completedLevels": 0,
     "userCoins": 0,

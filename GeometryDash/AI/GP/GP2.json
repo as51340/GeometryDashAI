@@ -1,0 +1,362 @@
+{
+  "root": {
+    "action": {
+      "actionType": "ACOS"
+    },
+    "value": 3.6758515998829138,
+    "children": [
+      {
+        "action": {
+          "actionType": "COSH"
+        },
+        "value": 3.6758515998829138,
+        "children": [
+          {
+            "action": {
+              "actionType": "COSH"
+            },
+            "value": 1.975894089357992,
+            "children": [
+              {
+                "action": {
+                  "actionType": "CTG"
+                },
+                "value": -1.3029271430604932,
+                "children": [
+                  {
+                    "action": {
+                      "actionType": "PLUS"
+                    },
+                    "value": 253.81439593423792,
+                    "children": [
+                      {
+                        "action": {
+                          "actionType": "COSH"
+                        },
+                        "value": 1.4857292675712546,
+                        "children": [
+                          {
+                            "action": {
+                              "actionType": "ACOS"
+                            },
+                            "value": 0.9495486746313592,
+                            "children": [
+                              {
+                                "action": {
+                                  "actionType": "DIVIDE"
+                                },
+                                "value": 0.5820501452611297,
+                                "children": [
+                                  {
+                                    "action": {
+                                      "actionType": "SQRT"
+                                    },
+                                    "value": 1.0277711603846909,
+                                    "children": [
+                                      {
+                                        "action": {
+                                          "actionType": "COSH"
+                                        },
+                                        "value": 1.056313558118494,
+                                        "children": [
+                                          {
+                                            "action": {
+                                              "actionType": "DIVIDE"
+                                            },
+                                            "value": -0.33404436271620136,
+                                            "children": [
+                                              {
+                                                "value": 23.82693900006302,
+                                                "children": []
+                                              },
+                                              {
+                                                "value": -71.32866666666666,
+                                                "children": []
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "action": {
+                                      "actionType": "COTH"
+                                    },
+                                    "value": 1.7657776890058052,
+                                    "children": [
+                                      {
+                                        "action": {
+                                          "actionType": "IF_ELIF_ELSE"
+                                        },
+                                        "value": 0.6420926159343308,
+                                        "children": [
+                                          {
+                                            "action": {
+                                              "actionType": "GREATER"
+                                            },
+                                            "value": 4.9E-324,
+                                            "children": [
+                                              {
+                                                "action": {
+                                                  "actionType": "COSH"
+                                                },
+                                                "value": 1.149548905166106,
+                                                "children": [
+                                                  {
+                                                    "action": {
+                                                      "actionType": "COS"
+                                                    },
+                                                    "value": 0.5403023058681398,
+                                                    "children": [
+                                                      {
+                                                        "value": 1.0,
+                                                        "children": []
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "value": 23.82693900006302,
+                                                "children": []
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "value": -26.328666666666663,
+                                            "children": []
+                                          },
+                                          {
+                                            "action": {
+                                              "actionType": "EQUAL"
+                                            },
+                                            "value": 4.9E-324,
+                                            "children": [
+                                              {
+                                                "value": 0.0,
+                                                "children": []
+                                              },
+                                              {
+                                                "value": 248.82693900006655,
+                                                "children": []
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "value": 18.671333333333337,
+                                            "children": []
+                                          },
+                                          {
+                                            "action": {
+                                              "actionType": "CTG"
+                                            },
+                                            "value": 0.6420926159343308,
+                                            "children": [
+                                              {
+                                                "value": 1.0,
+                                                "children": []
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "action": {
+                          "actionType": "ACOS"
+                        },
+                        "value": 252.32866666666666,
+                        "children": [
+                          {
+                            "action": {
+                              "actionType": "ACOS"
+                            },
+                            "value": 252.32866666666666,
+                            "children": [
+                              {
+                                "action": {
+                                  "actionType": "MINUS"
+                                },
+                                "value": 252.32866666666666,
+                                "children": [
+                                  {
+                                    "action": {
+                                      "actionType": "IF_ELSE"
+                                    },
+                                    "value": 1.0,
+                                    "children": [
+                                      {
+                                        "action": {
+                                          "actionType": "LESS_EQUAL"
+                                        },
+                                        "value": 1.7976931348623157E308,
+                                        "children": [
+                                          {
+                                            "action": {
+                                              "actionType": "DIVIDE"
+                                            },
+                                            "value": -905.3362438509879,
+                                            "children": [
+                                              {
+                                                "action": {
+                                                  "actionType": "CTG"
+                                                },
+                                                "value": 516.7626025044327,
+                                                "children": [
+                                                  {
+                                                    "action": {
+                                                      "actionType": "ACTG"
+                                                    },
+                                                    "value": 0.0019351221371684856,
+                                                    "children": [
+                                                      {
+                                                        "action": {
+                                                          "actionType": "PLUS"
+                                                        },
+                                                        "value": 516.7626025044327,
+                                                        "children": [
+                                                          {
+                                                            "action": {
+                                                              "actionType": "DIVIDE"
+                                                            },
+                                                            "value": -2.064336495638132,
+                                                            "children": [
+                                                              {
+                                                                "action": {
+                                                                  "actionType": "ASIN"
+                                                                },
+                                                                "value": 518.8269390000709,
+                                                                "children": [
+                                                                  {
+                                                                    "value": 518.8269390000709,
+                                                                    "children": []
+                                                                  }
+                                                                ]
+                                                              },
+                                                              {
+                                                                "action": {
+                                                                  "actionType": "DIVIDE"
+                                                                },
+                                                                "value": -251.32866666666666,
+                                                                "children": [
+                                                                  {
+                                                                    "value": -251.32866666666666,
+                                                                    "children": []
+                                                                  },
+                                                                  {
+                                                                    "value": 1.0,
+                                                                    "children": []
+                                                                  }
+                                                                ]
+                                                              }
+                                                            ]
+                                                          },
+                                                          {
+                                                            "value": 518.8269390000709,
+                                                            "children": []
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "action": {
+                                                  "actionType": "ATAN"
+                                                },
+                                                "value": -0.5707963267948967,
+                                                "children": [
+                                                  {
+                                                    "action": {
+                                                      "actionType": "POWER"
+                                                    },
+                                                    "value": -0.6420926159343308,
+                                                    "children": [
+                                                      {
+                                                        "action": {
+                                                          "actionType": "CTG"
+                                                        },
+                                                        "value": -0.6420926159343308,
+                                                        "children": [
+                                                          {
+                                                            "action": {
+                                                              "actionType": "POWER"
+                                                            },
+                                                            "value": -1.0,
+                                                            "children": [
+                                                              {
+                                                                "action": {
+                                                                  "actionType": "TANH"
+                                                                },
+                                                                "value": -1.0,
+                                                                "children": [
+                                                                  {
+                                                                    "value": -206.32866666666666,
+                                                                    "children": []
+                                                                  }
+                                                                ]
+                                                              },
+                                                              {
+                                                                "value": 1.0,
+                                                                "children": []
+                                                              }
+                                                            ]
+                                                          }
+                                                        ]
+                                                      },
+                                                      {
+                                                        "value": 563.8269390000715,
+                                                        "children": []
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "value": -296.32866666666666,
+                                            "children": []
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "value": 1.0,
+                                        "children": []
+                                      },
+                                      {
+                                        "value": 563.8269390000715,
+                                        "children": []
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "value": -251.32866666666666,
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

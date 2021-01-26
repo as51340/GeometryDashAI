@@ -14,6 +14,9 @@ import com.google.gson.reflect.TypeToken;
 import java.util.Set;
 import java.lang.reflect.Type;
 
+import hr.fer.zemris.project.geometry.dash.ai.ElmanNeuralNetwork;
+import hr.fer.zemris.project.geometry.dash.ai.GeneticNeuralNetwork;
+import hr.fer.zemris.project.geometry.dash.ai.NeuralNetwork;
 import hr.fer.zemris.project.geometry.dash.ai.genetic_programming.Tree;
 import hr.fer.zemris.project.geometry.dash.model.GameObject;
 import hr.fer.zemris.project.geometry.dash.model.Session;
@@ -70,9 +73,29 @@ public class SerializationOfObjects {
 	 * @return deserialized content
 	 */
 	public Tree deserializeTree(String json) {
-		return gson.fromJson(json, Tree.class);
+		return TreeDeserializer.deserialize(json);
+//		return gson.fromJson(json, Tree.class);
 	}
-	
+
+
+	/**
+	 * Deserializes GNN
+	 * @param json json to be deserialized
+	 * @return deserialized content
+	 */
+	public GeneticNeuralNetwork deserializeNN(String json) {
+		return gson.fromJson(json, GeneticNeuralNetwork.class);
+	}
+
+	/**
+	 * Deserializes NN
+	 * @param json json to be deserialized
+	 * @return deserialized content
+	 */
+	public ElmanNeuralNetwork deserializeENN(String json) {
+		return gson.fromJson(json, ElmanNeuralNetwork.class);
+	}
+
 	/**
 	 * @return gson
 	 */

@@ -53,8 +53,8 @@ public class SettingsSceneController extends MenuController{
 	 * Register on every change of music
 	 */
 	public void initialize() {
-		music.valueProperty().set(0);
-		musicSettings.setVolume(0);
+		music.valueProperty().set(20);
+		musicSettings.setVolume(20);
 		music.valueProperty().addListener((observable, oldValue, newValue) -> {
 			musicSettings.setVolume(newValue.doubleValue() / 100);
 		});

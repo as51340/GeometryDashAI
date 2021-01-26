@@ -36,6 +36,12 @@ public class ElmanHiddenNeuron extends Neuron {
 		super(id, activationFunction);
 		connectContextNeuron(id+1);
 	}
+
+	public ElmanHiddenNeuron(double bias, double output, int id, ContextNeuron contextNeuron, double contextNeuronWeight) {
+		super(bias, output, id);
+		this.contextNeuron = contextNeuron;
+		this.contextNeuronWeight = contextNeuronWeight;
+	}
 	
 	private void connectContextNeuron(Integer id) {
 		contextNeuron = id == null ? new ContextNeuron() : new ContextNeuron(id);

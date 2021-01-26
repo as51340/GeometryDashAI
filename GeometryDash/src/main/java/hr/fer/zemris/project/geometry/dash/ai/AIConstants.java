@@ -38,14 +38,15 @@ public class AIConstants {
 	};
 	
 	/**
-	 * Default number of closest obstacles AI is seeing
-	 */
-	public static final int numOfClosestObstacles = 4;
-	
-	/**
 	 * Default activation function
+	 * Swish function
 	 */
 	public static final DoubleUnaryOperator activationFunction = (v -> 1 / (1 + Math.exp(-v)));
+	
+	/**
+	 * Tanh hiperbolic function
+	 */
+//	public static final DoubleUnaryOperator activationFunction = v -> Math.tanh(v);
 
 	 /** Maximum number of nodes
 	 */
@@ -59,7 +60,7 @@ public class AIConstants {
 	 /**
 	 * Maximum depth of tree
 	 */
-	public static int maxTreeDepth = 35;
+	public static int maxTreeDepth = 17;
 	
 	/**
 	 * Should be okay
@@ -84,7 +85,7 @@ public class AIConstants {
 	
 	public static final Comparator<Player> playerComparator = compareByPosition.thenComparing(Player::getId);
 	
-	public static final int obstForAI = 4;
+	public static final int obstForAI = 6;
 	 
 
 

@@ -60,6 +60,18 @@ public class GeneticNeuralNetwork extends NeuralNetwork {
     public GeneticNeuralNetwork(int numberOfInputNeurons, int numberOfHiddenLayers, int numberOfNeuronsPerLayer, DoubleUnaryOperator activationFunction) {
         super(numberOfInputNeurons, numberOfHiddenLayers, numberOfNeuronsPerLayer, activationFunction);
     }
+
+    /**
+     * Constructs a NeuralNetwork from existing data
+     * @param output output
+     * @param inputLayer inputLayer
+     * @param hiddenLayers hiddenLayers
+     * @param activationFunction activationFunction
+     */
+    public GeneticNeuralNetwork(Neuron output, List<Neuron> inputLayer, List<List<Neuron>> hiddenLayers, DoubleUnaryOperator activationFunction) {
+        super(output, inputLayer, hiddenLayers, activationFunction);
+    }
+
     
     @Override
     public void createHiddenLayers(int numberOfLayers, int numberOfNeuronsPerLayer) {

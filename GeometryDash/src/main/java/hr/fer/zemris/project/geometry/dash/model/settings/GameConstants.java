@@ -114,7 +114,7 @@ public class GameConstants {
     /**
      * Gravity constant
      */
-    public static final int gravity_Y = 4800;
+    public static final int gravity_Y = 5600;
     
     /**
      * Accelaration in x direction
@@ -129,7 +129,7 @@ public class GameConstants {
     /**
      * Jumping offset
      */
-    public static final int playerJumpingOffset = -1500;
+    public static final int playerJumpingOffset = -1400;
     
     /**
      * Cell width for level editor
@@ -169,12 +169,12 @@ public class GameConstants {
     /**
      * Player's final speed in y direction
      */
-    public static final int playerFinalSpeed_Y=1000;
+    public static final int playerFinalSpeed_Y=1500;
     
     /**
      * Player's final speed in y direction
      */
-    public static final int playerFinalSpeed_X=400;
+    public static final int playerFinalSpeed_X=430;
     
     /**
      * Path to zip file
@@ -211,4 +211,19 @@ public class GameConstants {
      * Level ending offset
      */
     public static final int LEVEL_END_OFFSET = 200;
+    
+    /**
+     * Path to genetic programming folder
+     */
+    public static final String pathToGPFolder = "AI/GP";
+    
+    /**
+     * Path to Elman folder
+     */
+    public static final String pathToElmanFolder = "AI/Elman";
+    
+    /**
+     * Path to Genetic folder
+     */
+    public static final String pathToGenFolder = "AI/Genetic";
 }

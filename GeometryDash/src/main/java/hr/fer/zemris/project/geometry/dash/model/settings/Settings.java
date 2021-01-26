@@ -31,8 +31,7 @@ public class Settings {
 		DaemonicThreadFactory threadFactory = DaemonicThreadFactory.getInstance();
 		threadFactory.newThread(() -> {
 			backgroundMusicPlayer = new BackgroundMusicPlayer();
-		});
-		//add .start() when you want to play
+		}).start();;
 	}
 
 	/**

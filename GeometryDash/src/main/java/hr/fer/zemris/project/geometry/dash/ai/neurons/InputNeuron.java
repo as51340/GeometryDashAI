@@ -23,6 +23,17 @@ public class InputNeuron extends Neuron {
         setInputWeight();
     }
 
+    public InputNeuron(double bias, double output) {
+        super(bias, output);
+        setInputWeight();
+    }
+
+    public InputNeuron(double bias, double output, int id) {
+        super(bias, output, id);
+        setInputWeight();
+    }
+
+
     @Override
     public Double calculateOutput() {
         //System.out.println(toString());
@@ -54,6 +65,10 @@ public class InputNeuron extends Neuron {
 
     public void setInputWeight() {
         setInputWeight(Math.random() * 2 - 1);
+    }
+
+    public double getInput() {
+        return input;
     }
 
     @Override

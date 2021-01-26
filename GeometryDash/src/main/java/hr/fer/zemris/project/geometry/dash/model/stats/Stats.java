@@ -107,7 +107,11 @@ public class Stats {
 	 * @param increments totalAttempts
 	 */
 	public boolean setTotalAttempts() {
+		System.out.println(this.totalAttempts);
 		this.totalAttempts++;
+		System.out.println(this.totalAttempts);
+		System.out.println("o---------o");
+		
 		if(totalAttempts == 100) {
 			return true;
 		} else if(totalAttempts == 500) {

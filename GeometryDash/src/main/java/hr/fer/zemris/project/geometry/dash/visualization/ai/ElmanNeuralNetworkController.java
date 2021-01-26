@@ -61,7 +61,7 @@ public class ElmanNeuralNetworkController extends AIControllers {
 
 		String levelName = levelBox.getValue();
 
-		algorithm = new AIAlgorithm(1, numberPerHiddenLayer, PlayingMode.NEURAL_NETWORK);
+		algorithm = new AIAlgorithm(1, numberPerHiddenLayer, PlayingMode.ELMAN_NEURAL_NETWORK);
 
 		// postavi AI training mode
 		// GameEngine.getInstance().getGameStateListener().AITrainingModePlayingStarted();
@@ -86,7 +86,6 @@ public class ElmanNeuralNetworkController extends AIControllers {
 		GameEngine.getInstance().getGameWorld().setAlgorithm(algorithm);
 
 		algorithm.initialize();
-		
 
 		Set<Player> players = algorithm.getPlayerNeuralNetworkMap().keySet();
 		for (Player p : players) {
@@ -109,15 +108,11 @@ public class ElmanNeuralNetworkController extends AIControllers {
 		algorithm.setController(controller);
 		GameEngine.getInstance().setGameState(GameState.AI_TRAINING_MODE);
 //	controller.setPreviousSceneRoot(rootPane);
-		controller.init();
+		controller.init(PlayingMode.ELMAN_NEURAL_NETWORK);
 //	GameSceneController.generationLabel.setVisible(true);
 
 		// otherwise window will reset its size to default; this will keep current
 		// window width and height
-		double width = rootPane.getScene().getWidth();
-		double height = rootPane.getScene().getHeight();
-		stage.setWidth(width);
-		stage.setHeight(height);
 		stage.setScene(scene);
 		// scena je postavljena to bi trebalo bit okej
 		// sad algoritam negdje pokrenut

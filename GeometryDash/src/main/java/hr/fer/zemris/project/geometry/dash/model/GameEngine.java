@@ -259,7 +259,7 @@ public class GameEngine implements SoundSystem {
 	public void start() {
 		if (gameLoop.getStatus() != Status.RUNNING) {
 			this.startTime = System.currentTimeMillis();
-//			System.out.println("Startam");
+			userListener.userStartedPlaying();
 			gameLoop.play();
 		}
 	}

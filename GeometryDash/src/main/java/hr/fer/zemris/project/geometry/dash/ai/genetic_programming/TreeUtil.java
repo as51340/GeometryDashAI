@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Map.Entry;
 
 import org.codehaus.plexus.util.StringUtils;
 
 import hr.fer.zemris.project.geometry.dash.ai.AIConstants;
+import hr.fer.zemris.project.geometry.dash.model.drawables.player.Player;
 
 /**
  * Class which we will use for performing genetic programming actions:
@@ -423,14 +425,20 @@ public class TreeUtil {
 				System.out.println("Imamo problem, velicina nije 1, unary!");
 			}
 			double x = dfsOnTree(root.getChildren().get(0), level + 1);
-			root.setValue(AIConstants.activationFunction.applyAsDouble(root.getAction().calculateUnary(x)));
+//			root.setValue(AIConstants.activationFunction.applyAsDouble(root.getAction().calculateUnary(x)));
+			double val = root.getAction().calculateUnary(x);
+			if(Double.isNaN(val)) val = 0;
+			root.setValue(val);
 		} else if (root.getAction().isBinary()) {
 			if (root.getChildren().size() != 2) {
 				System.out.println("Imamo problem, velicina nije 2, binary!");
 			}
 			double x = dfsOnTree(root.getChildren().get(0), level + 1);
 			double y = dfsOnTree(root.getChildren().get(1), level + 1);
-			root.setValue(AIConstants.activationFunction.applyAsDouble(root.getAction().calculateBinary(x, y)));
+//			root.setValue(AIConstants.activationFunction.applyAsDouble(root.getAction().calculateBinary(x, y)));
+			double val = root.getAction().calculateBinary(x, y);
+			if(Double.isNaN(val)) val = 0;
+			root.setValue(val);
 		} else if (root.getAction().isRelational()) {
 			if (root.getChildren().size() != 2) {
 				System.out.println("Imamo problem, velicina nije 2, relational!");
@@ -446,24 +454,29 @@ public class TreeUtil {
 			if (root.getChildren().size() == 3) {
 				double x = dfsOnTree(root.getChildren().get(0), level + 1);
 				if (root.getAction().calculateIf_Else(x)) {
-					root.setValue(AIConstants.activationFunction
-							.applyAsDouble(dfsOnTree(root.getChildren().get(1), level + 1)));
+//					root.setValue(AIConstants.activationFunction
+//							.applyAsDouble(dfsOnTree(root.getChildren().get(1), level + 1)));
+					root.setValue(dfsOnTree(root.getChildren().get(1), level + 1));
 				} else {
-					root.setValue(AIConstants.activationFunction
-							.applyAsDouble(dfsOnTree(root.getChildren().get(2), level + 1)));
+//					root.setValue(AIConstants.activationFunction
+//							.applyAsDouble(dfsOnTree(root.getChildren().get(2), level + 1)));
+					root.setValue(dfsOnTree(root.getChildren().get(2), level + 1));
 				}
 			} else if (root.getChildren().size() == 5) {
 				double x = dfsOnTree(root.getChildren().get(0), level + 1);
 				double y = dfsOnTree(root.getChildren().get(2), level + 1);
 				if (root.getAction().calculaateIf_Elif_Else(x, y) == 0) {
-					root.setValue(AIConstants.activationFunction
-							.applyAsDouble(dfsOnTree(root.getChildren().get(1), level + 1)));
+//					root.setValue(AIConstants.activationFunction
+//							.applyAsDouble(dfsOnTree(root.getChildren().get(1), level + 1)));
+					root.setValue(dfsOnTree(root.getChildren().get(1), level + 1));
 				} else if (root.getAction().calculaateIf_Elif_Else(x, y) == 1) {
-					root.setValue(AIConstants.activationFunction
-							.applyAsDouble(dfsOnTree(root.getChildren().get(3), level + 1)));
+//					root.setValue(AIConstants.activationFunction
+//							.applyAsDouble(dfsOnTree(root.getChildren().get(3), level + 1)));
+					root.setValue(dfsOnTree(root.getChildren().get(3), level + 1));
 				} else {
-					root.setValue(AIConstants.activationFunction
-							.applyAsDouble(dfsOnTree(root.getChildren().get(4), level + 1)));
+//					root.setValue(AIConstants.activationFunction
+//							.applyAsDouble(dfsOnTree(root.getChildren().get(4), level + 1)));
+					root.setValue(dfsOnTree(root.getChildren().get(4), level + 1));
 				}
 			} else {
 				System.out.println("Imamo problem veličine, branching!");
@@ -538,5 +551,20 @@ public class TreeUtil {
 			printTree(child, spaces + 1);
 		}
 	}
+	
+	public static double calculateOutput(Tree tree) {
+		try {
+			double calc = dfsOnTree(tree.getRoot(), 1);
+			double sol = AIConstants.activationFunction.applyAsDouble(calc);
+//			System.out.println("Solution " + sol);
+			return sol;
+		} catch (IllegalArgumentException e) {
+//			System.out.println(e.getMessage());
+//			TreeUtil.printTree(tree.getRoot(), 0);
+//			System.exit(-1);
+		}
+		return 0;
+	}
+
 
 }
